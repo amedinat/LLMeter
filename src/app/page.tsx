@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className="flex min-h-screen flex-col">
       {/* Header */}
       <header className="flex h-14 items-center justify-between border-b px-6">
-        <span className="text-lg font-bold">CostLens</span>
+        <span className="text-lg font-bold">LLMeter</span>
         <div className="flex gap-2">
           <Button variant="ghost" asChild>
             <Link href="/login">Log in</Link>
@@ -59,7 +59,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="flex h-14 items-center justify-center border-t text-sm text-muted-foreground">
-        CostLens
+        LLMeter
       </footer>
     </div>
   );

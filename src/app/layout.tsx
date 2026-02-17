@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CostLens — AI Cost Monitor",
+  title: "LLMeter — AI Cost Monitor",
   description:
     "Monitor and optimize your AI API costs across OpenAI, Anthropic, and more.",
 };
