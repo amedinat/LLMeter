@@ -3,8 +3,15 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { loginWithMagicLink } from '@/features/auth/actions/login';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ message?: string; error?: string }>;
+}) {
+  const { message, error } = await searchParams;
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
       <Card className="w-full max-w-md">
@@ -15,6 +22,19 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {error && (
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive dark:bg-destructive/25">
+              <AlertCircle className="h-4 w-4" />
+              <p>{error}</p>
+            </div>
+          )}
+          {message && (
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-green-50 p-3 text-sm text-green-900 dark:bg-green-900/20 dark:text-green-300">
+              <CheckCircle2 className="h-4 w-4" />
+              <p>{message}</p>
+            </div>
+          )}
+
           <form action={loginWithMagicLink} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
