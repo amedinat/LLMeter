@@ -1,69 +1,33 @@
-# CostLens - AI Cost Monitor
+# LLMeter — Open Source AI Cost Monitor
 
-Unified dashboard for AI API costs (OpenAI, Anthropic, etc.) with anomaly detection and optimization recommendations.
+LLMeter helps you track and optimize your AI API spending across multiple providers (OpenAI, Anthropic, Gemini, etc.) in a single dashboard.
 
-## Context
+## 🚀 Monetization Strategy: Open Core + SaaS
 
-CostLens is an MVP for monitoring AI costs across multiple providers. It connects directly to billing APIs to provide insights and actionable optimization tips.
+LLMeter follows an **Open Core** model to balance community growth with sustainability:
 
-See `research/2026-02-16-ai-cost-monitor-plan.md` for full architecture details.
+1.  **Core (Open Source):**
+    *   Basic cost tracking for 1 provider.
+    *   30-day data retention.
+    *   Basic budget alerts.
+    *   Self-hostable (MIT/Apache 2.0 license).
+2.  **LLMeter Cloud (SaaS):**
+    *   **Managed Experience:** No infra to maintain.
+    *   **Pro features:** Multiple providers, unlimited history, team collaboration, advanced anomaly detection.
+    *   **Premium Support.**
 
-## Tech Stack
-
-- **Framework:** Next.js 16+ (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS + shadcn/ui
-- **Database & Auth:** Supabase
-- **Queue/Jobs:** Inngest
-- **Validation:** Zod
-- **Icons:** Lucide React
+## 🛠 Tech Stack
+- **Frontend:** Next.js 16 (App Router)
+- **Database:** Supabase
+- **Background Jobs:** Inngest
+- **Payments:** Stripe
 - **Charts:** Recharts
 
-## Project Structure
-
-Following feature-based architecture:
-
-```
-src/
-├── app/              # App Router (pages & API routes)
-├── components/       # Shared UI components
-├── features/         # Feature modules (dashboard, providers, alerts)
-├── lib/              # Utilities (supabase, validators, etc.)
-└── types/            # TypeScript definitions
+## 🔧 Development
+```bash
+pnpm install
+pnpm dev
 ```
 
-## Setup & Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repo-url>
-    cd costlens
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Environment Variables:**
-    Copy `.env.local.example` to `.env.local` and configure:
-    - `NEXT_PUBLIC_SUPABASE_URL`
-    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-    - `INNGEST_EVENT_KEY`
-    - `INNGEST_SIGNING_KEY`
-
-4.  **Run Development Server:**
-    ```bash
-    npm run dev
-    ```
-
-5.  **Build for Production:**
-    ```bash
-    npm run build
-    ```
-
-## Next Steps
-
-- Configure Supabase Auth (Google OAuth + Magic Link).
-- Implement Provider connection flow (OpenAI/Anthropic keys).
-- Set up Inngest functions for cost polling.
+---
+*Created and maintained by John Medina with Otto.*

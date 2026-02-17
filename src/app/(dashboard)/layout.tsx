@@ -24,7 +24,7 @@ export default function DashboardLayout({
       {/* Sidebar */}
       <aside className="hidden w-64 border-r bg-zinc-50 dark:bg-zinc-950 lg:block">
         <div className="flex h-14 items-center px-6 font-bold text-lg">
-          CostLens
+          LLMeter
         </div>
         <Separator />
         <nav className="flex flex-col gap-1 p-4">

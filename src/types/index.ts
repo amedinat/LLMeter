@@ -1,4 +1,4 @@
-// CostLens Types
+// LLMeter Types
 
 export type Plan = 'free' | 'pro' | 'team' | 'enterprise';
 export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek';
