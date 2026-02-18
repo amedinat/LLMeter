@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { connectProviderSchema } from '@/lib/validators/provider';
 import { encryptForDB } from '@/lib/crypto';
+import { getAdapter } from '@/lib/providers';
 
 /**
  * GET /api/providers — List user's connected providers (no keys exposed)
@@ -61,9 +62,17 @@ export async function POST(request: Request) {
 
   const { provider, apiKey, displayName } = parsed.data;
 
-  // TODO: Validate key against provider API before saving
-  // const adapter = getAdapter(provider);
-  // await adapter.validateKey(apiKey);
+  // Validate key against provider API before saving
+  try {
+    const adapter = getAdapter(provider);
+    await adapter.validateKey(apiKey);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown validation error';
+    return NextResponse.json(
+      { error: `Invalid API Key: ${message}` },
+      { status: 400 }
+    );
+  }
 
   // Encrypt the API key
   const encrypted = encryptForDB(apiKey);
