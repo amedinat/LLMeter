@@ -304,4 +304,112 @@ Prioridad: P0 (MVP blocker), P1 (MVP nice-to-have), P2 (Phase 2+).
 
 ---
 
+## Epic 11: Seguridad Avanzada (derivadas de Security Audit 2026-02-18)
+
+### US-11.1 — Hardening del Middleware de Auth [P0]
+**Como** operador de LLMeter, **quiero** que el middleware de autenticación no permita bypass por rutas con puntos, **para** garantizar que todas las rutas protegidas requieran sesión válida.
+
+**Criterios de aceptación:**
+- Given: ruta protegida como `/dashboard` o `/api/providers`
+- When: un usuario no autenticado intenta acceder con variantes como `/dashboard/foo.bar`
+- Then: el middleware redirige a `/login` (no permite bypass)
+- La exclusión de archivos estáticos se basa en extensiones explícitas (`.css`, `.js`, `.png`, `.svg`, `.ico`) o en el `config.matcher`, no en `pathname.includes('.')`
+
+### US-11.2 — Validación de Redirect Seguro (Anti Open Redirect) [P0]
+**Como** usuario que se autentica, **quiero** que el redirect post-login solo me lleve a rutas internas de LLMeter, **para** no ser redirigido a sitios maliciosos.
+
+**Criterios de aceptación:**
+- Given: callback de auth con parámetro `next`
+- When: `next` contiene un valor como `@malicioso.com` o `//evil.com` o una URL absoluta externa
+- Then: se ignora y se redirige a `/dashboard`
+- Solo se aceptan rutas relativas que empiecen con `/` y no empiecen con `//`
+- Implementar función utilitaria `safeRedirect(url: string): string` reutilizable
+
+### US-11.3 — Rate Limiting en Magic Link [P1]
+**Como** operador de LLMeter, **quiero** limitar el envío de magic links por IP y por email, **para** prevenir abuso y spam.
+
+**Criterios de aceptación:**
+- Given: un cliente envía más de 5 solicitudes de magic link en 15 minutos
+- Then: retorna HTTP 429 con mensaje "Demasiados intentos, intenta más tarde"
+- Rate limit por IP y por email (el que se alcance primero)
+- Supabase tiene rate limiting propio, pero se implementa defensa en profundidad a nivel de aplicación
+
+### US-11.4 — Headers de Seguridad HTTP [P1]
+**Como** operador de LLMeter, **quiero** que la aplicación envíe headers de seguridad estándar, **para** mitigar ataques XSS, clickjacking y sniffing.
+
+**Criterios de aceptación:**
+- `X-Frame-Options: DENY`
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- Content-Security-Policy configurado para Next.js (script-src, style-src)
+- Configurados en `next.config.ts` headers o en middleware
+
+### US-11.5 — Sanitización de Inputs en API Routes [P1]
+**Como** operador de LLMeter, **quiero** que todos los endpoints de API validen y saniticen los inputs, **para** prevenir inyección y datos corruptos.
+
+**Criterios de aceptación:**
+- `request.json()` envuelto en try/catch en todos los API routes (retorna 400 si body inválido)
+- Todos los endpoints PATCH/POST usan validación Zod antes de procesar
+- Strings se trimean y tienen longitud máxima definida
+- Ningún campo arbitrario llega a la DB sin pasar por schema
+
+### US-11.6 — Eliminar Ruta de Auth Callback Duplicada [P0]
+**Como** desarrollador, **quiero** que exista una sola ruta de callback de autenticación, **para** evitar comportamiento impredecible.
+
+**Criterios de aceptación:**
+- Solo existe `src/app/auth/callback/route.ts` (el más completo, con soporte de `x-forwarded-host`)
+- `src/app/(auth)/callback/route.ts` eliminado
+- URL de callback en Supabase dashboard apunta a `/auth/callback`
+- Verificado que login/logout siguen funcionando correctamente
+
+---
+
+## Epic 12: Remediación QA (derivadas de QA Audit 2026-02-18)
+
+### US-12.1 — Corregir Inngest Client ID [P0]
+**Como** desarrollador, **quiero** que el ID del cliente de Inngest sea "llmeter" y no "costlens", **para** evitar conflictos con otros servicios.
+
+**Criterios de aceptación:**
+- `src/lib/inngest/client.ts` tiene `id: 'llmeter'`
+- Cualquier referencia a "costlens" en el código eliminada
+
+### US-12.2 — Corregir URLs Hardcoded en Landing Page [P1]
+**Como** visitante, **quiero** que los links de la landing page apunten a los recursos correctos, **para** no llegar a páginas inexistentes.
+
+**Criterios de aceptación:**
+- Link de GitHub apunta a `https://github.com/amedinat/LLMeter`
+- Link de Twitter/footer actualizado o removido si no existe cuenta
+- Referencia a shadcn eliminada del footer
+- Comillas no escapadas (`'`) reemplazadas por `&apos;` en JSX
+
+### US-12.3 — Extraer SortableHeader como Componente Independiente [P1]
+**Como** desarrollador, **quiero** que `SortableHeader` esté definido fuera de `UsageTable`, **para** evitar re-renders innecesarios y seguir buenas prácticas de React.
+
+**Criterios de aceptación:**
+- `SortableHeader` es un componente top-level en su propio archivo o al nivel del módulo
+- `UsageTable` lo importa en vez de definirlo internamente
+- No hay warnings de lint relacionados con componentes anidados
+
+### US-12.4 — Limpieza de Dead Code y Variables Sin Usar [P2]
+**Como** desarrollador, **quiero** un codebase limpio sin imports ni variables sin usar, **para** mantener la calidad del código.
+
+**Criterios de aceptación:**
+- `Separator` removido de layout.tsx (o usado)
+- `TAG_LENGTH` removido de crypto.ts (o usado)
+- `UsageRecord` removido de fixtures.ts (o usado)
+- `options` removido de middleware.ts (o usado)
+- `SpendSummaryCard` integrado o eliminado
+- `npm run lint` pasa sin errores ni warnings
+
+### US-12.5 — Alinear Precios entre Landing y Documentación [P1]
+**Como** product owner, **quiero** que los precios sean consistentes en toda la app y documentación, **para** no confundir a usuarios ni al equipo.
+
+**Criterios de aceptación:**
+- Precios definidos: Free ($0), Pro ($X), Team ($Y) — valores a confirmar con John
+- Landing page, PLAN.md y cualquier otra referencia usan los mismos valores
+- Pricing section del landing tiene link funcional a signup
+
+---
+
 *Documento mantenido por John Medina & Otto*
