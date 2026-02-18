@@ -2,6 +2,7 @@ import { inngest } from './client';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { decryptFromDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers/registry';
+import { sendAlertEmail } from '@/lib/email/send-alert';
 import type { ProviderType } from '@/types';
 
 // ----- Helpers -----
@@ -217,6 +218,23 @@ export const checkAlerts = inngest.createFunction(
             if (hoursSince < 24) return false;
           }
 
+          // Fetch top contributors for the email context
+          const { data: contributors } = await supabase
+            .from('usage_records')
+            .select('model, cost_usd, providers!inner(provider)')
+            .eq('user_id', alert.user_id)
+            .gte('date', startDate)
+            .order('cost_usd', { ascending: false })
+            .limit(5);
+
+          const topContributors = (contributors ?? []).map((c) => ({
+            model: c.model,
+            provider:
+              (c.providers as unknown as { provider: string })?.provider ??
+              'unknown',
+            cost: c.cost_usd ?? 0,
+          }));
+
           // Record the alert event
           await supabase.from('alert_events').insert({
             alert_id: alert.id,
@@ -231,8 +249,14 @@ export const checkAlerts = inngest.createFunction(
             .update({ last_triggered_at: new Date().toISOString() })
             .eq('id', alert.id);
 
-          // TODO: Send email notification via Resend
-          // await sendAlertEmail(alert.user_id, totalSpend, config);
+          // Send email notification via Resend
+          await sendAlertEmail({
+            userId: alert.user_id,
+            alertType: config.period === 'monthly' ? 'monthly' : 'daily',
+            currentSpend: totalSpend,
+            threshold: config.threshold,
+            topContributors,
+          });
 
           return true;
         }
