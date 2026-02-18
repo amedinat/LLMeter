@@ -1,18 +1,19 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isStaticFile } from '@/lib/security';
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/', '/login', '/callback', '/api/inngest'];
+const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/api/inngest'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip auth check for public routes and static files
+  // Skip auth check for public routes and known static file extensions
   if (
     PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/')) ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/webhooks') ||
-    pathname.includes('.')
+    isStaticFile(pathname)
   ) {
     return NextResponse.next();
   }
