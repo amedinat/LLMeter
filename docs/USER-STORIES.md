@@ -249,4 +249,59 @@ Prioridad: P0 (MVP blocker), P1 (MVP nice-to-have), P2 (Phase 2+).
 
 ---
 
+## Epic 10: Calidad y Estabilidad (derivadas de QA Audit 2026-02-18)
+
+### US-10.1 — Tests unitarios y de integración [P1]
+**Como** desarrollador, **quiero** tener una suite de tests automatizados, **para** detectar regresiones antes de cada release.
+
+**Criterios de aceptación:**
+- Vitest configurado con Testing Library
+- Tests unitarios para: `crypto.ts` (encrypt/decrypt roundtrip), validators (Zod schemas), provider adapters
+- Tests de integración para API routes: `/api/providers` (CRUD), `/api/usage` (GET con filtros)
+- Cobertura mínima 80% en `src/lib/`
+- Script `just test` ejecuta la suite completa
+
+### US-10.2 — Error boundaries y loading states [P1]
+**Como** usuario, **quiero** ver feedback visual durante cargas y mensajes amigables si algo falla, **para** no quedarme en una pantalla en blanco.
+
+**Criterios de aceptación:**
+- `error.tsx` en: `/app`, `/app/(dashboard)`
+- `not-found.tsx` en `/app`
+- `loading.tsx` con skeletons en: `/dashboard`, `/providers`, `/alerts`, `/settings`
+- Error boundaries muestran botón "Reintentar"
+
+### US-10.3 — Navegación mobile [P1]
+**Como** usuario mobile, **quiero** un menú hamburguesa funcional, **para** navegar la app desde mi teléfono.
+
+**Criterios de aceptación:**
+- Sheet/Drawer con trigger hamburguesa visible en viewport < 640px
+- Sidebar hidden en mobile, Sheet contiene mismos items de navegación
+- Sheet se cierra al seleccionar un item
+
+### US-10.4 — Validación de API key contra provider externo [P1]
+**Como** usuario, **quiero** que LLMeter verifique mi API key al conectar un proveedor, **para** saber inmediatamente si es válida.
+
+**Criterios de aceptación:**
+- POST `/api/providers` valida key contra endpoint del provider (OpenAI: GET `/v1/models`, Anthropic: endpoint no-consumo)
+- Si key inválida: retorna 400 con mensaje claro, key NO se guarda
+- Anthropic adapter NO consume tokens del usuario al validar
+
+### US-10.5 — Dark mode [P2]
+**Como** usuario, **quiero** alternar entre tema claro y oscuro, **para** usar la app cómodamente de noche.
+
+**Criterios de aceptación:**
+- ThemeProvider (next-themes) en layout raíz
+- Toggle en header del dashboard
+- Preferencia persiste en localStorage
+
+### US-10.6 — Favicon y OG meta tags [P2]
+**Como** visitante que recibe un link de LLMeter, **quiero** ver una preview atractiva en redes sociales, **para** entender de qué se trata antes de hacer clic.
+
+**Criterios de aceptación:**
+- Favicon personalizado (SVG + ICO fallback)
+- OG image (1200x630) con branding de LLMeter
+- Meta tags: title, description, og:image en layout raíz
+
+---
+
 *Documento mantenido por John Medina & Otto*
