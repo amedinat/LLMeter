@@ -1,148 +1,127 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { sendAlertEmail } from './send-alert';
+import { getResendClient } from './client';
+import { createAdminClient } from '@/lib/supabase/admin';
 
-// Mock the client module directly (avoids Resend constructor issues)
-const mockSend = vi.fn();
+// Mock dependencies
 vi.mock('./client', () => ({
   getResendClient: vi.fn(),
-  EMAIL_FROM: 'LLMeter <test@llmeter.dev>',
+  EMAIL_FROM: 'test@example.com',
 }));
 
-// Mock Supabase admin client
-const mockGetUserById = vi.fn();
 vi.mock('@/lib/supabase/admin', () => ({
-  createAdminClient: () => ({
-    auth: {
-      admin: {
-        getUserById: mockGetUserById,
-      },
-    },
-  }),
+  createAdminClient: vi.fn(),
 }));
 
-// Mock @react-email/components render
-vi.mock('@react-email/components', async () => {
-  const actual = await vi.importActual<typeof import('@react-email/components')>(
-    '@react-email/components'
-  );
-  return {
-    ...actual,
-    render: vi.fn().mockResolvedValue('<html>mocked</html>'),
-  };
-});
-
-import { getResendClient } from './client';
-import { sendAlertEmail } from './send-alert';
-
-const mockedGetClient = vi.mocked(getResendClient);
+// Mock react-email/components render
+vi.mock('@react-email/components', () => ({
+  render: vi.fn().mockResolvedValue('<html>Mock Email</html>'),
+  Body: vi.fn(),
+  Container: vi.fn(),
+  Head: vi.fn(),
+  Heading: vi.fn(),
+  Hr: vi.fn(),
+  Html: vi.fn(),
+  Preview: vi.fn(),
+  Section: vi.fn(),
+  Text: vi.fn(),
+}));
 
 describe('sendAlertEmail', () => {
+  const mockResend = {
+    emails: {
+      send: vi.fn().mockResolvedValue({ data: { id: 'msg_123' }, error: null }),
+    },
+  };
+
+  const mockSupabase = {
+    auth: {
+      admin: {
+        getUserById: vi.fn(),
+      },
+    },
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.stubEnv('NEXT_PUBLIC_APP_URL', 'https://app.llmeter.dev');
-
-    // Default: Resend is configured and returns a client with send
-    mockedGetClient.mockReturnValue({
-      emails: { send: mockSend },
-    } as unknown as ReturnType<typeof getResendClient> & object);
+    (getResendClient as any).mockReturnValue(mockResend);
+    (createAdminClient as any).mockReturnValue(mockSupabase);
   });
 
-  it('sends email when Resend is configured and user has email', async () => {
-    mockGetUserById.mockResolvedValue({
+  it('skips sending if Resend client is not available', async () => {
+    (getResendClient as any).mockReturnValue(null);
+    const result = await sendAlertEmail({
+      userId: 'user_123',
+      alertType: 'daily',
+      currentSpend: 100,
+      threshold: 50,
+    });
+    expect(result).toBe(false);
+    expect(mockResend.emails.send).not.toHaveBeenCalled();
+  });
+
+  it('skips sending if user email is not found', async () => {
+    mockSupabase.auth.admin.getUserById.mockResolvedValue({
+      data: { user: null },
+      error: null,
+    });
+
+    const result = await sendAlertEmail({
+      userId: 'user_123',
+      alertType: 'daily',
+      currentSpend: 100,
+      threshold: 50,
+    });
+
+    expect(result).toBe(false);
+    expect(mockSupabase.auth.admin.getUserById).toHaveBeenCalledWith('user_123');
+    expect(mockResend.emails.send).not.toHaveBeenCalled();
+  });
+
+  it('sends email successfully when user and client are valid', async () => {
+    mockSupabase.auth.admin.getUserById.mockResolvedValue({
       data: { user: { email: 'john@example.com' } },
       error: null,
     });
-    mockSend.mockResolvedValue({ data: { id: 'email-1' }, error: null });
 
     const result = await sendAlertEmail({
-      userId: 'user-1',
-      alertType: 'monthly',
-      currentSpend: 120.5,
-      threshold: 100,
+      userId: 'user_123',
+      alertType: 'daily',
+      currentSpend: 100,
+      threshold: 50,
       topContributors: [
-        { model: 'gpt-4o', provider: 'openai', cost: 80.25 },
-        { model: 'claude-sonnet-4', provider: 'anthropic', cost: 40.25 },
+        { model: 'gpt-4', provider: 'openai', cost: 80 },
+        { model: 'claude-3', provider: 'anthropic', cost: 20 },
       ],
     });
 
     expect(result).toBe(true);
-    expect(mockSend).toHaveBeenCalledOnce();
-    expect(mockSend).toHaveBeenCalledWith(
-      expect.objectContaining({
-        to: 'john@example.com',
-        subject: expect.stringContaining('Mensual'),
-      })
-    );
+    expect(mockResend.emails.send).toHaveBeenCalledWith({
+      from: 'test@example.com',
+      to: 'john@example.com',
+      subject: '⚠️ Alerta LLMeter: Gasto Diario excedió $50.00',
+      html: '<html>Mock Email</html>',
+    });
   });
 
-  it('returns false when user has no email', async () => {
-    mockGetUserById.mockResolvedValue({
-      data: { user: { email: null } },
-      error: null,
-    });
-
-    const result = await sendAlertEmail({
-      userId: 'user-no-email',
-      alertType: 'daily',
-      currentSpend: 55,
-      threshold: 50,
-    });
-
-    expect(result).toBe(false);
-    expect(mockSend).not.toHaveBeenCalled();
-  });
-
-  it('returns false when Resend API fails', async () => {
-    mockGetUserById.mockResolvedValue({
+  it('returns false if Resend send fails', async () => {
+    mockSupabase.auth.admin.getUserById.mockResolvedValue({
       data: { user: { email: 'john@example.com' } },
       error: null,
     });
-    mockSend.mockResolvedValue({
+
+    mockResend.emails.send.mockResolvedValue({
       data: null,
-      error: { message: 'rate limited' },
+      error: { message: 'API Error' },
     });
 
     const result = await sendAlertEmail({
-      userId: 'user-1',
+      userId: 'user_123',
       alertType: 'monthly',
-      currentSpend: 200,
-      threshold: 150,
+      currentSpend: 1000,
+      threshold: 500,
     });
 
     expect(result).toBe(false);
-  });
-
-  it('returns false when Resend is not configured', async () => {
-    mockedGetClient.mockReturnValue(null);
-
-    const result = await sendAlertEmail({
-      userId: 'user-1',
-      alertType: 'daily',
-      currentSpend: 60,
-      threshold: 50,
-    });
-
-    expect(result).toBe(false);
-    expect(mockSend).not.toHaveBeenCalled();
-  });
-
-  it('includes daily label in subject for daily alerts', async () => {
-    mockGetUserById.mockResolvedValue({
-      data: { user: { email: 'john@example.com' } },
-      error: null,
-    });
-    mockSend.mockResolvedValue({ data: { id: 'email-2' }, error: null });
-
-    await sendAlertEmail({
-      userId: 'user-1',
-      alertType: 'daily',
-      currentSpend: 75,
-      threshold: 50,
-    });
-
-    expect(mockSend).toHaveBeenCalledWith(
-      expect.objectContaining({
-        subject: expect.stringContaining('Diario'),
-      })
-    );
   });
 });
