@@ -6,7 +6,6 @@
 import type {
   DailySpend,
   SpendSummary,
-  UsageRecord,
   Provider,
   Alert,
 } from '@/types';
