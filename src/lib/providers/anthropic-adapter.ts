@@ -8,8 +8,8 @@ export const anthropicAdapter: ProviderAdapter = {
   type: 'anthropic',
 
   async validateKey(apiKey: string): Promise<boolean> {
-    // Simple validation: try to make a minimal API call
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    // Validate using count_tokens endpoint (free, no token consumption)
+    const res = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {
       method: 'POST',
       headers: {
         'x-api-key': apiKey,
@@ -18,19 +18,18 @@ export const anthropicAdapter: ProviderAdapter = {
       },
       body: JSON.stringify({
         model: 'claude-haiku-3.5',
-        max_tokens: 1,
-        messages: [{ role: 'user', content: 'hi' }],
+        messages: [{ role: 'user', content: 'test' }],
       }),
     });
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      // 400 is OK (means auth worked, just bad request formatting maybe)
       if (res.status === 401 || res.status === 403) {
         throw new Error(
           body?.error?.message ?? 'Invalid Anthropic API key'
         );
       }
+      // Other errors (400, 404) mean auth worked — key is valid
     }
 
     return true;
