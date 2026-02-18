@@ -17,7 +17,7 @@ export default function HomePage() {
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
               <Link href="#pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
-              <Link href="https://github.com/projects/llmeter" className="transition-colors hover:text-foreground/80 text-foreground/60">GitHub</Link>
+              <Link href="https://github.com/amedinat/LLMeter" className="transition-colors hover:text-foreground/80 text-foreground/60">GitHub</Link>
             </nav>
           </div>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
@@ -58,7 +58,7 @@ export default function HomePage() {
                 <Link href="/login">Get Started</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="https://github.com/projects/llmeter" target="_blank">View on GitHub</Link>
+                <Link href="https://github.com/amedinat/LLMeter" target="_blank">View on GitHub</Link>
               </Button>
             </div>
           </div>
@@ -218,8 +218,8 @@ export default function HomePage() {
       <footer className="py-6 md:px-8 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built by <a href="https://twitter.com/shadcn" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">LLMeter Team</a>.
-            The source code is available on <a href="https://github.com/projects/llmeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">GitHub</a>.
+            Built by <a href="https://github.com/amedinat/LLMeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">LLMeter Team</a>.
+            The source code is available on <a href="https://github.com/amedinat/LLMeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">GitHub</a>.
           </p>
         </div>
       </footer>
