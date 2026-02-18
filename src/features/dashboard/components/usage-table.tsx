@@ -31,6 +31,39 @@ function formatNumber(n: number): string {
   return n.toLocaleString();
 }
 
+interface SortableHeaderProps {
+  label: string;
+  field: SortKey;
+  currentSortKey: SortKey;
+  align?: 'left' | 'right';
+  onSort: (key: SortKey) => void;
+}
+
+function SortableHeader({
+  label,
+  field,
+  currentSortKey,
+  align = 'left',
+  onSort,
+}: SortableHeaderProps) {
+  return (
+    <TableHead className={cn(align === 'right' && 'text-right')}>
+      <button
+        onClick={() => onSort(field)}
+        className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
+      >
+        {label}
+        <ArrowUpDown
+          className={cn(
+            'h-3 w-3',
+            currentSortKey === field ? 'text-foreground' : 'text-muted-foreground/50'
+          )}
+        />
+      </button>
+    </TableHead>
+  );
+}
+
 export function UsageTable({ data, className }: UsageTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>('spend');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
@@ -50,31 +83,6 @@ export function UsageTable({ data, className }: UsageTableProps) {
     return mul * (a[sortKey] - b[sortKey]);
   });
 
-  const SortableHeader = ({
-    label,
-    field,
-    align = 'left',
-  }: {
-    label: string;
-    field: SortKey;
-    align?: 'left' | 'right';
-  }) => (
-    <TableHead className={cn(align === 'right' && 'text-right')}>
-      <button
-        onClick={() => toggleSort(field)}
-        className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
-      >
-        {label}
-        <ArrowUpDown
-          className={cn(
-            'h-3 w-3',
-            sortKey === field ? 'text-foreground' : 'text-muted-foreground/50'
-          )}
-        />
-      </button>
-    </TableHead>
-  );
-
   return (
     <Card className={className}>
       <CardHeader>
@@ -84,11 +92,34 @@ export function UsageTable({ data, className }: UsageTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <SortableHeader label="Model" field="model" />
+              <SortableHeader
+                label="Model"
+                field="model"
+                currentSortKey={sortKey}
+                onSort={toggleSort}
+              />
               <TableHead>Provider</TableHead>
-              <SortableHeader label="Requests" field="requests" align="right" />
-              <SortableHeader label="Spend" field="spend" align="right" />
-              <SortableHeader label="% Total" field="pct" align="right" />
+              <SortableHeader
+                label="Requests"
+                field="requests"
+                currentSortKey={sortKey}
+                onSort={toggleSort}
+                align="right"
+              />
+              <SortableHeader
+                label="Spend"
+                field="spend"
+                currentSortKey={sortKey}
+                onSort={toggleSort}
+                align="right"
+              />
+              <SortableHeader
+                label="% Total"
+                field="pct"
+                currentSortKey={sortKey}
+                onSort={toggleSort}
+                align="right"
+              />
             </TableRow>
           </TableHeader>
           <TableBody>
