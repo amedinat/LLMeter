@@ -1,11 +1,17 @@
 import type { ProviderType } from '@/types';
 import type { ProviderAdapter } from './types';
+import { openaiAdapter } from './openai-adapter';
+import { anthropicAdapter } from './anthropic-adapter';
 
 /**
  * Provider adapter registry.
  * Adapters are registered here and looked up by provider type.
  */
 const adapters = new Map<ProviderType, ProviderAdapter>();
+
+// Register built-in adapters
+adapters.set('openai', openaiAdapter);
+adapters.set('anthropic', anthropicAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
