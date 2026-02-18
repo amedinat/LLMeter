@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { updateProviderSchema } from '@/lib/validators/provider';
 
 /**
  * DELETE /api/providers/:id — Disconnect a provider (delete encrypted key)
@@ -49,17 +50,32 @@ export async function PATCH(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const body = await request.json();
-  const updates: Record<string, unknown> = {};
-
-  if (body.displayName !== undefined) {
-    updates.display_name = body.displayName;
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  if (body.apiKey) {
+  const parsed = updateProviderSchema.safeParse({ ...body as Record<string, unknown>, id });
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Validation failed', details: parsed.error.flatten() },
+      { status: 400 }
+    );
+  }
+
+  const updates: Record<string, unknown> = {};
+
+  if (parsed.data.displayName !== undefined) {
+    updates.display_name = parsed.data.displayName;
+  }
+
+  if (parsed.data.apiKey) {
     // Re-encrypt with new key
     const { encryptForDB } = await import('@/lib/crypto');
-    const encrypted = encryptForDB(body.apiKey);
+    const encrypted = encryptForDB(parsed.data.apiKey);
     Object.assign(updates, encrypted);
     updates.status = 'active';
     updates.last_error = null;
