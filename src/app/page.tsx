@@ -10,9 +10,9 @@ export default function HomePage() {
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
-          <div className="mr-4 hidden md:flex">
+          <div className="mr-4 flex">
             <Link href="/" className="mr-6 flex items-center space-x-2">
-              <span className="hidden font-bold sm:inline-block">LLMeter</span>
+              <span className="font-bold">LLMeter</span>
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
@@ -74,55 +74,55 @@ export default function HomePage() {
               Everything you need to manage AI costs effectively.
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <LayoutDashboard className="h-10 w-10 mb-2" />
+          <div className="mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+            <Card className="overflow-hidden">
+              <CardHeader className="p-6">
+                <LayoutDashboard className="h-10 w-10 mb-2 shrink-0" />
                 <CardTitle>Unified Dashboard</CardTitle>
                 <CardDescription>
                   View all your AI usage in one place. No more switching tabs between OpenAI and Anthropic.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
-              <CardHeader>
-                <Shield className="h-10 w-10 mb-2" />
+            <Card className="overflow-hidden">
+              <CardHeader className="p-6">
+                <Shield className="h-10 w-10 mb-2 shrink-0" />
                 <CardTitle>Budget Alerts</CardTitle>
                 <CardDescription>
                   Set daily or monthly spend limits. Get notified before you get a surprise bill.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
-              <CardHeader>
-                <Zap className="h-10 w-10 mb-2" />
+            <Card className="overflow-hidden">
+              <CardHeader className="p-6">
+                <Zap className="h-10 w-10 mb-2 shrink-0" />
                 <CardTitle>Optimization</CardTitle>
                 <CardDescription>
                   Get actionable recommendations to switch models and save up to 40% on costs.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
-              <CardHeader>
-                <LineChart className="h-10 w-10 mb-2" />
+            <Card className="overflow-hidden">
+              <CardHeader className="p-6">
+                <LineChart className="h-10 w-10 mb-2 shrink-0" />
                 <CardTitle>Usage Trends</CardTitle>
                 <CardDescription>
                   Analyze token usage over time. Spot anomalies and unexpected spikes instantly.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
-              <CardHeader>
-                <BarChart3 className="h-10 w-10 mb-2" />
+            <Card className="overflow-hidden">
+              <CardHeader className="p-6">
+                <BarChart3 className="h-10 w-10 mb-2 shrink-0" />
                 <CardTitle>Cost Breakdown</CardTitle>
                 <CardDescription>
                   See exactly which models and endpoints are driving your costs.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
-              <CardHeader>
-                <ArrowRight className="h-10 w-10 mb-2" />
+            <Card className="overflow-hidden">
+              <CardHeader className="p-6">
+                <ArrowRight className="h-10 w-10 mb-2 shrink-0" />
                 <CardTitle>Easy Export</CardTitle>
                 <CardDescription>
                   Download your data as CSV for further analysis in Excel or Google Sheets.
@@ -142,7 +142,7 @@ export default function HomePage() {
               Choose the plan that&apos;s right for you.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto px-4 sm:px-0">
             {/* Free Plan */}
             <Card className="flex flex-col">
               <CardHeader>
