@@ -4,37 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Link2, Bell, Settings } from 'lucide-react';
-
-const items = [
-  {
-    title: 'Dashboard',
-    href: '/dashboard',
-    icon: LayoutDashboard,
-  },
-  {
-    title: 'Providers',
-    href: '/providers',
-    icon: Link2,
-  },
-  {
-    title: 'Alerts',
-    href: '/alerts',
-    icon: Bell,
-  },
-  {
-    title: 'Settings',
-    href: '/settings',
-    icon: Settings,
-  },
-];
+import { navItems } from '@/components/dashboard/nav-items';
 
 export function SidebarNav() {
   const pathname = usePathname();
 
   return (
     <nav className="grid items-start gap-2">
-      {items.map((item, index) => {
+      {navItems.map((item, index) => {
         const Icon = item.icon;
         return (
           <Button
