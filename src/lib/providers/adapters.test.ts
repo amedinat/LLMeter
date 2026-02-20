@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { openaiAdapter } from './openai-adapter';
 import { anthropicAdapter } from './anthropic-adapter';
 

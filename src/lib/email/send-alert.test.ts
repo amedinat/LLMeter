@@ -44,12 +44,12 @@ describe('sendAlertEmail', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (getResendClient as any).mockReturnValue(mockResend);
-    (createAdminClient as any).mockReturnValue(mockSupabase);
+    vi.mocked(getResendClient).mockReturnValue(mockResend as unknown as ReturnType<typeof getResendClient>);
+    vi.mocked(createAdminClient).mockReturnValue(mockSupabase as unknown as ReturnType<typeof createAdminClient>);
   });
 
   it('skips sending if Resend client is not available', async () => {
-    (getResendClient as any).mockReturnValue(null);
+    vi.mocked(getResendClient).mockReturnValue(null);
     const result = await sendAlertEmail({
       userId: 'user_123',
       alertType: 'daily',
