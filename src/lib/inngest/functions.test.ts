@@ -24,15 +24,15 @@ const mockStep = {
 };
 
 describe('Inngest Functions', () => {
-  let mockSupabase: any;
-  let mockQueryBuilder: any;
+  let mockSupabase: { from: ReturnType<typeof vi.fn>; _setNextResponse: (res: { data?: unknown[]; error: unknown }) => void };
+  let mockQueryBuilder: Record<string, ReturnType<typeof vi.fn>> & { then: (resolve: (value: unknown) => void) => void };
 
   beforeEach(() => {
     vi.clearAllMocks();
 
     // specific responses store
-    let nextResponse: any = { data: [], error: null };
-    const setNextResponse = (res: any) => { nextResponse = res; };
+    let nextResponse: { data?: unknown[]; error: unknown } = { data: [], error: null };
+    const setNextResponse = (res: { data?: unknown[]; error: unknown }) => { nextResponse = res; };
 
     mockQueryBuilder = {
       select: vi.fn().mockReturnThis(),
@@ -44,7 +44,7 @@ describe('Inngest Functions', () => {
       order: vi.fn().mockReturnThis(),
       limit: vi.fn().mockReturnThis(),
       in: vi.fn().mockReturnThis(),
-      then: (resolve: any) => resolve(nextResponse),
+      then: (resolve: (value: unknown) => void) => resolve(nextResponse),
     };
 
     mockSupabase = {
@@ -52,15 +52,15 @@ describe('Inngest Functions', () => {
       _setNextResponse: setNextResponse,
     };
 
-    (createAdminClient as any).mockReturnValue(mockSupabase);
-    (decryptFromDB as any).mockReturnValue('sk-decrypted');
+    vi.mocked(createAdminClient).mockReturnValue(mockSupabase as unknown as ReturnType<typeof createAdminClient>);
+    vi.mocked(decryptFromDB).mockReturnValue('sk-decrypted');
   });
 
   describe('pollUsage', () => {
     it('skips if no active providers', async () => {
       mockSupabase._setNextResponse({ data: [], error: null });
 
-      // @ts-ignore
+      // @ts-expect-error accessing internal fn property for testing
       const handler = pollUsage.fn;
       const result = await handler({ step: mockStep, logger: mockLogger });
 
@@ -82,7 +82,7 @@ describe('Inngest Functions', () => {
       ];
       
       let responseIndex = 0;
-      mockQueryBuilder.then = (resolve: any) => {
+      mockQueryBuilder.then = (resolve: (value: unknown) => void) => {
         const res = responses[responseIndex] || { data: [], error: null };
         responseIndex++;
         resolve(res);
@@ -93,9 +93,9 @@ describe('Inngest Functions', () => {
           { date: '2024-01-01', model: 'gpt-4', inputTokens: 10, outputTokens: 20, costUsd: 0.05 }
         ]),
       };
-      (getAdapter as any).mockReturnValue(mockAdapter);
+      vi.mocked(getAdapter).mockReturnValue(mockAdapter as unknown as ReturnType<typeof getAdapter>);
 
-      // @ts-ignore
+      // @ts-expect-error accessing internal fn property for testing
       const handler = pollUsage.fn;
       const result = await handler({ step: mockStep, logger: mockLogger });
 
@@ -109,7 +109,7 @@ describe('Inngest Functions', () => {
         { error: null }, // update error status
       ];
       let responseIndex = 0;
-      mockQueryBuilder.then = (resolve: any) => {
+      mockQueryBuilder.then = (resolve: (value: unknown) => void) => {
         const res = responses[responseIndex] || { data: [], error: null };
         responseIndex++;
         resolve(res);
@@ -118,9 +118,9 @@ describe('Inngest Functions', () => {
       const mockAdapter = {
         fetchUsage: vi.fn().mockRejectedValue(new Error('API Error')),
       };
-      (getAdapter as any).mockReturnValue(mockAdapter);
+      vi.mocked(getAdapter).mockReturnValue(mockAdapter as unknown as ReturnType<typeof getAdapter>);
 
-      // @ts-ignore
+      // @ts-expect-error accessing internal fn property for testing
       const handler = pollUsage.fn;
       const result = await handler({ step: mockStep, logger: mockLogger });
 
@@ -138,15 +138,15 @@ describe('Inngest Functions', () => {
         { error: null }, // update alert
       ];
       let responseIndex = 0;
-      mockQueryBuilder.then = (resolve: any) => {
+      mockQueryBuilder.then = (resolve: (value: unknown) => void) => {
         const res = responses[responseIndex] || { data: [], error: null };
         responseIndex++;
         resolve(res);
       };
 
-      (sendAlertEmail as any).mockResolvedValue(true);
+      vi.mocked(sendAlertEmail).mockResolvedValue(true);
 
-      // @ts-ignore
+      // @ts-expect-error accessing internal fn property for testing
       const handler = checkAlerts.fn;
       const result = await handler({ step: mockStep, logger: mockLogger });
 
@@ -160,13 +160,13 @@ describe('Inngest Functions', () => {
         { data: [{ cost_usd: 15 }], error: null }, // usage sum
       ];
       let responseIndex = 0;
-      mockQueryBuilder.then = (resolve: any) => {
+      mockQueryBuilder.then = (resolve: (value: unknown) => void) => {
         const res = responses[responseIndex] || { data: [], error: null };
         responseIndex++;
         resolve(res);
       };
 
-      // @ts-ignore
+      // @ts-expect-error accessing internal fn property for testing
       const handler = checkAlerts.fn;
       const result = await handler({ step: mockStep, logger: mockLogger });
 

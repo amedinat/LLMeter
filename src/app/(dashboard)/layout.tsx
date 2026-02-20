@@ -1,5 +1,6 @@
 import { SidebarNav } from '@/components/dashboard/sidebar-nav';
 import { UserNav } from '@/components/dashboard/user-nav';
+import { MobileNav } from '@/components/dashboard/mobile-nav';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -45,6 +46,7 @@ export default async function DashboardLayout({
       {/* Main Content Area */}
       <div className="flex flex-col sm:gap-4 sm:pl-64">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <MobileNav />
           <div className="ml-auto flex items-center gap-4">
             <UserNav user={userData} />
           </div>
