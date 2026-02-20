@@ -40,13 +40,9 @@ export default function HomePage() {
         {/* Hero */}
         <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-            <Link
-              href="https://twitter.com/llmeter"
-              className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-              target="_blank"
-            >
-              Follow along on Twitter
-            </Link>
+            <span className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium">
+              Open Source AI Cost Monitor
+            </span>
             <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               Control your AI spend across all providers.
             </h1>
@@ -74,7 +70,7 @@ export default function HomePage() {
               Everything you need to manage AI costs effectively.
             </p>
           </div>
-          <div className="mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+          <div className="mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-[64rem]">
             <Card className="overflow-hidden">
               <CardHeader className="p-6">
                 <LayoutDashboard className="h-10 w-10 mb-2 shrink-0" />
@@ -142,7 +138,7 @@ export default function HomePage() {
               Choose the plan that&apos;s right for you.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto px-4 sm:px-0">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
             {/* Free Plan */}
             <Card className="flex flex-col">
               <CardHeader>
