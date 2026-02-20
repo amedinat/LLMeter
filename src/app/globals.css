@@ -124,3 +124,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Container centering & responsive padding */
+.container {
+  @apply mx-auto w-full px-4 sm:px-6 lg:px-8;
+  max-width: 1280px;
+}
