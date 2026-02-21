@@ -3,6 +3,9 @@ import { createClient } from '@/lib/supabase/server';
 import { connectProviderSchema } from '@/lib/validators/provider';
 import { encryptForDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers';
+import { checkRateLimit } from '@/lib/rate-limit';
+
+const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60 * 1000 }; // 30 req/min
 
 /**
  * GET /api/providers — List user's connected providers (no keys exposed)
@@ -42,6 +45,15 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // Rate limit by user ID
+  const rl = checkRateLimit(`providers:${user.id}`, PROVIDER_API_LIMIT);
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
   }
 
   let body: unknown;
