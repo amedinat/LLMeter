@@ -11,11 +11,11 @@ export function SidebarNav() {
 
   return (
     <nav className="grid items-start gap-2">
-      {navItems.map((item, index) => {
+      {navItems.map((item) => {
         const Icon = item.icon;
         return (
           <Button
-            key={index}
+            key={item.href}
             variant={pathname === item.href ? 'secondary' : 'ghost'}
             className={cn(
               'justify-start',
