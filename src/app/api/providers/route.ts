@@ -4,6 +4,7 @@ import { connectProviderSchema } from '@/lib/validators/provider';
 import { encryptForDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 
 const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60 * 1000 }; // 30 req/min
 
@@ -39,6 +40,11 @@ export async function GET() {
  * Body: { provider: "openai"|"anthropic", apiKey: "sk-...", displayName?: "My Key" }
  */
 export async function POST(request: Request) {
+  // CSRF protection: reject cross-origin forged requests
+  if (!verifyCsrfHeader(request)) {
+    return csrfForbiddenResponse();
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

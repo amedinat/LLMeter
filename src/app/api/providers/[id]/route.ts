@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { updateProviderSchema } from '@/lib/validators/provider';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 
 const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60 * 1000 };
 
@@ -12,6 +13,11 @@ export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // CSRF protection: reject cross-origin forged requests
+  if (!verifyCsrfHeader(_request)) {
+    return csrfForbiddenResponse();
+  }
+
   const { id } = await params;
   const supabase = await createClient();
   const {
@@ -52,6 +58,11 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // CSRF protection: reject cross-origin forged requests
+  if (!verifyCsrfHeader(request)) {
+    return csrfForbiddenResponse();
+  }
+
   const { id } = await params;
   const supabase = await createClient();
   const {

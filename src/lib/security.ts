@@ -66,3 +66,30 @@ export function safeRedirect(url: string | null | undefined, fallback = '/dashbo
 
   return trimmed;
 }
+
+/**
+ * Verify CSRF protection via custom header check.
+ *
+ * Browsers enforce that cross-origin requests with custom headers require
+ * a CORS preflight. Since our API doesn't allow cross-origin requests,
+ * a malicious site cannot send a request with `X-Requested-With`.
+ *
+ * All state-changing API calls from our frontend must include:
+ *   `X-Requested-With: LLMeter`
+ *
+ * @param request - The incoming request to check
+ * @returns true if the request includes the required CSRF header
+ */
+export function verifyCsrfHeader(request: Request): boolean {
+  return request.headers.get('x-requested-with') === 'LLMeter';
+}
+
+/**
+ * Return a 403 response for failed CSRF checks.
+ */
+export function csrfForbiddenResponse() {
+  return new Response(
+    JSON.stringify({ error: 'Forbidden: missing or invalid CSRF header' }),
+    { status: 403, headers: { 'Content-Type': 'application/json' } }
+  );
+}

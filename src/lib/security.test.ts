@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isStaticFile, safeRedirect } from './security';
+import { isStaticFile, safeRedirect, verifyCsrfHeader, csrfForbiddenResponse } from './security';
 
 describe('isStaticFile', () => {
   it('returns true for known static extensions', () => {
@@ -74,5 +74,47 @@ describe('safeRedirect', () => {
 
   it('trims whitespace', () => {
     expect(safeRedirect('  /dashboard  ')).toBe('/dashboard');
+  });
+});
+
+describe('verifyCsrfHeader', () => {
+  it('returns true when X-Requested-With is "LLMeter"', () => {
+    const request = new Request('http://localhost/api/providers', {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'LLMeter' },
+    });
+    expect(verifyCsrfHeader(request)).toBe(true);
+  });
+
+  it('returns false when X-Requested-With is missing', () => {
+    const request = new Request('http://localhost/api/providers', {
+      method: 'POST',
+    });
+    expect(verifyCsrfHeader(request)).toBe(false);
+  });
+
+  it('returns false when X-Requested-With has wrong value', () => {
+    const request = new Request('http://localhost/api/providers', {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
+    expect(verifyCsrfHeader(request)).toBe(false);
+  });
+
+  it('is case-insensitive for header name (per HTTP spec)', () => {
+    const request = new Request('http://localhost/api/providers', {
+      method: 'POST',
+      headers: { 'x-requested-with': 'LLMeter' },
+    });
+    expect(verifyCsrfHeader(request)).toBe(true);
+  });
+});
+
+describe('csrfForbiddenResponse', () => {
+  it('returns 403 status with JSON error', async () => {
+    const response = csrfForbiddenResponse();
+    expect(response.status).toBe(403);
+    const body = await response.json();
+    expect(body.error).toContain('CSRF');
   });
 });
