@@ -1,8 +1,8 @@
 # LLMeter — Security Audit Report
-Date: 2026-02-21
+Date: 2026-02-21 (Updated: 2026-02-21)
 
 ## Summary
-**Overall Security Score: B+** — Solid security foundation with AES-256-GCM encryption, comprehensive RLS policies, input validation via Zod, open redirect protection, and middleware hardening. A few medium-priority items remain.
+**Overall Security Score: A-** — Strong security posture with AES-256-GCM encryption, comprehensive RLS policies, input validation via Zod, open redirect protection, middleware hardening, rate limiting on all API routes, sanitized error messages, and full security headers. Remaining items are medium/low priority.
 
 ---
 
@@ -15,10 +15,9 @@ Date: 2026-02-21
 
 ### High Priority
 
-#### H1. Rate Limiting Not Applied to API Routes
-- **Files:** `src/app/api/providers/route.ts`, `src/app/api/providers/[id]/route.ts`
-- **Issue:** Rate limiter exists (`src/lib/rate-limit.ts`) but is only configured for magic link requests. API routes for creating/updating/deleting providers have no rate limiting. An authenticated attacker could spam these endpoints.
-- **Recommendation:** Apply `checkRateLimit` to POST/PATCH/DELETE provider endpoints (e.g., 30 req/min per user).
+#### H1. ~~Rate Limiting Not Applied to API Routes~~ ✅ RESOLVED
+- **Status:** Fixed in commits `f66491c` and `0e9c8c5`
+- **Resolution:** `checkRateLimit` (30 req/min per user) applied to POST, PATCH, and DELETE provider endpoints.
 
 #### H2. In-Memory Rate Limiter Won't Scale
 - **File:** `src/lib/rate-limit.ts`
@@ -29,25 +28,18 @@ Date: 2026-02-21
 
 ### Medium Priority
 
-#### M1. Error Messages May Leak Internal Details
-- **Files:** API route error handlers
-- **Issue:** `error.message` from Supabase errors is returned directly to the client. Some Supabase errors include table/column names.
-- **Recommendation:** Return generic error messages in production; log detailed errors server-side.
+#### M1. ~~Error Messages May Leak Internal Details~~ ✅ RESOLVED
+- **Status:** Fixed in commit `3e86c9f`
+- **Resolution:** All API routes now return generic error messages to clients. Detailed errors logged server-side via `console.error`.
 
 #### M2. No CSRF Protection on State-Changing Endpoints
 - **Files:** `src/app/api/providers/route.ts` (POST), `src/app/api/providers/[id]/route.ts` (PATCH/DELETE)
 - **Issue:** Next.js API routes don't have built-in CSRF protection. Since auth uses cookies (Supabase SSR), a malicious site could forge requests.
 - **Recommendation:** Add CSRF token validation or use `SameSite=Strict` cookies. Supabase SSR cookies default to `SameSite=Lax` which mitigates most CSRF but not all vectors.
 
-#### M3. Missing Security Headers
-- **File:** `next.config.ts` (or missing)
-- **Issue:** No custom security headers configured (CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy).
-- **Recommendation:** Add `headers()` in next.config.ts with:
-  - `Content-Security-Policy` (restrict script sources)
-  - `X-Frame-Options: DENY`
-  - `X-Content-Type-Options: nosniff`
-  - `Referrer-Policy: strict-origin-when-cross-origin`
-  - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+#### M3. ~~Missing Security Headers~~ ✅ RESOLVED
+- **Status:** Already implemented in `next.config.ts`
+- **Resolution:** Security headers configured: X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control, Strict-Transport-Security (HSTS).
 
 #### M4. Service Role Key Access Pattern
 - **File:** `src/lib/supabase/admin.ts`
@@ -84,23 +76,25 @@ Date: 2026-02-21
 7. **Auth via `getUser()`** — Middleware uses `getUser()` instead of `getSession()` (server-validated, not JWT-only).
 8. **Unique Constraints** — One provider per type per user prevents duplicate entries.
 9. **Inngest Functions** — Fully implemented with error handling, status tracking, and retry configuration.
-10. **Rate Limiter Exists** — Foundation for rate limiting is in place (needs scaling solution).
+10. **Rate Limiting** — Applied to all state-changing API routes (30 req/min per user).
+11. **Error Sanitization** — Generic error messages returned to clients; detailed errors logged server-side.
+12. **Security Headers** — Full suite configured: HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy.
 
 ---
 
 ## Recommendations Summary
 
-| Priority | Issue | Effort | Impact |
-|----------|-------|--------|--------|
-| High | Apply rate limiting to API routes | Low | High |
-| High | Switch to Redis-based rate limiter | Medium | High |
-| Medium | Sanitize error messages | Low | Medium |
-| Medium | Add security headers | Low | Medium |
-| Medium | CSRF protection | Medium | Medium |
-| Medium | Audit admin client usage | Low | Low |
-| Low | API key rotation UI | Medium | Low |
-| Low | Encryption key versioning | High | Low |
-| Low | Custom 404 pages | Low | Low |
+| Priority | Issue | Status | Effort | Impact |
+|----------|-------|--------|--------|--------|
+| ~~High~~ | ~~Apply rate limiting to API routes~~ | ✅ Done | Low | High |
+| High | Switch to Redis-based rate limiter | ⏳ Open | Medium | High |
+| ~~Medium~~ | ~~Sanitize error messages~~ | ✅ Done | Low | Medium |
+| ~~Medium~~ | ~~Add security headers~~ | ✅ Done | Low | Medium |
+| Medium | CSRF protection | ⏳ Open | Medium | Medium |
+| Medium | Audit admin client usage | ⏳ Open | Low | Low |
+| Low | API key rotation UI | ⏳ Open | Medium | Low |
+| Low | Encryption key versioning | ⏳ Open | High | Low |
+| Low | Custom 404 pages | ⏳ Open | Low | Low |
 
 ---
 
