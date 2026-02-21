@@ -32,19 +32,17 @@ Date: 2026-02-21 (Updated: 2026-02-21)
 - **Status:** Fixed in commit `3e86c9f`
 - **Resolution:** All API routes now return generic error messages to clients. Detailed errors logged server-side via `console.error`.
 
-#### M2. No CSRF Protection on State-Changing Endpoints
-- **Files:** `src/app/api/providers/route.ts` (POST), `src/app/api/providers/[id]/route.ts` (PATCH/DELETE)
-- **Issue:** Next.js API routes don't have built-in CSRF protection. Since auth uses cookies (Supabase SSR), a malicious site could forge requests.
-- **Recommendation:** Add CSRF token validation or use `SameSite=Strict` cookies. Supabase SSR cookies default to `SameSite=Lax` which mitigates most CSRF but not all vectors.
+#### M2. ~~No CSRF Protection on State-Changing Endpoints~~ ✅ RESOLVED
+- **Status:** Fixed — custom header check (`X-Requested-With: LLMeter`) added to all state-changing endpoints (POST, PATCH, DELETE).
+- **Resolution:** `verifyCsrfHeader()` in `src/lib/security.ts` validates the header. Frontend API client (`src/lib/api-client.ts`) automatically includes it. Browsers block cross-origin custom headers without CORS preflight, preventing CSRF attacks.
 
 #### M3. ~~Missing Security Headers~~ ✅ RESOLVED
 - **Status:** Already implemented in `next.config.ts`
 - **Resolution:** Security headers configured: X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control, Strict-Transport-Security (HSTS).
 
-#### M4. Service Role Key Access Pattern
-- **File:** `src/lib/supabase/admin.ts`
-- **Issue:** Admin client with service role key is created on-demand. While the key is only server-side, any server-side code can call `createAdminClient()` and bypass RLS.
-- **Recommendation:** Document which functions are authorized to use admin client. Consider adding an audit log for admin operations.
+#### M4. ~~Service Role Key Access Pattern~~ ✅ RESOLVED
+- **Status:** Fixed — `createAdminClient()` now requires a `caller` identifier for audit logging.
+- **Resolution:** Authorized callers documented in `src/lib/supabase/admin.ts`. Each call logs caller identity and timestamp. Calls without a caller emit a warning. Authorized callers: `inngest:sync-provider-usage`, `inngest:process-usage-events`, `inngest:check-budget-alerts`, `email:send-alert`.
 
 ---
 
@@ -90,8 +88,8 @@ Date: 2026-02-21 (Updated: 2026-02-21)
 | High | Switch to Redis-based rate limiter | ⏳ Open | Medium | High |
 | ~~Medium~~ | ~~Sanitize error messages~~ | ✅ Done | Low | Medium |
 | ~~Medium~~ | ~~Add security headers~~ | ✅ Done | Low | Medium |
-| Medium | CSRF protection | ⏳ Open | Medium | Medium |
-| Medium | Audit admin client usage | ⏳ Open | Low | Low |
+| ~~Medium~~ | ~~CSRF protection~~ | ✅ Done | Medium | Medium |
+| ~~Medium~~ | ~~Audit admin client usage~~ | ✅ Done | Low | Low |
 | Low | API key rotation UI | ⏳ Open | Medium | Low |
 | Low | Encryption key versioning | ⏳ Open | High | Low |
 | Low | Custom 404 pages | ⏳ Open | Low | Low |
