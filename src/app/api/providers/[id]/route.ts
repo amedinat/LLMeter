@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { updateProviderSchema } from '@/lib/validators/provider';
+import { checkRateLimit } from '@/lib/rate-limit';
+
+const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60 * 1000 };
 
 /**
  * DELETE /api/providers/:id — Disconnect a provider (delete encrypted key)
@@ -19,6 +22,14 @@ export async function DELETE(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const rl = checkRateLimit(`providers:${user.id}`, PROVIDER_API_LIMIT);
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
+  }
+
   // RLS ensures user can only delete own providers
   const { error } = await supabase
     .from('providers')
@@ -27,7 +38,8 @@ export async function DELETE(
     .eq('user_id', user.id);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('DELETE /api/providers/:id error:', error.message);
+    return NextResponse.json({ error: 'Failed to disconnect provider' }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });
@@ -48,6 +60,14 @@ export async function PATCH(
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const rlPatch = checkRateLimit(`providers:${user.id}`, PROVIDER_API_LIMIT);
+  if (!rlPatch.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rlPatch.resetAt - Date.now()) / 1000)) } }
+    );
   }
 
   let body: unknown;
@@ -94,7 +114,8 @@ export async function PATCH(
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('PATCH /api/providers/:id error:', error.message);
+    return NextResponse.json({ error: 'Failed to update provider' }, { status: 500 });
   }
 
   return NextResponse.json({ provider: data });
