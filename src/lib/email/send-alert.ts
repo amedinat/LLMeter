@@ -27,7 +27,7 @@ export async function sendAlertEmail(
   }
 
   // Look up user's email from Supabase auth
-  const supabase = createAdminClient();
+  const supabase = createAdminClient('email:send-alert');
   const {
     data: { user },
     error: userError,
