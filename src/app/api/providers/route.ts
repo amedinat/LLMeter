@@ -27,7 +27,8 @@ export async function GET() {
     .order('created_at', { ascending: true });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('GET /api/providers error:', error.message);
+    return NextResponse.json({ error: 'Failed to fetch providers' }, { status: 500 });
   }
 
   return NextResponse.json({ providers: data });
@@ -109,7 +110,8 @@ export async function POST(request: Request) {
         { status: 409 }
       );
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('POST /api/providers error:', error.message);
+    return NextResponse.json({ error: 'Failed to connect provider' }, { status: 500 });
   }
 
   return NextResponse.json({ provider: data }, { status: 201 });
