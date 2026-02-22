@@ -1,7 +1,7 @@
 import { SidebarNav } from '@/components/dashboard/sidebar-nav';
 import { UserNav } from '@/components/dashboard/user-nav';
 import { MobileNav } from '@/components/dashboard/mobile-nav';
-import { ThemeToggle } from '@/components/dashboard/theme-toggle';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -39,10 +39,8 @@ export default async function DashboardLayout({
             <SidebarNav />
           </nav>
         </div>
-        <div className="mt-auto px-4 pb-3">
-          <span className="text-[10px] text-muted-foreground/40 select-none">
-            {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'dev'}
-          </span>
+        <div className="mt-auto p-4">
+          {/* Optional footer content */}
         </div>
       </aside>
 

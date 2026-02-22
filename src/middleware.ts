@@ -6,14 +6,7 @@ import { isStaticFile } from '@/lib/security';
 const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/api/inngest'];
 
 export async function middleware(request: NextRequest) {
-  const { pathname, searchParams } = request.nextUrl;
-
-  // If root receives a ?code= param, redirect to /auth/callback (Supabase PKCE flow)
-  if (pathname === '/' && searchParams.has('code')) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/auth/callback';
-    return NextResponse.redirect(url);
-  }
+  const { pathname } = request.nextUrl;
 
   // Skip auth check for public routes and known static file extensions
   if (
@@ -25,72 +18,54 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  let supabaseResponse = NextResponse.next({
+    request,
+  });
 
-    if (!supabaseUrl || !supabaseAnonKey) {
-      console.error('Missing Supabase environment variables');
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      return NextResponse.redirect(url);
-    }
-
-    let supabaseResponse = NextResponse.next({
-      request,
-    });
-
-    const supabase = createServerClient(
-      supabaseUrl,
-      supabaseAnonKey,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value)
-            );
-            supabaseResponse = NextResponse.next({
-              request,
-            });
-            cookiesToSet.forEach(({ name, value, options }) =>
-              supabaseResponse.cookies.set(name, value, options)
-            );
-          },
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
         },
-      }
-    );
-
-    // Refresh session - IMPORTANT: must call getUser, not getSession
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      // Redirect to login with return URL
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      url.searchParams.set('next', pathname);
-      return NextResponse.redirect(url);
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
+        },
+      },
     }
+  );
 
-    // If authenticated user tries to access login, redirect to dashboard
-    if (pathname === '/login') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/dashboard';
-      return NextResponse.redirect(url);
-    }
+  // Refresh session - IMPORTANT: must call getUser, not getSession
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    return supabaseResponse;
-  } catch (error) {
-    console.error('Middleware error:', error);
-    // On any error, redirect to login instead of crashing
+  if (!user) {
+    // Redirect to login with return URL
     const url = request.nextUrl.clone();
     url.pathname = '/login';
+    url.searchParams.set('next', pathname);
     return NextResponse.redirect(url);
   }
+
+  // If authenticated user tries to access login, redirect to dashboard
+  if (pathname === '/login') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
+    return NextResponse.redirect(url);
+  }
+
+  return supabaseResponse;
 }
 
 export const config = {

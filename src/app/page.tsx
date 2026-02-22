@@ -3,9 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BarChart3, Check, LayoutDashboard, Shield, Zap, ArrowRight, LineChart } from 'lucide-react';
-import { ThemeToggle } from '@/components/dashboard/theme-toggle';
-
-// PKCE ?code= redirect handled in next.config.ts redirects (edge-level)
 
 export default function HomePage() {
   return (
@@ -13,9 +10,9 @@ export default function HomePage() {
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
-          <div className="mr-4 flex">
+          <div className="mr-4 hidden md:flex">
             <Link href="/" className="mr-6 flex items-center space-x-2">
-              <span className="font-bold">LLMeter</span>
+              <span className="hidden font-bold sm:inline-block">LLMeter</span>
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
@@ -28,7 +25,6 @@ export default function HomePage() {
               {/* Add search later */}
             </div>
             <nav className="flex items-center space-x-2">
-              <ThemeToggle />
               <Button variant="ghost" asChild>
                 <Link href="/login">Log in</Link>
               </Button>
@@ -44,9 +40,13 @@ export default function HomePage() {
         {/* Hero */}
         <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-            <span className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium">
-              Open Source AI Cost Monitor
-            </span>
+            <Link
+              href="https://twitter.com/llmeter"
+              className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+              target="_blank"
+            >
+              Follow along on Twitter
+            </Link>
             <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               Control your AI spend across all providers.
             </h1>
@@ -74,55 +74,55 @@ export default function HomePage() {
               Everything you need to manage AI costs effectively.
             </p>
           </div>
-          <div className="mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-[64rem]">
-            <Card className="overflow-hidden">
-              <CardHeader className="p-6">
-                <LayoutDashboard className="h-10 w-10 mb-2 shrink-0" />
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <LayoutDashboard className="h-10 w-10 mb-2" />
                 <CardTitle>Unified Dashboard</CardTitle>
                 <CardDescription>
                   View all your AI usage in one place. No more switching tabs between OpenAI and Anthropic.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="overflow-hidden">
-              <CardHeader className="p-6">
-                <Shield className="h-10 w-10 mb-2 shrink-0" />
+            <Card>
+              <CardHeader>
+                <Shield className="h-10 w-10 mb-2" />
                 <CardTitle>Budget Alerts</CardTitle>
                 <CardDescription>
                   Set daily or monthly spend limits. Get notified before you get a surprise bill.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="overflow-hidden">
-              <CardHeader className="p-6">
-                <Zap className="h-10 w-10 mb-2 shrink-0" />
+            <Card>
+              <CardHeader>
+                <Zap className="h-10 w-10 mb-2" />
                 <CardTitle>Optimization</CardTitle>
                 <CardDescription>
                   Get actionable recommendations to switch models and save up to 40% on costs.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="overflow-hidden">
-              <CardHeader className="p-6">
-                <LineChart className="h-10 w-10 mb-2 shrink-0" />
+            <Card>
+              <CardHeader>
+                <LineChart className="h-10 w-10 mb-2" />
                 <CardTitle>Usage Trends</CardTitle>
                 <CardDescription>
                   Analyze token usage over time. Spot anomalies and unexpected spikes instantly.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="overflow-hidden">
-              <CardHeader className="p-6">
-                <BarChart3 className="h-10 w-10 mb-2 shrink-0" />
+            <Card>
+              <CardHeader>
+                <BarChart3 className="h-10 w-10 mb-2" />
                 <CardTitle>Cost Breakdown</CardTitle>
                 <CardDescription>
                   See exactly which models and endpoints are driving your costs.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="overflow-hidden">
-              <CardHeader className="p-6">
-                <ArrowRight className="h-10 w-10 mb-2 shrink-0" />
+            <Card>
+              <CardHeader>
+                <ArrowRight className="h-10 w-10 mb-2" />
                 <CardTitle>Easy Export</CardTitle>
                 <CardDescription>
                   Download your data as CSV for further analysis in Excel or Google Sheets.
@@ -142,7 +142,7 @@ export default function HomePage() {
               Choose the plan that&apos;s right for you.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
             {/* Free Plan */}
             <Card className="flex flex-col">
               <CardHeader>

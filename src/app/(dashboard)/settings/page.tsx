@@ -1,6 +1,21 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { createClient } from '@/lib/supabase/server';
+import { SettingsClient } from './settings-client';
+import { User, Calendar, Shield } from 'lucide-react';
+import { format } from 'date-fns';
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const userData = {
+    name: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User',
+    email: user?.email || '',
+    image: user?.user_metadata?.avatar_url || null,
+    provider: user?.app_metadata?.provider || 'email',
+    createdAt: user?.created_at || '',
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -10,19 +25,50 @@ export default function SettingsPage() {
         </p>
       </div>
 
+      {/* Profile */}
       <Card>
         <CardHeader>
-          <CardTitle>Account</CardTitle>
+          <CardTitle>Profile</CardTitle>
           <CardDescription>
-            Your account details and subscription
+            Your account information
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Account settings will be available after Supabase Auth is configured.
-          </p>
+        <CardContent className="space-y-6">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <User className="h-8 w-8" />
+            </div>
+            <div>
+              <h3 className="text-lg font-medium">{userData.name}</h3>
+              <p className="text-sm text-muted-foreground">{userData.email}</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex items-center gap-3 rounded-lg border p-3">
+              <Shield className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Auth Provider</p>
+                <p className="text-xs text-muted-foreground capitalize">{userData.provider}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 rounded-lg border p-3">
+              <Calendar className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Member Since</p>
+                <p className="text-xs text-muted-foreground">
+                  {userData.createdAt
+                    ? format(new Date(userData.createdAt), 'MMMM d, yyyy')
+                    : '\u2014'}
+                </p>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
+
+      {/* Client-side settings (theme, sign out) */}
+      <SettingsClient />
     </div>
   );
 }

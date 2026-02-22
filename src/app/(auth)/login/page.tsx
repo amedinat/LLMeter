@@ -15,7 +15,7 @@ export default async function LoginPage({
   const defaultTab = tab === 'password' ? 'password' : 'magic-link';
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">LLMeter</CardTitle>
@@ -26,13 +26,13 @@ export default async function LoginPage({
         <CardContent>
           {error && (
             <div className="mb-4 flex items-center gap-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive dark:bg-destructive/25">
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="h-4 w-4 shrink-0" />
               <p>{error}</p>
             </div>
           )}
           {message && (
             <div className="mb-4 flex items-center gap-2 rounded-md bg-green-50 p-3 text-sm text-green-900 dark:bg-green-900/20 dark:text-green-300">
-              <CheckCircle2 className="h-4 w-4" />
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
               <p>{message}</p>
             </div>
           )}
