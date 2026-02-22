@@ -39,7 +39,7 @@ export const pollUsage = inngest.createFunction(
   { id: 'poll-usage', name: 'Poll Provider Usage Data' },
   { cron: '0 * * * *' },
   async ({ step, logger }) => {
-    const supabase = createAdminClient('inngest:sync-provider-usage');
+    const supabase = createAdminClient();
 
     // Step 1: Fetch active providers
     const providers = await step.run('fetch-active-providers', async () => {
@@ -150,7 +150,7 @@ export const checkAlerts = inngest.createFunction(
   { id: 'check-alerts', name: 'Check Budget Alerts' },
   { cron: '0 */6 * * *' },
   async ({ step, logger }) => {
-    const supabase = createAdminClient('inngest:check-budget-alerts');
+    const supabase = createAdminClient();
 
     const alerts = await step.run('fetch-enabled-alerts', async () => {
       const { data, error } = await supabase
@@ -290,7 +290,7 @@ export const syncNewProvider = inngest.createFunction(
       userId: string;
     };
 
-    const supabase = createAdminClient('inngest:sync-provider-usage');
+    const supabase = createAdminClient();
 
     // Mark as syncing
     await step.run('mark-syncing', async () => {

@@ -6,6 +6,20 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 /**
+ * Detect the origin URL dynamically from request headers.
+ * Works on Vercel (x-forwarded-host) and locally (host).
+ */
+async function getOrigin(): Promise<string> {
+  const hdrs = await headers();
+  const host =
+    hdrs.get('x-forwarded-host') ||
+    hdrs.get('host') ||
+    'localhost:3000';
+  const proto = hdrs.get('x-forwarded-proto') || 'http';
+  return `${proto}://${host}`;
+}
+
+/**
  * Extract client IP from request headers for rate limiting.
  */
 async function getClientIP(): Promise<string> {
@@ -15,20 +29,6 @@ async function getClientIP(): Promise<string> {
     hdrs.get('x-real-ip') ||
     'unknown'
   );
-}
-
-/**
- * Get the base URL for auth redirects.
- * Uses x-forwarded-host (Vercel) or falls back to NEXT_PUBLIC_APP_URL.
- */
-async function getBaseUrl(): Promise<string> {
-  const hdrs = await headers();
-  const host = hdrs.get('x-forwarded-host') || hdrs.get('host');
-  if (host) {
-    const proto = hdrs.get('x-forwarded-proto') || 'https';
-    return `${proto}://${host}`;
-  }
-  return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 }
 
 export async function loginWithMagicLink(formData: FormData): Promise<void> {
@@ -47,12 +47,13 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
     redirect('/login?error=Too many requests. Please try again later.');
   }
 
+  const origin = await getOrigin();
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${await getBaseUrl()}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   });
 
@@ -63,23 +64,26 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
   redirect('/login?message=Check your email for a magic link');
 }
 
-export async function loginWithGoogle(): Promise<void> {
+export async function loginWithPassword(formData: FormData): Promise<void> {
+  const email = (formData.get('email') as string)?.trim().toLowerCase();
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    redirect('/login?error=Email and password are required&tab=password');
+  }
+
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: `${await getBaseUrl()}/auth/callback`,
-    },
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}`);
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
   }
 
-  if (data.url) {
-    redirect(data.url);
-  }
+  redirect('/dashboard');
 }
 
 export async function signUpWithPassword(formData: FormData): Promise<void> {
@@ -94,18 +98,14 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
     redirect('/login?error=Password must be at least 8 characters&tab=password');
   }
 
-  const ip = await getClientIP();
-  const rl = checkRateLimit(`signup:ip:${ip}`, MAGIC_LINK_LIMIT);
-  if (!rl.success) {
-    redirect('/login?error=Too many requests. Please try again later.&tab=password');
-  }
-
+  const origin = await getOrigin();
   const supabase = await createClient();
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${await getBaseUrl()}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   });
 
@@ -116,31 +116,24 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
   redirect('/login?message=Check your email to confirm your account&tab=password');
 }
 
-export async function loginWithPassword(formData: FormData): Promise<void> {
-  const email = (formData.get('email') as string)?.trim().toLowerCase();
-  const password = formData.get('password') as string;
-
-  if (!email || !password) {
-    redirect('/login?error=Email and password are required&tab=password');
-  }
-
-  const ip = await getClientIP();
-  const rl = checkRateLimit(`login:ip:${ip}`, MAGIC_LINK_LIMIT);
-  if (!rl.success) {
-    redirect('/login?error=Too many requests. Please try again later.&tab=password');
-  }
-
+export async function loginWithGoogle(): Promise<void> {
+  const origin = await getOrigin();
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+    redirect(`/login?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect('/dashboard');
+  if (data.url) {
+    redirect(data.url);
+  }
 }
 
 export async function logout(): Promise<void> {

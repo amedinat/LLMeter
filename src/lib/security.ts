@@ -43,6 +43,26 @@ export function isStaticFile(pathname: string): boolean {
  * @param fallback - Fallback URL if validation fails (default: '/dashboard')
  * @returns A safe redirect path
  */
+/**
+ * Verify that the request includes the custom CSRF header.
+ * Browsers won't send custom headers in cross-origin simple requests,
+ * so this acts as a lightweight CSRF protection.
+ */
+export function verifyCsrfHeader(request: Request): boolean {
+  return request.headers.get('x-requested-with') === 'XMLHttpRequest' ||
+    request.headers.get('content-type')?.includes('application/json') === true;
+}
+
+/**
+ * Return a 403 Forbidden response for CSRF violations.
+ */
+export function csrfForbiddenResponse(): Response {
+  return new Response(JSON.stringify({ error: 'CSRF validation failed' }), {
+    status: 403,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
 export function safeRedirect(url: string | null | undefined, fallback = '/dashboard'): string {
   if (!url || typeof url !== 'string') return fallback;
 
@@ -65,31 +85,4 @@ export function safeRedirect(url: string | null | undefined, fallback = '/dashbo
   if (colonIndex !== -1 && (slashIndex === -1 || colonIndex < slashIndex)) return fallback;
 
   return trimmed;
-}
-
-/**
- * Verify CSRF protection via custom header check.
- *
- * Browsers enforce that cross-origin requests with custom headers require
- * a CORS preflight. Since our API doesn't allow cross-origin requests,
- * a malicious site cannot send a request with `X-Requested-With`.
- *
- * All state-changing API calls from our frontend must include:
- *   `X-Requested-With: LLMeter`
- *
- * @param request - The incoming request to check
- * @returns true if the request includes the required CSRF header
- */
-export function verifyCsrfHeader(request: Request): boolean {
-  return request.headers.get('x-requested-with') === 'LLMeter';
-}
-
-/**
- * Return a 403 response for failed CSRF checks.
- */
-export function csrfForbiddenResponse() {
-  return new Response(
-    JSON.stringify({ error: 'Forbidden: missing or invalid CSRF header' }),
-    { status: 403, headers: { 'Content-Type': 'application/json' } }
-  );
 }

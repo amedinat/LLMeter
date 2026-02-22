@@ -37,17 +37,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      {
-        // Supabase PKCE: when magic link sends ?code= to root, forward to /auth/callback
-        source: '/',
-        has: [{ type: 'query', key: 'code', value: '(?<code>.*)' }],
-        destination: '/auth/callback?code=:code',
-        permanent: false,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
