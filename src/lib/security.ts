@@ -43,6 +43,26 @@ export function isStaticFile(pathname: string): boolean {
  * @param fallback - Fallback URL if validation fails (default: '/dashboard')
  * @returns A safe redirect path
  */
+/**
+ * Verify that the request includes the custom CSRF header.
+ * Browsers won't send custom headers in cross-origin simple requests,
+ * so this acts as a lightweight CSRF protection.
+ */
+export function verifyCsrfHeader(request: Request): boolean {
+  return request.headers.get('x-requested-with') === 'XMLHttpRequest' ||
+    request.headers.get('content-type')?.includes('application/json') === true;
+}
+
+/**
+ * Return a 403 Forbidden response for CSRF violations.
+ */
+export function csrfForbiddenResponse(): Response {
+  return new Response(JSON.stringify({ error: 'CSRF validation failed' }), {
+    status: 403,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
 export function safeRedirect(url: string | null | undefined, fallback = '/dashboard'): string {
   if (!url || typeof url !== 'string') return fallback;
 
