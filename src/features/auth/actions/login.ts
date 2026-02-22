@@ -17,6 +17,20 @@ async function getClientIP(): Promise<string> {
   );
 }
 
+/**
+ * Get the base URL for auth redirects.
+ * Uses x-forwarded-host (Vercel) or falls back to NEXT_PUBLIC_APP_URL.
+ */
+async function getBaseUrl(): Promise<string> {
+  const hdrs = await headers();
+  const host = hdrs.get('x-forwarded-host') || hdrs.get('host');
+  if (host) {
+    const proto = hdrs.get('x-forwarded-proto') || 'https';
+    return `${proto}://${host}`;
+  }
+  return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+}
+
 export async function loginWithMagicLink(formData: FormData): Promise<void> {
   const email = (formData.get('email') as string)?.trim().toLowerCase();
 
@@ -38,7 +52,7 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      emailRedirectTo: `${await getBaseUrl()}/auth/callback`,
     },
   });
 
@@ -55,7 +69,7 @@ export async function loginWithGoogle(): Promise<void> {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      redirectTo: `${await getBaseUrl()}/auth/callback`,
     },
   });
 
