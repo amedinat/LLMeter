@@ -6,6 +6,20 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 /**
+ * Detect the origin URL dynamically from request headers.
+ * Works on Vercel (x-forwarded-host) and locally (host).
+ */
+async function getOrigin(): Promise<string> {
+  const hdrs = await headers();
+  const host =
+    hdrs.get('x-forwarded-host') ||
+    hdrs.get('host') ||
+    'localhost:3000';
+  const proto = hdrs.get('x-forwarded-proto') || 'http';
+  return `${proto}://${host}`;
+}
+
+/**
  * Extract client IP from request headers for rate limiting.
  */
 async function getClientIP(): Promise<string> {
@@ -33,12 +47,13 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
     redirect('/login?error=Too many requests. Please try again later.');
   }
 
+  const origin = await getOrigin();
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   });
 
@@ -49,13 +64,66 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
   redirect('/login?message=Check your email for a magic link');
 }
 
+export async function loginWithPassword(formData: FormData): Promise<void> {
+  const email = (formData.get('email') as string)?.trim().toLowerCase();
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    redirect('/login?error=Email and password are required&tab=password');
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+  }
+
+  redirect('/dashboard');
+}
+
+export async function signUpWithPassword(formData: FormData): Promise<void> {
+  const email = (formData.get('email') as string)?.trim().toLowerCase();
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    redirect('/login?error=Email and password are required&tab=password');
+  }
+
+  if (password.length < 8) {
+    redirect('/login?error=Password must be at least 8 characters&tab=password');
+  }
+
+  const origin = await getOrigin();
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+  }
+
+  redirect('/login?message=Check your email to confirm your account&tab=password');
+}
+
 export async function loginWithGoogle(): Promise<void> {
+  const origin = await getOrigin();
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      redirectTo: `${origin}/auth/callback`,
     },
   });
 
