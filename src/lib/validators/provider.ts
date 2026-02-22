@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const providerTypes = ['openai', 'anthropic', 'google', 'deepseek'] as const;
 
 export const connectProviderSchema = z.object({
-  provider: z.enum(providerTypes),
+  provider: z.enum(providerTypes, { errorMap: () => ({ message: 'Please select a provider' }) }),
   apiKey: z.string().trim().min(10, 'API key is too short').max(500, 'API key is too long'),
   displayName: z.string().trim().max(100).optional(),
 });

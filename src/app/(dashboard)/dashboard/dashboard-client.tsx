@@ -1,14 +1,14 @@
 'use client';
 
-import { useMemo } from 'react';
 import { StatsGrid, SpendLineChart, UsageTable } from '@/features/dashboard/components';
-import { generateDailySpend, generateSpendSummary } from '@/lib/fixtures';
+import type { SpendSummary, DailySpend } from '@/types';
 
-export function DashboardClient() {
-  // Use useMemo to avoid regenerating random data on each render
-  const summary = useMemo(() => generateSpendSummary(), []);
-  const dailyData = useMemo(() => generateDailySpend(90), []);
+interface DashboardClientProps {
+  summary: SpendSummary;
+  dailyData: DailySpend[];
+}
 
+export function DashboardClient({ summary, dailyData }: DashboardClientProps) {
   return (
     <div className="space-y-6">
       <div>
