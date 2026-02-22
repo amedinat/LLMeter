@@ -39,8 +39,10 @@ export default async function DashboardLayout({
             <SidebarNav />
           </nav>
         </div>
-        <div className="mt-auto p-4">
-          {/* Optional footer content */}
+        <div className="mt-auto px-4 pb-3">
+          <span className="text-[10px] text-muted-foreground/40 select-none">
+            {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'dev'}
+          </span>
         </div>
       </aside>
 
