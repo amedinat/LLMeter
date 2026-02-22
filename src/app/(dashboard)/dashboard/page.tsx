@@ -1,7 +1,9 @@
 import { DashboardClient } from './dashboard-client';
+import { getSpendSummary, getDailySpend } from '@/features/dashboard/server/queries';
 
-export default function DashboardPage() {
-  // In production, this will fetch from Supabase via server component
-  // For now, data is generated client-side via fixtures
-  return <DashboardClient />;
+export default async function DashboardPage() {
+  const summary = await getSpendSummary();
+  const dailyData = await getDailySpend();
+
+  return <DashboardClient summary={summary} dailyData={dailyData} />;
 }

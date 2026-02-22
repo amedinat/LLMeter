@@ -40,7 +40,7 @@ import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createAlertSchema, type CreateAlertInput, alertTypes, alertPeriods } from "@/lib/validators/alert";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 
 interface Alert {
@@ -62,7 +62,7 @@ export default function AlertsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
+
 
   const fetchAlerts = useCallback(async () => {
     try {
@@ -72,15 +72,11 @@ export default function AlertsPage() {
       const data = await res.json();
       setAlerts(data.alerts || []);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar las alertas.",
-        variant: "destructive",
-      });
+      toast.error("No se pudieron cargar las alertas.");
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     fetchAlerts();
@@ -114,20 +110,13 @@ export default function AlertsPage() {
         throw new Error(error.error || "Failed to create alert");
       }
 
-      toast({
-        title: "Éxito",
-        description: "Alerta creada correctamente.",
-      });
+      toast.success("Alerta creada correctamente.");
       
       setOpen(false);
       form.reset();
       fetchAlerts();
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error(error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -148,16 +137,9 @@ export default function AlertsPage() {
 
       setAlerts(prev => prev.map(a => a.id === id ? { ...a, enabled: !enabled } : a));
       
-      toast({
-        title: enabled ? "Alerta desactivada" : "Alerta activada",
-        description: `La alerta ha sido ${enabled ? "desactivada" : "activada"} correctamente.`,
-      });
+      toast.success(`Alerta ${enabled ? "desactivada" : "activada"} correctamente.`);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudo actualizar la alerta.",
-        variant: "destructive",
-      });
+      toast.error("No se pudo actualizar la alerta.");
     }
   }
 
@@ -174,16 +156,9 @@ export default function AlertsPage() {
 
       setAlerts(prev => prev.filter(a => a.id !== id));
       
-      toast({
-        title: "Alerta eliminada",
-        description: "La alerta ha sido eliminada permanentemente.",
-      });
+      toast.success("Alerta eliminada permanentemente.");
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudo eliminar la alerta.",
-        variant: "destructive",
-      });
+      toast.error("No se pudo eliminar la alerta.");
     }
   }
 
