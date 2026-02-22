@@ -2,15 +2,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { loginWithMagicLink } from '@/features/auth/actions/login';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { loginWithMagicLink, loginWithPassword, signUpWithPassword } from '@/features/auth/actions/login';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ message?: string; error?: string }>;
+  searchParams: Promise<{ message?: string; error?: string; tab?: string }>;
 }) {
-  const { message, error } = await searchParams;
+  const { message, error, tab } = await searchParams;
+  const defaultTab = tab === 'password' ? 'password' : 'magic-link';
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
@@ -35,21 +37,68 @@ export default async function LoginPage({
             </div>
           )}
 
-          <form action={loginWithMagicLink} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Send Magic Link
-            </Button>
-          </form>
+          <Tabs defaultValue={defaultTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="magic-link">Magic Link</TabsTrigger>
+              <TabsTrigger value="password">Password</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="magic-link" className="space-y-4 pt-4">
+              <form action={loginWithMagicLink} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="magic-email">Email</Label>
+                  <Input
+                    id="magic-email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full">
+                  Send Magic Link
+                </Button>
+              </form>
+              <p className="text-xs text-muted-foreground text-center">
+                We&apos;ll send a login link to your email. No password needed.
+              </p>
+            </TabsContent>
+
+            <TabsContent value="password" className="space-y-4 pt-4">
+              <form action={loginWithPassword} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="login-email">Email</Label>
+                  <Input
+                    id="login-email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="login-password">Password</Label>
+                  <Input
+                    id="login-password"
+                    name="password"
+                    type="password"
+                    placeholder="••••••••"
+                    required
+                    minLength={8}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1">
+                    Sign In
+                  </Button>
+                  <Button type="submit" variant="outline" className="flex-1" formAction={signUpWithPassword}>
+                    Sign Up
+                  </Button>
+                </div>
+              </form>
+            </TabsContent>
+          </Tabs>
+
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />

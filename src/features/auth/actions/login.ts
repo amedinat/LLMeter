@@ -82,6 +82,67 @@ export async function loginWithGoogle(): Promise<void> {
   }
 }
 
+export async function signUpWithPassword(formData: FormData): Promise<void> {
+  const email = (formData.get('email') as string)?.trim().toLowerCase();
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    redirect('/login?error=Email and password are required&tab=password');
+  }
+
+  if (password.length < 8) {
+    redirect('/login?error=Password must be at least 8 characters&tab=password');
+  }
+
+  const ip = await getClientIP();
+  const rl = checkRateLimit(`signup:ip:${ip}`, MAGIC_LINK_LIMIT);
+  if (!rl.success) {
+    redirect('/login?error=Too many requests. Please try again later.&tab=password');
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${await getBaseUrl()}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+  }
+
+  redirect('/login?message=Check your email to confirm your account&tab=password');
+}
+
+export async function loginWithPassword(formData: FormData): Promise<void> {
+  const email = (formData.get('email') as string)?.trim().toLowerCase();
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    redirect('/login?error=Email and password are required&tab=password');
+  }
+
+  const ip = await getClientIP();
+  const rl = checkRateLimit(`login:ip:${ip}`, MAGIC_LINK_LIMIT);
+  if (!rl.success) {
+    redirect('/login?error=Too many requests. Please try again later.&tab=password');
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+  }
+
+  redirect('/dashboard');
+}
+
 export async function logout(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
