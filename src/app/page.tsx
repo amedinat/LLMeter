@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,17 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { BarChart3, Check, LayoutDashboard, Shield, Zap, ArrowRight, LineChart } from 'lucide-react';
 import { ThemeToggle } from '@/components/dashboard/theme-toggle';
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ code?: string }>;
-}) {
-  const params = await searchParams;
+// PKCE ?code= redirect handled in next.config.ts redirects (edge-level)
 
-  // Supabase PKCE: if a ?code= arrives at root, forward to /auth/callback
-  if (params.code) {
-    redirect(`/auth/callback?code=${encodeURIComponent(params.code)}`);
-  }
+export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Header */}
