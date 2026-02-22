@@ -1,104 +1,122 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { connectProviderSchema } from '@/lib/validators/provider';
-import { encryptForDB } from '@/lib/crypto';
-import { getAdapter } from '@/lib/providers';
+import { randomBytes, createCipheriv } from 'crypto';
 
-/**
- * GET /api/providers — List user's connected providers (no keys exposed)
- */
-export async function GET() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+// Use environment variable for key - fallback for types but must be set
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+function encryptApiKey(apiKey: string) {
+  if (!ENCRYPTION_KEY) {
+    throw new Error('ENCRYPTION_KEY not set in environment variables');
   }
 
-  const { data, error } = await supabase
-    .from('providers')
-    .select('id, provider, display_name, status, last_sync_at, last_error, config, created_at, updated_at')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: true });
+  // Key must be 32 bytes (64 hex chars)
+  // If the env var is hex string, convert to buffer.
+  const key = Buffer.from(ENCRYPTION_KEY, 'hex'); 
+  const iv = randomBytes(16); // 16 bytes for AES-GCM
+  const cipher = createCipheriv('aes-256-gcm', key, iv);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  let encrypted = cipher.update(apiKey, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  const tag = cipher.getAuthTag().toString('hex');
 
-  return NextResponse.json({ providers: data });
+  return {
+    encrypted,
+    iv: iv.toString('hex'),
+    tag,
+  };
 }
 
-/**
- * POST /api/providers — Connect a new provider
- * Body: { provider: "openai"|"anthropic", apiKey: "sk-...", displayName?: "My Key" }
- */
-export async function POST(request: Request) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  let body: unknown;
+export async function GET() {
   try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { data, error } = await supabase
+      .from('providers')
+      .select('id, provider, display_name, status, last_sync_at, created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Database error:', error);
+      return NextResponse.json({ error: 'Failed to fetch providers' }, { status: 500 });
+    }
+
+    return NextResponse.json({ providers: data });
+  } catch (error) {
+    console.error('Error fetching providers:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
+}
 
-  const parsed = connectProviderSchema.safeParse(body);
-
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: 'Validation failed', details: parsed.error.flatten() },
-      { status: 400 }
-    );
-  }
-
-  const { provider, apiKey, displayName } = parsed.data;
-
-  // Validate key against provider API before saving
+export async function POST(req: NextRequest) {
   try {
-    const adapter = getAdapter(provider);
-    await adapter.validateKey(apiKey);
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown validation error';
-    return NextResponse.json(
-      { error: `Invalid API Key: ${message}` },
-      { status: 400 }
-    );
-  }
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  // Encrypt the API key
-  const encrypted = encryptForDB(apiKey);
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-  const { data, error } = await supabase
-    .from('providers')
-    .insert({
-      user_id: user.id,
-      provider,
-      display_name: displayName ?? null,
-      ...encrypted,
-      status: 'active',
-    })
-    .select('id, provider, display_name, status, created_at')
-    .single();
+    const body = await req.json();
+    const result = connectProviderSchema.safeParse(body);
 
-  if (error) {
-    // Unique constraint violation = already connected
-    if (error.code === '23505') {
+    if (!result.success) {
       return NextResponse.json(
-        { error: `You already have a ${provider} provider connected. Disconnect it first.` },
-        { status: 409 }
+        { error: 'Invalid input', details: result.error.format() },
+        { status: 400 }
       );
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
 
-  return NextResponse.json({ provider: data }, { status: 201 });
+    const { provider, apiKey, displayName } = result.data;
+    
+    let encryptedData;
+    try {
+      encryptedData = encryptApiKey(apiKey);
+    } catch (err) {
+      console.error('Encryption failed:', err);
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    }
+    
+    const { encrypted, iv, tag } = encryptedData;
+
+    // Upsert provider
+    const { data, error } = await supabase
+      .from('providers')
+      .upsert({
+        user_id: user.id,
+        provider,
+        api_key_encrypted: encrypted,
+        api_key_iv: iv,
+        api_key_tag: tag,
+        display_name: displayName || null,
+        status: 'active',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id, provider' })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Database error:', error);
+      throw error;
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      provider: { 
+        id: data.id, 
+        provider: data.provider, 
+        display_name: data.display_name 
+      } 
+    });
+  } catch (error) {
+    console.error('Error saving provider:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }

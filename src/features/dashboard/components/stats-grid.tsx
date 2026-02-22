@@ -87,7 +87,7 @@ export function StatsGrid({ summary, dailyData }: StatsGridProps) {
   const forecast = Math.round(dailyAvg * daysInMonth * 100) / 100;
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <StatCard
         title="Total Spend (MTD)"
         value={`$${summary.total_spend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
