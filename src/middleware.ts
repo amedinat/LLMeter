@@ -6,7 +6,14 @@ import { isStaticFile } from '@/lib/security';
 const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/api/inngest'];
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
+
+  // If root receives a ?code= param, redirect to /auth/callback (Supabase PKCE flow)
+  if (pathname === '/' && searchParams.has('code')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth/callback';
+    return NextResponse.redirect(url);
+  }
 
   // Skip auth check for public routes and known static file extensions
   if (
