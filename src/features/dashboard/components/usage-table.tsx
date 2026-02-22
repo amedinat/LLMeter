@@ -88,8 +88,8 @@ export function UsageTable({ data, className }: UsageTableProps) {
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Usage by Model</CardTitle>
       </CardHeader>
-      <CardContent>
-        <Table>
+      <CardContent className="overflow-x-auto">
+        <Table className="min-w-[600px]">
           <TableHeader>
             <TableRow>
               <SortableHeader
