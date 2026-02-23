@@ -1,32 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { connectProviderSchema } from '@/lib/validators/provider';
-import { randomBytes, createCipheriv } from 'crypto';
-
-// Use environment variable for key - fallback for types but must be set
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
-
-function encryptApiKey(apiKey: string) {
-  if (!ENCRYPTION_KEY) {
-    throw new Error('ENCRYPTION_KEY not set in environment variables');
-  }
-
-  // Key must be 32 bytes (64 hex chars)
-  // If the env var is hex string, convert to buffer.
-  const key = Buffer.from(ENCRYPTION_KEY, 'hex'); 
-  const iv = randomBytes(16); // 16 bytes for AES-GCM
-  const cipher = createCipheriv('aes-256-gcm', key, iv);
-
-  let encrypted = cipher.update(apiKey, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  const tag = cipher.getAuthTag().toString('hex');
-
-  return {
-    encrypted,
-    iv: iv.toString('hex'),
-    tag,
-  };
-}
+import { encryptForDB } from '@/lib/crypto';
+import { getAdapter, getRegisteredProviders } from '@/lib/providers/registry';
+import { inngest } from '@/lib/inngest/client';
+import type { ProviderType } from '@/types';
 
 export async function GET() {
   try {
@@ -75,16 +53,24 @@ export async function POST(req: NextRequest) {
     }
 
     const { provider, apiKey, displayName } = result.data;
-    
-    let encryptedData;
-    try {
-      encryptedData = encryptApiKey(apiKey);
-    } catch (err) {
-      console.error('Encryption failed:', err);
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+
+    // Validate API key before saving
+    const registeredProviders = getRegisteredProviders();
+    if (registeredProviders.includes(provider as ProviderType)) {
+      try {
+        const adapter = getAdapter(provider as ProviderType);
+        await adapter.validateKey(apiKey);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Invalid API key';
+        return NextResponse.json(
+          { error: `API key validation failed: ${message}` },
+          { status: 422 }
+        );
+      }
     }
-    
-    const { encrypted, iv, tag } = encryptedData;
+
+    // Encrypt the API key
+    const encryptedData = encryptForDB(apiKey);
 
     // Upsert provider
     const { data, error } = await supabase
@@ -92,11 +78,11 @@ export async function POST(req: NextRequest) {
       .upsert({
         user_id: user.id,
         provider,
-        api_key_encrypted: encrypted,
-        api_key_iv: iv,
-        api_key_tag: tag,
+        api_key_encrypted: encryptedData.api_key_encrypted,
+        api_key_iv: encryptedData.api_key_iv,
+        api_key_tag: encryptedData.api_key_tag,
         display_name: displayName || null,
-        status: 'active',
+        status: 'syncing',
         updated_at: new Date().toISOString(),
       }, { onConflict: 'user_id, provider' })
       .select()
@@ -107,13 +93,25 @@ export async function POST(req: NextRequest) {
       throw error;
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      provider: { 
-        id: data.id, 
-        provider: data.provider, 
-        display_name: data.display_name 
-      } 
+    // Trigger initial data sync via Inngest
+    try {
+      await inngest.send({
+        name: 'provider/connected',
+        data: { providerId: data.id, userId: user.id },
+      });
+    } catch (inngestErr) {
+      // Non-blocking: provider saved even if Inngest fails
+      console.warn('Inngest event send failed:', inngestErr);
+    }
+
+    return NextResponse.json({
+      success: true,
+      provider: {
+        id: data.id,
+        provider: data.provider,
+        display_name: data.display_name,
+        status: data.status,
+      }
     });
   } catch (error) {
     console.error('Error saving provider:', error);

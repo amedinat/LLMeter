@@ -2,27 +2,64 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { safeRedirect } from '@/lib/security';
 
+function getRedirectBase(request: Request, origin: string): string {
+  const forwardedHost = request.headers.get('x-forwarded-host');
+  const isLocalEnv = process.env.NODE_ENV === 'development';
+
+  if (isLocalEnv) return origin;
+  if (forwardedHost) return `https://${forwardedHost}`;
+  return origin;
+}
+
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
-  // Validate redirect target to prevent Open Redirect (US-11.2)
+  const tokenHash = searchParams.get('token_hash');
+  const type = searchParams.get('type');
+  const errorDescription = searchParams.get('error_description');
   const next = safeRedirect(searchParams.get('next'));
+  const base = getRedirectBase(request, origin);
 
+  // Handle error from Supabase (e.g., expired magic link)
+  if (errorDescription) {
+    return NextResponse.redirect(
+      `${base}/login?error=${encodeURIComponent(errorDescription)}`,
+      { status: 307 }
+    );
+  }
+
+  // Handle PKCE code exchange (OAuth / Magic Link with code)
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      const forwardedHost = request.headers.get('x-forwarded-host');
-      const isLocalEnv = process.env.NODE_ENV === 'development';
-      if (isLocalEnv) {
-        return NextResponse.redirect(`${origin}${next}`);
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`);
-      } else {
-        return NextResponse.redirect(`${origin}${next}`);
-      }
+      return NextResponse.redirect(`${base}${next}`, { status: 307 });
     }
+    return NextResponse.redirect(
+      `${base}/login?error=${encodeURIComponent(error.message || 'Could not authenticate user')}`,
+      { status: 307 }
+    );
   }
 
-  return NextResponse.redirect(`${origin}/login?error=Could not authenticate user`);
+  // Handle OTP token_hash flow (older magic links)
+  if (tokenHash && type) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash: tokenHash,
+      type: type as 'magiclink' | 'email',
+    });
+    if (!error) {
+      return NextResponse.redirect(`${base}${next}`, { status: 307 });
+    }
+    return NextResponse.redirect(
+      `${base}/login?error=${encodeURIComponent(error.message || 'Could not authenticate user')}`,
+      { status: 307 }
+    );
+  }
+
+  // No valid params
+  return NextResponse.redirect(
+    `${base}/login?error=Could not authenticate user`,
+    { status: 307 }
+  );
 }
