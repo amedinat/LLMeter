@@ -74,7 +74,7 @@ export default function HomePage() {
               Everything you need to manage AI costs effectively.
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+          <div className="mx-auto grid gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
             <Card>
               <CardHeader>
                 <LayoutDashboard className="h-10 w-10 mb-2" />
@@ -221,6 +221,9 @@ export default function HomePage() {
             Built by <a href="https://github.com/amedinat/LLMeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">LLMeter Team</a>.
             The source code is available on <a href="https://github.com/amedinat/LLMeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">GitHub</a>.
           </p>
+          <span className="text-[10px] text-muted-foreground/30 select-none">
+            {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'dev'}
+          </span>
         </div>
       </footer>
     </div>
