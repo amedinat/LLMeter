@@ -3,3 +3,5 @@ export { PROVIDER_META } from './types';
 export type { ProviderAdapter, NormalizedUsageRecord, ProviderMeta } from './types';
 export { openaiAdapter } from './openai-adapter';
 export { anthropicAdapter } from './anthropic-adapter';
+export { googleAdapter } from './google-adapter';
+export { deepseekAdapter } from './deepseek-adapter';
