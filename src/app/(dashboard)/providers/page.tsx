@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Eye, EyeOff, Loader2, Key, Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { Plus, Eye, EyeOff, Loader2, Key, Wifi, WifiOff, RefreshCw, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { providerTypes } from '@/lib/validators/provider';
 
@@ -28,20 +28,13 @@ interface ProviderRow {
   created_at: string;
 }
 
-const connectProviderSchema = z.object({
-  provider: z.enum(['openai', 'anthropic', 'google', 'deepseek']),
-  apiKey: z.string().trim().min(10, 'API key is too short').max(500, 'API key is too long'),
-  displayName: z.string().trim().max(100).optional(),
-});
-
-type ConnectProviderInput = z.infer<typeof connectProviderSchema>;
-
 export default function ProvidersPage() {
   const [providers, setProviders] = useState<ProviderRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [showKey, setShowKey] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Form state
   const [formProvider, setFormProvider] = useState('');
@@ -100,6 +93,27 @@ export default function ProvidersPage() {
       toast.error(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const deleteProvider = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/providers/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to disconnect provider');
+      }
+
+      setProviders((prev) => prev.filter((p) => p.id !== id));
+      toast.success('Provider disconnected');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to disconnect');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -225,13 +239,29 @@ export default function ProvidersPage() {
                 <CardTitle className="text-base font-medium">
                   {p.display_name || providerLabels[p.provider] || p.provider}
                 </CardTitle>
-                {p.status === 'active' ? (
-                  <Wifi className="h-4 w-4 text-green-500" />
-                ) : p.status === 'syncing' ? (
-                  <RefreshCw className="h-4 w-4 animate-spin text-blue-500" />
-                ) : (
-                  <WifiOff className="h-4 w-4 text-red-500" />
-                )}
+                <div className="flex items-center gap-2">
+                  {p.status === 'active' ? (
+                    <Wifi className="h-4 w-4 text-green-500" />
+                  ) : p.status === 'syncing' ? (
+                    <RefreshCw className="h-4 w-4 animate-spin text-blue-500" />
+                  ) : (
+                    <WifiOff className="h-4 w-4 text-red-500" />
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                    onClick={() => deleteProvider(p.id)}
+                    disabled={deletingId === p.id}
+                    aria-label="Disconnect provider"
+                  >
+                    {deletingId === p.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -239,6 +269,11 @@ export default function ProvidersPage() {
                   <span>&middot;</span>
                   <span className="capitalize">{p.status}</span>
                 </div>
+                {p.last_sync_at && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Last sync: {new Date(p.last_sync_at).toLocaleString()}
+                  </p>
+                )}
                 <p className="mt-1 text-xs text-muted-foreground">
                   Connected {new Date(p.created_at).toLocaleDateString()}
                 </p>

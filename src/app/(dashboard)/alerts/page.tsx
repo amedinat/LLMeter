@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Loader2, Bell, BellOff, AlertTriangle, DollarSign } from 'lucide-react';
+import { Plus, Loader2, Bell, BellOff, AlertTriangle, DollarSign, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { alertTypes, alertPeriods } from '@/lib/validators/alert';
 
@@ -42,6 +43,8 @@ export default function AlertsPage() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Form state
   const [formType, setFormType] = useState('');
@@ -103,6 +106,51 @@ export default function AlertsPage() {
       toast.error(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const toggleAlert = async (alert: AlertRow) => {
+    setTogglingId(alert.id);
+    try {
+      const res = await fetch(`/api/alerts/${alert.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled: !alert.enabled }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to update alert');
+      }
+
+      setAlerts((prev) =>
+        prev.map((a) => (a.id === alert.id ? { ...a, enabled: !a.enabled } : a))
+      );
+      toast.success(alert.enabled ? 'Alert disabled' : 'Alert enabled');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to update');
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
+  const deleteAlert = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/alerts/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to delete alert');
+      }
+
+      setAlerts((prev) => prev.filter((a) => a.id !== id));
+      toast.success('Alert deleted');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to delete');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -215,7 +263,7 @@ export default function AlertsPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {alerts.map((a) => (
-            <Card key={a.id}>
+            <Card key={a.id} className={!a.enabled ? 'opacity-60' : ''}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {alertTypeIcons[a.type] || <Bell className="h-4 w-4" />}
@@ -223,11 +271,28 @@ export default function AlertsPage() {
                     {a.name}
                   </CardTitle>
                 </div>
-                {a.enabled ? (
-                  <Bell className="h-4 w-4 text-green-500" />
-                ) : (
-                  <BellOff className="h-4 w-4 text-muted-foreground" />
-                )}
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={a.enabled}
+                    onCheckedChange={() => toggleAlert(a)}
+                    disabled={togglingId === a.id}
+                    aria-label={a.enabled ? 'Disable alert' : 'Enable alert'}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                    onClick={() => deleteAlert(a.id)}
+                    disabled={deletingId === a.id}
+                    aria-label="Delete alert"
+                  >
+                    {deletingId === a.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">

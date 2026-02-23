@@ -22,6 +22,65 @@ function endOfToday(): Date {
   return d;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SupabaseAdmin = any;
+
+/** Trigger an alert: record event, update timestamp, send email */
+async function triggerAlert(
+  supabase: SupabaseAdmin,
+  alert: { id: string; user_id: string; config: unknown },
+  currentValue: number,
+  referenceValue: number,
+  alertType: 'monthly' | 'daily' | 'anomaly',
+  startDate: string
+) {
+  const config = alert.config as { threshold: number; period: string };
+
+  // Fetch top contributors
+  const { data: contributors } = await supabase
+    .from('usage_records')
+    .select('model, cost_usd, providers!inner(provider)')
+    .eq('user_id', alert.user_id)
+    .gte('date', startDate)
+    .order('cost_usd', { ascending: false })
+    .limit(5);
+
+  const topContributors = (contributors ?? []).map((c: { model: string; cost_usd: number; providers: unknown }) => ({
+    model: c.model,
+    provider:
+      (c.providers as { provider: string })?.provider ?? 'unknown',
+    cost: c.cost_usd ?? 0,
+  }));
+
+  const message =
+    alertType === 'anomaly'
+      ? `Anomaly detected: today's spend ($${currentValue.toFixed(2)}) is significantly above average ($${referenceValue.toFixed(2)})`
+      : `${alertType === 'monthly' ? 'Monthly' : 'Daily'} spend ($${currentValue.toFixed(2)}) exceeded threshold ($${referenceValue.toFixed(2)})`;
+
+  // Record the alert event
+  await supabase.from('alert_events').insert({
+    alert_id: alert.id,
+    user_id: alert.user_id,
+    message,
+    data: { currentValue, referenceValue, alertType },
+  });
+
+  // Update last_triggered_at
+  await supabase
+    .from('alerts')
+    .update({ last_triggered_at: new Date().toISOString() })
+    .eq('id', alert.id);
+
+  // Send email notification
+  await sendAlertEmail({
+    userId: alert.user_id,
+    alertType: alertType === 'anomaly' ? 'daily' : alertType,
+    currentSpend: currentValue,
+    threshold: referenceValue,
+    topContributors,
+  });
+}
+
 // ----- Functions -----
 
 /**
@@ -177,24 +236,80 @@ export const checkAlerts = inngest.createFunction(
           providers?: string[];
         };
 
-        // Determine date range
-        const now = new Date();
-        let startDate: string;
+        // Don't re-trigger within 24h
+        if (alert.last_triggered_at) {
+          const lastTriggered = new Date(alert.last_triggered_at).getTime();
+          const hoursSince = (Date.now() - lastTriggered) / (1000 * 60 * 60);
+          if (hoursSince < 24) return false;
+        }
 
+        const now = new Date();
+        const today = now.toISOString().slice(0, 10);
+
+        // ----- Anomaly detection (z-score) -----
+        if (alert.type === 'anomaly') {
+          // Get last 14 days of daily totals
+          const lookbackDate = daysAgo(14).toISOString().slice(0, 10);
+
+          let historyQuery = supabase
+            .from('usage_records')
+            .select('date, cost_usd')
+            .eq('user_id', alert.user_id)
+            .gte('date', lookbackDate);
+
+          if (config.providers && config.providers.length > 0) {
+            historyQuery = historyQuery.in('provider_id', config.providers);
+          }
+
+          const { data: historyRecords, error: histErr } = await historyQuery;
+          if (histErr) {
+            logger.warn(`Anomaly alert ${alert.id} query failed: ${histErr.message}`);
+            return false;
+          }
+
+          // Aggregate by day
+          const dailyTotals: Record<string, number> = {};
+          for (const r of historyRecords ?? []) {
+            dailyTotals[r.date] = (dailyTotals[r.date] ?? 0) + (r.cost_usd ?? 0);
+          }
+
+          const todaySpend = dailyTotals[today] ?? 0;
+          const pastDays = Object.entries(dailyTotals)
+            .filter(([d]) => d !== today)
+            .map(([, v]) => v);
+
+          if (pastDays.length < 3) return false; // Not enough history
+
+          const mean = pastDays.reduce((s, v) => s + v, 0) / pastDays.length;
+          const variance = pastDays.reduce((s, v) => s + (v - mean) ** 2, 0) / pastDays.length;
+          const stdDev = Math.sqrt(variance);
+
+          // z-score threshold: default 2.0, or use config.threshold as multiplier
+          const zThreshold = config.threshold > 0 ? config.threshold : 2.0;
+          const zScore = stdDev > 0 ? (todaySpend - mean) / stdDev : 0;
+
+          if (zScore >= zThreshold) {
+            await triggerAlert(supabase, alert, todaySpend, mean, 'anomaly', today);
+            return true;
+          }
+
+          return false;
+        }
+
+        // ----- Budget limit / Daily threshold -----
+        let startDate: string;
         if (config.period === 'monthly') {
           startDate = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}-01`;
         } else {
-          startDate = now.toISOString().slice(0, 10);
+          startDate = today;
         }
 
-        // Sum usage for the period
         let query = supabase
           .from('usage_records')
           .select('cost_usd')
           .eq('user_id', alert.user_id)
           .gte('date', startDate);
 
-        // Filter by specific providers if configured
         if (config.providers && config.providers.length > 0) {
           query = query.in('provider_id', config.providers);
         }
@@ -211,53 +326,14 @@ export const checkAlerts = inngest.createFunction(
         );
 
         if (totalSpend >= config.threshold) {
-          // Don't re-trigger within 24h
-          if (alert.last_triggered_at) {
-            const lastTriggered = new Date(alert.last_triggered_at).getTime();
-            const hoursSince = (Date.now() - lastTriggered) / (1000 * 60 * 60);
-            if (hoursSince < 24) return false;
-          }
-
-          // Fetch top contributors for the email context
-          const { data: contributors } = await supabase
-            .from('usage_records')
-            .select('model, cost_usd, providers!inner(provider)')
-            .eq('user_id', alert.user_id)
-            .gte('date', startDate)
-            .order('cost_usd', { ascending: false })
-            .limit(5);
-
-          const topContributors = (contributors ?? []).map((c) => ({
-            model: c.model,
-            provider:
-              (c.providers as unknown as { provider: string })?.provider ??
-              'unknown',
-            cost: c.cost_usd ?? 0,
-          }));
-
-          // Record the alert event
-          await supabase.from('alert_events').insert({
-            alert_id: alert.id,
-            user_id: alert.user_id,
-            message: `${config.period === 'monthly' ? 'Monthly' : 'Daily'} spend ($${totalSpend.toFixed(2)}) exceeded threshold ($${config.threshold.toFixed(2)})`,
-            data: { totalSpend, threshold: config.threshold, period: config.period },
-          });
-
-          // Update last_triggered_at
-          await supabase
-            .from('alerts')
-            .update({ last_triggered_at: new Date().toISOString() })
-            .eq('id', alert.id);
-
-          // Send email notification via Resend
-          await sendAlertEmail({
-            userId: alert.user_id,
-            alertType: config.period === 'monthly' ? 'monthly' : 'daily',
-            currentSpend: totalSpend,
-            threshold: config.threshold,
-            topContributors,
-          });
-
+          await triggerAlert(
+            supabase,
+            alert,
+            totalSpend,
+            config.threshold,
+            config.period === 'monthly' ? 'monthly' : 'daily',
+            startDate
+          );
           return true;
         }
 
