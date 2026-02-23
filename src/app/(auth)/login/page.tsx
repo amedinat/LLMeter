@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { loginWithMagicLink, loginWithPassword, signUpWithPassword } from '@/features/auth/actions/login';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function LoginPage({
   searchParams,
@@ -18,7 +19,9 @@ export default async function LoginPage({
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">LLMeter</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            <Link href="/" className="hover:opacity-80 transition-opacity">LLMeter</Link>
+          </CardTitle>
           <CardDescription>
             Monitor your AI API costs in one place
           </CardDescription>
