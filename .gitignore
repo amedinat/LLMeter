@@ -78,3 +78,9 @@ logs
 tmp/
 temp/
 *.tmp
+*.seed
+scripts/setup-test-user.ts
+
+# Test artifacts
+test-results/
+e2e/screenshots/
