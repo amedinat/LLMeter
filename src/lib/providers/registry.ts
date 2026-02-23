@@ -2,6 +2,8 @@ import type { ProviderType } from '@/types';
 import type { ProviderAdapter } from './types';
 import { openaiAdapter } from './openai-adapter';
 import { anthropicAdapter } from './anthropic-adapter';
+import { googleAdapter } from './google-adapter';
+import { deepseekAdapter } from './deepseek-adapter';
 
 /**
  * Provider adapter registry.
@@ -12,6 +14,8 @@ const adapters = new Map<ProviderType, ProviderAdapter>();
 // Register built-in adapters
 adapters.set('openai', openaiAdapter);
 adapters.set('anthropic', anthropicAdapter);
+adapters.set('google', googleAdapter);
+adapters.set('deepseek', deepseekAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
