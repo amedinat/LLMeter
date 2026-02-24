@@ -1,14 +1,5 @@
-import type { Plan } from '@/types';
-import { createClient } from '@/lib/supabase/server';
-
-export type Feature =
-  | 'multi-provider'
-  | 'unlimited-history'
-  | 'anomaly-detection'
-  | 'team-attribution'
-  | 'single-provider'
-  | 'budget-alerts'
-  | 'csv-export';
+import { Plan } from "@/types";
+import { createClient } from "@/lib/supabase/server";
 
 export interface PlanLimits {
   maxProviders: number;
@@ -22,64 +13,47 @@ export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
     maxProviders: 1,
     maxAlerts: 3,
     retentionDays: 30,
-    allowedAlertTypes: ['budget_limit', 'daily_threshold'],
+    allowedAlertTypes: ["budget_limit", "daily_threshold"],
   },
   pro: {
     maxProviders: Infinity,
     maxAlerts: Infinity,
     retentionDays: 365,
-    allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+    allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
   },
   team: {
     maxProviders: Infinity,
     maxAlerts: Infinity,
-    retentionDays: Infinity,
-    allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+    retentionDays: 365,
+    allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
   },
   enterprise: {
     maxProviders: Infinity,
     maxAlerts: Infinity,
-    retentionDays: Infinity,
-    allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+    retentionDays: 730,
+    allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
   },
 };
 
-const PLAN_FEATURES: Record<Plan, Set<Feature>> = {
-  free: new Set(['single-provider', 'budget-alerts']),
-  pro: new Set([
-    'single-provider',
-    'multi-provider',
-    'budget-alerts',
-    'csv-export',
-    'unlimited-history',
-    'anomaly-detection',
-  ]),
-  team: new Set([
-    'single-provider',
-    'multi-provider',
-    'budget-alerts',
-    'csv-export',
-    'unlimited-history',
-    'anomaly-detection',
-    'team-attribution',
-  ]),
-  enterprise: new Set([
-    'single-provider',
-    'multi-provider',
-    'budget-alerts',
-    'csv-export',
-    'unlimited-history',
-    'anomaly-detection',
-    'team-attribution',
-  ]),
-};
-
 export function getPlanLimits(plan: Plan): PlanLimits {
-  return PLAN_LIMITS[plan];
+  return PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
 }
 
-export function hasFeature(plan: Plan, feature: Feature): boolean {
-  return PLAN_FEATURES[plan].has(feature);
+export function canCreateProvider(plan: Plan, currentCount: number): boolean {
+  const limits = getPlanLimits(plan);
+  return currentCount < limits.maxProviders;
+}
+
+export function canCreateAlert(plan: Plan, currentCount: number): boolean {
+  const limits = getPlanLimits(plan);
+  return currentCount < limits.maxAlerts;
+}
+
+export function getRetentionDate(plan: Plan): Date {
+  const limits = getPlanLimits(plan);
+  const date = new Date();
+  date.setDate(date.getDate() - limits.retentionDays);
+  return date;
 }
 
 export async function getUserPlan(): Promise<Plan> {
@@ -88,13 +62,19 @@ export async function getUserPlan(): Promise<Plan> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return 'free';
+  if (!user) {
+    return "free";
+  }
 
-  const { data } = await supabase
-    .from('users')
-    .select('plan')
-    .eq('id', user.id)
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("plan")
+    .eq("id", user.id)
     .single();
 
-  return (data?.plan as Plan) ?? 'free';
+  if (error || !data) {
+    return "free";
+  }
+
+  return (data.plan as Plan) || "free";
 }

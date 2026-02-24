@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { startOfMonth, subMonths, format, endOfMonth } from 'date-fns';
+import { getUserPlan, getRetentionDate } from '@/lib/feature-gate';
 import type { SpendSummary, DailySpend, ProviderType } from '@/types';
 
 export async function getSpendSummary(): Promise<SpendSummary> {
@@ -10,10 +11,24 @@ export async function getSpendSummary(): Promise<SpendSummary> {
     throw new Error('User not authenticated');
   }
 
+  const plan = await getUserPlan();
+  const retentionDate = getRetentionDate(plan);
+  const retentionDateStr = format(retentionDate, 'yyyy-MM-dd');
+
   const now = new Date();
-  const currentMonthStart = format(startOfMonth(now), 'yyyy-MM-dd');
-  const prevMonthStart = format(startOfMonth(subMonths(now, 1)), 'yyyy-MM-dd');
+  const currentMonthStartRaw = startOfMonth(now);
+  const currentMonthStart = format(currentMonthStartRaw, 'yyyy-MM-dd');
+  
+  const prevMonthStartRaw = startOfMonth(subMonths(now, 1));
+  const prevMonthStart = format(prevMonthStartRaw, 'yyyy-MM-dd');
   const prevMonthEnd = format(endOfMonth(subMonths(now, 1)), 'yyyy-MM-dd');
+
+  // Apply retention filter
+  const effectiveCurrentStart = retentionDateStr > currentMonthStart ? retentionDateStr : currentMonthStart;
+  const effectivePrevStart = retentionDateStr > prevMonthStart ? retentionDateStr : prevMonthStart;
+  
+  // If retention date is after the end of previous month, previous month data is not available
+  const prevMonthAvailable = retentionDateStr <= prevMonthEnd;
 
   // Fetch current month data
   const { data: currentData, error: currentError } = await supabase
@@ -25,7 +40,7 @@ export async function getSpendSummary(): Promise<SpendSummary> {
       provider:providers(provider, display_name)
     `)
     .eq('user_id', user.id)
-    .gte('date', currentMonthStart);
+    .gte('date', effectiveCurrentStart);
 
   if (currentError) {
     console.error('Error fetching current month usage:', currentError);
@@ -33,20 +48,25 @@ export async function getSpendSummary(): Promise<SpendSummary> {
   }
 
   // Fetch previous month data for comparison
-  const { data: prevData, error: prevError } = await supabase
-    .from('usage_records')
-    .select('cost_usd')
-    .eq('user_id', user.id)
-    .gte('date', prevMonthStart)
-    .lte('date', prevMonthEnd);
+  let prevData: { cost_usd: number }[] = [];
+  if (prevMonthAvailable) {
+    const { data, error: prevError } = await supabase
+      .from('usage_records')
+      .select('cost_usd')
+      .eq('user_id', user.id)
+      .gte('date', effectivePrevStart)
+      .lte('date', prevMonthEnd);
 
-  if (prevError) {
-    console.error('Error fetching previous month usage:', prevError);
+    if (prevError) {
+      console.error('Error fetching previous month usage:', prevError);
+    } else {
+      prevData = data || [];
+    }
   }
 
   // Calculate totals
   const totalSpend = currentData.reduce((sum, r) => sum + (r.cost_usd || 0), 0);
-  const prevSpend = prevData?.reduce((sum, r) => sum + (r.cost_usd || 0), 0) || 0;
+  const prevSpend = prevData.reduce((sum, r) => sum + (r.cost_usd || 0), 0);
   
   // Avoid division by zero
   const changePct = prevSpend === 0 
@@ -107,8 +127,14 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
 
   if (!user) return [];
 
+  const plan = await getUserPlan();
+  const retentionDate = getRetentionDate(plan);
+  const retentionDateStr = format(retentionDate, 'yyyy-MM-dd');
+
   const now = new Date();
   const startDate = format(new Date(now.setDate(now.getDate() - days)), 'yyyy-MM-dd');
+
+  const effectiveStartDate = retentionDateStr > startDate ? retentionDateStr : startDate;
 
   const { data, error } = await supabase
     .from('usage_records')
@@ -118,7 +144,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
       provider:providers(provider)
     `)
     .eq('user_id', user.id)
-    .gte('date', startDate)
+    .gte('date', effectiveStartDate)
     .order('date', { ascending: true });
 
   if (error) {
