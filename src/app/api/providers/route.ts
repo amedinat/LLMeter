@@ -9,7 +9,7 @@ import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { getUserPlan, getPlanLimits } from '@/lib/feature-gate';
 import type { ProviderType } from '@/types';
 
-const PROVIDER_API_LIMIT = { maxRequests: 30, windowMs: 60_000 };
+const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60_000 };
 
 export async function GET() {
   try {
