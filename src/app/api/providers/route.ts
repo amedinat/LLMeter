@@ -4,7 +4,12 @@ import { connectProviderSchema } from '@/lib/validators/provider';
 import { encryptForDB } from '@/lib/crypto';
 import { getAdapter, getRegisteredProviders } from '@/lib/providers/registry';
 import { inngest } from '@/lib/inngest/client';
+import { checkRateLimit } from '@/lib/rate-limit';
+import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
+import { getUserPlan, getPlanLimits } from '@/lib/feature-gate';
 import type { ProviderType } from '@/types';
+
+const PROVIDER_API_LIMIT = { maxRequests: 30, windowMs: 60_000 };
 
 export async function GET() {
   try {
@@ -33,13 +38,52 @@ export async function GET() {
   }
 }
 
+/**
+ * POST /api/providers — Connect a new provider
+ * Body: { provider: "openai"|"anthropic", apiKey: "sk-...", displayName?: "My Key" }
+ */
 export async function POST(req: NextRequest) {
+  if (!verifyCsrfHeader(req)) {
+    return csrfForbiddenResponse();
+  }
+
   try {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Rate limit by user ID
+    const rl = checkRateLimit(`providers:${user.id}`, PROVIDER_API_LIMIT);
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+      );
+    }
+
+    // Enforce plan provider limit
+    const plan = await getUserPlan();
+    const limits = getPlanLimits(plan);
+    if (limits.maxProviders !== Infinity) {
+      const { count, error: countError } = await supabase
+        .from('providers')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', user.id);
+
+      if (countError) {
+        console.error('POST /api/providers count error:', countError.message);
+        return NextResponse.json({ error: 'Failed to check provider limit' }, { status: 500 });
+      }
+
+      if ((count ?? 0) >= limits.maxProviders) {
+        return NextResponse.json(
+          { error: `Your ${plan} plan allows a maximum of ${limits.maxProviders} provider(s). Upgrade to add more.` },
+          { status: 403 }
+        );
+      }
     }
 
     const body = await req.json();

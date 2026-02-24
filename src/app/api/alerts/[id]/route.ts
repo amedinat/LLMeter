@@ -43,7 +43,8 @@ export async function PATCH(
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const parsed = updateAlertSchema.safeParse({ id, ...(body as Record<string, unknown>) });
+  const mergedBody = typeof body === 'object' && body !== null ? { id, ...body as Record<string, unknown> } : { id };
+  const parsed = updateAlertSchema.safeParse(mergedBody);
   if (!parsed.success) {
     return NextResponse.json(
       { error: 'Validation failed', details: parsed.error.flatten() },
