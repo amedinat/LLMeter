@@ -1,14 +1,43 @@
 import type { ProviderAdapter, NormalizedUsageRecord } from './types';
 
 /**
- * Anthropic Usage API adapter.
- * Uses the /v1/organizations/{org_id}/usage endpoint (admin key required).
+ * Anthropic Usage & Cost API adapter.
+ * Uses the Admin API: /v1/organizations/usage_report/messages
+ * Requires an Admin API key (sk-ant-admin-...).
+ * Docs: https://platform.claude.com/docs/en/api/usage-cost-api
  */
 export const anthropicAdapter: ProviderAdapter = {
   type: 'anthropic',
 
   async validateKey(apiKey: string): Promise<boolean> {
-    // Validate using count_tokens endpoint (free, no token consumption)
+    const isAdminKey = apiKey.startsWith('sk-ant-admin');
+
+    if (isAdminKey) {
+      // Validate admin key by hitting a lightweight admin endpoint (list API keys, limit 1)
+      const res = await fetch(
+        'https://api.anthropic.com/v1/organizations/api_keys?limit=1',
+        {
+          headers: {
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        if (res.status === 401 || res.status === 403) {
+          throw new Error(
+            body?.error?.message ?? 'Invalid Anthropic Admin API key'
+          );
+        }
+        // Other errors (404, 500) — auth likely worked
+      }
+
+      return true;
+    }
+
+    // Regular key — validate using count_tokens endpoint (free, no token consumption)
     const res = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {
       method: 'POST',
       headers: {
@@ -17,7 +46,7 @@ export const anthropicAdapter: ProviderAdapter = {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-haiku-3.5',
+        model: 'claude-3-5-haiku-latest',
         messages: [{ role: 'user', content: 'test' }],
       }),
     });
@@ -26,10 +55,9 @@ export const anthropicAdapter: ProviderAdapter = {
       const body = await res.json().catch(() => ({}));
       if (res.status === 401 || res.status === 403) {
         throw new Error(
-          body?.error?.message ?? 'Invalid Anthropic API key'
+          body?.error?.message ?? 'Invalid Anthropic API key. For usage data, an Admin API key (sk-ant-admin-...) is required.'
         );
       }
-      // Other errors (400, 404) mean auth worked — key is valid
     }
 
     return true;
@@ -40,53 +68,75 @@ export const anthropicAdapter: ProviderAdapter = {
     startDate: Date,
     endDate: Date
   ): Promise<NormalizedUsageRecord[]> {
-    // Anthropic's admin API for usage (requires admin key)
-    // Format: YYYY-MM-DD
-    const from = startDate.toISOString().slice(0, 10);
-    const to = endDate.toISOString().slice(0, 10);
+    // Anthropic Admin API: /v1/organizations/usage_report/messages
+    // Requires ISO 8601 timestamps, bucket_width, and group_by[]
+    const startingAt = startDate.toISOString();
+    const endingAt = endDate.toISOString();
 
-    const url = new URL('https://api.anthropic.com/v1/usage');
-    url.searchParams.set('start_date', from);
-    url.searchParams.set('end_date', to);
-    url.searchParams.set('group_by', 'model');
+    const allRecords: NormalizedUsageRecord[] = [];
+    let page: string | undefined;
+    let hasMore = true;
 
-    const res = await fetch(url.toString(), {
-      headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-    });
+    while (hasMore) {
+      const url = new URL('https://api.anthropic.com/v1/organizations/usage_report/messages');
+      url.searchParams.set('starting_at', startingAt);
+      url.searchParams.set('ending_at', endingAt);
+      url.searchParams.set('bucket_width', '1d');
+      url.searchParams.append('group_by[]', 'model');
+      url.searchParams.set('limit', '31');
+      if (page) url.searchParams.set('page', page);
 
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
-      throw new Error(
-        body?.error?.message ?? `Anthropic usage API returned ${res.status}`
-      );
-    }
-
-    const data = await res.json();
-    const records: NormalizedUsageRecord[] = [];
-
-    for (const entry of data.data ?? []) {
-      const inputTokens = entry.input_tokens ?? 0;
-      const outputTokens = entry.output_tokens ?? 0;
-
-      records.push({
-        date: entry.date ?? from,
-        model: entry.model ?? 'unknown',
-        inputTokens,
-        outputTokens,
-        requests: entry.num_requests ?? 0,
-        costUsd: estimateAnthropicCost(
-          entry.model ?? 'unknown',
-          inputTokens,
-          outputTokens
-        ),
-        rawData: entry,
+      const res = await fetch(url.toString(), {
+        headers: {
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
       });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        const msg = body?.error?.message ?? `Anthropic usage API returned ${res.status}`;
+
+        // Provide helpful message for non-admin keys
+        if (res.status === 401 || res.status === 403) {
+          throw new Error(
+            `${msg}. The Usage API requires an Admin API key (sk-ant-admin-...) from Console → Organization Settings → Admin Keys.`
+          );
+        }
+        throw new Error(msg);
+      }
+
+      const data = await res.json();
+
+      for (const bucket of data.data ?? []) {
+        // Each bucket has: started_at, ended_at, and token fields
+        const date = bucket.started_at
+          ? bucket.started_at.slice(0, 10)
+          : startDate.toISOString().slice(0, 10);
+        const model = bucket.model ?? 'unknown';
+
+        const inputTokens = (bucket.input_tokens ?? 0) + (bucket.input_cached_tokens ?? 0);
+        const outputTokens = bucket.output_tokens ?? 0;
+
+        // Skip empty buckets
+        if (inputTokens === 0 && outputTokens === 0) continue;
+
+        allRecords.push({
+          date,
+          model,
+          inputTokens,
+          outputTokens,
+          requests: bucket.num_requests ?? 0,
+          costUsd: estimateAnthropicCost(model, inputTokens, outputTokens),
+          rawData: bucket,
+        });
+      }
+
+      hasMore = data.has_more === true;
+      page = data.next_page;
     }
 
-    return records;
+    return allRecords;
   },
 };
 
