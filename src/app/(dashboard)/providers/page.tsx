@@ -24,6 +24,7 @@ interface ProviderRow {
   display_name: string | null;
   status: string;
   last_sync_at: string | null;
+  last_error: string | null;
   created_at: string;
 }
 
@@ -112,11 +113,15 @@ export default function ProvidersPage() {
 
       // Check sync result from the response
       if (body.sync?.error) {
-        toast.warning(`Provider connected but sync failed: ${body.sync.error}. You can retry from the card.`);
+        toast.error(`Data sync failed: ${body.sync.error}`, {
+          description: 'The API key is valid but we couldn\'t fetch usage data. You can retry from the card.',
+          duration: 8000,
+        });
       } else if (body.provider?.status === 'active') {
-        toast.success(`Provider connected — ${body.sync?.records ?? 0} records synced`);
+        const count = body.sync?.records ?? 0;
+        toast.success(`Provider active — ${count} usage record${count !== 1 ? 's' : ''} imported`);
       } else {
-        toast.success('Provider connected — syncing data...');
+        toast.info('Provider saved — syncing usage data...');
       }
 
       setOpen(false);
@@ -196,13 +201,19 @@ export default function ProvidersPage() {
       case 'syncing':
         return (
           <span className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400">
-            <RefreshCw className="h-3.5 w-3.5 animate-spin" /> Syncing
+            <RefreshCw className="h-3.5 w-3.5 animate-spin" /> Syncing data…
           </span>
         );
       case 'error':
         return (
           <span className="inline-flex items-center gap-1.5 text-xs font-medium text-red-600 dark:text-red-400">
-            <AlertTriangle className="h-3.5 w-3.5" /> Error
+            <AlertTriangle className="h-3.5 w-3.5" /> Sync failed
+          </span>
+        );
+      case 'disconnected':
+        return (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+            <WifiOff className="h-3.5 w-3.5" /> Disconnected
           </span>
         );
       default:
@@ -377,9 +388,14 @@ export default function ProvidersPage() {
                   {statusBadge(p.status)}
                 </div>
                 {p.status === 'error' && (
-                  <p className="mt-2 text-xs text-red-600 dark:text-red-400">
-                    Data sync failed. Click the refresh icon to retry.
-                  </p>
+                  <div className="mt-2 rounded-md bg-red-50 dark:bg-red-950/30 p-2">
+                    <p className="text-xs text-red-700 dark:text-red-400">
+                      {p.last_error || 'Could not sync usage data from this provider.'}
+                    </p>
+                    <p className="mt-1 text-xs text-red-600/70 dark:text-red-400/70">
+                      Your API key is saved. Click ↻ to retry.
+                    </p>
+                  </div>
                 )}
                 {p.last_sync_at && (
                   <p className="mt-1 text-xs text-muted-foreground">
@@ -387,7 +403,7 @@ export default function ProvidersPage() {
                   </p>
                 )}
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Connected {new Date(p.created_at).toLocaleDateString()}
+                  Added {new Date(p.created_at).toLocaleDateString()}
                 </p>
               </CardContent>
             </Card>

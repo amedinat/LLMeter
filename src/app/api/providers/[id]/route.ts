@@ -189,7 +189,7 @@ export async function POST(
 
     await supabase
       .from('providers')
-      .update({ status: 'active', last_sync_at: new Date().toISOString() })
+      .update({ status: 'active', last_sync_at: new Date().toISOString(), last_error: null })
       .eq('id', id);
 
     return NextResponse.json({ success: true, status: 'active', records: records.length });
@@ -197,7 +197,7 @@ export async function POST(
     const message = err instanceof Error ? err.message : String(err);
     await supabase
       .from('providers')
-      .update({ status: 'error' })
+      .update({ status: 'error', last_error: message })
       .eq('id', id);
 
     return NextResponse.json({ error: `Sync failed: ${message}`, status: 'error' }, { status: 500 });

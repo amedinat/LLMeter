@@ -23,7 +23,7 @@ export async function GET() {
 
     const { data, error } = await supabase
       .from('providers')
-      .select('id, provider, display_name, status, last_sync_at, created_at')
+      .select('id, provider, display_name, status, last_sync_at, last_error, created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
         // Mark as active
         await supabase
           .from('providers')
-          .update({ status: 'active', last_sync_at: new Date().toISOString() })
+          .update({ status: 'active', last_sync_at: new Date().toISOString(), last_error: null })
           .eq('id', data.id);
 
         finalStatus = 'active';
@@ -197,7 +197,7 @@ export async function POST(req: NextRequest) {
         // Mark as error so UI can show it
         await supabase
           .from('providers')
-          .update({ status: 'error' })
+          .update({ status: 'error', last_error: syncMessage })
           .eq('id', data.id);
 
         finalStatus = 'error';
