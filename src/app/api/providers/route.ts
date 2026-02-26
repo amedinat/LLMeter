@@ -160,7 +160,9 @@ export async function POST(req: NextRequest) {
         const endDate = new Date();
         endDate.setUTCHours(23, 59, 59, 999);
 
+        console.log(`Inline sync: fetching ${provider} usage from ${startDate.toISOString()} to ${endDate.toISOString()}`);
         const records = await adapter.fetchUsage(apiKey, startDate, endDate);
+        console.log(`Inline sync: ${provider} returned ${records.length} records`);
 
         if (records.length > 0) {
           const adminSupabase = createAdminClient();
@@ -180,6 +182,9 @@ export async function POST(req: NextRequest) {
             .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
 
           if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
+          console.log(`Inline sync: upserted ${rows.length} rows for ${provider}`);
+        } else {
+          console.log(`Inline sync: ${provider} returned 0 records — nothing to insert`);
         }
 
         // Mark as active
