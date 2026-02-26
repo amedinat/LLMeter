@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { z } from 'zod';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Eye, EyeOff, Loader2, Key, Wifi, WifiOff, RefreshCw, Trash2 } from 'lucide-react';
+import { Plus, Eye, EyeOff, Loader2, Key, Wifi, WifiOff, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import { providerTypes } from '@/lib/validators/provider';
 
@@ -35,6 +34,8 @@ export default function ProvidersPage() {
   const [showKey, setShowKey] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [retryingId, setRetryingId] = useState<string | null>(null);
+  const pollRef = useRef<NodeJS.Timeout | null>(null);
 
   // Form state
   const [formProvider, setFormProvider] = useState('');
@@ -47,6 +48,8 @@ export default function ProvidersPage() {
       if (res.ok) {
         const data = await res.json();
         setProviders(data.providers || []);
+      } else {
+        toast.error('Failed to load providers');
       }
     } catch {
       toast.error('Failed to load providers');
@@ -56,6 +59,27 @@ export default function ProvidersPage() {
   }, []);
 
   useEffect(() => { fetchProviders(); }, [fetchProviders]);
+
+  // Poll for syncing providers — stop when none are syncing
+  useEffect(() => {
+    const hasSyncing = providers.some((p) => p.status === 'syncing');
+
+    if (hasSyncing && !pollRef.current) {
+      pollRef.current = setInterval(() => {
+        fetchProviders();
+      }, 5000);
+    } else if (!hasSyncing && pollRef.current) {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+    }
+
+    return () => {
+      if (pollRef.current) {
+        clearInterval(pollRef.current);
+        pollRef.current = null;
+      }
+    };
+  }, [providers, fetchProviders]);
 
   const resetForm = () => {
     setFormProvider('');
@@ -80,12 +104,21 @@ export default function ProvidersPage() {
         }),
       });
 
+      const body = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
         throw new Error(body.error || `Failed to connect (${res.status})`);
       }
 
-      toast.success('Provider connected successfully');
+      // Check sync result from the response
+      if (body.sync?.error) {
+        toast.warning(`Provider connected but sync failed: ${body.sync.error}. You can retry from the card.`);
+      } else if (body.provider?.status === 'active') {
+        toast.success(`Provider connected — ${body.sync?.records ?? 0} records synced`);
+      } else {
+        toast.success('Provider connected — syncing data...');
+      }
+
       setOpen(false);
       resetForm();
       fetchProviders();
@@ -114,6 +147,70 @@ export default function ProvidersPage() {
       toast.error(err instanceof Error ? err.message : 'Failed to disconnect');
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const retrySync = async (id: string) => {
+    setRetryingId(id);
+
+    // Optimistically set to syncing
+    setProviders((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, status: 'syncing' } : p))
+    );
+
+    try {
+      const res = await fetch(`/api/providers/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const body = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(body.error || 'Retry failed');
+      }
+
+      if (body.status === 'active') {
+        toast.success(`Sync complete — ${body.records ?? 0} records imported`);
+      } else {
+        toast.info('Sync started, refreshing...');
+      }
+
+      fetchProviders();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Retry failed');
+      fetchProviders(); // Refresh to get real status
+    } finally {
+      setRetryingId(null);
+    }
+  };
+
+  const statusBadge = (status: string) => {
+    switch (status) {
+      case 'active':
+        return (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 dark:text-green-400">
+            <Wifi className="h-3.5 w-3.5" /> Active
+          </span>
+        );
+      case 'syncing':
+        return (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400">
+            <RefreshCw className="h-3.5 w-3.5 animate-spin" /> Syncing
+          </span>
+        );
+      case 'error':
+        return (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-red-600 dark:text-red-400">
+            <AlertTriangle className="h-3.5 w-3.5" /> Error
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+            <WifiOff className="h-3.5 w-3.5" /> {status}
+          </span>
+        );
     }
   };
 
@@ -234,18 +331,28 @@ export default function ProvidersPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {providers.map((p) => (
-            <Card key={p.id}>
+            <Card key={p.id} className={p.status === 'error' ? 'border-red-300 dark:border-red-800' : ''}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-base font-medium">
                   {p.display_name || providerLabels[p.provider] || p.provider}
                 </CardTitle>
-                <div className="flex items-center gap-2">
-                  {p.status === 'active' ? (
-                    <Wifi className="h-4 w-4 text-green-500" />
-                  ) : p.status === 'syncing' ? (
-                    <RefreshCw className="h-4 w-4 animate-spin text-blue-500" />
-                  ) : (
-                    <WifiOff className="h-4 w-4 text-red-500" />
+                <div className="flex items-center gap-1">
+                  {(p.status === 'error' || p.status === 'syncing') && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground hover:text-blue-500"
+                      onClick={() => retrySync(p.id)}
+                      disabled={retryingId === p.id}
+                      aria-label="Retry sync"
+                      title="Retry sync"
+                    >
+                      {retryingId === p.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <RefreshCw className="h-4 w-4" />
+                      )}
+                    </Button>
                   )}
                   <Button
                     variant="ghost"
@@ -267,8 +374,13 @@ export default function ProvidersPage() {
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>{providerLabels[p.provider] || p.provider}</span>
                   <span>&middot;</span>
-                  <span className="capitalize">{p.status}</span>
+                  {statusBadge(p.status)}
                 </div>
+                {p.status === 'error' && (
+                  <p className="mt-2 text-xs text-red-600 dark:text-red-400">
+                    Data sync failed. Click the refresh icon to retry.
+                  </p>
+                )}
                 {p.last_sync_at && (
                   <p className="mt-1 text-xs text-muted-foreground">
                     Last sync: {new Date(p.last_sync_at).toLocaleString()}

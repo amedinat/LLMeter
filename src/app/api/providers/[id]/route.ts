@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { updateProviderSchema } from '@/lib/validators/provider';
+import { decryptFromDB } from '@/lib/crypto';
+import { getAdapter } from '@/lib/providers/registry';
+import { inngest } from '@/lib/inngest/client';
+import type { ProviderType } from '@/types';
 
 /**
  * DELETE /api/providers/:id — Disconnect a provider (delete encrypted key)
@@ -98,4 +103,103 @@ export async function PATCH(
   }
 
   return NextResponse.json({ provider: data });
+}
+
+/**
+ * POST /api/providers/:id — Retry sync for a provider in error/syncing state
+ */
+export async function POST(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // Fetch the provider
+  const { data: provider, error: fetchError } = await supabase
+    .from('providers')
+    .select('id, provider, api_key_encrypted, api_key_iv, api_key_tag, status')
+    .eq('id', id)
+    .eq('user_id', user.id)
+    .single();
+
+  if (fetchError || !provider) {
+    return NextResponse.json({ error: 'Provider not found' }, { status: 404 });
+  }
+
+  // Mark as syncing
+  await supabase
+    .from('providers')
+    .update({ status: 'syncing' })
+    .eq('id', id);
+
+  // Try Inngest first, fallback to inline
+  try {
+    await inngest.send({
+      name: 'provider/connected',
+      data: { providerId: id, userId: user.id },
+    });
+    return NextResponse.json({ success: true, status: 'syncing', method: 'inngest' });
+  } catch {
+    // Inngest unavailable — sync inline
+  }
+
+  try {
+    const adapter = getAdapter(provider.provider as ProviderType);
+    const apiKey = decryptFromDB({
+      api_key_encrypted: provider.api_key_encrypted,
+      api_key_iv: provider.api_key_iv,
+      api_key_tag: provider.api_key_tag,
+    });
+
+    const startDate = new Date();
+    startDate.setUTCDate(startDate.getUTCDate() - 30);
+    startDate.setUTCHours(0, 0, 0, 0);
+    const endDate = new Date();
+    endDate.setUTCHours(23, 59, 59, 999);
+
+    const records = await adapter.fetchUsage(apiKey, startDate, endDate);
+
+    if (records.length > 0) {
+      const adminSupabase = createAdminClient();
+      const rows = records.map((r) => ({
+        provider_id: id,
+        user_id: user.id,
+        date: r.date,
+        model: r.model,
+        input_tokens: r.inputTokens,
+        output_tokens: r.outputTokens,
+        requests: r.requests,
+        cost_usd: r.costUsd,
+      }));
+
+      const { error: upsertError } = await adminSupabase
+        .from('usage_records')
+        .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
+
+      if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
+    }
+
+    await supabase
+      .from('providers')
+      .update({ status: 'active', last_sync_at: new Date().toISOString() })
+      .eq('id', id);
+
+    return NextResponse.json({ success: true, status: 'active', records: records.length });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await supabase
+      .from('providers')
+      .update({ status: 'error' })
+      .eq('id', id);
+
+    return NextResponse.json({ error: `Sync failed: ${message}`, status: 'error' }, { status: 500 });
+  }
 }

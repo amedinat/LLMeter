@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { connectProviderSchema } from '@/lib/validators/provider';
-import { encryptForDB } from '@/lib/crypto';
+import { encryptForDB, decryptFromDB } from '@/lib/crypto';
 import { getAdapter, getRegisteredProviders } from '@/lib/providers/registry';
 import { inngest } from '@/lib/inngest/client';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -137,15 +138,71 @@ export async function POST(req: NextRequest) {
       throw error;
     }
 
-    // Trigger initial data sync via Inngest
+    // Trigger initial data sync via Inngest, with inline fallback
+    let syncResult: { method: 'inngest' | 'inline'; records?: number; error?: string } = { method: 'inngest' };
+    let finalStatus = 'syncing';
+
     try {
       await inngest.send({
         name: 'provider/connected',
         data: { providerId: data.id, userId: user.id },
       });
     } catch (inngestErr) {
-      // Non-blocking: provider saved even if Inngest fails
-      console.warn('Inngest event send failed:', inngestErr);
+      // Inngest unavailable — do the initial sync inline
+      console.warn('Inngest unavailable, syncing inline:', inngestErr);
+      syncResult.method = 'inline';
+
+      try {
+        const adapter = getAdapter(provider as ProviderType);
+        const startDate = new Date();
+        startDate.setUTCDate(startDate.getUTCDate() - 30);
+        startDate.setUTCHours(0, 0, 0, 0);
+        const endDate = new Date();
+        endDate.setUTCHours(23, 59, 59, 999);
+
+        const records = await adapter.fetchUsage(apiKey, startDate, endDate);
+
+        if (records.length > 0) {
+          const adminSupabase = createAdminClient();
+          const rows = records.map((r) => ({
+            provider_id: data.id,
+            user_id: user.id,
+            date: r.date,
+            model: r.model,
+            input_tokens: r.inputTokens,
+            output_tokens: r.outputTokens,
+            requests: r.requests,
+            cost_usd: r.costUsd,
+          }));
+
+          const { error: upsertError } = await adminSupabase
+            .from('usage_records')
+            .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
+
+          if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
+        }
+
+        // Mark as active
+        await supabase
+          .from('providers')
+          .update({ status: 'active', last_sync_at: new Date().toISOString() })
+          .eq('id', data.id);
+
+        finalStatus = 'active';
+        syncResult.records = records.length;
+      } catch (syncErr) {
+        const syncMessage = syncErr instanceof Error ? syncErr.message : String(syncErr);
+        console.error('Inline sync failed:', syncMessage);
+
+        // Mark as error so UI can show it
+        await supabase
+          .from('providers')
+          .update({ status: 'error' })
+          .eq('id', data.id);
+
+        finalStatus = 'error';
+        syncResult.error = syncMessage;
+      }
     }
 
     return NextResponse.json({
@@ -154,8 +211,9 @@ export async function POST(req: NextRequest) {
         id: data.id,
         provider: data.provider,
         display_name: data.display_name,
-        status: data.status,
-      }
+        status: finalStatus,
+      },
+      sync: syncResult,
     });
   } catch (error) {
     console.error('Error saving provider:', error);
