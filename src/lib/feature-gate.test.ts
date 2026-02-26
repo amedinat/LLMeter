@@ -6,7 +6,7 @@ describe('getPlanLimits', () => {
   it('returns correct free limits', () => {
     const limits = getPlanLimits('free');
     expect(limits.maxProviders).toBe(1);
-    expect(limits.maxAlerts).toBe(3);
+    expect(limits.maxAlerts).toBe(1);
     expect(limits.retentionDays).toBe(30);
     expect(limits.allowedAlertTypes).toEqual(['budget_limit', 'daily_threshold']);
   });

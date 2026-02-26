@@ -50,7 +50,7 @@ const PLAN_FEATURES: Record<Plan, Feature[]> = {
 export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
   free: {
     maxProviders: 1,
-    maxAlerts: 3,
+    maxAlerts: 1,
     retentionDays: 30,
     allowedAlertTypes: ["budget_limit", "daily_threshold"],
   },
