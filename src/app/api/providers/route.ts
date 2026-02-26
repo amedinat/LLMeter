@@ -160,11 +160,12 @@ export async function POST(req: NextRequest) {
         const endDate = new Date();
         endDate.setUTCHours(23, 59, 59, 999);
 
-        console.log(`Inline sync: fetching ${provider} usage from ${startDate.toISOString()} to ${endDate.toISOString()}`);
+        console.warn(`[SYNC] Fetching ${provider} usage from ${startDate.toISOString()} to ${endDate.toISOString()}`);
         const records = await adapter.fetchUsage(apiKey, startDate, endDate);
-        console.log(`Inline sync: ${provider} returned ${records.length} records`);
+        console.warn(`[SYNC] ${provider} returned ${records.length} records`);
 
         if (records.length > 0) {
+          console.warn(`[SYNC] Sample record: ${JSON.stringify(records[0])}`);
           const adminSupabase = createAdminClient();
           const rows = records.map((r) => ({
             provider_id: data.id,
@@ -182,9 +183,9 @@ export async function POST(req: NextRequest) {
             .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
 
           if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
-          console.log(`Inline sync: upserted ${rows.length} rows for ${provider}`);
+          console.warn(`[SYNC] Upserted ${rows.length} rows for ${provider}`);
         } else {
-          console.log(`Inline sync: ${provider} returned 0 records — nothing to insert`);
+          console.warn(`[SYNC] ${provider} returned 0 records — nothing to insert`);
         }
 
         // Mark as active
