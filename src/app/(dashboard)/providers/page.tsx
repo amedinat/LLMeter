@@ -49,7 +49,7 @@ export default function ProvidersPage() {
         setProviders(data.providers || []);
       }
     } catch {
-      // silent
+      toast.error('Failed to load providers');
     } finally {
       setLoading(false);
     }

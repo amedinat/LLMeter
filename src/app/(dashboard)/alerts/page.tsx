@@ -59,7 +59,7 @@ export default function AlertsPage() {
         setAlerts(data.alerts || []);
       }
     } catch {
-      // silent
+      toast.error('Failed to load alerts');
     } finally {
       setLoading(false);
     }
