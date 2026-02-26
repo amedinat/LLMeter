@@ -108,28 +108,38 @@ export const anthropicAdapter: ProviderAdapter = {
 
       const data = await res.json();
 
+      // Response structure: data[].{ starting_at, ending_at, results[] }
+      // Each result has: model, uncached_input_tokens, cache_read_input_tokens,
+      //   cache_creation.ephemeral_5m_input_tokens, cache_creation.ephemeral_1h_input_tokens,
+      //   output_tokens, etc.
       for (const bucket of data.data ?? []) {
-        // Each bucket has: started_at, ended_at, and token fields
-        const date = bucket.started_at
-          ? bucket.started_at.slice(0, 10)
+        const date = bucket.starting_at
+          ? bucket.starting_at.slice(0, 10)
           : startDate.toISOString().slice(0, 10);
-        const model = bucket.model ?? 'unknown';
 
-        const inputTokens = (bucket.input_tokens ?? 0) + (bucket.input_cached_tokens ?? 0);
-        const outputTokens = bucket.output_tokens ?? 0;
+        for (const result of bucket.results ?? []) {
+          const model = result.model ?? 'unknown';
 
-        // Skip empty buckets
-        if (inputTokens === 0 && outputTokens === 0) continue;
+          const uncachedInput = result.uncached_input_tokens ?? 0;
+          const cacheRead = result.cache_read_input_tokens ?? 0;
+          const cacheCreation5m = result.cache_creation?.ephemeral_5m_input_tokens ?? 0;
+          const cacheCreation1h = result.cache_creation?.ephemeral_1h_input_tokens ?? 0;
+          const inputTokens = uncachedInput + cacheRead + cacheCreation5m + cacheCreation1h;
+          const outputTokens = result.output_tokens ?? 0;
 
-        allRecords.push({
-          date,
-          model,
-          inputTokens,
-          outputTokens,
-          requests: bucket.num_requests ?? 0,
-          costUsd: estimateAnthropicCost(model, inputTokens, outputTokens),
-          rawData: bucket,
-        });
+          // Skip empty results
+          if (inputTokens === 0 && outputTokens === 0) continue;
+
+          allRecords.push({
+            date,
+            model,
+            inputTokens,
+            outputTokens,
+            requests: 0, // API doesn't provide request counts
+            costUsd: estimateAnthropicCost(model, inputTokens, outputTokens),
+            rawData: result,
+          });
+        }
       }
 
       hasMore = data.has_more === true;
