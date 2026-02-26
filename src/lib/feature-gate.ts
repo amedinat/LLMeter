@@ -8,6 +8,45 @@ export interface PlanLimits {
   allowedAlertTypes: string[];
 }
 
+export type Feature =
+  | "single-provider"
+  | "multi-provider"
+  | "budget-alerts"
+  | "csv-export"
+  | "unlimited-history"
+  | "anomaly-detection"
+  | "team-attribution";
+
+const PLAN_FEATURES: Record<Plan, Feature[]> = {
+  free: ["single-provider", "budget-alerts"],
+  pro: [
+    "single-provider",
+    "multi-provider",
+    "budget-alerts",
+    "csv-export",
+    "unlimited-history",
+    "anomaly-detection",
+  ],
+  team: [
+    "single-provider",
+    "multi-provider",
+    "budget-alerts",
+    "csv-export",
+    "unlimited-history",
+    "anomaly-detection",
+    "team-attribution",
+  ],
+  enterprise: [
+    "single-provider",
+    "multi-provider",
+    "budget-alerts",
+    "csv-export",
+    "unlimited-history",
+    "anomaly-detection",
+    "team-attribution",
+  ],
+};
+
 export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
   free: {
     maxProviders: 1,
@@ -24,13 +63,13 @@ export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
   team: {
     maxProviders: Infinity,
     maxAlerts: Infinity,
-    retentionDays: 365,
+    retentionDays: Infinity,
     allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
   },
   enterprise: {
     maxProviders: Infinity,
     maxAlerts: Infinity,
-    retentionDays: 730,
+    retentionDays: Infinity,
     allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
   },
 };
@@ -47,6 +86,11 @@ export function canCreateProvider(plan: Plan, currentCount: number): boolean {
 export function canCreateAlert(plan: Plan, currentCount: number): boolean {
   const limits = getPlanLimits(plan);
   return currentCount < limits.maxAlerts;
+}
+
+export function hasFeature(plan: Plan, feature: Feature): boolean {
+  const features = PLAN_FEATURES[plan] ?? PLAN_FEATURES.free;
+  return features.includes(feature);
 }
 
 export function getRetentionDate(plan: Plan): Date {
