@@ -154,7 +154,7 @@ async function fetchUsageData(
           model,
           inputTokens,
           outputTokens,
-          requests: 0,
+          requests: result.num_requests ?? 0,
           // Fallback estimate — will be replaced by actual cost if Cost API succeeds
           costUsd: estimateAnthropicCost(model, uncachedInput, cacheRead, cacheCreation5m + cacheCreation1h, outputTokens),
           rawData: result,
