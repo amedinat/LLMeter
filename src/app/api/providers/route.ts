@@ -70,6 +70,27 @@ export async function POST(req: NextRequest) {
     // Enforce plan provider limit
     const plan = await getUserPlan();
     const limits = getPlanLimits(plan);
+    
+    const body = await req.json();
+    const result = connectProviderSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: result.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { provider, apiKey, displayName } = result.data;
+
+    // Check plan constraints
+    if (provider === 'openrouter' && plan === 'free') {
+      return NextResponse.json(
+        { error: 'OpenRouter is a Pro feature. Please upgrade your plan to connect it.' },
+        { status: 403 }
+      );
+    }
+
     if (limits.maxProviders !== Infinity) {
       const { count, error: countError } = await supabase
         .from('providers')
@@ -88,18 +109,6 @@ export async function POST(req: NextRequest) {
         );
       }
     }
-
-    const body = await req.json();
-    const result = connectProviderSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: result.error.format() },
-        { status: 400 }
-      );
-    }
-
-    const { provider, apiKey, displayName } = result.data;
 
     // Validate API key before saving
     const registeredProviders = getRegisteredProviders();
