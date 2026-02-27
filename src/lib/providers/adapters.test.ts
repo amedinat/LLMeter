@@ -134,7 +134,7 @@ describe('Provider Adapters', () => {
             results: [
               {
                 description: 'claude-3-opus-20240229',
-                cost: '2.325',
+                amount: '2.325',
               },
             ],
           },
