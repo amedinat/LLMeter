@@ -66,8 +66,8 @@ describe('hasFeature', () => {
       expect(hasFeature('free', 'team-attribution')).toBe(false);
     });
 
-    it('does not have csv-export', () => {
-      expect(hasFeature('free', 'csv-export')).toBe(false);
+    it('does not have openrouter', () => {
+      expect(hasFeature('free', 'openrouter')).toBe(false);
     });
   });
 
@@ -76,7 +76,7 @@ describe('hasFeature', () => {
       'single-provider',
       'multi-provider',
       'budget-alerts',
-      'csv-export',
+      'openrouter',
       'unlimited-history',
       'anomaly-detection',
     ];
@@ -98,7 +98,7 @@ describe('hasFeature', () => {
     it('has all pro features', () => {
       expect(hasFeature('team', 'multi-provider')).toBe(true);
       expect(hasFeature('team', 'anomaly-detection')).toBe(true);
-      expect(hasFeature('team', 'csv-export')).toBe(true);
+      expect(hasFeature('team', 'openrouter')).toBe(true);
       expect(hasFeature('team', 'unlimited-history')).toBe(true);
     });
   });
@@ -111,7 +111,7 @@ describe('hasFeature', () => {
     it('has all team features', () => {
       expect(hasFeature('enterprise', 'multi-provider')).toBe(true);
       expect(hasFeature('enterprise', 'anomaly-detection')).toBe(true);
-      expect(hasFeature('enterprise', 'csv-export')).toBe(true);
+      expect(hasFeature('enterprise', 'openrouter')).toBe(true);
     });
   });
 });

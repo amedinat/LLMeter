@@ -12,7 +12,7 @@ export type Feature =
   | "single-provider"
   | "multi-provider"
   | "budget-alerts"
-  | "csv-export"
+  | "openrouter"
   | "unlimited-history"
   | "anomaly-detection"
   | "team-attribution";
@@ -23,7 +23,7 @@ const PLAN_FEATURES: Record<Plan, Feature[]> = {
     "single-provider",
     "multi-provider",
     "budget-alerts",
-    "csv-export",
+    "openrouter",
     "unlimited-history",
     "anomaly-detection",
   ],
@@ -31,7 +31,7 @@ const PLAN_FEATURES: Record<Plan, Feature[]> = {
     "single-provider",
     "multi-provider",
     "budget-alerts",
-    "csv-export",
+    "openrouter",
     "unlimited-history",
     "anomaly-detection",
     "team-attribution",
@@ -40,7 +40,7 @@ const PLAN_FEATURES: Record<Plan, Feature[]> = {
     "single-provider",
     "multi-provider",
     "budget-alerts",
-    "csv-export",
+    "openrouter",
     "unlimited-history",
     "anomaly-detection",
     "team-attribution",
@@ -78,7 +78,10 @@ export function getPlanLimits(plan: Plan): PlanLimits {
   return PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
 }
 
-export function canCreateProvider(plan: Plan, currentCount: number): boolean {
+export function canCreateProvider(plan: Plan, type: string, currentCount: number): boolean {
+  if (type === 'openrouter' && plan === 'free') {
+    return false;
+  }
   const limits = getPlanLimits(plan);
   return currentCount < limits.maxProviders;
 }
