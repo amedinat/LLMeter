@@ -217,8 +217,9 @@ async function fetchCostData(
         for (const result of bucket.results ?? []) {
           // When grouped by description, model may be in 'model' or 'description' field
           const model = result.model ?? result.description ?? 'unknown';
-          // Cost is in cents as a decimal string (e.g., "1234.56" = $12.3456)
-          const costCents = parseFloat(result.cost ?? '0');
+          // Amount is in lowest currency units (cents) as a decimal string
+          // e.g., "123.45" in USD = $1.2345
+          const costCents = parseFloat(result.amount ?? '0');
           const costUsd = costCents / 100;
 
           if (costUsd <= 0) continue;
