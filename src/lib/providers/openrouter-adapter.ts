@@ -43,28 +43,33 @@ export const openrouterAdapter: ProviderAdapter = {
   ): Promise<NormalizedUsageRecord[]> {
     const allRecords: NormalizedUsageRecord[] = [];
 
-    // Generate date range (YYYY-MM-DD)
+    // Generate date range (YYYY-MM-DD), capped to 30 days to avoid Vercel timeout
     const dates: string[] = [];
     const current = new Date(startDate);
     current.setUTCHours(0, 0, 0, 0);
     const end = new Date(endDate);
     end.setUTCHours(23, 59, 59, 999);
+    const MAX_DAYS = 30;
 
-    while (current <= end) {
+    while (current <= end && dates.length < MAX_DAYS) {
       dates.push(current.toISOString().slice(0, 10));
       current.setUTCDate(current.getUTCDate() + 1);
     }
 
     // Fetch activity for each date (API supports single date filter)
-    // Batch up to 5 concurrent requests to avoid rate limits
-    const batchSize = 5;
+    // Batch up to 8 concurrent requests for speed while respecting rate limits
+    // Total: 30 days / 8 batch = ~4 sequential rounds ≈ 8-12s (within Vercel 25s limit)
+    const batchSize = 8;
     for (let i = 0; i < dates.length; i += batchSize) {
       const batch = dates.slice(i, i + batchSize);
-      const results = await Promise.all(
+      const results = await Promise.allSettled(
         batch.map((date) => fetchActivityForDate(apiKey, date))
       );
-      for (const records of results) {
-        allRecords.push(...records);
+      for (const result of results) {
+        if (result.status === 'fulfilled') {
+          allRecords.push(...result.value);
+        }
+        // Skip failed individual days silently — partial data is better than none
       }
     }
 
