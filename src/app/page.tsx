@@ -51,7 +51,7 @@ export default function HomePage() {
               Control your AI spend across all providers.
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-              Connect your OpenAI, Anthropic, and other API keys. Get a unified dashboard, budget alerts, and cost optimization tips in minutes.
+              Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter API keys. Get a unified dashboard with real costs, budget alerts, and usage insights in minutes.
             </p>
             <div className="space-x-4">
               <Button size="lg" asChild>
@@ -152,9 +152,10 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="flex-1">
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Provider (OpenAI)</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 7-day data retention</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Basic Alerts</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Provider</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 30-day data retention</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Budget Alert</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Real cost tracking</li>
                 </ul>
               </CardContent>
               <CardFooter>
@@ -177,8 +178,8 @@ export default function HomePage() {
               <CardContent className="flex-1">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited Providers</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 90-day data retention</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Advanced Alerts & Anomaly Detection</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1-year data retention</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited Alerts & Anomaly Detection</li>
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> CSV Export</li>
                 </ul>
               </CardContent>

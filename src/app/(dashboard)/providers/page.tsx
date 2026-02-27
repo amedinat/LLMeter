@@ -9,13 +9,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Plus, Eye, EyeOff, Loader2, Key, Wifi, WifiOff, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
-import { providerTypes } from '@/lib/validators/provider';
+import { providerTypes, comingSoonProviders } from '@/lib/validators/provider';
 
 const providerLabels: Record<string, string> = {
   openai: 'OpenAI',
   anthropic: 'Anthropic',
   google: 'Google AI',
   deepseek: 'DeepSeek',
+  openrouter: 'OpenRouter',
 };
 
 interface ProviderRow {
@@ -259,6 +260,11 @@ export default function ProvidersPage() {
                     {providerTypes.map((p) => (
                       <SelectItem key={p} value={p}>
                         {providerLabels[p] || p}
+                      </SelectItem>
+                    ))}
+                    {comingSoonProviders.map((p) => (
+                      <SelectItem key={p} value={p} disabled>
+                        {providerLabels[p] || p} — Coming Soon
                       </SelectItem>
                     ))}
                   </SelectContent>

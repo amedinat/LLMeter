@@ -44,7 +44,8 @@ export const deepseekAdapter: ProviderAdapter = {
     });
 
     if (!res.ok) {
-      // If billing endpoint is not available, try the OpenAI-compatible format
+      // If primary billing endpoint fails, try the OpenAI-compatible format
+      console.warn(`[DeepSeek] Primary usage endpoint returned ${res.status}, trying fallback...`);
       return await fetchUsageOpenAICompat(apiKey, from, to);
     }
 
@@ -95,9 +96,11 @@ async function fetchUsageOpenAICompat(
   });
 
   if (!res.ok) {
-    // No usage API available — return empty
-    // User can still see the connection is active
-    return [];
+    throw new Error(
+      'DeepSeek usage/billing API is not accessible with this key. ' +
+      'DeepSeek may not expose usage data for all key types. ' +
+      'Your key is valid for inference but usage tracking is unavailable.'
+    );
   }
 
   const data = await res.json();

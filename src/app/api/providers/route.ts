@@ -8,6 +8,7 @@ import { inngest } from '@/lib/inngest/client';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { getUserPlan, getPlanLimits } from '@/lib/feature-gate';
+import { evaluateAlertsInline } from '@/lib/alerts/evaluate-inline';
 import type { ProviderType } from '@/types';
 
 const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60_000 };
@@ -196,6 +197,11 @@ export async function POST(req: NextRequest) {
 
         finalStatus = 'active';
         syncResult.records = records.length;
+
+        // Evaluate alerts inline (best-effort, don't block response)
+        evaluateAlertsInline(user.id).catch((err) =>
+          console.warn('[alerts] Inline evaluation failed:', err)
+        );
       } catch (syncErr) {
         const syncMessage = syncErr instanceof Error ? syncErr.message : String(syncErr);
         console.error('Inline sync failed:', syncMessage);
