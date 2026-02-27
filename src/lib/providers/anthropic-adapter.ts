@@ -77,12 +77,23 @@ export const anthropicAdapter: ProviderAdapter = {
       fetchCostData(apiKey, startingAt, endingAt),
     ]);
 
-    // Merge actual costs into usage records when available
+    // Merge actual costs and request counts from Cost API into usage records
     for (const record of usageRecords) {
       const costKey = `${record.date}|${record.model}`;
-      const actualCost = costMap.get(costKey);
-      if (actualCost !== undefined) {
-        record.costUsd = actualCost;
+      const costEntry = costMap.get(costKey);
+      if (costEntry !== undefined) {
+        record.costUsd = costEntry.costUsd;
+        // If the Usage API didn't return request counts, use counts from Cost API
+        if (record.requests === 0 && costEntry.requests > 0) {
+          record.requests = costEntry.requests;
+        }
+      }
+
+      // The Anthropic Usage API does not return num_requests.
+      // If tokens were consumed but requests is still 0 after merging
+      // Cost API data, assume at least 1 request as a minimum estimate.
+      if (record.requests === 0 && (record.inputTokens + record.outputTokens) > 0) {
+        record.requests = 1;
       }
     }
 
@@ -154,7 +165,7 @@ async function fetchUsageData(
           model,
           inputTokens,
           outputTokens,
-          requests: result.num_requests ?? 0,
+          requests: result.num_requests ?? result.requests ?? 0,
           // Fallback estimate — will be replaced by actual cost if Cost API succeeds
           costUsd: estimateAnthropicCost(model, uncachedInput, cacheRead, cacheCreation5m + cacheCreation1h, outputTokens),
           rawData: result,
@@ -169,17 +180,23 @@ async function fetchUsageData(
   return allRecords;
 }
 
+interface CostEntry {
+  costUsd: number;
+  requests: number;
+}
+
 /**
  * Fetch actual USD costs from /v1/organizations/cost_report.
- * Returns a Map of "YYYY-MM-DD|model" -> costUsd.
+ * Returns a Map of "YYYY-MM-DD|model" -> { costUsd, requests }.
  * Cost API returns costs in cents as decimal strings.
+ * Also extracts num_requests when available to supplement usage data.
  */
 async function fetchCostData(
   apiKey: string,
   startingAt: string,
   endingAt: string
-): Promise<Map<string, number>> {
-  const costMap = new Map<string, number>();
+): Promise<Map<string, CostEntry>> {
+  const costMap = new Map<string, CostEntry>();
 
   try {
     let page: string | undefined;
@@ -221,11 +238,15 @@ async function fetchCostData(
           // e.g., "123.45" in USD = $1.2345
           const costCents = parseFloat(result.amount ?? '0');
           const costUsd = costCents / 100;
+          const requests = result.num_requests ?? result.requests ?? 0;
 
-          if (costUsd <= 0) continue;
+          if (costUsd <= 0 && requests <= 0) continue;
 
           const key = `${date}|${model}`;
-          costMap.set(key, (costMap.get(key) ?? 0) + costUsd);
+          const existing = costMap.get(key) ?? { costUsd: 0, requests: 0 };
+          existing.costUsd += costUsd;
+          existing.requests += requests;
+          costMap.set(key, existing);
         }
       }
 

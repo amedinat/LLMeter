@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Plus, Eye, EyeOff, Loader2, Key, Wifi, WifiOff, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
-import { providerTypes, comingSoonProviders } from '@/lib/validators/provider';
+import { providerTypes, comingSoonProviders, premiumProviders } from '@/lib/validators/provider';
+import type { Plan } from '@/types';
 
 const providerLabels: Record<string, string> = {
   openai: 'OpenAI',
@@ -37,6 +38,7 @@ export default function ProvidersPage() {
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [retryingId, setRetryingId] = useState<string | null>(null);
+  const [userPlan, setUserPlan] = useState<Plan>('free');
   const pollRef = useRef<NodeJS.Timeout | null>(null);
 
   // Form state
@@ -50,6 +52,7 @@ export default function ProvidersPage() {
       if (res.ok) {
         const data = await res.json();
         setProviders(data.providers || []);
+        if (data.plan) setUserPlan(data.plan);
       } else {
         toast.error('Failed to load providers');
       }
@@ -257,11 +260,13 @@ export default function ProvidersPage() {
                     <SelectValue placeholder="Select a provider" />
                   </SelectTrigger>
                   <SelectContent>
-                    {providerTypes.map((p) => (
-                      <SelectItem key={p} value={p}>
-                        {providerLabels[p] || p}
-                      </SelectItem>
-                    ))}
+                    {providerTypes
+                      .filter((p) => !(userPlan === 'free' && (premiumProviders as readonly string[]).includes(p)))
+                      .map((p) => (
+                        <SelectItem key={p} value={p}>
+                          {providerLabels[p] || p}
+                        </SelectItem>
+                      ))}
                     {comingSoonProviders.map((p) => (
                       <SelectItem key={p} value={p} disabled>
                         {providerLabels[p] || p} — Coming Soon

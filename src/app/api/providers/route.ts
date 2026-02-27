@@ -23,6 +23,8 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const plan = await getUserPlan();
+
     const { data, error } = await supabase
       .from('providers')
       .select('id, provider, display_name, status, last_sync_at, last_error, created_at')
@@ -34,7 +36,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to fetch providers' }, { status: 500 });
     }
 
-    return NextResponse.json({ providers: data });
+    return NextResponse.json({ providers: data, plan });
   } catch (error) {
     console.error('Error fetching providers:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
