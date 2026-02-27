@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const providerTypes = ['openai', 'anthropic', 'google', 'deepseek'] as const;
+export const providerTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter'] as const;
 
 export const connectProviderSchema = z.object({
   provider: z.enum(providerTypes, { errorMap: () => ({ message: 'Please select a provider' }) }),

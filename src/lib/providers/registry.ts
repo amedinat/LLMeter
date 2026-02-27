@@ -4,6 +4,7 @@ import { openaiAdapter } from './openai-adapter';
 import { anthropicAdapter } from './anthropic-adapter';
 import { googleAdapter } from './google-adapter';
 import { deepseekAdapter } from './deepseek-adapter';
+import { openrouterAdapter } from './openrouter-adapter';
 
 /**
  * Provider adapter registry.
@@ -16,6 +17,7 @@ adapters.set('openai', openaiAdapter);
 adapters.set('anthropic', anthropicAdapter);
 adapters.set('google', googleAdapter);
 adapters.set('deepseek', deepseekAdapter);
+adapters.set('openrouter', openrouterAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

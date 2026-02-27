@@ -168,7 +168,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           openai: 0,
           anthropic: 0,
           google: 0,
-          deepseek: 0
+          deepseek: 0,
+          openrouter: 0
         }
       });
     }

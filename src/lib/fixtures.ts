@@ -36,6 +36,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         anthropic,
         google: 0,
         deepseek: 0,
+        openrouter: 0,
       },
     };
   });

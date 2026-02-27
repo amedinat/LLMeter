@@ -83,4 +83,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.deepseek.com/api_keys',
     color: '#0066FF',
   },
+  openrouter: {
+    type: 'openrouter',
+    name: 'OpenRouter',
+    description: '500+ models: Claude, GPT, Gemini, Llama, Mistral & more',
+    keyPrefix: 'sk-or-',
+    keyPlaceholder: 'sk-or-v1-...',
+    helpUrl: 'https://openrouter.ai/settings/keys',
+    color: '#6366F1',
+  },
 };
