@@ -96,9 +96,9 @@ export default function HomePage() {
             <Card>
               <CardHeader>
                 <Zap className="h-10 w-10 mb-2" />
-                <CardTitle>Optimization</CardTitle>
+                <CardTitle>OpenRouter Support</CardTitle>
                 <CardDescription>
-                  Get actionable recommendations to switch models and save up to 40% on costs.
+                  Track usage across 500+ models with a single OpenRouter key (Pro feature).
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -123,9 +123,9 @@ export default function HomePage() {
             <Card>
               <CardHeader>
                 <ArrowRight className="h-10 w-10 mb-2" />
-                <CardTitle>Easy Export</CardTitle>
+                <CardTitle>Secure Storage</CardTitle>
                 <CardDescription>
-                  Download your data as CSV for further analysis in Excel or Google Sheets.
+                  Your API keys are encrypted at rest using AES-256-GCM. We prioritize your security.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -152,7 +152,7 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="flex-1">
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Provider</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Provider (except OpenRouter)</li>
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 30-day data retention</li>
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Budget Alert</li>
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Real cost tracking</li>
@@ -180,7 +180,7 @@ export default function HomePage() {
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited Providers</li>
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1-year data retention</li>
                   <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited Alerts & Anomaly Detection</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> CSV Export</li>
+                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> OpenRouter Integration</li>
                 </ul>
               </CardContent>
               <CardFooter>
