@@ -6,15 +6,24 @@ import { decryptFromDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers/registry';
 import { inngest } from '@/lib/inngest/client';
 import { evaluateAlertsInline } from '@/lib/alerts/evaluate-inline';
+import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
+import { checkRateLimit } from '@/lib/rate-limit';
+import { sanitizeErrorForStorage, sanitizeErrorForClient } from '@/lib/error-sanitizer';
 import type { ProviderType } from '@/types';
+
+const PROVIDER_MUTATE_LIMIT = { limit: 20, windowMs: 60_000 };
 
 /**
  * DELETE /api/providers/:id — Disconnect a provider (delete encrypted key)
  */
 export async function DELETE(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!verifyCsrfHeader(request)) {
+    return csrfForbiddenResponse();
+  }
+
   const { id } = await params;
   const supabase = await createClient();
   const {
@@ -25,6 +34,14 @@ export async function DELETE(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const rl = checkRateLimit(`providers-mutate:${user.id}`, PROVIDER_MUTATE_LIMIT);
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
+  }
+
   // RLS ensures user can only delete own providers
   const { error } = await supabase
     .from('providers')
@@ -33,7 +50,7 @@ export async function DELETE(
     .eq('user_id', user.id);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to disconnect provider' }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });
@@ -46,6 +63,10 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!verifyCsrfHeader(request)) {
+    return csrfForbiddenResponse();
+  }
+
   const { id } = await params;
   const supabase = await createClient();
   const {
@@ -54,6 +75,14 @@ export async function PATCH(
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const rl = checkRateLimit(`providers-mutate:${user.id}`, PROVIDER_MUTATE_LIMIT);
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
   }
 
   let body: unknown;
@@ -100,7 +129,7 @@ export async function PATCH(
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update provider' }, { status: 500 });
   }
 
   return NextResponse.json({ provider: data });
@@ -110,9 +139,13 @@ export async function PATCH(
  * POST /api/providers/:id — Retry sync for a provider in error/syncing state
  */
 export async function POST(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!verifyCsrfHeader(request)) {
+    return csrfForbiddenResponse();
+  }
+
   const { id } = await params;
   const supabase = await createClient();
   const {
@@ -121,6 +154,14 @@ export async function POST(
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const rl = checkRateLimit(`providers-sync:${user.id}`, { limit: 10, windowMs: 60_000 });
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: 'Too many sync requests. Please wait before retrying.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
   }
 
   // Fetch the provider
@@ -200,12 +241,13 @@ export async function POST(
 
     return NextResponse.json({ success: true, status: 'active', records: records.length });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    const rawMessage = err instanceof Error ? err.message : String(err);
+    const safeMessage = sanitizeErrorForStorage(rawMessage);
     await supabase
       .from('providers')
-      .update({ status: 'error', last_error: message })
+      .update({ status: 'error', last_error: safeMessage })
       .eq('id', id);
 
-    return NextResponse.json({ error: `Sync failed: ${message}`, status: 'error' }, { status: 500 });
+    return NextResponse.json({ error: `Sync failed: ${sanitizeErrorForClient(rawMessage)}`, status: 'error' }, { status: 500 });
   }
 }

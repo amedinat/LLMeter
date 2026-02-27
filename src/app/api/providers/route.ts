@@ -9,6 +9,7 @@ import { checkRateLimit } from '@/lib/rate-limit';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { getUserPlan, getPlanLimits } from '@/lib/feature-gate';
 import { evaluateAlertsInline } from '@/lib/alerts/evaluate-inline';
+import { sanitizeErrorForStorage, sanitizeErrorForClient } from '@/lib/error-sanitizer';
 import type { ProviderType } from '@/types';
 
 const PROVIDER_API_LIMIT = { limit: 30, windowMs: 60_000 };
@@ -166,7 +167,6 @@ export async function POST(req: NextRequest) {
         console.warn(`[SYNC] ${provider} returned ${records.length} records`);
 
         if (records.length > 0) {
-          console.warn(`[SYNC] Sample record: ${JSON.stringify(records[0])}`);
           const adminSupabase = createAdminClient();
           const rows = records.map((r) => ({
             provider_id: data.id,
@@ -203,17 +203,19 @@ export async function POST(req: NextRequest) {
           console.warn('[alerts] Inline evaluation failed:', err)
         );
       } catch (syncErr) {
-        const syncMessage = syncErr instanceof Error ? syncErr.message : String(syncErr);
-        console.error('Inline sync failed:', syncMessage);
+        const rawMessage = syncErr instanceof Error ? syncErr.message : String(syncErr);
+        console.error('Inline sync failed:', rawMessage);
+
+        const safeMessage = sanitizeErrorForStorage(rawMessage);
 
         // Mark as error so UI can show it
         await supabase
           .from('providers')
-          .update({ status: 'error', last_error: syncMessage })
+          .update({ status: 'error', last_error: safeMessage })
           .eq('id', data.id);
 
         finalStatus = 'error';
-        syncResult.error = syncMessage;
+        syncResult.error = sanitizeErrorForClient(rawMessage);
       }
     }
 

@@ -47,10 +47,31 @@ export function isStaticFile(pathname: string): boolean {
  * Verify that the request includes the custom CSRF header.
  * Browsers won't send custom headers in cross-origin simple requests,
  * so this acts as a lightweight CSRF protection.
+ *
+ * We check for `x-requested-with: XMLHttpRequest` OR our custom `x-csrf-token`
+ * header. The content-type check alone is NOT sufficient because HTML forms
+ * can submit as application/json via enctype workarounds.
  */
 export function verifyCsrfHeader(request: Request): boolean {
-  return request.headers.get('x-requested-with') === 'XMLHttpRequest' ||
-    request.headers.get('content-type')?.includes('application/json') === true;
+  // Custom header check — cannot be set by cross-origin HTML forms
+  if (request.headers.get('x-requested-with') === 'XMLHttpRequest') return true;
+  if (request.headers.get('x-csrf-token') === '1') return true;
+
+  // Fallback: content-type must be JSON AND origin must match
+  const contentType = request.headers.get('content-type');
+  const origin = request.headers.get('origin');
+  const host = request.headers.get('host');
+
+  if (contentType?.includes('application/json') && origin && host) {
+    try {
+      const originHost = new URL(origin).host;
+      return originHost === host;
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 /**
