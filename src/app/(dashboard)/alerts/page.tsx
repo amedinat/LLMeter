@@ -18,6 +18,21 @@ const alertTypeLabels: Record<string, string> = {
   daily_threshold: 'Daily Threshold',
 };
 
+const alertTypeDescriptions: Record<string, string> = {
+  budget_limit: 'Accumulated spend limit',
+  anomaly: 'Statistical anomaly detection',
+  daily_threshold: 'Daily spend limit',
+};
+
+const alertTypeFormDescriptions: Record<string, string> = {
+  budget_limit:
+    'Triggers when your accumulated spending exceeds a dollar amount over a chosen period (daily or monthly).',
+  daily_threshold:
+    'Triggers when your spending in a single day exceeds the specified dollar amount.',
+  anomaly:
+    'Triggers when today\u2019s spending is statistically unusual compared to your last 14 days. The sensitivity value is a z-score \u2014 lower values (e.g. 1.5) trigger more easily, higher values (e.g. 3.0) only trigger on extreme spikes. Default: 2.0.',
+};
+
 const alertTypeIcons: Record<string, React.ReactNode> = {
   budget_limit: <DollarSign className="h-4 w-4" />,
   anomaly: <AlertTriangle className="h-4 w-4" />,
@@ -36,6 +51,48 @@ interface AlertRow {
   config: { threshold: number; period: string; providers?: string[] };
   enabled: boolean;
   created_at: string;
+}
+
+function getThresholdInputProps(formType: string) {
+  switch (formType) {
+    case 'anomaly':
+      return {
+        label: 'Sensitivity (z-score)',
+        placeholder: '2.0',
+        step: '0.1',
+        min: '0.5',
+        max: '5.0',
+      };
+    case 'daily_threshold':
+      return {
+        label: 'Threshold ($)',
+        placeholder: '10.00',
+        step: '0.01',
+        min: '0.01',
+        max: undefined,
+      };
+    case 'budget_limit':
+    default:
+      return {
+        label: 'Threshold ($)',
+        placeholder: '50.00',
+        step: '0.01',
+        min: '0.01',
+        max: undefined,
+      };
+  }
+}
+
+function formatAlertDisplay(alert: AlertRow) {
+  switch (alert.type) {
+    case 'anomaly':
+      return `Sensitivity: ${alert.config.threshold}σ`;
+    case 'daily_threshold':
+      return `$${alert.config.threshold.toFixed(2)} / day`;
+    case 'budget_limit':
+    default:
+      return `$${alert.config.threshold.toFixed(2)} / ${periodLabels[alert.config.period] || alert.config.period}`;
+  }
 }
 
 export default function AlertsPage() {
@@ -73,6 +130,10 @@ export default function AlertsPage() {
     setFormPeriod('monthly');
   };
 
+  const showPeriodSelector = formType === 'budget_limit';
+  const effectivePeriod = formType === 'budget_limit' ? formPeriod : 'daily';
+  const thresholdProps = getThresholdInputProps(formType);
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const threshold = parseFloat(formThreshold);
@@ -87,7 +148,7 @@ export default function AlertsPage() {
           type: formType,
           config: {
             threshold,
-            period: formPeriod,
+            period: effectivePeriod,
             providers: [],
           },
         }),
@@ -192,37 +253,45 @@ export default function AlertsPage() {
                     ))}
                   </SelectContent>
                 </Select>
+                {formType && (
+                  <p className="text-xs text-muted-foreground">
+                    {alertTypeFormDescriptions[formType]}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="threshold">Threshold ($)</Label>
+                <Label htmlFor="threshold">{thresholdProps.label}</Label>
                 <Input
                   id="threshold"
                   type="number"
-                  step="0.01"
-                  min="0.01"
-                  placeholder="50.00"
+                  step={thresholdProps.step}
+                  min={thresholdProps.min}
+                  max={thresholdProps.max}
+                  placeholder={thresholdProps.placeholder}
                   value={formThreshold}
                   onChange={(e) => setFormThreshold(e.target.value)}
                   required
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="period">Period</Label>
-                <Select value={formPeriod} onValueChange={setFormPeriod}>
-                  <SelectTrigger id="period">
-                    <SelectValue placeholder="Select period" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {alertPeriods.map((p) => (
-                      <SelectItem key={p} value={p}>
-                        {periodLabels[p] || p}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {showPeriodSelector && (
+                <div className="space-y-2">
+                  <Label htmlFor="period">Period</Label>
+                  <Select value={formPeriod} onValueChange={setFormPeriod}>
+                    <SelectTrigger id="period">
+                      <SelectValue placeholder="Select period" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {alertPeriods.map((p) => (
+                        <SelectItem key={p} value={p}>
+                          {periodLabels[p] || p}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>
@@ -298,10 +367,13 @@ export default function AlertsPage() {
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>{alertTypeLabels[a.type] || a.type}</span>
                   <span>&middot;</span>
-                  <span>${a.config.threshold.toFixed(2)}</span>
-                  <span>&middot;</span>
-                  <span className="capitalize">{a.config.period}</span>
+                  <span>{formatAlertDisplay(a)}</span>
                 </div>
+                {alertTypeDescriptions[a.type] && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {alertTypeDescriptions[a.type]}
+                  </p>
+                )}
                 <p className="mt-1 text-xs text-muted-foreground">
                   Created {new Date(a.created_at).toLocaleDateString()}
                 </p>
