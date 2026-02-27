@@ -215,8 +215,8 @@ async function fetchCostData(
           : startingAt.slice(0, 10);
 
         for (const result of bucket.results ?? []) {
-          // When grouped by description, the response includes parsed model field
-          const model = result.model ?? 'unknown';
+          // When grouped by description, model may be in 'model' or 'description' field
+          const model = result.model ?? result.description ?? 'unknown';
           // Cost is in cents as a decimal string (e.g., "1234.56" = $12.3456)
           const costCents = parseFloat(result.cost ?? '0');
           const costUsd = costCents / 100;

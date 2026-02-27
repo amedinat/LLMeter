@@ -107,23 +107,45 @@ describe('Provider Adapters', () => {
       await expect(anthropicAdapter.validateKey('bad-key')).rejects.toThrow('Invalid API key');
     });
 
-    it('fetchUsage parses Anthropic response correctly', async () => {
-      const mockResponse = {
+    it('fetchUsage parses Anthropic Admin API response correctly', async () => {
+      // Mock matches actual Anthropic Admin API response structure
+      const mockUsageResponse = {
         data: [
           {
-            date: '2024-01-01',
-            model: 'claude-3-opus-20240229',
-            input_tokens: 1000,
-            output_tokens: 500,
-            num_requests: 5,
+            starting_at: '2024-01-01T00:00:00Z',
+            results: [
+              {
+                model: 'claude-3-opus-20240229',
+                uncached_input_tokens: 800,
+                cache_read_input_tokens: 200,
+                output_tokens: 500,
+                num_requests: 5,
+              },
+            ],
           },
         ],
+        has_more: false,
       };
 
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => mockResponse,
-      });
+      const mockCostResponse = {
+        data: [
+          {
+            starting_at: '2024-01-01T00:00:00Z',
+            results: [
+              {
+                description: 'claude-3-opus-20240229',
+                cost: '2.325',
+              },
+            ],
+          },
+        ],
+        has_more: false,
+      };
+
+      // fetchUsage calls usage API then cost API in parallel
+      fetchMock
+        .mockResolvedValueOnce({ ok: true, json: async () => mockUsageResponse })
+        .mockResolvedValueOnce({ ok: true, json: async () => mockCostResponse });
 
       const startDate = new Date('2024-01-01T00:00:00Z');
       const endDate = new Date('2024-01-01T23:59:59Z');
@@ -135,11 +157,13 @@ describe('Provider Adapters', () => {
         expect.objectContaining({
           date: '2024-01-01',
           model: 'claude-3-opus-20240229',
-          inputTokens: 1000,
+          inputTokens: 1000, // 800 uncached + 200 cache_read
           outputTokens: 500,
           requests: 5,
         })
       );
+      // Should use actual cost from Cost API (2.325 cents = $0.02325)
+      expect(records[0].costUsd).toBeCloseTo(0.02325, 4);
     });
   });
 
