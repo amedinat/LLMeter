@@ -165,6 +165,58 @@ describe('Provider Adapters', () => {
       // Should use actual cost from Cost API (2.325 cents = $0.02325)
       expect(records[0].costUsd).toBeCloseTo(0.02325, 4);
     });
+
+    it('fetchUsage fills in request counts from Cost API when Usage API returns 0', async () => {
+      // Usage API returns num_requests: 0 (can happen with some account configurations)
+      const mockUsageResponse = {
+        data: [
+          {
+            starting_at: '2024-01-01T00:00:00Z',
+            results: [
+              {
+                model: 'claude-3-opus-20240229',
+                uncached_input_tokens: 800,
+                cache_read_input_tokens: 200,
+                output_tokens: 500,
+                // num_requests missing — falls back to 0
+              },
+            ],
+          },
+        ],
+        has_more: false,
+      };
+
+      // Cost API returns num_requests alongside amount
+      const mockCostResponse = {
+        data: [
+          {
+            starting_at: '2024-01-01T00:00:00Z',
+            results: [
+              {
+                description: 'claude-3-opus-20240229',
+                amount: '2.325',
+                num_requests: 12,
+              },
+            ],
+          },
+        ],
+        has_more: false,
+      };
+
+      fetchMock
+        .mockResolvedValueOnce({ ok: true, json: async () => mockUsageResponse })
+        .mockResolvedValueOnce({ ok: true, json: async () => mockCostResponse });
+
+      const startDate = new Date('2024-01-01T00:00:00Z');
+      const endDate = new Date('2024-01-01T23:59:59Z');
+
+      const records = await anthropicAdapter.fetchUsage('sk-ant-test', startDate, endDate);
+
+      expect(records).toHaveLength(1);
+      // Should use request count from Cost API since Usage API returned 0
+      expect(records[0].requests).toBe(12);
+      expect(records[0].costUsd).toBeCloseTo(0.02325, 4);
+    });
   });
 
   describe('Google AI Adapter', () => {
