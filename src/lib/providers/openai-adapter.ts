@@ -8,6 +8,7 @@ export const openaiAdapter: ProviderAdapter = {
   type: 'openai',
 
   async validateKey(apiKey: string): Promise<boolean> {
+    // First validate that the key is valid at all
     const res = await fetch('https://api.openai.com/v1/models', {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
@@ -17,6 +18,27 @@ export const openaiAdapter: ProviderAdapter = {
       throw new Error(
         body?.error?.message ?? `OpenAI API returned ${res.status}`
       );
+    }
+
+    // Now check if the key has admin/usage permissions
+    const usageRes = await fetch(
+      'https://api.openai.com/v1/organization/usage/completions?start_time=' +
+        Math.floor(Date.now() / 1000 - 86400) +
+        '&end_time=' +
+        Math.floor(Date.now() / 1000) +
+        '&bucket_width=1d',
+      { headers: { Authorization: `Bearer ${apiKey}` } }
+    );
+
+    if (!usageRes.ok) {
+      const status = usageRes.status;
+      if (status === 401 || status === 403) {
+        throw new Error(
+          'This API key does not have admin/usage permissions. ' +
+          'LLMeter requires an Admin API key to fetch usage data. ' +
+          'Go to platform.openai.com → Organization → Admin Keys to create one.'
+        );
+      }
     }
 
     return true;
@@ -43,6 +65,13 @@ export const openaiAdapter: ProviderAdapter = {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
+      const status = res.status;
+      if (status === 401 || status === 403) {
+        throw new Error(
+          'Usage API access denied. This key may not have admin permissions. ' +
+          'Go to platform.openai.com → Organization → Admin Keys.'
+        );
+      }
       throw new Error(
         body?.error?.message ?? `OpenAI usage API returned ${res.status}`
       );

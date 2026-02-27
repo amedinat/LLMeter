@@ -5,6 +5,7 @@ import { updateProviderSchema } from '@/lib/validators/provider';
 import { decryptFromDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers/registry';
 import { inngest } from '@/lib/inngest/client';
+import { evaluateAlertsInline } from '@/lib/alerts/evaluate-inline';
 import type { ProviderType } from '@/types';
 
 /**
@@ -191,6 +192,11 @@ export async function POST(
       .from('providers')
       .update({ status: 'active', last_sync_at: new Date().toISOString(), last_error: null })
       .eq('id', id);
+
+    // Evaluate alerts inline (best-effort)
+    evaluateAlertsInline(user.id).catch((err) =>
+      console.warn('[alerts] Inline evaluation failed:', err)
+    );
 
     return NextResponse.json({ success: true, status: 'active', records: records.length });
   } catch (err) {

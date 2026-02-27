@@ -1,33 +1,65 @@
 # LLMeter — Open Source AI Cost Monitor
 
-LLMeter helps you track and optimize your AI API spending across multiple providers (OpenAI, Anthropic, Gemini, etc.) in a single dashboard.
+LLMeter helps you track and optimize your AI API spending across multiple providers in a single dashboard.
 
-## 🚀 Monetization Strategy: Open Core + SaaS
+## Supported Providers
 
-LLMeter follows an **Open Core** model to balance community growth with sustainability:
+- **Anthropic** — Real costs via Cost API + usage data (Admin API key required)
+- **OpenAI** — Usage data via Organization API (Admin API key required)
+- **OpenRouter** — Real costs + multi-model aggregation (Management key required)
+- **DeepSeek** — Usage data via billing endpoint
+- **Google AI** — Coming soon
 
-1.  **Core (Open Source):**
-    *   Basic cost tracking for 1 provider.
-    *   30-day data retention.
-    *   Basic budget alerts.
-    *   Self-hostable (MIT/Apache 2.0 license).
-2.  **LLMeter Cloud (SaaS):**
-    *   **Managed Experience:** No infra to maintain.
-    *   **Pro features:** Multiple providers, unlimited history, team collaboration, advanced anomaly detection.
-    *   **Premium Support.**
+## Features
 
-## 🛠 Tech Stack
-- **Frontend:** Next.js 16 (App Router)
-- **Database:** Supabase
-- **Background Jobs:** Inngest
-- **Payments:** Stripe
+- Unified cost dashboard across all providers
+- Real cost tracking (not estimates) where provider APIs support it
+- Budget alerts with email notifications
+- Daily and monthly spend monitoring
+- Model-level cost breakdown
+- CSV export for further analysis
+- Self-hostable with Supabase + Next.js
+
+## Tech Stack
+
+- **Frontend:** Next.js 16 (App Router) + Tailwind CSS + shadcn/ui
+- **Database:** Supabase (PostgreSQL + Row Level Security)
 - **Charts:** Recharts
+- **Email:** Resend
+- **Background Jobs:** Inngest (optional — works without it via inline sync)
 
-## 🔧 Development
+## Getting Started
+
 ```bash
-pnpm install
-pnpm dev
+# Clone the repo
+git clone https://github.com/amedinat/LLMeter.git
+cd LLMeter
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your Supabase and encryption keys
+
+# Run development server
+npm run dev
 ```
 
+## Self-Hosting
+
+LLMeter is designed to be self-hostable. You need:
+
+1. A Supabase project (free tier works)
+2. An encryption secret (32-byte hex string)
+3. Optionally: Resend API key for email alerts
+
+See `.env.local.example` for all required variables.
+
+## License
+
+AGPL-3.0 — see [LICENSE](LICENSE) for details.
+
 ---
-*Created and maintained by John Medina with Otto.*
+
+*Created and maintained by John Medina.*
