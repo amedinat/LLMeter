@@ -8,6 +8,13 @@ export const openaiAdapter: ProviderAdapter = {
   type: 'openai',
 
   async validateKey(apiKey: string): Promise<boolean> {
+    if (apiKey.startsWith('sk-ant-')) {
+      throw new Error(
+        'This looks like an Anthropic key, not an OpenAI key. ' +
+        'OpenAI keys start with sk-proj- or sk-...'
+      );
+    }
+
     // First validate that the key is valid at all
     const res = await fetch('https://api.openai.com/v1/models', {
       headers: { Authorization: `Bearer ${apiKey}` },

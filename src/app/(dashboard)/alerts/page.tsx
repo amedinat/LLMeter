@@ -375,7 +375,7 @@ export default function AlertsPage() {
                   </p>
                 )}
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Created {new Date(a.created_at).toLocaleDateString()}
+                  Created {(a.created_at ? new Date(a.created_at).toLocaleDateString() : "Pending")}
                 </p>
               </CardContent>
             </Card>
