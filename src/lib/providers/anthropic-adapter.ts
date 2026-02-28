@@ -1,3 +1,4 @@
+import { getModelPricing, getDefaultRates } from '@/data/model-pricing';
 import type { ProviderAdapter, NormalizedUsageRecord } from './types';
 
 /**
@@ -264,6 +265,7 @@ async function fetchCostData(
 /**
  * Fallback cost estimation when Cost API is unavailable.
  * Properly accounts for different token types and their pricing.
+ * Now uses the centralized model pricing catalog.
  */
 function estimateAnthropicCost(
   model: string,
@@ -272,40 +274,34 @@ function estimateAnthropicCost(
   cacheCreationTokens: number,
   outputTokens: number
 ): number {
-  const m = model.toLowerCase();
+  const pricing = getModelPricing(model);
 
-  // Prices per 1M tokens: [input, output, cache_read, cache_creation]
-  // cache_read = 10% of input price, cache_creation = 125% of input price
-  const pricing: Record<string, [number, number, number, number]> = {
-    'claude-opus-4':     [15,    75,    1.5,    18.75],
-    'claude-sonnet-4':   [3,     15,    0.3,    3.75],
-    'claude-3.5-sonnet': [3,     15,    0.3,    3.75],
-    'claude-3-5-haiku':  [0.8,   4,     0.08,   1.0],
-    'claude-3-opus':     [15,    75,    1.5,    18.75],
-    'claude-3-sonnet':   [3,     15,    0.3,    3.75],
-    'claude-3-haiku':    [0.25,  1.25,  0.025,  0.3125],
-  };
+  if (pricing) {
+    // Use pricing from catalog
+    // Note: catalog store rates per 1M tokens
+    const inputRate = pricing.input_price_per_1m_tokens;
+    const outputRate = pricing.output_price_per_1m_tokens;
+    
+    // For cache creation/read, if not in catalog, use standard Anthropic multipliers
+    // cache_read = 10% of input price, cache_creation = 125% of input price
+    const cacheReadRate = pricing.cache_read_price_per_1m_tokens ?? (inputRate * 0.1);
+    const cacheCreationRate = pricing.cache_creation_price_per_1m_tokens ?? (inputRate * 1.25);
 
-  // Default to sonnet-level pricing
-  let inputRate = 3;
-  let outputRate = 15;
-  let cacheReadRate = 0.3;
-  let cacheCreationRate = 3.75;
-
-  for (const [key, [iR, oR, crR, ccR]] of Object.entries(pricing)) {
-    if (m.includes(key)) {
-      inputRate = iR;
-      outputRate = oR;
-      cacheReadRate = crR;
-      cacheCreationRate = ccR;
-      break;
-    }
+    return (
+      (uncachedInputTokens / 1_000_000) * inputRate +
+      (cacheReadTokens / 1_000_000) * cacheReadRate +
+      (cacheCreationTokens / 1_000_000) * cacheCreationRate +
+      (outputTokens / 1_000_000) * outputRate
+    );
   }
 
+  // Fallback to default provider rates
+  const [defaultInput, defaultOutput] = getDefaultRates('anthropic');
+  
   return (
-    (uncachedInputTokens / 1_000_000) * inputRate +
-    (cacheReadTokens / 1_000_000) * cacheReadRate +
-    (cacheCreationTokens / 1_000_000) * cacheCreationRate +
-    (outputTokens / 1_000_000) * outputRate
+    (uncachedInputTokens / 1_000_000) * defaultInput +
+    (cacheReadTokens / 1_000_000) * (defaultInput * 0.1) +
+    (cacheCreationTokens / 1_000_000) * (defaultInput * 1.25) +
+    (outputTokens / 1_000_000) * defaultOutput
   );
 }

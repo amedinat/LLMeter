@@ -1,3 +1,4 @@
+import { getModelPricing, getDefaultRates } from '@/data/model-pricing';
 import type { ProviderAdapter, NormalizedUsageRecord } from './types';
 
 /**
@@ -128,38 +129,27 @@ async function fetchUsageOpenAICompat(
 }
 
 /**
- * Cost estimation for DeepSeek models.
- * DeepSeek is notably cheap compared to other providers.
+ * Cost estimation for DeepSeek models using centralized pricing.
  */
 function estimateDeepSeekCost(
   model: string,
   inputTokens: number,
   outputTokens: number
 ): number {
-  const m = model.toLowerCase();
+  const pricing = getModelPricing(model);
 
-  // Prices per 1M tokens (input / output) — Feb 2026
-  const pricing: Record<string, [number, number]> = {
-    'deepseek-chat': [0.14, 0.28],
-    'deepseek-reasoner': [0.55, 2.19],
-    'deepseek-r1': [0.55, 2.19],
-    'deepseek-v3': [0.14, 0.28],
-    'deepseek-coder': [0.14, 0.28],
-  };
-
-  let inputRate = 0.14; // default (chat-level)
-  let outputRate = 0.28;
-
-  for (const [key, [iRate, oRate]] of Object.entries(pricing)) {
-    if (m.includes(key)) {
-      inputRate = iRate;
-      outputRate = oRate;
-      break;
-    }
+  if (pricing) {
+    return (
+      (inputTokens / 1_000_000) * pricing.input_price_per_1m_tokens +
+      (outputTokens / 1_000_000) * pricing.output_price_per_1m_tokens
+    );
   }
 
+  // Fallback to default provider rates
+  const [defaultInput, defaultOutput] = getDefaultRates('deepseek');
+  
   return (
-    (inputTokens / 1_000_000) * inputRate +
-    (outputTokens / 1_000_000) * outputRate
+    (inputTokens / 1_000_000) * defaultInput +
+    (outputTokens / 1_000_000) * defaultOutput
   );
 }
