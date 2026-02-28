@@ -1,4 +1,4 @@
-import { LayoutDashboard, Link2, Bell, Settings } from 'lucide-react';
+import { LayoutDashboard, Link2, Bell, Lightbulb, Settings } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export interface NavItem {
@@ -22,6 +22,11 @@ export const navItems: NavItem[] = [
     title: 'Alerts',
     href: '/alerts',
     icon: Bell,
+  },
+  {
+    title: 'Optimization',
+    href: '/optimization',
+    icon: Lightbulb,
   },
   {
     title: 'Settings',

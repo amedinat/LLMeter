@@ -410,11 +410,11 @@ export default function ProvidersPage() {
                 )}
                 {p.last_sync_at && (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Last sync: {new Date(p.last_sync_at).toLocaleString()}
+                    Last sync: {(p.last_sync_at ? new Date(p.last_sync_at).toLocaleString() : "Syncing...")}
                   </p>
                 )}
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Added {new Date(p.created_at).toLocaleDateString()}
+                  Added {(p.created_at ? new Date(p.created_at).toLocaleDateString() : "Recently Added")}
                 </p>
               </CardContent>
             </Card>
