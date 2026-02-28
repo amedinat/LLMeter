@@ -181,7 +181,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
     }
   });
 
-  return Array.from(dateMap.values()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  return Array.from(dateMap.values()).sort((a, b) => { const timeA = new Date(a.date).getTime(); const timeB = new Date(b.date).getTime(); if (isNaN(timeA) || isNaN(timeB)) return 0; return timeA - timeB; });
 }
 
 function emptySummary(): SpendSummary {
