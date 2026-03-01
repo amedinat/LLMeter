@@ -1,12 +1,25 @@
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing STRIPE_SECRET_KEY environment variable');
+/**
+ * Stripe client – lazy-initialized so the module can be imported at build time
+ * without requiring the secret key (Vercel static generation, etc.).
+ */
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    throw new Error('Missing STRIPE_SECRET_KEY environment variable');
+  }
+  return new Stripe(key, { typescript: true });
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  typescript: true,
-});
+export const stripe = typeof process.env.STRIPE_SECRET_KEY === 'string'
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, { typescript: true })
+  : (new Proxy({} as Stripe, {
+      get(_, prop) {
+        if (prop === 'then') return undefined;        // avoid thenable confusion
+        return getStripe()[prop as keyof Stripe];
+      },
+    }));
 
 /**
  * Maps Stripe price IDs to LLMeter plans.
