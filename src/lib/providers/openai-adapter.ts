@@ -1,3 +1,4 @@
+import { getModelPricing, getDefaultRates } from '@/data/model-pricing';
 import type { ProviderAdapter, NormalizedUsageRecord } from './types';
 
 /**
@@ -23,7 +24,7 @@ export const openaiAdapter: ProviderAdapter = {
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
       throw new Error(
-        body?.error?.message ?? `OpenAI API returned ${res.status}`
+        body?.error?.message ?? \`OpenAI API returned \${res.status}\`
       );
     }
 
@@ -34,7 +35,7 @@ export const openaiAdapter: ProviderAdapter = {
         '&end_time=' +
         Math.floor(Date.now() / 1000) +
         '&bucket_width=1d',
-      { headers: { Authorization: `Bearer ${apiKey}` } }
+      { headers: { Authorization: `Bearer \${apiKey}` } }
     );
 
     if (!usageRes.ok) {
@@ -67,7 +68,7 @@ export const openaiAdapter: ProviderAdapter = {
     url.searchParams.set('group_by', 'model');
 
     const res = await fetch(url.toString(), {
-      headers: { Authorization: `Bearer ${apiKey}` },
+      headers: { Authorization: `Bearer \${apiKey}` },
     });
 
     if (!res.ok) {
@@ -80,7 +81,7 @@ export const openaiAdapter: ProviderAdapter = {
         );
       }
       throw new Error(
-        body?.error?.message ?? `OpenAI usage API returned ${res.status}`
+        body?.error?.message ?? \`OpenAI usage API returned \${res.status}\`
       );
     }
 
@@ -98,7 +99,7 @@ export const openaiAdapter: ProviderAdapter = {
         const outputTokens = result.output_tokens ?? 0;
         const numRequests = result.num_model_requests ?? 0;
 
-        // Estimate cost from token counts (prices may vary)
+        // Estimate cost from token counts using centralized pricing
         const costUsd = estimateOpenAICost(
           result.model ?? 'unknown',
           inputTokens,
@@ -122,43 +123,27 @@ export const openaiAdapter: ProviderAdapter = {
 };
 
 /**
- * Rough cost estimation based on model name.
- * TODO: Make this configurable / fetch from pricing API.
+ * Cost estimation for OpenAI models using centralized pricing.
  */
 function estimateOpenAICost(
   model: string,
   inputTokens: number,
   outputTokens: number
 ): number {
-  const m = model.toLowerCase();
+  const pricing = getModelPricing(model);
 
-  // Prices per 1M tokens (input / output)
-  const pricing: Record<string, [number, number]> = {
-    'gpt-4o': [2.5, 10],
-    'gpt-4o-mini': [0.15, 0.6],
-    'gpt-4-turbo': [10, 30],
-    'gpt-4': [30, 60],
-    'gpt-3.5-turbo': [0.5, 1.5],
-    'o1': [15, 60],
-    'o1-mini': [3, 12],
-    'o1-pro': [150, 600],
-    'o3-mini': [1.1, 4.4],
-  };
-
-  // Find matching pricing
-  let inputRate = 2.5; // default
-  let outputRate = 10;
-
-  for (const [key, [iRate, oRate]] of Object.entries(pricing)) {
-    if (m.includes(key)) {
-      inputRate = iRate;
-      outputRate = oRate;
-      break;
-    }
+  if (pricing) {
+    return (
+      (inputTokens / 1_000_000) * pricing.input_price_per_1m_tokens +
+      (outputTokens / 1_000_000) * pricing.output_price_per_1m_tokens
+    );
   }
 
+  // Fallback to default provider rates
+  const [defaultInput, defaultOutput] = getDefaultRates('openai');
+  
   return (
-    (inputTokens / 1_000_000) * inputRate +
-    (outputTokens / 1_000_000) * outputRate
+    (inputTokens / 1_000_000) * defaultInput +
+    (outputTokens / 1_000_000) * defaultOutput
   );
 }
