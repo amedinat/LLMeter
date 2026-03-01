@@ -44,19 +44,25 @@ async function main() {
     // We only care about major providers for now to keep the catalog lean
     const targets = ['anthropic/', 'openai/', 'deepseek/', 'google/'];
     
-    const filteredModels = orModels.filter((m: any) => targets.some(t => m.id.startsWith(t)));
-    
-    const catalogEntries = filteredModels.map((m: any) => {
+    interface ORModel {
+      id: string;
+      name: string;
+      pricing: { prompt: string; completion: string };
+    }
+
+    const filteredModels = orModels.filter((m: ORModel) => targets.some(t => m.id.startsWith(t)));
+
+    const catalogEntries = filteredModels.map((m: ORModel) => {
       const inputPrice = parseFloat(m.pricing.prompt) * 1000000;
       const outputPrice = parseFloat(m.pricing.completion) * 1000000;
-      
+
       return {
         provider: determineProvider(m.id),
         model_id: m.id.split('/')[1],
         display_name: m.name,
         input_price_per_1m_tokens: Number(inputPrice.toFixed(4)),
         output_price_per_1m_tokens: Number(outputPrice.toFixed(4)),
-        capability_tier: determineTier(m.id, inputPrice),
+        capability_tier: determineTier(m.id as string, inputPrice),
         last_verified_at: timestamp
       };
     });
@@ -72,7 +78,7 @@ async function main() {
       throw new Error("Could not find MODEL_CATALOG array in model-pricing.ts");
     }
 
-    const newArrayContent = catalogEntries.map((entry: any) => {
+    const newArrayContent = catalogEntries.map((entry: Record<string, unknown>) => {
       return `  {
     provider: '${entry.provider}',
     model_id: '${entry.model_id}',

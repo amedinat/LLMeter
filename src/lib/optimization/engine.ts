@@ -60,9 +60,7 @@ export function generateSuggestions(
 
   // 3. Sort by absolute savings (highest first)
   allSuggestions.sort((a, b) => {
-    const savingsA = a.current_cost_usd - a.suggested_cost_usd;
-    const savingsB = b.current_cost_usd - b.suggested_cost_usd;
-    return savingsB - savingsA;
+    return b.estimated_monthly_savings_usd - a.estimated_monthly_savings_usd;
   });
 
   // 4. Apply plan limit
@@ -167,12 +165,10 @@ function findCheaperAlternatives(
     if (savingsUsd > bestSavings) {
       bestSavings = savingsUsd;
       bestSuggestion = {
-        model_current: summary.model,
-        model_suggested: candidate.model_id,
-        monthly_requests: summary.monthlyRequests,
-        current_cost_usd: round2(currentMonthlyCost),
-        suggested_cost_usd: round2(projectedMonthlyCost),
-        savings_pct: round2(savingsPct),
+        current_model: summary.model,
+        suggested_model: candidate.model_id,
+        estimated_monthly_savings_usd: round2(savingsUsd),
+        savings_percentage: round2(savingsPct),
         reasoning: buildReasoning(currentPricing, candidate, savingsPct),
         status: 'pending' as const,
       };

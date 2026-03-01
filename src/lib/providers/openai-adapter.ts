@@ -12,23 +12,30 @@ export const openaiAdapter: ProviderAdapter = {
     if (apiKey.startsWith('sk-ant-')) {
       throw new Error(
         'This looks like an Anthropic key, not an OpenAI key. ' +
-        'OpenAI keys start with sk-proj- or sk-...'
+        'OpenAI keys start with sk-admin- (admin keys) or sk-proj- (project keys).'
       );
     }
 
-    // First validate that the key is valid at all
-    const res = await fetch('https://api.openai.com/v1/models', {
-      headers: { Authorization: `Bearer ${apiKey}` },
-    });
+    // Admin keys (sk-admin-*) cannot call /v1/models but CAN call usage endpoints.
+    // Project keys (sk-proj-*) can call /v1/models but may NOT have usage access.
+    // We validate based on the key type.
+    const isAdminKey = apiKey.startsWith('sk-admin-');
 
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
-      throw new Error(
-        body?.error?.message ?? `OpenAI API returned ${res.status}`
-      );
+    if (!isAdminKey) {
+      // For non-admin keys, first check basic validity via /v1/models
+      const res = await fetch('https://api.openai.com/v1/models', {
+        headers: { Authorization: `Bearer ${apiKey}` },
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(
+          body?.error?.message ?? `OpenAI API returned ${res.status}`
+        );
+      }
     }
 
-    // Now check if the key has admin/usage permissions
+    // Check if the key has usage/admin permissions (required for cost tracking)
     const usageRes = await fetch(
       'https://api.openai.com/v1/organization/usage/completions?start_time=' +
         Math.floor(Date.now() / 1000 - 86400) +
@@ -43,10 +50,14 @@ export const openaiAdapter: ProviderAdapter = {
       if (status === 401 || status === 403) {
         throw new Error(
           'This API key does not have admin/usage permissions. ' +
-          'LLMeter requires an Admin API key to fetch usage data. ' +
+          'LLMeter requires an Admin API key (sk-admin-...) to fetch usage data. ' +
           'Go to platform.openai.com → Organization → Admin Keys to create one.'
         );
       }
+      const body = await usageRes.json().catch(() => ({}));
+      throw new Error(
+        body?.error?.message ?? `OpenAI usage API returned ${status}`
+      );
     }
 
     return true;
