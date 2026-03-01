@@ -133,8 +133,8 @@ export async function evaluateAlertsInline(userId: string): Promise<{
   return { checked: alerts.length, triggered };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fireAlert(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   alert: { id: string; user_id: string; config: unknown },
   currentValue: number,

@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getUserPlan } from '@/lib/feature-gate';
 import { generateOptimizationSuggestions } from '@/features/optimization/server/engine';
+import type { NormalizedUsageRecord } from '@/lib/providers/types';
 import { getSpendSummary } from '@/features/dashboard/server/queries';
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -31,7 +32,7 @@ export async function GET(req: NextRequest) {
       costUsd: m.spend
     }));
 
-    const suggestions = generateOptimizationSuggestions(mockUsage as any, plan);
+    const suggestions = generateOptimizationSuggestions(mockUsage as NormalizedUsageRecord[], plan);
 
     return NextResponse.json({ suggestions, plan });
   } catch (error) {

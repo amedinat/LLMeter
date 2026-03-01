@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { connectProviderSchema } from '@/lib/validators/provider';
-import { encryptForDB, decryptFromDB } from '@/lib/crypto';
+import { encryptForDB } from '@/lib/crypto';
 import { getAdapter, getRegisteredProviders } from '@/lib/providers/registry';
 import { inngest } from '@/lib/inngest/client';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Trigger initial data sync via Inngest, with inline fallback
-    let syncResult: { method: 'inngest' | 'inline'; records?: number; error?: string } = { method: 'inngest' };
+    const syncResult: { method: 'inngest' | 'inline'; records?: number; error?: string } = { method: 'inngest' };
     let finalStatus = 'syncing';
 
     try {

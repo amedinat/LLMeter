@@ -2,6 +2,7 @@ import { getSpendSummary, getDailySpend } from '@/features/dashboard/server/quer
 import { DashboardClient } from './dashboard-client';
 import { getUserPlan } from '@/lib/feature-gate';
 import { generateOptimizationSuggestions } from '@/features/optimization/server/engine';
+import type { NormalizedUsageRecord } from '@/lib/providers/types';
 import { OptimizationCard } from '@/features/optimization/components/optimization-card';
 import { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,7 +23,7 @@ export default async function DashboardPage() {
     costUsd: m.spend
   }));
 
-  const suggestions = generateOptimizationSuggestions(mockUsage as any, plan);
+  const suggestions = generateOptimizationSuggestions(mockUsage as NormalizedUsageRecord[], plan);
 
   return (
     <div className="flex flex-col gap-8">

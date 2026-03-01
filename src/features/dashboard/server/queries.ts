@@ -156,7 +156,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
   const dateMap = new Map<string, DailySpend>();
 
   data.forEach(r => {
-    // @ts-ignore
+    // @ts-ignore - Supabase join type mismatch
     const providerData = Array.isArray(r.provider) ? r.provider[0] : r.provider;
     const providerType = (providerData?.provider || 'openai') as ProviderType;
     

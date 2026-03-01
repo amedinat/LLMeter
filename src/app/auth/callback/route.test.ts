@@ -87,8 +87,7 @@ describe('GET /auth/callback', () => {
 
   it('uses origin when no x-forwarded-host in dev', async () => {
     mockExchangeCodeForSession.mockResolvedValue({ error: null });
-    const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
 
     const request = createRequest(
       'http://localhost:3000/auth/callback?code=test-code&next=/dashboard'
@@ -98,7 +97,7 @@ describe('GET /auth/callback', () => {
     expect(response.status).toBe(307);
     expect(response.headers.get('location')).toBe('http://localhost:3000/dashboard');
 
-    process.env.NODE_ENV = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('propagates error_description from URL params', async () => {

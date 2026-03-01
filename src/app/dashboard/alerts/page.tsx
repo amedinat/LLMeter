@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { PlusCircle, Bell, Settings2, Trash2, AlertCircle, CheckCircle2, Loader2, RefreshCcw } from "lucide-react";
+import { PlusCircle, Settings2, Trash2, AlertCircle, Loader2, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -22,7 +21,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -39,7 +37,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createAlertSchema, type CreateAlertInput, alertTypes, alertPeriods } from "@/lib/validators/alert";
+import { createAlertSchema, type CreateAlertInput } from "@/lib/validators/alert";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 
@@ -54,7 +52,7 @@ interface Alert {
     providers?: string[];
   };
   created_at: string;
-  recent_events?: any[];
+  recent_events?: Array<{ sent_at: string; triggered_value: number }>;
 }
 
 export default function AlertsPage() {
@@ -71,7 +69,7 @@ export default function AlertsPage() {
       if (!res.ok) throw new Error("Failed to fetch alerts");
       const data = await res.json();
       setAlerts(data.alerts || []);
-    } catch (error) {
+    } catch (_error) {
       toast.error("No se pudieron cargar las alertas.");
     } finally {
       setIsLoading(false);
@@ -115,8 +113,8 @@ export default function AlertsPage() {
       setOpen(false);
       form.reset();
       fetchAlerts();
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : 'Error creating alert');
     } finally {
       setIsSubmitting(false);
     }
@@ -138,7 +136,7 @@ export default function AlertsPage() {
       setAlerts(prev => prev.map(a => a.id === id ? { ...a, enabled: !enabled } : a));
       
       toast.success(`Alerta ${enabled ? "desactivada" : "activada"} correctamente.`);
-    } catch (error) {
+    } catch (_error) {
       toast.error("No se pudo actualizar la alerta.");
     }
   }
@@ -157,7 +155,7 @@ export default function AlertsPage() {
       setAlerts(prev => prev.filter(a => a.id !== id));
       
       toast.success("Alerta eliminada permanentemente.");
-    } catch (error) {
+    } catch (_error) {
       toast.error("No se pudo eliminar la alerta.");
     }
   }
@@ -322,7 +320,7 @@ export default function AlertsPage() {
                 {alert.recent_events && alert.recent_events.length > 0 && (
                   <div className="mt-4 space-y-2">
                     <p className="text-xs font-medium text-muted-foreground">Últimas activaciones</p>
-                    {alert.recent_events.slice(0, 2).map((event: any, i: number) => (
+                    {alert.recent_events.slice(0, 2).map((event, i: number) => (
                       <div key={i} className="flex items-center gap-2 text-[10px]">
                         <AlertCircle className="h-3 w-3 text-amber-500" />
                         <span>{new Date(event.sent_at).toLocaleDateString()}</span>
