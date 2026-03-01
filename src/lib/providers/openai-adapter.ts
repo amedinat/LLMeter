@@ -24,7 +24,7 @@ export const openaiAdapter: ProviderAdapter = {
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
       throw new Error(
-        body?.error?.message ?? \`OpenAI API returned \${res.status}\`
+        body?.error?.message ?? `OpenAI API returned ${res.status}`
       );
     }
 
@@ -35,7 +35,7 @@ export const openaiAdapter: ProviderAdapter = {
         '&end_time=' +
         Math.floor(Date.now() / 1000) +
         '&bucket_width=1d',
-      { headers: { Authorization: `Bearer \${apiKey}` } }
+      { headers: { Authorization: `Bearer ${apiKey}` } }
     );
 
     if (!usageRes.ok) {
@@ -68,7 +68,7 @@ export const openaiAdapter: ProviderAdapter = {
     url.searchParams.set('group_by', 'model');
 
     const res = await fetch(url.toString(), {
-      headers: { Authorization: `Bearer \${apiKey}` },
+      headers: { Authorization: `Bearer ${apiKey}` },
     });
 
     if (!res.ok) {
@@ -81,7 +81,7 @@ export const openaiAdapter: ProviderAdapter = {
         );
       }
       throw new Error(
-        body?.error?.message ?? \`OpenAI usage API returned \${res.status}\`
+        body?.error?.message ?? `OpenAI usage API returned ${res.status}`
       );
     }
 
