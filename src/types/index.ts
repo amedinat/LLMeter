@@ -61,18 +61,16 @@ export interface AlertEvent {
   sent_at: string;
 }
 
+export type { NormalizedUsageRecord } from '@/lib/providers/types';
+
 export interface OptimizationSuggestion {
   id: string;
-  user_id: string;
-  model_current: string;
-  model_suggested: string;
-  monthly_requests: number;
-  current_cost_usd: number;
-  suggested_cost_usd: number;
-  savings_pct: number;
+  current_model: string;
+  suggested_model: string;
+  estimated_monthly_savings_usd: number;
+  savings_percentage: number;
   reasoning: string;
   status: SuggestionStatus;
-  created_at: string;
 }
 
 // Dashboard aggregated types
