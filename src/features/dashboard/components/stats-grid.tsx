@@ -89,7 +89,7 @@ export function StatsGrid({ summary, dailyData }: StatsGridProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <StatCard
-        title="Total Spend (MTD)"
+        title="Total Spend (30d)"
         value={`$${summary.total_spend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
         icon={<DollarSign className="h-4 w-4" />}
         trend={{ value: summary.change_pct, isPositiveBad: true }}

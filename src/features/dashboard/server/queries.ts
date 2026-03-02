@@ -1,9 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
-import { startOfMonth, subMonths, format, endOfMonth } from 'date-fns';
+import { format } from 'date-fns';
 import { getUserPlan, getRetentionDate } from '@/lib/feature-gate';
 import type { SpendSummary, DailySpend, ProviderType } from '@/types';
 
-export async function getSpendSummary(): Promise<SpendSummary> {
+export async function getSpendSummary(days = 30): Promise<SpendSummary> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -16,26 +16,26 @@ export async function getSpendSummary(): Promise<SpendSummary> {
   const retentionDateStr = format(retentionDate, 'yyyy-MM-dd');
 
   const now = new Date();
-  const currentMonthStartRaw = startOfMonth(now);
-  const currentMonthStart = format(currentMonthStartRaw, 'yyyy-MM-dd');
-  
-  const prevMonthStartRaw = startOfMonth(subMonths(now, 1));
-  const prevMonthStart = format(prevMonthStartRaw, 'yyyy-MM-dd');
-  const prevMonthEnd = format(endOfMonth(subMonths(now, 1)), 'yyyy-MM-dd');
+  const DAY_MS = 86_400_000;
+
+  // Rolling window: last N days for current period, previous N days for comparison
+  const currentStart = format(new Date(now.getTime() - days * DAY_MS), 'yyyy-MM-dd');
+  const prevStart = format(new Date(now.getTime() - days * 2 * DAY_MS), 'yyyy-MM-dd');
+  const prevEnd = currentStart;
 
   // Apply retention filter
-  const effectiveCurrentStart = retentionDateStr > currentMonthStart ? retentionDateStr : currentMonthStart;
-  const effectivePrevStart = retentionDateStr > prevMonthStart ? retentionDateStr : prevMonthStart;
-  
-  // If retention date is after the end of previous month, previous month data is not available
-  const prevMonthAvailable = retentionDateStr <= prevMonthEnd;
+  const effectiveCurrentStart = retentionDateStr > currentStart ? retentionDateStr : currentStart;
+  const effectivePrevStart = retentionDateStr > prevStart ? retentionDateStr : prevStart;
 
-  // Fetch current month data
+  // If retention date is after the end of previous period, previous period data is not available
+  const prevMonthAvailable = retentionDateStr <= prevEnd;
+
+  // Fetch current period data (last N days)
   const { data: currentData, error: currentError } = await supabase
     .from('usage_records')
     .select(`
-      cost_usd, 
-      requests, 
+      cost_usd,
+      requests,
       model,
       provider:providers(provider, display_name)
     `)
@@ -55,7 +55,7 @@ export async function getSpendSummary(): Promise<SpendSummary> {
       .select('cost_usd')
       .eq('user_id', user.id)
       .gte('date', effectivePrevStart)
-      .lte('date', prevMonthEnd);
+      .lt('date', prevEnd);
 
     if (prevError) {
       console.error('Error fetching previous month usage:', prevError);
@@ -80,7 +80,6 @@ export async function getSpendSummary(): Promise<SpendSummary> {
   const modelMap = new Map<string, { spend: number, requests: number, provider: ProviderType }>();
 
   currentData.forEach(r => {
-    // @ts-ignore - Supabase join returns array or object depending on relationship, handling it safely
     const providerData = Array.isArray(r.provider) ? r.provider[0] : r.provider;
     const providerType = (providerData?.provider || 'openai') as ProviderType;
     const providerName = providerData?.display_name || providerType;
@@ -156,7 +155,6 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
   const dateMap = new Map<string, DailySpend>();
 
   data.forEach(r => {
-    // @ts-ignore - Supabase join type mismatch
     const providerData = Array.isArray(r.provider) ? r.provider[0] : r.provider;
     const providerType = (providerData?.provider || 'openai') as ProviderType;
     
