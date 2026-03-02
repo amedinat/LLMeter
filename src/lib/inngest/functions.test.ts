@@ -34,7 +34,6 @@ describe('Inngest Functions', () => {
     let nextResponse: { data?: unknown[]; error: unknown } = { data: [], error: null };
     const setNextResponse = (res: { data?: unknown[]; error: unknown }) => { nextResponse = res; };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mockQueryBuilder = {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
@@ -46,7 +45,7 @@ describe('Inngest Functions', () => {
       limit: vi.fn().mockReturnThis(),
       in: vi.fn().mockReturnThis(),
       then: (resolve: (value: unknown) => void) => resolve(nextResponse),
-    } as any;
+    } as unknown as typeof mockQueryBuilder;
 
     mockSupabase = {
       from: vi.fn(() => mockQueryBuilder),

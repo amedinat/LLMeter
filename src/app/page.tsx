@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BarChart3, Check, LayoutDashboard, Shield, Zap, ArrowRight, LineChart } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function HomePage() {
   return (
@@ -25,6 +26,7 @@ export default function HomePage() {
               {/* Add search later */}
             </div>
             <nav className="flex items-center space-x-2">
+              <ThemeToggle />
               <Button variant="ghost" asChild>
                 <Link href="/login">Log in</Link>
               </Button>
