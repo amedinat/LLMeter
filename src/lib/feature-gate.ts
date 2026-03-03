@@ -1,88 +1,15 @@
 import { Plan } from "@/types";
 import { createClient } from "@/lib/supabase/server";
+import {
+  PLAN_FEATURES,
+  PLAN_LIMITS,
+  type Feature,
+  type PlanLimits,
+} from "@/config/plans";
 
-export interface PlanLimits {
-  maxProviders: number;
-  maxAlerts: number;
-  maxOptimizationSuggestions: number;
-  retentionDays: number;
-  allowedAlertTypes: string[];
-}
-
-export type Feature =
-  | "single-provider"
-  | "multi-provider"
-  | "budget-alerts"
-  | "openrouter"
-  | "unlimited-history"
-  | "anomaly-detection"
-  | "team-attribution"
-  | "optimization-single"
-  | "optimization-full";
-
-const PLAN_FEATURES: Record<Plan, Feature[]> = {
-  free: ["single-provider", "budget-alerts", "optimization-single"],
-  pro: [
-    "single-provider",
-    "multi-provider",
-    "budget-alerts",
-    "openrouter",
-    "unlimited-history",
-    "anomaly-detection",
-    "optimization-full",
-  ],
-  team: [
-    "single-provider",
-    "multi-provider",
-    "budget-alerts",
-    "openrouter",
-    "unlimited-history",
-    "anomaly-detection",
-    "team-attribution",
-    "optimization-full",
-  ],
-  enterprise: [
-    "single-provider",
-    "multi-provider",
-    "budget-alerts",
-    "openrouter",
-    "unlimited-history",
-    "anomaly-detection",
-    "team-attribution",
-    "optimization-full",
-  ],
-};
-
-export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
-  free: {
-    maxProviders: 1,
-    maxAlerts: 1,
-    maxOptimizationSuggestions: 1,
-    retentionDays: 30,
-    allowedAlertTypes: ["budget_limit", "daily_threshold"],
-  },
-  pro: {
-    maxProviders: Infinity,
-    maxAlerts: Infinity,
-    maxOptimizationSuggestions: Infinity,
-    retentionDays: 365,
-    allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
-  },
-  team: {
-    maxProviders: Infinity,
-    maxAlerts: Infinity,
-    maxOptimizationSuggestions: Infinity,
-    retentionDays: Infinity,
-    allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
-  },
-  enterprise: {
-    maxProviders: Infinity,
-    maxAlerts: Infinity,
-    maxOptimizationSuggestions: Infinity,
-    retentionDays: Infinity,
-    allowedAlertTypes: ["budget_limit", "daily_threshold", "anomaly"],
-  },
-};
+// Re-export types and constants so existing consumers don't break
+export type { Feature, PlanLimits };
+export { PLAN_LIMITS };
 
 export function getPlanLimits(plan: Plan): PlanLimits {
   return PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
