@@ -1,12 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { createClient } from '@/lib/supabase/server';
 import { SettingsClient } from './settings-client';
+import { BillingSection } from './billing-section';
 import { User, Calendar, Shield } from 'lucide-react';
 import { format } from 'date-fns';
+import type { Plan } from '@/types';
 
 export default async function SettingsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('plan, stripe_customer_id, stripe_subscription_id, current_period_end, trial_ends_at, payment_issue')
+    .eq('id', user?.id ?? '')
+    .single();
 
   const userData = {
     name: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User',
@@ -14,6 +22,14 @@ export default async function SettingsPage() {
     image: user?.user_metadata?.avatar_url || null,
     provider: user?.app_metadata?.provider || 'email',
     createdAt: user?.created_at || '',
+  };
+
+  const billingData = {
+    plan: (profile?.plan as Plan) || 'free',
+    hasSubscription: !!profile?.stripe_subscription_id,
+    currentPeriodEnd: profile?.current_period_end ?? null,
+    trialEndsAt: profile?.trial_ends_at ?? null,
+    paymentIssue: profile?.payment_issue ?? false,
   };
 
   return (
@@ -66,6 +82,15 @@ export default async function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Billing */}
+      <BillingSection
+        plan={billingData.plan}
+        hasSubscription={billingData.hasSubscription}
+        currentPeriodEnd={billingData.currentPeriodEnd}
+        trialEndsAt={billingData.trialEndsAt}
+        paymentIssue={billingData.paymentIssue}
+      />
 
       {/* Client-side settings (theme, sign out) */}
       <SettingsClient />

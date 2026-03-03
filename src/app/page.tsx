@@ -4,6 +4,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { BarChart3, Check, LayoutDashboard, Shield, Zap, ArrowRight, LineChart } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { PLANS } from '@/config/plans';
+
+const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team] as const;
 
 export default function HomePage() {
   return (
@@ -17,7 +20,7 @@ export default function HomePage() {
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
-              <Link href="#pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
+              <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
               <Link href="https://github.com/amedinat/LLMeter" className="transition-colors hover:text-foreground/80 text-foreground/60">GitHub</Link>
             </nav>
           </div>
@@ -145,74 +148,36 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
-            {/* Free Plan */}
-            <Card className="flex flex-col">
-              <CardHeader>
-                <CardTitle>Free</CardTitle>
-                <CardDescription>For individuals getting started</CardDescription>
-                <div className="text-3xl font-bold mt-4">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Provider (except OpenRouter)</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 30-day data retention</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1 Budget Alert</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Real cost tracking</li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full" asChild>
-                  <Link href="/login">Get Started</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-
-            {/* Pro Plan */}
-            <Card className="flex flex-col relative border-primary">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                <Badge className="bg-primary text-primary-foreground">Popular</Badge>
-              </div>
-              <CardHeader>
-                <CardTitle>Pro</CardTitle>
-                <CardDescription>For power users and developers</CardDescription>
-                <div className="text-3xl font-bold mt-4">$19<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited Providers</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> 1-year data retention</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited Alerts & Anomaly Detection</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> OpenRouter Integration</li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full" asChild>
-                  <Link href="/login">Start Free Trial</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-
-            {/* Team Plan */}
-            <Card className="flex flex-col">
-              <CardHeader>
-                <CardTitle>Team</CardTitle>
-                <CardDescription>For startups and small teams</CardDescription>
-                <div className="text-3xl font-bold mt-4">$49<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Everything in Pro</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Unlimited data retention</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Team members (up to 5)</li>
-                  <li className="flex items-center"><Check className="mr-2 h-4 w-4" /> Priority Support</li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button variant="outline" className="w-full" asChild>
-                  <Link href="/login">Contact Sales</Link>
-                </Button>
-              </CardFooter>
-            </Card>
+            {VISIBLE_PLANS.map((plan) => (
+              <Card key={plan.id} className={`flex flex-col${plan.highlighted ? ' relative border-primary' : ''}`}>
+                {plan.highlighted && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-primary text-primary-foreground">Popular</Badge>
+                  </div>
+                )}
+                <CardHeader>
+                  <CardTitle>{plan.label}</CardTitle>
+                  <CardDescription>{plan.description}</CardDescription>
+                  <div className="text-3xl font-bold mt-4">
+                    ${plan.price}<span className="text-sm font-normal text-muted-foreground">/month</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <ul className="space-y-2 text-sm">
+                    {plan.featureList.map((feat) => (
+                      <li key={feat} className="flex items-center">
+                        <Check className="mr-2 h-4 w-4" /> {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button variant={plan.ctaVariant} className="w-full" asChild>
+                    <Link href="/login">{plan.cta}</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         </section>
       </main>

@@ -5,6 +5,21 @@ import type Stripe from 'stripe';
 
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
+/**
+ * Stripe SDK v20+ may expose `current_period_end` as a top-level field or
+ * nest it differently depending on the API version. This helper safely
+ * extracts the value as an ISO string.
+ */
+function extractPeriodEnd(subscription: Stripe.Subscription): string {
+  // Stripe returns this as a unix timestamp on the subscription object.
+  // The SDK types may lag behind — access via index signature for safety.
+  const raw = (subscription as unknown as Record<string, unknown>)['current_period_end'];
+  if (typeof raw === 'number') {
+    return new Date(raw * 1000).toISOString();
+  }
+  return new Date().toISOString();
+}
+
 export async function POST(req: NextRequest) {
   if (!WEBHOOK_SECRET) {
     console.error('Missing STRIPE_WEBHOOK_SECRET');
@@ -79,7 +94,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ received: true });
 }
 
- 
+
 type AdminClient = ReturnType<typeof createAdminClient>;
 
 /**
@@ -91,10 +106,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, supabas
 
   if (!customerId || !subscriptionId) return;
 
-  // Fetch the subscription to get price and period
-  const subscriptionResponse = await stripe.subscriptions.retrieve(subscriptionId);
-  // Stripe SDK v20+ wraps the response; cast to access subscription fields
-  const subscription = subscriptionResponse as unknown as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription;
   const priceId = subscription.items.data[0]?.price?.id;
   if (!priceId) return;
 
@@ -105,8 +117,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, supabas
   }
 
   const isTrial = subscription.status === 'trialing';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const currentPeriodEnd = new Date((subscription as any).current_period_end * 1000).toISOString();
+  const currentPeriodEnd = extractPeriodEnd(subscription);
   const trialEnd = subscription.trial_end
     ? new Date(subscription.trial_end * 1000).toISOString()
     : null;
@@ -149,20 +160,17 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, supabas
  */
 async function handleInvoicePaid(invoice: Stripe.Invoice, supabase: AdminClient) {
   const customerId = invoice.customer as string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const subscriptionId = (invoice as any).subscription as string;
+  const subscriptionId = (invoice as unknown as Record<string, unknown>).subscription as string;
   if (!customerId || !subscriptionId) return;
 
-  const subscriptionResponse = await stripe.subscriptions.retrieve(subscriptionId);
-  const subscription = subscriptionResponse as unknown as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription;
   const priceId = subscription.items.data[0]?.price?.id;
   if (!priceId) return;
 
   const plan = resolvePlanFromPrice(priceId);
   if (!plan) return;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const currentPeriodEnd = new Date((subscription as any).current_period_end * 1000).toISOString();
+  const currentPeriodEnd = extractPeriodEnd(subscription);
 
   await supabase
     .from('profiles')
@@ -183,8 +191,6 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, supabase: Adm
   const customerId = invoice.customer as string;
   if (!customerId) return;
 
-  // Set payment_issue flag — the user keeps their plan during grace period
-  // Grace period expiry is handled by a scheduled job
   const graceEnd = new Date();
   graceEnd.setDate(graceEnd.getDate() + GRACE_PERIOD_DAYS);
 
@@ -208,16 +214,13 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription, supa
   const plan = resolvePlanFromPrice(priceId);
   if (!plan) return;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const currentPeriodEnd = new Date((subscription as any).current_period_end * 1000).toISOString();
-  const isCanceling = subscription.cancel_at_period_end;
+  const currentPeriodEnd = extractPeriodEnd(subscription);
 
-  // If subscription is active or trialing, update the plan
   if (subscription.status === 'active' || subscription.status === 'trialing') {
     await supabase
       .from('profiles')
       .update({
-        plan: isCanceling ? plan : plan, // keep plan until period end
+        plan,
         plan_status: plan,
         current_period_end: currentPeriodEnd,
         payment_issue: false,
@@ -233,7 +236,6 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription, supa
   const customerId = subscription.customer as string;
   if (!customerId) return;
 
-  // Downgrade to free
   await supabase
     .from('profiles')
     .update({
