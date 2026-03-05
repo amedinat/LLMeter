@@ -64,12 +64,25 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
   redirect('/login?message=Check your email for a magic link');
 }
 
+/** Rate limit config for password login/signup: 10 requests per 15 minutes */
+const AUTH_PASSWORD_LIMIT = {
+  limit: 10,
+  windowMs: 15 * 60 * 1000,
+};
+
 export async function loginWithPassword(formData: FormData): Promise<void> {
   const email = (formData.get('email') as string)?.trim().toLowerCase();
   const password = formData.get('password') as string;
 
   if (!email || !password) {
     redirect('/login?error=Email and password are required&tab=password');
+  }
+
+  // Rate limit by IP
+  const ip = await getClientIP();
+  const ipCheck = checkRateLimit(`auth-password:ip:${ip}`, AUTH_PASSWORD_LIMIT);
+  if (!ipCheck.success) {
+    redirect('/login?error=Too many requests. Please try again later.&tab=password');
   }
 
   const supabase = await createClient();
@@ -96,6 +109,13 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
 
   if (password.length < 8) {
     redirect('/login?error=Password must be at least 8 characters&tab=password');
+  }
+
+  // Rate limit by IP
+  const ip = await getClientIP();
+  const ipCheck = checkRateLimit(`auth-signup:ip:${ip}`, AUTH_PASSWORD_LIMIT);
+  if (!ipCheck.success) {
+    redirect('/login?error=Too many requests. Please try again later.&tab=password');
   }
 
   const origin = await getOrigin();
