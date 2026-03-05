@@ -8,6 +8,7 @@ import { CreditCard, ArrowUpRight, AlertTriangle } from 'lucide-react';
 import type { Plan } from '@/types';
 import { PLANS } from '@/config/plans';
 import { format } from 'date-fns';
+import { apiFetch } from '@/lib/api-client';
 
 interface BillingSectionProps {
   plan: Plan;
@@ -23,9 +24,8 @@ export function BillingSection({ plan, hasSubscription, currentPeriodEnd, trialE
   async function handleUpgrade(targetPlan: string) {
     setLoading(targetPlan);
     try {
-      const res = await fetch('/api/checkout', {
+      const res = await apiFetch('/api/checkout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plan: targetPlan }),
       });
       const data = await res.json();
@@ -40,7 +40,7 @@ export function BillingSection({ plan, hasSubscription, currentPeriodEnd, trialE
   async function handleManage() {
     setLoading('portal');
     try {
-      const res = await fetch('/api/billing/portal', { method: 'POST' });
+      const res = await apiFetch('/api/billing/portal', { method: 'POST' });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;

@@ -1,8 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe/server';
+import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  if (!verifyCsrfHeader(req)) {
+    return csrfForbiddenResponse();
+  }
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
