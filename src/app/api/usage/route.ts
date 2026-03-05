@@ -59,7 +59,8 @@ export async function GET(request: Request) {
   const { data, error } = await query;
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('Usage fetch error:', error);
+    return NextResponse.json({ error: 'Failed to fetch usage data' }, { status: 500 });
   }
 
   return NextResponse.json({ records: data });
