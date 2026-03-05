@@ -1,6 +1,15 @@
 /**
  * Simple in-memory rate limiter for serverless environments.
- * For multi-instance deployments, replace with Redis-based implementation.
+ *
+ * LIMITATION: This rate limiter uses an in-memory Map, so rate limit state is
+ * NOT shared across Vercel serverless function instances. Each cold-start gets
+ * its own empty store, meaning a determined attacker can bypass limits by
+ * hitting different instances. This is acceptable for basic abuse prevention
+ * but should not be relied upon for strict security enforcement.
+ *
+ * TODO: Replace with Vercel KV or Upstash Redis for distributed rate limiting
+ * that works reliably across all serverless instances.
+ *
  * @module lib/rate-limit
  */
 
