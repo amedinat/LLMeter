@@ -6,13 +6,13 @@ const KEY_LENGTH = 32;
 const SALT_LENGTH = 16;
 
 /**
- * Derives a 256-bit key from the ENCRYPTION_SECRET environment variable.
+ * Derives a 256-bit key from the ENCRYPTION_KEY environment variable.
  * Uses scrypt for key derivation (resistant to brute-force).
  */
 function deriveKey(salt: Buffer): Buffer {
-  const secret = process.env.ENCRYPTION_SECRET;
+  const secret = process.env.ENCRYPTION_KEY;
   if (!secret) {
-    throw new Error('ENCRYPTION_SECRET environment variable is not set');
+    throw new Error('ENCRYPTION_KEY environment variable is not set');
   }
   return scryptSync(secret, salt, KEY_LENGTH);
 }

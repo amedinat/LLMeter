@@ -54,7 +54,8 @@ export function isStaticFile(pathname: string): boolean {
  */
 export function verifyCsrfHeader(request: Request): boolean {
   // Custom header check — cannot be set by cross-origin HTML forms
-  if (request.headers.get('x-requested-with') === 'XMLHttpRequest') return true;
+  const xrw = request.headers.get('x-requested-with');
+  if (xrw === 'XMLHttpRequest' || xrw === 'LLMeter') return true;
   if (request.headers.get('x-csrf-token') === '1') return true;
 
   // Fallback: content-type must be JSON AND origin must match
