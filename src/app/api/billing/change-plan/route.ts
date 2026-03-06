@@ -54,48 +54,53 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Retrieve current subscription to get the item ID
-  const subscription = await stripe.subscriptions.retrieve(
-    profile.stripe_subscription_id,
-  );
-
-  const currentItem = subscription.items.data[0];
-  if (!currentItem) {
-    return NextResponse.json(
-      { error: 'Subscription has no items' },
-      { status: 500 },
+  try {
+    // Retrieve current subscription to get the item ID
+    const subscription = await stripe.subscriptions.retrieve(
+      profile.stripe_subscription_id,
     );
-  }
 
-  // Update the subscription to the new price.
-  // proration_behavior: 'create_prorations' ensures the customer is
-  // charged/credited proportionally for the plan change.
-  const updated = await stripe.subscriptions.update(
-    profile.stripe_subscription_id,
-    {
-      items: [
-        {
-          id: currentItem.id,
-          price: newPriceId,
-        },
-      ],
-      proration_behavior: 'create_prorations',
-    },
-  );
+    const currentItem = subscription.items.data[0];
+    if (!currentItem) {
+      return NextResponse.json(
+        { error: 'Subscription has no items' },
+        { status: 500 },
+      );
+    }
 
-  // The webhook (customer.subscription.updated) will update the profile,
-  // but we also update immediately for responsiveness.
-  await supabase
-    .from('profiles')
-    .update({
+    // Update the subscription to the new price.
+    // proration_behavior: 'create_prorations' ensures the customer is
+    // charged/credited proportionally for the plan change.
+    const updated = await stripe.subscriptions.update(
+      profile.stripe_subscription_id,
+      {
+        items: [
+          {
+            id: currentItem.id,
+            price: newPriceId,
+          },
+        ],
+        proration_behavior: 'create_prorations',
+      },
+    );
+
+    // The webhook (customer.subscription.updated) will update the profile,
+    // but we also update immediately for responsiveness.
+    await supabase
+      .from('profiles')
+      .update({
+        plan: targetPlan,
+        plan_status: targetPlan,
+      })
+      .eq('id', user.id);
+
+    return NextResponse.json({
+      success: true,
       plan: targetPlan,
-      plan_status: targetPlan,
-    })
-    .eq('id', user.id);
-
-  return NextResponse.json({
-    success: true,
-    plan: targetPlan,
-    status: updated.status,
-  });
+      status: updated.status,
+    });
+  } catch (err) {
+    console.error('Plan change error:', err);
+    return NextResponse.json({ error: 'Failed to change plan' }, { status: 500 });
+  }
 }
