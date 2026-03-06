@@ -119,9 +119,9 @@ export async function POST(req: NextRequest) {
         const adapter = getAdapter(provider as ProviderType);
         await adapter.validateKey(apiKey);
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Invalid API key';
+        const rawMessage = err instanceof Error ? err.message : 'Invalid API key';
         return NextResponse.json(
-          { error: `API key validation failed: ${message}` },
+          { error: `API key validation failed: ${sanitizeErrorForClient(rawMessage)}` },
           { status: 422 }
         );
       }
@@ -173,9 +173,7 @@ export async function POST(req: NextRequest) {
         const endDate = new Date();
         endDate.setUTCHours(23, 59, 59, 999);
 
-        console.warn(`[SYNC] Fetching ${provider} usage from ${startDate.toISOString()} to ${endDate.toISOString()}`);
         const records = await adapter.fetchUsage(apiKey, startDate, endDate);
-        console.warn(`[SYNC] ${provider} returned ${records.length} records`);
 
         if (records.length > 0) {
           const adminSupabase = createAdminClient();
@@ -195,9 +193,6 @@ export async function POST(req: NextRequest) {
             .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
 
           if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
-          console.warn(`[SYNC] Upserted ${rows.length} rows for ${provider}`);
-        } else {
-          console.warn(`[SYNC] ${provider} returned 0 records — nothing to insert`);
         }
 
         // Mark as active

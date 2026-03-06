@@ -44,15 +44,20 @@ export async function POST(req: NextRequest) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
-  const session = await stripe.checkout.sessions.create({
-    customer: customerId,
-    mode: 'subscription',
-    line_items: [{ price: priceId, quantity: 1 }],
-    subscription_data: plan === 'pro' ? { trial_period_days: TRIAL_DAYS } : undefined,
-    metadata: { user_id: user.id },
-    success_url: `${appUrl}/dashboard?checkout=success`,
-    cancel_url: `${appUrl}/dashboard?checkout=cancel`,
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: 'subscription',
+      line_items: [{ price: priceId, quantity: 1 }],
+      subscription_data: plan === 'pro' ? { trial_period_days: TRIAL_DAYS } : undefined,
+      metadata: { user_id: user.id },
+      success_url: `${appUrl}/dashboard?checkout=success`,
+      cancel_url: `${appUrl}/dashboard?checkout=cancel`,
+    });
 
-  return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url });
+  } catch (err) {
+    console.error('Checkout error:', err);
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
+  }
 }
