@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
         break;
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        // Unhandled event type — no action needed
     }
 
     // Mark event as processed
