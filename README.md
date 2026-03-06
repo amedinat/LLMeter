@@ -30,9 +30,9 @@ npm install
 ```
 
 ### 3. Environment Setup
-Copy `.env.example` to `.env` and fill in your keys:
+Copy `.env.local.example` to `.env.local` and fill in your keys:
 ```bash
-cp .env.example .env
+cp .env.local.example .env.local
 ```
 
 ### 4. Database Setup
