@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Production login tests against llmeter-dun.vercel.app
+ * Production login tests against www.llmeter.org
  * Uses a real test account: otto.medina.ai@gmail.com / TestPassword123!
  */
 
-const PROD_URL = 'https://llmeter-dun.vercel.app';
+const PROD_URL = 'https://www.llmeter.org';
 
 test.describe('Production Login Flow', () => {
   test('should load login page correctly', async ({ page }) => {
