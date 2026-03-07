@@ -18,4 +18,4 @@ export function getResendClient(): Resend | null {
 
 /** Default sender address */
 export const EMAIL_FROM =
-  process.env.EMAIL_FROM ?? 'LLMeter <alerts@llmeter.dev>';
+  process.env.EMAIL_FROM ?? 'LLMeter <alerts@llmeter.org>';

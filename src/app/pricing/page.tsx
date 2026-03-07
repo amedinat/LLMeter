@@ -143,7 +143,7 @@ export default function PricingPage() {
                 </CardContent>
                 <CardFooter>
                   <Button variant={plan.ctaVariant} className="w-full" asChild>
-                    <Link href={plan.price === null ? 'mailto:hello@llmeter.dev' : '/login'}>
+                    <Link href={plan.price === null ? 'mailto:hello@llmeter.org' : '/login'}>
                       {plan.cta}
                     </Link>
                   </Button>

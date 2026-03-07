@@ -43,7 +43,7 @@ export async function sendAlertEmail(
   const dashboardUrl =
     process.env.NEXT_PUBLIC_APP_URL
       ? `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
-      : 'https://llmeter.dev/dashboard';
+      : 'https://llmeter.org/dashboard';
 
   const html = await render(
     AlertTriggeredEmail({

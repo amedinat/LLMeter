@@ -4,7 +4,7 @@ import { WelcomeEmail } from './templates/welcome';
 import { TrialExpiringEmail } from './templates/trial-expiring';
 import { GracePeriodEndingEmail } from './templates/grace-period-ending';
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://llmeter.dev';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://llmeter.org';
 
 /**
  * Sends a welcome email to newly registered users.
