@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const PROD_URL = 'https://llmeter-dun.vercel.app';
+const PROD_URL = 'https://www.llmeter.org';
 
 test.describe('Dashboard Access (Production)', () => {
   test('should login and see dashboard with data', async ({ page }) => {

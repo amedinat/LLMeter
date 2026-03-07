@@ -32,13 +32,13 @@ describe('GET /auth/callback', () => {
     mockExchangeCodeForSession.mockResolvedValue({ error: null });
 
     const request = createRequest(
-      'https://llmeter-dun.vercel.app/auth/callback?code=test-code&next=/dashboard',
-      { 'x-forwarded-host': 'llmeter-dun.vercel.app' }
+      'https://www.llmeter.org/auth/callback?code=test-code&next=/dashboard',
+      { 'x-forwarded-host': 'www.llmeter.org' }
     );
 
     const response = await GET(request);
     expect(response.status).toBe(307);
-    expect(response.headers.get('location')).toBe('https://llmeter-dun.vercel.app/dashboard');
+    expect(response.headers.get('location')).toBe('https://www.llmeter.org/dashboard');
     expect(mockExchangeCodeForSession).toHaveBeenCalledWith('test-code');
   });
 
@@ -46,13 +46,13 @@ describe('GET /auth/callback', () => {
     mockVerifyOtp.mockResolvedValue({ error: null });
 
     const request = createRequest(
-      'https://llmeter-dun.vercel.app/auth/callback?token_hash=abc123&type=magiclink&next=/dashboard',
-      { 'x-forwarded-host': 'llmeter-dun.vercel.app' }
+      'https://www.llmeter.org/auth/callback?token_hash=abc123&type=magiclink&next=/dashboard',
+      { 'x-forwarded-host': 'www.llmeter.org' }
     );
 
     const response = await GET(request);
     expect(response.status).toBe(307);
-    expect(response.headers.get('location')).toBe('https://llmeter-dun.vercel.app/dashboard');
+    expect(response.headers.get('location')).toBe('https://www.llmeter.org/dashboard');
     expect(mockVerifyOtp).toHaveBeenCalledWith({
       token_hash: 'abc123',
       type: 'magiclink',
@@ -65,8 +65,8 @@ describe('GET /auth/callback', () => {
     });
 
     const request = createRequest(
-      'https://llmeter-dun.vercel.app/auth/callback?code=bad-code',
-      { 'x-forwarded-host': 'llmeter-dun.vercel.app' }
+      'https://www.llmeter.org/auth/callback?code=bad-code',
+      { 'x-forwarded-host': 'www.llmeter.org' }
     );
 
     const response = await GET(request);
@@ -76,8 +76,8 @@ describe('GET /auth/callback', () => {
 
   it('redirects to login when no code or token_hash provided', async () => {
     const request = createRequest(
-      'https://llmeter-dun.vercel.app/auth/callback',
-      { 'x-forwarded-host': 'llmeter-dun.vercel.app' }
+      'https://www.llmeter.org/auth/callback',
+      { 'x-forwarded-host': 'www.llmeter.org' }
     );
 
     const response = await GET(request);
@@ -102,8 +102,8 @@ describe('GET /auth/callback', () => {
 
   it('propagates error_description from URL params', async () => {
     const request = createRequest(
-      'https://llmeter-dun.vercel.app/auth/callback?error_description=Email+link+is+invalid',
-      { 'x-forwarded-host': 'llmeter-dun.vercel.app' }
+      'https://www.llmeter.org/auth/callback?error_description=Email+link+is+invalid',
+      { 'x-forwarded-host': 'www.llmeter.org' }
     );
 
     const response = await GET(request);
