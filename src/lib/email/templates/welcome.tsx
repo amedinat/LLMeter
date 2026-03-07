@@ -18,7 +18,7 @@ interface WelcomeEmailProps {
 
 export function WelcomeEmail({
   name,
-  dashboardUrl = 'https://llmeter.dev/dashboard',
+  dashboardUrl = 'https://llmeter.org/dashboard',
 }: WelcomeEmailProps) {
   return (
     <Html>

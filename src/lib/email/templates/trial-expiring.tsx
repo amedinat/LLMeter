@@ -22,13 +22,13 @@ export function TrialExpiringEmail({
   name,
   daysLeft,
   trialEndDate,
-  dashboardUrl = 'https://llmeter.dev/settings',
+  dashboardUrl = 'https://llmeter.org/settings',
 }: TrialExpiringEmailProps) {
   return (
     <Html>
       <Head />
       <Preview>
-        Your LLMeter Pro trial ends in {daysLeft} day{daysLeft !== 1 ? 's' : ''}
+        {`Your LLMeter Pro trial ends in ${String(daysLeft)} day${daysLeft !== 1 ? 's' : ''}`}
       </Preview>
       <Body style={main}>
         <Container style={container}>

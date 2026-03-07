@@ -24,7 +24,7 @@ export function AlertTriggeredEmail({
   currentSpend,
   threshold,
   topContributors = [],
-  dashboardUrl = 'https://llmeter.dev/dashboard',
+  dashboardUrl = 'https://llmeter.org/dashboard',
 }: AlertTriggeredEmailProps) {
   const periodLabel = alertType === 'monthly' ? 'mensual' : 'diario';
   const previewText = `⚠️ Tu gasto ${periodLabel} ($${currentSpend.toFixed(2)}) superó el umbral de $${threshold.toFixed(2)}`;
