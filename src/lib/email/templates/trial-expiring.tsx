@@ -28,7 +28,7 @@ export function TrialExpiringEmail({
     <Html>
       <Head />
       <Preview>
-        Your LLMeter Pro trial ends in {daysLeft} day{daysLeft !== 1 ? 's' : ''}
+        {`Your LLMeter Pro trial ends in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}`}
       </Preview>
       <Body style={main}>
         <Container style={container}>
