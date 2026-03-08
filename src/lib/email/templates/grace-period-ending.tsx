@@ -30,8 +30,7 @@ export function GracePeriodEndingEmail({
     <Html>
       <Head />
       <Preview>
-        Action required: your LLMeter {plan} plan will be downgraded in {daysLeft} day
-        {daysLeft !== 1 ? 's' : ''}
+        {`Action required: your LLMeter ${plan} plan will be downgraded in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}`}
       </Preview>
       <Body style={main}>
         <Container style={container}>
