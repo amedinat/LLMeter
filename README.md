@@ -1,82 +1,153 @@
-# LLMeter 🚀
+# LLMeter
 
-> **"If you can't measure it, you can't manage it."** — Peter Drucker (and now your LLM bills)
+> Control your AI spend across all providers — from a single dashboard.
 
-LLMeter is an open-source usage monitoring and cost management platform for LLM APIs. Track your spend across multiple providers in real-time, set alerts, and optimize your inference costs with a single dashboard.
+LLMeter is an open-source cost monitoring platform for LLM APIs. Connect your provider API keys, and LLMeter automatically tracks your usage, calculates real costs, and alerts you before surprise bills hit.
+
+**Try it now:** [llmeter.com](https://llmeter.vercel.app) (free tier, no credit card required)
 
 ![LLMeter Dashboard](https://raw.githubusercontent.com/amedinat/LLMeter/main/public/og-image.png)
 
+## How It Works
+
+LLMeter connects directly to your providers' usage and billing APIs. No proxies, no code changes, no SDKs to install.
+
+1. **Sign up** at llmeter.com (or self-host)
+2. **Connect** your provider API keys (encrypted with AES-256-GCM at rest)
+3. **LLMeter polls** each provider's usage API hourly via background jobs
+4. **You see** unified costs, trends, and alerts in one dashboard
+
+```
+Your App → calls OpenAI/Anthropic/etc. normally (no changes)
+                         ↓
+LLMeter → polls provider usage APIs → normalizes data → dashboard
+```
+
+**Important:** LLMeter reads your usage data — it does NOT intercept, proxy, or modify your API calls. Your code stays untouched.
+
+## Supported Providers
+
+| Provider | What LLMeter reads | API key type needed |
+|----------|-------------------|-------------------|
+| **OpenAI** | Token counts + cost estimates | Admin/org key |
+| **Anthropic** | Token counts + actual USD costs | Org API key |
+| **DeepSeek** | Billing/usage data | Standard API key |
+| **OpenRouter** | Activity across 500+ models | Management API key |
+
+Google AI (Gemini) support is planned once Google provides a public usage API.
+
 ## Features
 
-- **Multi-Provider Support:** OpenAI, Anthropic, DeepSeek, OpenRouter, and more.
-- **Real-time Cost Tracking:** See exactly how much each request, provider, and model is costing you.
-- **Smart Alerts:** Get notified via email or webhook before you hit your budget limits.
-- **Usage Optimization:** Identify your most expensive models and optimize your prompts/providers.
-- **Enterprise-Ready:** Built with Next.js, Supabase, and Stripe for scalability and security.
-- **Self-Hostable:** Total control over your data.
+- **Unified Dashboard** — All providers, all models, one view
+- **Real Cost Tracking** — Actual spend from provider APIs, not estimates
+- **Budget Alerts** — Daily and monthly thresholds with email + webhook notifications
+- **Anomaly Detection** — Spot unusual spikes before they become expensive (Pro)
+- **Usage Trends** — Analyze consumption by model, provider, and time period
+- **OpenRouter Support** — Track 500+ models with a single key (Pro)
+- **Encrypted Storage** — API keys encrypted with AES-256-GCM, never stored in plain text
+- **Open Source** — AGPL-3.0, audit the code yourself
 
-## Quick Start
+### What LLMeter Does NOT Do
 
-### 1. Prerequisites
+LLMeter is a **monitoring and alerting tool**, not a proxy or gateway. It cannot:
+
+- Block or throttle API calls in real-time (it reads usage after the fact)
+- Act as a circuit breaker for runaway scripts
+- Modify or intercept your requests to providers
+
+If you need real-time request blocking, you need an AI gateway/proxy (like LiteLLM or Portkey). LLMeter complements those tools by giving you the cost visibility layer.
+
+## Pricing
+
+| | Free | Pro ($19/mo) | Team ($49/mo) |
+|---|---|---|---|
+| Providers | 1 | Unlimited | Unlimited |
+| Budget alerts | 1 | Unlimited | Unlimited |
+| Data retention | 30 days | 1 year | Unlimited |
+| OpenRouter | — | ✓ | ✓ |
+| Anomaly detection | — | ✓ | ✓ |
+| Team members | — | — | Up to 5 |
+| Trial | — | 7 days free | 7 days free |
+
+## Self-Hosting
+
+LLMeter can be self-hosted if you prefer to keep everything on your infrastructure.
+
+### Prerequisites
+
 - Node.js 20+
-- Supabase account (for DB and Auth)
-- Stripe account (for billing, optional)
+- Supabase project (PostgreSQL + Auth)
+- Inngest account (background jobs) or self-hosted Inngest
+- Stripe account (optional, only if you want to charge users)
+- Resend account (for email alerts)
 
-### 2. Installation
+### Setup
+
 ```bash
 git clone https://github.com/amedinat/LLMeter.git
 cd LLMeter
 npm install
-```
-
-### 3. Environment Setup
-Copy `.env.local.example` to `.env.local` and fill in your keys:
-```bash
 cp .env.local.example .env.local
-```
-
-### 4. Database Setup
-```bash
+# Fill in your Supabase, Inngest, and other keys
 npx prisma db push
-```
-
-### 5. Run Development Server
-```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Tech Stack
 
 - **Frontend:** Next.js (App Router), Tailwind CSS, Shadcn UI
-- **Backend:** Next.js API Routes, Inngest (Background Jobs)
+- **Backend:** Next.js API Routes, Inngest (hourly usage polling)
 - **Database:** PostgreSQL (Supabase), Prisma ORM
-- **Auth:** Supabase Auth
-- **Payments:** Stripe
+- **Auth:** Supabase Auth (magic link, password, Google OAuth)
+- **Payments:** Stripe (hosted version)
 - **Emails:** Resend
 
-## Why LLMeter?
+## Architecture
 
-Managing multiple LLM providers is messy. Every provider has a different billing dashboard, different pricing tiers, and different ways to track tokens. LLMeter unifies everything into a single, clean interface so you can focus on building, not accounting.
+```
+┌─────────────┐     hourly cron      ┌──────────────────┐
+│   Inngest   │ ──────────────────→  │  Provider APIs   │
+│  (bg jobs)  │                      │  (OpenAI, etc.)  │
+└──────┬──────┘                      └────────┬─────────┘
+       │                                      │
+       │  stores normalized                   │  usage data
+       │  usage records                       │
+       ▼                                      ▼
+┌──────────────┐                    ┌──────────────────┐
+│   Supabase   │ ←───────────────── │  Adapter Layer   │
+│  PostgreSQL  │    insert/upsert   │  (normalizes)    │
+└──────┬───────┘                    └──────────────────┘
+       │
+       │  queries
+       ▼
+┌──────────────┐
+│  Next.js     │ → Dashboard, Alerts, API
+│  App Router  │
+└──────────────┘
+```
 
 ## Roadmap
 
-- [x] Multi-provider support (OpenAI, Anthropic, DeepSeek)
-- [x] Real-time cost calculation
-- [x] Budget alerts
-- [x] Centralized plans & billing
-- [ ] Google AI (Gemini) provider
+- [x] Multi-provider support (OpenAI, Anthropic, DeepSeek, OpenRouter)
+- [x] Real-time cost calculation from provider APIs
+- [x] Budget alerts (email + webhook)
+- [x] Anomaly detection
+- [x] Plans & billing (Stripe)
+- [ ] Google AI (Gemini) — waiting on public usage API
 - [ ] Fine-grained team permissions
-- [ ] Usage forecasting with AI
+- [ ] Usage forecasting
+- [ ] Cost optimization recommendations
 
 ## Contributing
 
-We love contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
-This project is licensed under the **AGPL-3.0 License** - see the [LICENSE](LICENSE) file for details.
+AGPL-3.0 — see [LICENSE](LICENSE).
 
 ---
 
-Built with ❤️ by [John Medina](https://github.com/amedinat) and the open-source community.
+Built by [John Medina](https://github.com/amedinat) | [Simplifai](https://simplifai.co)
