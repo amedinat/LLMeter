@@ -41,7 +41,7 @@ export function GracePeriodEndingEmail({
           <Text style={paragraph}>
             We were unable to process payment for your LLMeter{' '}
             <strong>{plan}</strong> plan. Your grace period ends on{' '}
-            <strong>{graceEndDate}</strong> ({daysLeft} day
+            <strong>{graceEndDate}</strong> ({String(daysLeft)} day
             {daysLeft !== 1 ? 's' : ''} remaining).
           </Text>
 

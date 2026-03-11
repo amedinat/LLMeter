@@ -65,6 +65,38 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Throttled last_seen_at update (once every 5 minutes via cookie)
+  const LAST_SEEN_COOKIE = 'llm_last_seen';
+  const THROTTLE_MS = 5 * 60 * 1000; // 5 minutes
+  const lastSeenCookie = request.cookies.get(LAST_SEEN_COOKIE)?.value;
+  const now = Date.now();
+
+  if (!lastSeenCookie || now - parseInt(lastSeenCookie, 10) > THROTTLE_MS) {
+    // Fire-and-forget: update last_seen_at using the user's own session (anon key + JWT)
+    // Never use service role key in middleware — it bypasses all RLS
+    Promise.resolve(
+      supabase
+        .from('profiles')
+        .update({ last_seen_at: new Date().toISOString() })
+        .eq('id', user.id)
+    )
+      .then(({ error }) => {
+        if (error) {
+          console.error('[middleware] last_seen_at update failed:', error.message);
+        }
+      })
+      .catch(() => {
+        // Silently ignore — analytics should never break the app
+      });
+    supabaseResponse.cookies.set(LAST_SEEN_COOKIE, now.toString(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60, // 1 hour
+      path: '/',
+    });
+  }
+
   return supabaseResponse;
 }
 
