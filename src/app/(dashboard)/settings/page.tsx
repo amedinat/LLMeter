@@ -5,10 +5,14 @@ import { BillingSection } from './billing-section';
 import { User, Calendar, Shield } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Plan } from '@/types';
+import { trackEvent, EVENTS } from '@/lib/analytics';
 
 export default async function SettingsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  // Track settings view
+  if (user) trackEvent(user.id, EVENTS.SETTINGS_VIEWED);
 
   const { data: profile } = await supabase
     .from('profiles')

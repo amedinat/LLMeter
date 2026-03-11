@@ -7,9 +7,17 @@ import { OptimizationCard } from '@/features/optimization/components/optimizatio
 import { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { createClient } from '@/lib/supabase/server';
+import { trackEvent, EVENTS } from '@/lib/analytics';
 
 export default async function DashboardPage() {
   const plan = await getUserPlan();
+
+  // Track dashboard view
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) trackEvent(user.id, EVENTS.DASHBOARD_VIEWED);
+
   const summary = await getSpendSummary();
   const dailyData = await getDailySpend();
   

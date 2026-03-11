@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe/server';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
+import { trackEvent, EVENTS } from '@/lib/analytics';
 
 export async function POST(req: NextRequest) {
   if (!verifyCsrfHeader(req)) {
@@ -24,6 +25,8 @@ export async function POST(req: NextRequest) {
   if (!profile?.stripe_customer_id) {
     return NextResponse.json({ error: 'No billing account' }, { status: 400 });
   }
+
+  trackEvent(user.id, EVENTS.BILLING_PORTAL_OPENED);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 

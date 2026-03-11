@@ -37,7 +37,7 @@ export function TrialExpiringEmail({
           <Text style={paragraph}>Hi {name},</Text>
 
           <Text style={paragraph}>
-            Your LLMeter Pro trial ends on <strong>{trialEndDate}</strong> ({daysLeft}{' '}
+            Your LLMeter Pro trial ends on <strong>{trialEndDate}</strong> ({String(daysLeft)}{' '}
             day{daysLeft !== 1 ? 's' : ''} remaining).
           </Text>
 
