@@ -1,12 +1,32 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BarChart3, Check, LayoutDashboard, Shield, Zap, ArrowRight, LineChart } from 'lucide-react';
+import { BarChart3, Check, ChevronDown, Globe, LayoutDashboard, Lock, Mail, MessageCircleQuestion, Shield, Zap, LineChart } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { PLANS } from '@/config/plans';
 
 const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team] as const;
+
+const FAQ_ITEMS = [
+  {
+    question: 'Can you read my code or prompts?',
+    answer: 'No. We only access usage and billing data through read-only API keys. We never see your prompts, completions, or code.',
+  },
+  {
+    question: 'Is it safe to paste my API key?',
+    answer: 'Yes. All keys are encrypted at rest using AES-256-GCM. We never store them in plain text, and you can use read-only keys for maximum safety.',
+  },
+  {
+    question: 'What happens if I cancel?',
+    answer: 'Your Free plan remains active forever. You never lose access to your usage data.',
+  },
+  {
+    question: 'Which providers are supported?',
+    answer: 'OpenAI, Anthropic, DeepSeek, and OpenRouter. More coming soon.',
+  },
+];
 
 export default function HomePage() {
   return (
@@ -20,8 +40,9 @@ export default function HomePage() {
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
-              <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
-              <Link href="https://github.com/amedinat/LLMeter" className="transition-colors hover:text-foreground/80 text-foreground/60">GitHub</Link>
+              <Link href="#pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
+              <Link href="#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
+              <Link href="https://github.com/amedinat/LLMeter" className="transition-colors hover:text-foreground/80 text-foreground/60" target="_blank">GitHub</Link>
             </nav>
           </div>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
@@ -53,18 +74,35 @@ export default function HomePage() {
               Open Source on GitHub
             </Link>
             <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-              Control your AI spend across all providers.
+              Stop Guessing Your AI Bill.{' '}
+              <span className="text-primary">Full Visibility in 30 Seconds.</span>
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
               Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter API keys. Get a unified dashboard with real costs, budget alerts, and usage insights in minutes.
             </p>
-            <div className="space-x-4">
-              <Button size="lg" asChild>
-                <Link href="/login">Get Started</Link>
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+              <Button size="lg" className="h-12 px-8 text-base font-semibold" asChild>
+                <Link href="/login">Start Free &mdash; No Credit Card</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="https://github.com/amedinat/LLMeter" target="_blank">View on GitHub</Link>
               </Button>
+            </div>
+          </div>
+
+          {/* Hero Image */}
+          <div className="container flex justify-center px-4 pt-4 md:pt-8">
+            <div className="relative w-full max-w-5xl overflow-hidden rounded-xl border shadow-2xl" style={{ perspective: '1000px' }}>
+              <div style={{ transform: 'rotateX(2deg)' }}>
+                <Image
+                  src="/hero-dashboard.jpg"
+                  alt="LLMeter Dashboard — AI cost tracking with daily spend chart, provider breakdown, and budget alerts"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -127,13 +165,54 @@ export default function HomePage() {
             </Card>
             <Card>
               <CardHeader>
-                <ArrowRight className="h-10 w-10 mb-2" />
+                <Lock className="h-10 w-10 mb-2" />
                 <CardTitle>Secure Storage</CardTitle>
                 <CardDescription>
                   Your API keys are encrypted at rest using AES-256-GCM. We prioritize your security.
                 </CardDescription>
               </CardHeader>
             </Card>
+          </div>
+        </section>
+
+        {/* Trust / Social Proof */}
+        <section className="container py-8 md:py-12">
+          <div className="mx-auto flex max-w-[64rem] flex-col items-center gap-8">
+            <h2 className="text-center text-lg font-medium text-muted-foreground">
+              Works with the providers you already use
+            </h2>
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Globe className="mr-2 h-4 w-4" /> OpenAI
+              </Badge>
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Globe className="mr-2 h-4 w-4" /> Anthropic
+              </Badge>
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Globe className="mr-2 h-4 w-4" /> DeepSeek
+              </Badge>
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Globe className="mr-2 h-4 w-4" /> OpenRouter
+              </Badge>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-8 text-center text-sm text-muted-foreground">
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-2xl font-bold text-foreground">4</span>
+                <span>Providers supported</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-2xl font-bold text-foreground">AES-256</span>
+                <span>Key encryption</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-2xl font-bold text-foreground">100%</span>
+                <span>Open Source</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-2xl font-bold text-foreground">30s</span>
+                <span>Setup time</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -179,15 +258,81 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
+          {/* Bottom CTA */}
+          <div className="mt-12 flex justify-center">
+            <Button size="lg" className="h-12 px-8 text-base font-semibold" asChild>
+              <Link href="/login">Start Monitoring for Free</Link>
+            </Button>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="container py-8 md:py-12 lg:py-24">
+          <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+            <MessageCircleQuestion className="h-10 w-10 text-muted-foreground" />
+            <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl font-bold">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div className="mx-auto mt-8 max-w-[42rem] divide-y">
+            {FAQ_ITEMS.map((item) => (
+              <details key={item.question} className="group py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between text-left font-medium">
+                  {item.question}
+                  <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="mt-3 text-muted-foreground leading-relaxed">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="py-6 md:px-8 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built by <a href="https://github.com/amedinat/LLMeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">LLMeter Team</a>.
-            The source code is available on <a href="https://github.com/amedinat/LLMeter" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4">GitHub</a>.
+      <footer className="border-t py-8 md:py-12">
+        <div className="container grid grid-cols-2 gap-8 md:grid-cols-4 max-w-[64rem] mx-auto">
+          <div>
+            <h3 className="mb-3 text-sm font-semibold">Product</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#features" className="hover:text-foreground transition-colors">Features</Link></li>
+              <li><Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
+              <li><Link href="https://github.com/amedinat/LLMeter" target="_blank" className="hover:text-foreground transition-colors">GitHub</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="mb-3 text-sm font-semibold">Legal</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="mb-3 text-sm font-semibold">Support</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link href="https://github.com/amedinat/LLMeter/issues" target="_blank" className="hover:text-foreground transition-colors">
+                  GitHub Issues
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:hello@llmeter.org" className="hover:text-foreground transition-colors">
+                  <span className="inline-flex items-center gap-1"><Mail className="h-3 w-3" /> hello@llmeter.org</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="mb-3 text-sm font-semibold">LLMeter</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Open-source AI cost monitoring for developers. Track spend across OpenAI, Anthropic, DeepSeek &amp; OpenRouter.
+            </p>
+          </div>
+        </div>
+        <div className="container mt-8 flex flex-col items-center justify-between gap-4 max-w-[64rem] mx-auto border-t pt-6 md:flex-row">
+          <p className="text-center text-xs text-muted-foreground md:text-left">
+            &copy; {new Date().getFullYear()} LLMeter. All rights reserved.
           </p>
           <span className="text-[10px] text-muted-foreground/30 select-none">
             {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'dev'}
