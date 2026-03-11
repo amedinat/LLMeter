@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
+
+const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,22 +18,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LLMeter — AI Cost Monitor",
+  title: "LLMeter — OpenAI & AI Cost Tracking Dashboard",
   description:
-    "Monitor and optimize your AI API costs across OpenAI, Anthropic, DeepSeek & OpenRouter. Open-source.",
-  metadataBase: new URL("https://llmeter-dun.vercel.app"),
+    "Stop guessing your AI bill. Monitor and optimize API costs across OpenAI, Anthropic, DeepSeek & OpenRouter. Open-source cost dashboard with budget alerts and usage tracking.",
+  metadataBase: new URL("https://llmeter.org"),
   openGraph: {
-    title: "LLMeter — Control your AI spend across all providers",
+    title: "LLMeter — Stop Guessing Your AI Bill",
     description:
-      "Open-source LLM cost monitoring. Track spend across OpenAI, Anthropic, DeepSeek & OpenRouter in real-time.",
-    url: "https://llmeter-dun.vercel.app",
+      "Open-source AI cost dashboard. Track billing and API usage across OpenAI, Anthropic, DeepSeek & OpenRouter in real-time.",
+    url: "https://llmeter.org",
     siteName: "LLMeter",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "LLMeter — AI Cost Monitor Dashboard",
+        alt: "LLMeter — AI Cost Tracking Dashboard",
       },
     ],
     locale: "en_US",
@@ -38,9 +41,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LLMeter — Control your AI spend across all providers",
+    title: "LLMeter — Stop Guessing Your AI Bill",
     description:
-      "Open-source LLM cost monitoring across OpenAI, Anthropic, DeepSeek & OpenRouter.",
+      "Open-source AI cost dashboard. Track billing across OpenAI, Anthropic, DeepSeek & OpenRouter.",
     images: ["/og-image.png"],
   },
   keywords: [
@@ -53,6 +56,10 @@ export const metadata: Metadata = {
     "OpenRouter",
     "open source",
     "developer tools",
+    "OpenAI billing",
+    "AI cost dashboard",
+    "API usage tracking",
+    "LLM cost monitor",
   ],
 };
 
@@ -63,6 +70,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      {plausibleDomain && (
+        <head>
+          <Script
+            defer
+            data-domain={plausibleDomain}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        </head>
+      )}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
