@@ -14,6 +14,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@react-email/components": "^1.0.8",
+    "@saas-pulse/sdk": "file:../saas-pulse/packages/sdk",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
     "class-variance-authority": "^0.7.1",
