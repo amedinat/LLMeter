@@ -5,7 +5,7 @@ import { ThemeToggle } from '@/components/dashboard/theme-toggle';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { SaasPulseFeedback } from '@simplifai/saas-pulse-sdk';
+import { SaasPulseFeedback } from '@simplifai-solutions/saas-pulse-sdk';
 
 export default async function DashboardLayout({
   children,
