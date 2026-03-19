@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "LLMeter — OpenAI & AI Cost Tracking Dashboard",
   description:
-    "Stop guessing your AI bill. Monitor and optimize API costs across OpenAI, Anthropic, DeepSeek & OpenRouter. Open-source cost dashboard with budget alerts and usage tracking.",
+    "Stop guessing your AI bill. Monitor API costs across OpenAI, Anthropic & DeepSeek. Open-source dashboard with real-time budget alerts.",
   metadataBase: new URL("https://llmeter.org"),
   openGraph: {
     title: "LLMeter — Stop Guessing Your AI Bill",
