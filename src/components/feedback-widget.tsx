@@ -16,7 +16,7 @@ export function SaasPulseFeedback({ userRef }: { userRef?: string }) {
       apiKey={apiKey}
       ingestUrl={ingestUrl}
       theme="dark"
-      accentColor="#6366f1"
+      accentColor="#10b981"
       userRef={userRef}
       source="llmeter-dashboard"
     />
