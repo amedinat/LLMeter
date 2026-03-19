@@ -1,7 +1,6 @@
 import { SidebarNav } from '@/components/dashboard/sidebar-nav';
 import { UserNav } from '@/components/dashboard/user-nav';
 import { MobileNav } from '@/components/dashboard/mobile-nav';
-import { ThemeToggle } from '@/components/dashboard/theme-toggle';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -29,10 +28,10 @@ export default async function DashboardLayout({
   return (
     <div className="flex min-h-screen bg-muted/40">
       {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r bg-background sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r bg-[#0a0a12] sm:flex">
         <div className="flex h-14 items-center border-b px-6">
           <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
-            <span className="">LLMeter</span>
+            <span className="text-cyan-400">LLMeter</span>
           </Link>
         </div>
         <div className="flex-1 overflow-auto py-2">
@@ -52,7 +51,6 @@ export default async function DashboardLayout({
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <MobileNav />
           <div className="ml-auto flex items-center gap-4">
-            <ThemeToggle />
             <UserNav user={userData} />
           </div>
         </header>

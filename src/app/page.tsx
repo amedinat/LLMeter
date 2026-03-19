@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BarChart3, Check, ChevronDown, Globe, LayoutDashboard, Lock, Mail, MessageCircleQuestion, Shield, Zap, LineChart } from 'lucide-react';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { PLANS } from '@/config/plans';
 
 const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team] as const;
@@ -36,7 +35,7 @@ export default function HomePage() {
         <div className="container flex h-14 items-center">
           <div className="mr-4 hidden md:flex">
             <Link href="/" className="mr-6 flex items-center space-x-2">
-              <span className="hidden font-bold sm:inline-block">LLMeter</span>
+              <span className="hidden font-bold text-cyan-400 sm:inline-block">LLMeter</span>
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
@@ -50,11 +49,10 @@ export default function HomePage() {
               {/* Add search later */}
             </div>
             <nav className="flex items-center space-x-2">
-              <ThemeToggle />
               <Button variant="ghost" asChild>
                 <Link href="/login">Log in</Link>
               </Button>
-              <Button asChild>
+              <Button className="bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
                 <Link href="/login">Start Free</Link>
               </Button>
             </nav>
@@ -68,20 +66,20 @@ export default function HomePage() {
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
             <Link
               href="https://github.com/amedinat/LLMeter"
-              className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+              className="rounded-2xl bg-white/5 border border-white/10 px-4 py-1.5 text-sm font-medium"
               target="_blank"
             >
               Open Source on GitHub
             </Link>
             <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               Stop Guessing Your AI Bill.{' '}
-              <span className="text-primary">Full Visibility in 30 Seconds.</span>
+              <span className="bg-gradient-to-r from-cyan-300 to-cyan-500 bg-clip-text text-transparent">Full Visibility in 30 Seconds.</span>
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
               Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter API keys. Get a unified dashboard with real costs, budget alerts, and usage insights in minutes.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-              <Button size="lg" className="h-12 px-8 text-base font-semibold" asChild>
+              <Button size="lg" className="h-12 px-8 text-base font-semibold bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
                 <Link href="/login">Start Free &mdash; No Credit Card</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
@@ -108,7 +106,7 @@ export default function HomePage() {
         </section>
 
         {/* Features */}
-        <section id="features" className="container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24">
+        <section id="features" className="container space-y-6 py-8 md:py-12 lg:py-24">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl font-bold">
               Features
@@ -118,54 +116,54 @@ export default function HomePage() {
             </p>
           </div>
           <div className="mx-auto grid gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
-                <LayoutDashboard className="h-10 w-10 mb-2" />
+                <LayoutDashboard className="h-10 w-10 mb-2 text-cyan-400" />
                 <CardTitle>Unified Dashboard</CardTitle>
                 <CardDescription>
                   View all your AI usage in one place. No more switching tabs between OpenAI and Anthropic.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
-                <Shield className="h-10 w-10 mb-2" />
+                <Shield className="h-10 w-10 mb-2 text-cyan-400" />
                 <CardTitle>Budget Alerts</CardTitle>
                 <CardDescription>
                   Set daily or monthly spend limits. Get notified before you get a surprise bill.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
-                <Zap className="h-10 w-10 mb-2" />
+                <Zap className="h-10 w-10 mb-2 text-cyan-400" />
                 <CardTitle>OpenRouter Support</CardTitle>
                 <CardDescription>
                   Track usage across 500+ models with a single OpenRouter key (Pro feature).
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
-                <LineChart className="h-10 w-10 mb-2" />
+                <LineChart className="h-10 w-10 mb-2 text-cyan-400" />
                 <CardTitle>Usage Trends</CardTitle>
                 <CardDescription>
                   Analyze token usage over time. Spot anomalies and unexpected spikes instantly.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
-                <BarChart3 className="h-10 w-10 mb-2" />
+                <BarChart3 className="h-10 w-10 mb-2 text-cyan-400" />
                 <CardTitle>Cost Breakdown</CardTitle>
                 <CardDescription>
                   See exactly which models and endpoints are driving your costs.
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
-                <Lock className="h-10 w-10 mb-2" />
+                <Lock className="h-10 w-10 mb-2 text-cyan-400" />
                 <CardTitle>Secure Storage</CardTitle>
                 <CardDescription>
                   Your API keys are encrypted at rest using AES-256-GCM. We prioritize your security.
@@ -228,10 +226,10 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
             {VISIBLE_PLANS.map((plan) => (
-              <Card key={plan.id} className={`flex flex-col${plan.highlighted ? ' relative border-primary' : ''}`}>
+              <Card key={plan.id} className={`flex flex-col glass-card${plan.highlighted ? ' relative border-cyan-500' : ''}`}>
                 {plan.highlighted && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground">Popular</Badge>
+                    <Badge className="bg-cyan-500 text-white">Popular</Badge>
                   </div>
                 )}
                 <CardHeader>
@@ -245,13 +243,13 @@ export default function HomePage() {
                   <ul className="space-y-2 text-sm">
                     {plan.featureList.map((feat) => (
                       <li key={feat} className="flex items-center">
-                        <Check className="mr-2 h-4 w-4" /> {feat}
+                        <Check className="mr-2 h-4 w-4 text-cyan-400" /> {feat}
                       </li>
                     ))}
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button variant={plan.ctaVariant} className="w-full" asChild>
+                  <Button variant={plan.ctaVariant} className={`w-full${plan.highlighted ? ' bg-cyan-500 hover:bg-cyan-400 text-white' : ''}`} asChild>
                     <Link href="/login">{plan.cta}</Link>
                   </Button>
                 </CardFooter>
@@ -260,7 +258,7 @@ export default function HomePage() {
           </div>
           {/* Bottom CTA */}
           <div className="mt-12 flex justify-center">
-            <Button size="lg" className="h-12 px-8 text-base font-semibold" asChild>
+            <Button size="lg" className="h-12 px-8 text-base font-semibold bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
               <Link href="/login">Start Monitoring for Free</Link>
             </Button>
           </div>
