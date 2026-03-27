@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { createClient } from '@/lib/supabase/server';
 import { SettingsClient } from './settings-client';
 import { BillingSection } from './billing-section';
+import { ApiKeysSection } from './api-keys-section';
 import { User, Calendar, Shield } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Plan } from '@/types';
@@ -86,6 +87,9 @@ export default async function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* API Keys */}
+      <ApiKeysSection />
 
       {/* Billing */}
       <BillingSection
