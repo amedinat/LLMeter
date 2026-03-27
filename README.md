@@ -6,7 +6,7 @@ LLMeter is an open-source cost monitoring platform for LLM APIs. Connect your pr
 
 **Try it now:** [llmeter.org](https://llmeter.org) (free tier, no credit card required)
 
-![LLMeter Dashboard](https://simplifai.tools/brand/og-image.png)
+![LLMeter Dashboard](https://simplifai.tools/brand/llmeter-og.png)
 
 ## How It Works
 
