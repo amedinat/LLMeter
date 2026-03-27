@@ -4,7 +4,7 @@
 
 LLMeter is an open-source cost monitoring platform for LLM APIs. Connect your provider API keys, and LLMeter automatically tracks your usage, calculates real costs, and alerts you before surprise bills hit.
 
-**Try it now:** [llmeter.com](https://llmeter.vercel.app) (free tier, no credit card required)
+**Try it now:** [llmeter.vercel.app](https://llmeter.vercel.app) (free tier, no credit card required)
 
 ![LLMeter Dashboard](https://raw.githubusercontent.com/amedinat/LLMeter/main/public/og-image.png)
 
@@ -12,7 +12,7 @@ LLMeter is an open-source cost monitoring platform for LLM APIs. Connect your pr
 
 LLMeter connects directly to your providers' usage and billing APIs. No proxies, no code changes, no SDKs to install.
 
-1. **Sign up** at llmeter.com (or self-host)
+1. **Sign up** at [llmeter.vercel.app](https://llmeter.vercel.app) (or self-host)
 2. **Connect** your provider API keys (encrypted with AES-256-GCM at rest)
 3. **LLMeter polls** each provider's usage API hourly via background jobs
 4. **You see** unified costs, trends, and alerts in one dashboard
@@ -39,7 +39,7 @@ Google AI (Gemini) support is planned once Google provides a public usage API.
 ## Features
 
 - **Unified Dashboard** — All providers, all models, one view
-- **Real Cost Tracking** — Actual spend from provider APIs, not estimates
+- **Cost Tracking** — Usage and spend data pulled directly from provider APIs
 - **Budget Alerts** — Daily and monthly thresholds with email + webhook notifications
 - **Anomaly Detection** — Spot unusual spikes before they become expensive (Pro)
 - **Usage Trends** — Analyze consumption by model, provider, and time period
@@ -131,7 +131,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 ## Roadmap
 
 - [x] Multi-provider support (OpenAI, Anthropic, DeepSeek, OpenRouter)
-- [x] Real-time cost calculation from provider APIs
+- [x] Hourly cost tracking from provider APIs
 - [x] Budget alerts (email + webhook)
 - [x] Anomaly detection
 - [x] Plans & billing (Stripe)
