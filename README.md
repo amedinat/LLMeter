@@ -4,7 +4,7 @@
 
 LLMeter is an open-source cost monitoring platform for LLM APIs. Connect your provider API keys, and LLMeter automatically tracks your usage, calculates real costs, and alerts you before surprise bills hit.
 
-**Try it now:** [llmeter.vercel.app](https://llmeter.vercel.app) (free tier, no credit card required)
+**Try it now:** [llmeter.org](https://llmeter.org) (free tier, no credit card required)
 
 ![LLMeter Dashboard](https://simplifai.tools/brand/og-image.png)
 
@@ -12,7 +12,7 @@ LLMeter is an open-source cost monitoring platform for LLM APIs. Connect your pr
 
 LLMeter connects directly to your providers' usage and billing APIs. No proxies, no code changes, no SDKs to install.
 
-1. **Sign up** at [llmeter.vercel.app](https://llmeter.vercel.app) (or self-host)
+1. **Sign up** at [llmeter.org](https://llmeter.org) (or self-host)
 2. **Connect** your provider API keys (encrypted with AES-256-GCM at rest)
 3. **LLMeter polls** each provider's usage API hourly via background jobs
 4. **You see** unified costs, trends, and alerts in one dashboard
