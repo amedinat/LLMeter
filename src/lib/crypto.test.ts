@@ -3,7 +3,7 @@ import { encrypt, decrypt, encryptForDB, decryptFromDB } from './crypto';
 import type { EncryptedPayload } from './crypto';
 
 beforeAll(() => {
-  process.env.ENCRYPTION_SECRET = 'test-secret-key-for-vitest-2026';
+  process.env.ENCRYPTION_KEY = 'test-secret-key-for-vitest-2026';
 });
 
 describe('crypto', () => {
@@ -93,14 +93,14 @@ describe('crypto', () => {
     });
   });
 
-  describe('missing ENCRYPTION_SECRET', () => {
+  describe('missing ENCRYPTION_KEY', () => {
     it('throws when secret is not set', () => {
-      const original = process.env.ENCRYPTION_SECRET;
-      delete process.env.ENCRYPTION_SECRET;
+      const original = process.env.ENCRYPTION_KEY;
+      delete process.env.ENCRYPTION_KEY;
       try {
-        expect(() => encrypt('test')).toThrow('ENCRYPTION_SECRET');
+        expect(() => encrypt('test')).toThrow('ENCRYPTION_KEY');
       } finally {
-        process.env.ENCRYPTION_SECRET = original;
+        process.env.ENCRYPTION_KEY = original;
       }
     });
   });
