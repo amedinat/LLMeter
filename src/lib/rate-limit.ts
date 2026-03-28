@@ -81,3 +81,9 @@ export const MAGIC_LINK_LIMIT = {
   limit: 5,
   windowMs: 15 * 60 * 1000,
 } satisfies RateLimitOptions;
+
+/** Rate limit config for ingestion API: 100 requests per minute per API key */
+export const INGEST_API_LIMIT = {
+  limit: 100,
+  windowMs: 60 * 1000,
+} satisfies RateLimitOptions;
