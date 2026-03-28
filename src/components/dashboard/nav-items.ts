@@ -1,4 +1,4 @@
-import { LayoutDashboard, Link2, Bell, Lightbulb, Settings } from 'lucide-react';
+import { LayoutDashboard, Link2, Bell, Lightbulb, Users, BookOpen, Settings } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export interface NavItem {
@@ -27,6 +27,16 @@ export const navItems: NavItem[] = [
     title: 'Optimization',
     href: '/optimization',
     icon: Lightbulb,
+  },
+  {
+    title: 'Customers',
+    href: '/customers',
+    icon: Users,
+  },
+  {
+    title: 'Docs',
+    href: '/docs',
+    icon: BookOpen,
   },
   {
     title: 'Settings',
