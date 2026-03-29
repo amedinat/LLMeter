@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { decryptFromDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers/registry';
 import { sendAlertEmail } from '@/lib/email/send-alert';
+import { pulseTrack, pulseMetric } from '@/lib/saas-pulse';
 import type { ProviderType } from '@/types';
 
 // ----- Helpers -----
@@ -70,6 +71,12 @@ async function triggerAlert(
     .from('alerts')
     .update({ last_triggered_at: new Date().toISOString() })
     .eq('id', alert.id);
+
+  // Track in SaaS Pulse
+  pulseTrack('alert_triggered', {
+    user_ref: alert.user_id,
+    metadata: { alertType, currentValue, referenceValue },
+  });
 
   // Send email notification
   await sendAlertEmail({
@@ -190,6 +197,14 @@ export const pollUsage = inngest.createFunction(
 
     const succeeded = results.filter((r) => !r.error).length;
     const failed = results.filter((r) => r.error).length;
+    const totalRecords = results.reduce((sum, r) => sum + r.records, 0);
+
+    // Report daily metrics to SaaS Pulse
+    pulseMetric('providers_polled', providers.length);
+    pulseMetric('usage_records_synced', totalRecords);
+    if (failed > 0) {
+      pulseMetric('provider_sync_errors', failed);
+    }
 
     logger.info(`Poll complete: ${succeeded} OK, ${failed} errors`);
     return { polled: providers.length, succeeded, failed, details: results };

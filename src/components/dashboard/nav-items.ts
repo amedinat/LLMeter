@@ -19,6 +19,11 @@ export const navItems: NavItem[] = [
     icon: Link2,
   },
   {
+    title: 'Customers',
+    href: '/customers',
+    icon: Users,
+  },
+  {
     title: 'Alerts',
     href: '/alerts',
     icon: Bell,
@@ -27,11 +32,6 @@ export const navItems: NavItem[] = [
     title: 'Optimization',
     href: '/optimization',
     icon: Lightbulb,
-  },
-  {
-    title: 'Customers',
-    href: '/customers',
-    icon: Users,
   },
   {
     title: 'Docs',

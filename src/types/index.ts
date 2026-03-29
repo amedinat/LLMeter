@@ -99,6 +99,32 @@ export interface DailySpend {
   by_provider: Record<ProviderType, number>;
 }
 
+// Customer attribution types
+export interface CustomerSummary {
+  customer_id: string;
+  display_name: string | null;
+  total_cost: number;
+  total_input_tokens: number;
+  total_output_tokens: number;
+  request_count: number;
+  last_active: string;
+}
+
+export interface CustomerDailySpend {
+  date: string;
+  total: number;
+}
+
+export interface CustomerModelUsage {
+  model: string;
+  provider: string | null;
+  cost: number;
+  input_tokens: number;
+  output_tokens: number;
+  request_count: number;
+  pct: number;
+}
+
 export interface ProviderConfig {
   type: ProviderType;
   name: string;

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { format } from 'date-fns';
 import { getUserPlan, getRetentionDate } from '@/lib/feature-gate';
 import type { SpendSummary, DailySpend, ProviderType } from '@/types';
+import { PROVIDER_META } from '@/lib/providers/types';
 
 export async function getSpendSummary(days = 30): Promise<SpendSummary> {
   const supabase = await createClient();
@@ -68,9 +69,9 @@ export async function getSpendSummary(days = 30): Promise<SpendSummary> {
   const totalSpend = currentData.reduce((sum, r) => sum + (r.cost_usd || 0), 0);
   const prevSpend = prevData.reduce((sum, r) => sum + (r.cost_usd || 0), 0);
   
-  // Avoid division by zero
-  const changePct = prevSpend === 0 
-    ? (totalSpend > 0 ? 100 : 0) 
+  // Avoid division by zero or absurd percentages from tiny previous values
+  const changePct = prevSpend < 0.01
+    ? (totalSpend > 0 ? 100 : 0)
     : ((totalSpend - prevSpend) / prevSpend) * 100;
 
   // Group by Provider
@@ -82,7 +83,7 @@ export async function getSpendSummary(days = 30): Promise<SpendSummary> {
   currentData.forEach(r => {
     const providerData = Array.isArray(r.provider) ? r.provider[0] : r.provider;
     const providerType = (providerData?.provider || 'openai') as ProviderType;
-    const providerName = providerData?.display_name || providerType;
+    const providerName = PROVIDER_META[providerType]?.name || providerData?.display_name || providerType;
 
     // Provider aggregation
     const prevProv = providerMap.get(providerType) || { spend: 0, name: providerName, type: providerType };
