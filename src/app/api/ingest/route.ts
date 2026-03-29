@@ -1,61 +1,77 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { checkRateLimit, INGEST_API_LIMIT } from '@/lib/rate-limit';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
+import { getModelPricing, getDefaultRates } from '@/data/model-pricing';
 import { createHash } from 'crypto';
+import { checkRateLimit, INGEST_API_LIMIT } from '@/lib/rate-limit';
 
-const usageRecordSchema = z.object({
-  model: z.string().min(1, 'model is required').max(200),
-  input_tokens: z.number().int().nonnegative(),
-  output_tokens: z.number().int().nonnegative(),
-  customer_id: z.string().max(200).optional(),
+// Zod schema for a single usage event from the SDK
+const usageEventSchema = z.object({
+  model: z.string().min(1),
+  input_tokens: z.number().int().min(0),
+  output_tokens: z.number().int().min(0),
+  customer_id: z.string().min(1),
   timestamp: z.string().datetime().optional(),
 });
 
-const ingestBodySchema = z.array(usageRecordSchema).min(1).max(1000);
+// Zod schema for the entire payload (an array of events)
+const ingestionSchema = z.array(usageEventSchema).min(1).max(1000);
 
-/**
- * Authenticate request via Bearer token (API key).
- * The raw key is SHA-256 hashed and looked up in the api_keys table.
- */
-async function authenticateApiKey(
-  request: NextRequest
-): Promise<{ userId: string; keyHash: string } | null> {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader?.startsWith('Bearer ')) return null;
+// Helper to calculate cost for a single event
+function calculateCost(event: z.infer<typeof usageEventSchema>): { cost: number; provider: string } {
+  const pricing = getModelPricing(event.model);
 
-  const rawKey = authHeader.slice(7);
-  if (!rawKey) return null;
+  let inputRate: number, outputRate: number, provider: string;
 
-  const keyHash = createHash('sha256').update(rawKey).digest('hex');
-
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from('api_keys')
-    .select('user_id')
-    .eq('key_hash', keyHash)
-    .single();
-
-  if (error || !data) return null;
-
-  return { userId: data.user_id as string, keyHash };
-}
-
-/**
- * POST /api/ingest — Ingest usage records via API key authentication
- */
-export async function POST(request: NextRequest) {
-  // Authenticate
-  const auth = await authenticateApiKey(request);
-  if (!auth) {
-    return NextResponse.json(
-      { error: 'Invalid or missing API key' },
-      { status: 401 }
-    );
+  if (pricing) {
+    inputRate = pricing.input_price_per_1m_tokens;
+    outputRate = pricing.output_price_per_1m_tokens;
+    provider = pricing.provider;
+  } else {
+    // Fallback for unknown models
+    [inputRate, outputRate] = getDefaultRates('openai');
+    provider = 'unknown';
   }
 
+  const cost =
+    (event.input_tokens / 1_000_000) * inputRate +
+    (event.output_tokens / 1_000_000) * outputRate;
+
+  return { cost, provider };
+}
+
+
+export async function POST(req: NextRequest) {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return NextResponse.json({ error: 'Unauthorized: Missing or invalid API key' }, { status: 401 });
+  }
+  const apiKey = authHeader.split(' ')[1];
+
+  // Hash the API key to look it up in the database
+  const apiKeyHash = createHash('sha256').update(apiKey).digest('hex');
+
+  const supabase = createAdminClient();
+
+  // 1. Authenticate the request using the API key hash
+  const { data: apiKeyData, error: apiKeyError } = await supabase
+    .from('api_keys')
+    .select('id, user_id, is_active')
+    .eq('api_key_hash', apiKeyHash)
+    .single();
+
+  if (apiKeyError || !apiKeyData) {
+    return NextResponse.json({ error: 'Unauthorized: Invalid API key' }, { status: 401 });
+  }
+
+  if (!apiKeyData.is_active) {
+    return NextResponse.json({ error: 'Unauthorized: API key is disabled' }, { status: 403 });
+  }
+
+  const { user_id, id: api_key_id } = apiKeyData;
+
   // Rate limit per API key
-  const rl = checkRateLimit(`ingest:${auth.keyHash}`, INGEST_API_LIMIT);
+  const rl = checkRateLimit(`ingest:${apiKeyHash}`, INGEST_API_LIMIT);
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Rate limit exceeded. Maximum 100 requests per minute.' },
@@ -68,71 +84,50 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Parse and validate body
-  let body: unknown;
+  // 2. Parse and validate the request body
+  let events;
   try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    const body = await req.json();
+    events = ingestionSchema.parse(body);
+  } catch (error) {
+    return NextResponse.json({ error: 'Invalid request body', details: (error as z.ZodError).format() }, { status: 400 });
   }
 
-  const parsed = ingestBodySchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: 'Validation failed', details: parsed.error.flatten() },
-      { status: 400 }
-    );
-  }
-
-  const supabase = await createClient();
-
-  // Upsert customers if customer_id is provided
-  const customerIds = [
-    ...new Set(
-      parsed.data
-        .map((r) => r.customer_id)
-        .filter((id): id is string => Boolean(id))
-    ),
-  ];
-
-  for (const customerId of customerIds) {
-    await supabase
-      .from('customers')
-      .upsert(
-        {
-          customer_id: customerId,
-          user_id: auth.userId,
-          display_name: customerId,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'customer_id,user_id' }
-      );
-  }
-
-  // Insert usage records
-  const records = parsed.data.map((r) => ({
-    user_id: auth.userId,
-    model: r.model,
-    input_tokens: r.input_tokens,
-    output_tokens: r.output_tokens,
-    customer_id: r.customer_id ?? null,
-    timestamp: r.timestamp ?? new Date().toISOString(),
-  }));
-
-  const { error } = await supabase
-    .from('customer_usage_records')
-    .insert(records);
-
-  if (error) {
-    console.error('POST /api/ingest error:', error.message);
-    return NextResponse.json(
-      { error: 'Failed to ingest records' },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({
-    success: true,
-    records_ingested: records.length,
+  // 3. Process and insert usage data
+  const recordsToInsert = events.map(event => {
+    const { cost, provider } = calculateCost(event);
+    return {
+      user_id,
+      api_key_id,
+      customer_id: event.customer_id,
+      model: event.model,
+      provider,
+      input_tokens: event.input_tokens,
+      output_tokens: event.output_tokens,
+      cost_usd: cost,
+      timestamp: event.timestamp ? new Date(event.timestamp).toISOString() : new Date().toISOString(),
+    };
   });
+
+  const { error: insertError } = await supabase
+    .from('customer_usage_records')
+    .insert(recordsToInsert);
+
+  if (insertError) {
+    console.error('Failed to insert customer usage records:', insertError);
+    return NextResponse.json({ error: 'Failed to save usage data' }, { status: 500 });
+  }
+
+  // 4. Update the last_used_at timestamp on the API key (best-effort)
+  supabase
+    .from('api_keys')
+    .update({ last_used_at: new Date().toISOString() })
+    .eq('id', api_key_id)
+    .then(({ error: updateError }) => {
+      if (updateError) {
+        console.warn(`Failed to update last_used_at for API key ${api_key_id}:`, updateError);
+      }
+    });
+
+  return NextResponse.json({ success: true, ingested: recordsToInsert.length }, { status: 202 });
 }

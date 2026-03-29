@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe, resolvePlanFromPrice, GRACE_PERIOD_DAYS } from '@/lib/stripe/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { pulseTrack } from '@/lib/saas-pulse';
 import type Stripe from 'stripe';
 
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
@@ -122,6 +123,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, supabas
     ? new Date(subscription.trial_end * 1000).toISOString()
     : null;
 
+  // Track in SaaS Pulse
+  const userId = session.metadata?.user_id || subscription.metadata?.user_id;
+  pulseTrack(isTrial ? 'trial_started' : 'subscription_created', {
+    user_ref: userId || customerId,
+    metadata: { plan, priceId },
+  });
+
   const { error } = await supabase
     .from('profiles')
     .update({
@@ -172,6 +180,16 @@ async function handleInvoicePaid(invoice: Stripe.Invoice, supabase: AdminClient)
 
   const currentPeriodEnd = extractPeriodEnd(subscription);
 
+  // Track renewal in SaaS Pulse
+  const amountPaid = typeof (invoice as unknown as Record<string, unknown>).amount_paid === 'number'
+    ? (invoice as unknown as Record<string, unknown>).amount_paid as number
+    : undefined;
+  pulseTrack('subscription_renewed', {
+    user_ref: customerId,
+    amount_cents: amountPaid,
+    metadata: { plan },
+  });
+
   await supabase
     .from('profiles')
     .update({
@@ -190,6 +208,11 @@ async function handleInvoicePaid(invoice: Stripe.Invoice, supabase: AdminClient)
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, supabase: AdminClient) {
   const customerId = invoice.customer as string;
   if (!customerId) return;
+
+  pulseTrack('payment_failed', {
+    user_ref: customerId,
+    metadata: { invoice_id: invoice.id },
+  });
 
   const graceEnd = new Date();
   graceEnd.setDate(graceEnd.getDate() + GRACE_PERIOD_DAYS);
@@ -235,6 +258,10 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription, supa
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription, supabase: AdminClient) {
   const customerId = subscription.customer as string;
   if (!customerId) return;
+
+  pulseTrack('subscription_cancelled', {
+    user_ref: customerId,
+  });
 
   await supabase
     .from('profiles')

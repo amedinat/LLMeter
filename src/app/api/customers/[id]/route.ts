@@ -8,32 +8,26 @@ import { getCustomerDetail } from '@/features/customers/server/queries';
 const CUSTOMER_API_LIMIT = { limit: 30, windowMs: 60_000 };
 
 /**
- * GET /api/customers/[id] — Get customer detail
+ * GET /api/customers/[id] — Get customer detail with analytics (drill-down)
  */
 export async function GET(
-  _request: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
-    const customer = await getCustomerDetail(user.id, id);
-    if (!customer) {
-      return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
-    }
-    return NextResponse.json({ customer });
+    const { id } = await params;
+    const { searchParams } = new URL(req.url);
+    const start = searchParams.get('start') || undefined;
+    const end = searchParams.get('end') || undefined;
+
+    const detail = await getCustomerDetail(id, start, end);
+    return NextResponse.json(detail);
   } catch (error) {
-    console.error('GET /api/customers/[id] error:', error);
-    return NextResponse.json({ error: 'Failed to fetch customer' }, { status: 500 });
+    if (error instanceof Error && error.message === 'User not authenticated') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error('Error in GET /api/customers/[id]:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 

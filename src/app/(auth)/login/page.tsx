@@ -16,11 +16,11 @@ export default async function LoginPage({
   const defaultTab = tab === 'password' ? 'password' : 'magic-link';
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center bg-[#030303] px-4">
+      <Card className="w-full max-w-md glass-card">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">
-            <Link href="/" className="hover:opacity-80 transition-opacity">LLMeter</Link>
+            <Link href="/" className="hover:opacity-80 transition-opacity text-cyan-400">LLMeter</Link>
           </CardTitle>
           <CardDescription>
             Monitor your AI API costs in one place
@@ -28,13 +28,13 @@ export default async function LoginPage({
         </CardHeader>
         <CardContent>
           {error && (
-            <div className="mb-4 flex items-center gap-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive dark:bg-destructive/25">
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <p>{error}</p>
             </div>
           )}
           {message && (
-            <div className="mb-4 flex items-center gap-2 rounded-md bg-green-50 p-3 text-sm text-green-900 dark:bg-green-900/20 dark:text-green-300">
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-green-900/20 p-3 text-sm text-green-300">
               <CheckCircle2 className="h-4 w-4 shrink-0" />
               <p>{message}</p>
             </div>
@@ -58,7 +58,7 @@ export default async function LoginPage({
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full bg-cyan-500 hover:bg-cyan-400 text-white">
                   Send Magic Link
                 </Button>
               </form>
@@ -91,7 +91,7 @@ export default async function LoginPage({
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button type="submit" className="flex-1">
+                  <Button type="submit" className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-white">
                     Sign In
                   </Button>
                   <Button type="submit" variant="outline" className="flex-1" formAction={signUpWithPassword}>
@@ -107,7 +107,7 @@ export default async function LoginPage({
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+              <span className="bg-[#0a0a12] px-2 text-muted-foreground">
                 Or continue with
               </span>
             </div>
