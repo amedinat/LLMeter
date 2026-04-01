@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           <p>Usage data is retained for the duration specified by your plan (30 days for Free, 1 year for Pro/Team). When you delete your account, all data including encrypted keys is permanently removed within 30 days.</p>
 
           <h2>5. Third Parties</h2>
-          <p>We use Supabase for database hosting and authentication, Stripe for payment processing, and Vercel for application hosting. We do not sell or share your personal data with any other third parties.</p>
+          <p>We use Supabase for database hosting and authentication, Paddle for payment processing, and Vercel for application hosting. We do not sell or share your personal data with any other third parties.</p>
 
           <h2>6. Your Rights</h2>
           <p>You can export or delete your data at any time from your account settings. For questions, contact us at <a href="mailto:hello@llmeter.org">hello@llmeter.org</a>.</p>

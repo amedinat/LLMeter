@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, ArrowLeft } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { PLANS } from '@/config/plans';
+import { PricingCheckout } from './pricing-checkout';
 
 const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team, PLANS.enterprise];
 
@@ -142,11 +143,19 @@ export default function PricingPage() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button variant={plan.ctaVariant} className="w-full" asChild>
-                    <Link href={plan.price === null ? 'mailto:hello@llmeter.org' : '/login'}>
-                      {plan.cta}
-                    </Link>
-                  </Button>
+                  {plan.paddlePriceId ? (
+                    <PricingCheckout
+                      priceId={plan.paddlePriceId}
+                      cta={plan.cta}
+                      ctaVariant={plan.ctaVariant}
+                    />
+                  ) : (
+                    <Button variant={plan.ctaVariant} className="w-full" asChild>
+                      <Link href={plan.price === null ? 'mailto:hello@llmeter.org' : '/login'}>
+                        {plan.cta}
+                      </Link>
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             ))}

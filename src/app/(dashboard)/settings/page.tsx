@@ -17,7 +17,7 @@ export default async function SettingsPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('plan, stripe_customer_id, stripe_subscription_id, current_period_end, trial_ends_at, payment_issue')
+    .select('plan, paddle_customer_id, paddle_subscription_id, current_period_end, trial_ends_at, payment_issue')
     .eq('id', user?.id ?? '')
     .single();
 
@@ -31,7 +31,7 @@ export default async function SettingsPage() {
 
   const billingData = {
     plan: (profile?.plan as Plan) || 'free',
-    hasSubscription: !!profile?.stripe_subscription_id,
+    hasSubscription: !!profile?.paddle_subscription_id,
     currentPeriodEnd: profile?.current_period_end ?? null,
     trialEndsAt: profile?.trial_ends_at ?? null,
     paymentIssue: profile?.payment_issue ?? false,

@@ -7,7 +7,7 @@ import { PLANS } from '@/config/plans';
  * Daily cron: expire trials that have ended.
  *
  * Finds users with trial_ends_at in the past who still have a paid plan,
- * then checks their Stripe subscription status. If the subscription is not
+ * then checks their Paddle subscription status. If the subscription is not
  * active (i.e. no payment method was added), downgrades to free.
  *
  * Also sends warning emails 2 days and 1 day before trial ends.
@@ -63,7 +63,7 @@ export const expireTrials = inngest.createFunction(
 
       const { data: expiredUsers } = await supabase
         .from('profiles')
-        .select('id, plan, trial_ends_at, stripe_subscription_id')
+        .select('id, plan, trial_ends_at, paddle_subscription_id')
         .not('trial_ends_at', 'is', null)
         .lte('trial_ends_at', now.toISOString())
         .neq('plan', 'free');
@@ -71,8 +71,8 @@ export const expireTrials = inngest.createFunction(
       let downgraded = 0;
       for (const profile of expiredUsers ?? []) {
         // If they have an active subscription (payment method added during trial),
-        // just clear the trial flag — Stripe webhook will handle the rest
-        if (profile.stripe_subscription_id) {
+        // just clear the trial flag — Paddle webhook will handle the rest
+        if (profile.paddle_subscription_id) {
           await supabase
             .from('profiles')
             .update({ trial_ends_at: null })
@@ -174,7 +174,7 @@ export const expireGracePeriods = inngest.createFunction(
             plan: 'free',
             plan_status: 'free',
             payment_issue: false,
-            stripe_subscription_id: null,
+            paddle_subscription_id: null,
             current_period_end: null,
             trial_ends_at: null,
           })

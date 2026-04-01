@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { stripe } from '@/lib/stripe/server';
+import { paddle } from '@/lib/paddle/server';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 
@@ -18,25 +18,27 @@ export async function POST(req: NextRequest) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('stripe_customer_id')
+    .select('paddle_customer_id, paddle_subscription_id')
     .eq('id', user.id)
     .single();
 
-  if (!profile?.stripe_customer_id) {
+  if (!profile?.paddle_customer_id) {
     return NextResponse.json({ error: 'No billing account' }, { status: 400 });
   }
 
   trackEvent(user.id, EVENTS.BILLING_PORTAL_OPENED);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
   try {
-    const session = await stripe.billingPortal.sessions.create({
-      customer: profile.stripe_customer_id,
-      return_url: `${appUrl}/settings`,
-    });
+    const subscriptionIds = profile.paddle_subscription_id
+      ? [profile.paddle_subscription_id]
+      : [];
 
-    return NextResponse.json({ url: session.url });
+    const portalSession = await paddle.customerPortalSessions.create(
+      profile.paddle_customer_id,
+      subscriptionIds,
+    );
+
+    return NextResponse.json({ url: portalSession.urls.general.overview });
   } catch (err) {
     console.error('Billing portal error:', err);
     return NextResponse.json({ error: 'Failed to create billing portal session' }, { status: 500 });

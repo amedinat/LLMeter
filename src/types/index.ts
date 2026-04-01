@@ -11,7 +11,7 @@ export interface User {
   email: string;
   name: string | null;
   plan: Plan;
-  stripe_customer_id: string | null;
+  paddle_customer_id: string | null;
   created_at: string;
 }
 

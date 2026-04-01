@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,7 @@ import type { Plan } from '@/types';
 import { PLANS } from '@/config/plans';
 import { format } from 'date-fns';
 import { apiFetch } from '@/lib/api-client';
+import { getPaddleInstance } from '@/lib/paddle/client';
 
 interface BillingSectionProps {
   plan: Plan;
@@ -21,7 +22,7 @@ interface BillingSectionProps {
 export function BillingSection({ plan, hasSubscription, currentPeriodEnd, trialEndsAt, paymentIssue }: BillingSectionProps) {
   const [loading, setLoading] = useState<string | null>(null);
 
-  async function handleUpgrade(targetPlan: string) {
+  const handleUpgrade = useCallback(async (targetPlan: string) => {
     setLoading(targetPlan);
     try {
       const res = await apiFetch('/api/checkout', {
@@ -29,15 +30,24 @@ export function BillingSection({ plan, hasSubscription, currentPeriodEnd, trialE
         body: JSON.stringify({ plan: targetPlan }),
       });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
+      if (data.priceId) {
+        const paddle = await getPaddleInstance();
+        if (!paddle) return;
+        paddle.Checkout.open({
+          items: [{ priceId: data.priceId, quantity: 1 }],
+          customer: { email: data.customerEmail },
+          customData: data.customData,
+          settings: {
+            successUrl: `${window.location.origin}/dashboard?checkout=success`,
+          },
+        });
       }
     } finally {
       setLoading(null);
     }
-  }
+  }, []);
 
-  async function handleManage() {
+  const handleManage = useCallback(async () => {
     setLoading('portal');
     try {
       const res = await apiFetch('/api/billing/portal', { method: 'POST' });
@@ -48,7 +58,7 @@ export function BillingSection({ plan, hasSubscription, currentPeriodEnd, trialE
     } finally {
       setLoading(null);
     }
-  }
+  }, []);
 
   const isTrialing = !!trialEndsAt && new Date(trialEndsAt) > new Date();
 
