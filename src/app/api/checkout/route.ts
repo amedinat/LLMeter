@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { stripe, PLAN_TO_PRICE, TRIAL_DAYS, getOrCreateCustomer } from '@/lib/stripe/server';
+import { PLAN_TO_PRICE, TRIAL_DAYS } from '@/lib/paddle/server';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 
+/**
+ * POST /api/checkout
+ *
+ * Paddle uses a client-side overlay checkout, so this endpoint returns the
+ * configuration needed for the frontend to open the Paddle.js overlay
+ * (price ID, customer email, custom data for webhook correlation).
+ */
 export async function POST(req: NextRequest) {
   if (!verifyCsrfHeader(req)) {
     return csrfForbiddenResponse();
@@ -22,42 +29,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('stripe_customer_id')
-    .eq('id', user.id)
-    .single();
-
-  const customerId = await getOrCreateCustomer(
-    user.id,
-    user.email!,
-    profile?.stripe_customer_id ?? null,
-  );
-
-  // Persist stripe_customer_id if it was just created
-  if (!profile?.stripe_customer_id) {
-    await supabase
-      .from('profiles')
-      .update({ stripe_customer_id: customerId })
-      .eq('id', user.id);
-  }
-
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
-  try {
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      mode: 'subscription',
-      line_items: [{ price: priceId, quantity: 1 }],
-      subscription_data: plan === 'pro' ? { trial_period_days: TRIAL_DAYS } : undefined,
-      metadata: { user_id: user.id },
-      success_url: `${appUrl}/dashboard?checkout=success`,
-      cancel_url: `${appUrl}/dashboard?checkout=cancel`,
-    });
-
-    return NextResponse.json({ url: session.url });
-  } catch (err) {
-    console.error('Checkout error:', err);
-    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
-  }
+  return NextResponse.json({
+    priceId,
+    customerEmail: user.email,
+    customData: { user_id: user.id },
+    trialDays: plan === 'pro' ? TRIAL_DAYS : undefined,
+  });
 }

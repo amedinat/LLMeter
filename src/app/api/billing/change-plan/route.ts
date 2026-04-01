@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { stripe, PLAN_TO_PRICE } from '@/lib/stripe/server';
+import { paddle, PLAN_TO_PRICE } from '@/lib/paddle/server';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import type { Plan } from '@/types';
 
@@ -29,18 +29,18 @@ export async function POST(req: NextRequest) {
   const newPriceId = PLAN_TO_PRICE[targetPlan];
   if (!newPriceId) {
     return NextResponse.json(
-      { error: 'Stripe price not configured for this plan' },
+      { error: 'Paddle price not configured for this plan' },
       { status: 400 },
     );
   }
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('plan, stripe_subscription_id, stripe_customer_id')
+    .select('plan, paddle_subscription_id, paddle_customer_id')
     .eq('id', user.id)
     .single();
 
-  if (!profile?.stripe_subscription_id) {
+  if (!profile?.paddle_subscription_id) {
     return NextResponse.json(
       { error: 'No active subscription. Use checkout to subscribe.' },
       { status: 400 },
@@ -55,36 +55,20 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Retrieve current subscription to get the item ID
-    const subscription = await stripe.subscriptions.retrieve(
-      profile.stripe_subscription_id,
-    );
-
-    const currentItem = subscription.items.data[0];
-    if (!currentItem) {
-      return NextResponse.json(
-        { error: 'Subscription has no items' },
-        { status: 500 },
-      );
-    }
-
-    // Update the subscription to the new price.
-    // proration_behavior: 'create_prorations' ensures the customer is
-    // charged/credited proportionally for the plan change.
-    const updated = await stripe.subscriptions.update(
-      profile.stripe_subscription_id,
+    const updated = await paddle.subscriptions.update(
+      profile.paddle_subscription_id,
       {
         items: [
           {
-            id: currentItem.id,
-            price: newPriceId,
+            priceId: newPriceId,
+            quantity: 1,
           },
         ],
-        proration_behavior: 'create_prorations',
+        prorationBillingMode: 'prorated_immediately',
       },
     );
 
-    // The webhook (customer.subscription.updated) will update the profile,
+    // The webhook (subscription.updated) will update the profile,
     // but we also update immediately for responsiveness.
     await supabase
       .from('profiles')

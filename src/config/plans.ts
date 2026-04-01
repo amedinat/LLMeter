@@ -36,8 +36,8 @@ export interface PlanConfig {
   interval: 'month';
   trialDays: number;
   gracePeriodDays: number;
-  /** Stripe price ID read from env vars. `undefined` when not applicable. */
-  stripePriceId: string | undefined;
+  /** Paddle price ID read from env vars. `undefined` when not applicable. */
+  paddlePriceId: string | undefined;
   features: Feature[];
   limits: PlanLimits;
   /** Human-readable feature bullets for pricing UI. */
@@ -57,7 +57,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
     interval: 'month',
     trialDays: 0,
     gracePeriodDays: 7,
-    stripePriceId: undefined,
+    paddlePriceId: undefined,
     features: ['single-provider', 'budget-alerts', 'optimization-single'],
     limits: {
       maxProviders: 1,
@@ -85,7 +85,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
     interval: 'month',
     trialDays: 7,
     gracePeriodDays: 7,
-    stripePriceId: process.env.STRIPE_PRO_MONTHLY_PRICE_ID,
+    paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID,
     features: [
       'single-provider',
       'multi-provider',
@@ -121,7 +121,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
     interval: 'month',
     trialDays: 0,
     gracePeriodDays: 7,
-    stripePriceId: process.env.STRIPE_TEAM_MONTHLY_PRICE_ID,
+    paddlePriceId: process.env.NEXT_PUBLIC_PADDLE_TEAM_PRICE_ID,
     features: [
       'single-provider',
       'multi-provider',
@@ -158,7 +158,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
     interval: 'month',
     trialDays: 0,
     gracePeriodDays: 7,
-    stripePriceId: undefined,
+    paddlePriceId: undefined,
     features: [
       'single-provider',
       'multi-provider',
@@ -189,19 +189,19 @@ export const PLANS: Record<Plan, PlanConfig> = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// Derived look-ups (backward-compatible with stripe/server.ts exports)
+// Derived look-ups (backward-compatible with paddle/server.ts exports)
 // ---------------------------------------------------------------------------
 
-/** Map Stripe price IDs → plan names. */
+/** Map Paddle price IDs → plan names. */
 export const PRICE_TO_PLAN: Record<string, Plan> = Object.fromEntries(
   Object.values(PLANS)
-    .filter((p) => p.stripePriceId)
-    .map((p) => [p.stripePriceId!, p.id]),
+    .filter((p) => p.paddlePriceId)
+    .map((p) => [p.paddlePriceId!, p.id]),
 ) as Record<string, Plan>;
 
-/** Map plan names → Stripe price IDs. */
+/** Map plan names → Paddle price IDs. */
 export const PLAN_TO_PRICE: Record<string, string | undefined> = Object.fromEntries(
-  Object.values(PLANS).map((p) => [p.id, p.stripePriceId]),
+  Object.values(PLANS).map((p) => [p.id, p.paddlePriceId]),
 );
 
 /** Flat look-ups for backward compatibility with feature-gate.ts */
@@ -217,7 +217,7 @@ export const PLAN_LIMITS: Record<Plan, PlanLimits> = Object.fromEntries(
 // Helper functions
 // ---------------------------------------------------------------------------
 
-/** Resolve a Stripe price ID to a plan ID. */
+/** Resolve a Paddle price ID to a plan ID. */
 export function getPlanByPriceId(priceId: string): PlanConfig | undefined {
   const planId = PRICE_TO_PLAN[priceId];
   return planId ? PLANS[planId] : undefined;

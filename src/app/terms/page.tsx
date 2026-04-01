@@ -35,7 +35,7 @@ export default function TermsPage() {
           <p>You agree not to misuse the Service, including attempting to access other users&apos; data, reverse-engineering the platform, or using automated tools to scrape data.</p>
 
           <h2>6. Billing and Cancellation</h2>
-          <p>Paid plans are billed monthly via Stripe. You may cancel at any time. Upon cancellation, your account reverts to the Free plan and you retain access to your data within Free plan limits.</p>
+          <p>Paid plans are billed monthly via Paddle. You may cancel at any time. Upon cancellation, your account reverts to the Free plan and you retain access to your data within Free plan limits.</p>
 
           <h2>7. Limitation of Liability</h2>
           <p>LLMeter is provided &quot;as is&quot; without warranty. We are not liable for any inaccuracies in reported usage data, provider API changes, or indirect damages resulting from use of the Service.</p>
