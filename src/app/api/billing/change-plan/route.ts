@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { paddle, PLAN_TO_PRICE } from '@/lib/paddle/server';
+import { getPaymentProvider } from '@/lib/payments';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import type { Plan } from '@/types';
 
@@ -26,14 +26,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid target plan' }, { status: 400 });
   }
 
-  const newPriceId = PLAN_TO_PRICE[targetPlan];
-  if (!newPriceId) {
-    return NextResponse.json(
-      { error: 'Paddle price not configured for this plan' },
-      { status: 400 },
-    );
-  }
-
   const { data: profile } = await supabase
     .from('profiles')
     .select('plan, paddle_subscription_id, paddle_customer_id')
@@ -55,18 +47,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const updated = await paddle.subscriptions.update(
-      profile.paddle_subscription_id,
-      {
-        items: [
-          {
-            priceId: newPriceId,
-            quantity: 1,
-          },
-        ],
-        prorationBillingMode: 'prorated_immediately',
-      },
-    );
+    const provider = getPaymentProvider();
+    const result = await provider.changePlan({
+      subscriptionId: profile.paddle_subscription_id,
+      currentPlan: profile.plan,
+      targetPlan,
+    });
 
     // The webhook (subscription.updated) will update the profile,
     // but we also update immediately for responsiveness.
@@ -79,9 +65,9 @@ export async function POST(req: NextRequest) {
       .eq('id', user.id);
 
     return NextResponse.json({
-      success: true,
-      plan: targetPlan,
-      status: updated.status,
+      success: result.success,
+      plan: result.plan,
+      status: result.status,
     });
   } catch (err) {
     console.error('Plan change error:', err);
