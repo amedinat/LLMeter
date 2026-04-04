@@ -35,7 +35,7 @@ async function triggerAlert(
   alertType: 'monthly' | 'daily' | 'anomaly',
   startDate: string
 ) {
-  const config = alert.config as { threshold: number; period: string };
+  const _config = alert.config as { threshold: number; period: string };
 
   // Fetch top contributors
   const { data: contributors } = await supabase
