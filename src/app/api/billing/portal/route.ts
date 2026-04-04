@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { paddle } from '@/lib/paddle/server';
+import { getPaymentProvider } from '@/lib/payments';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 
@@ -29,16 +29,16 @@ export async function POST(req: NextRequest) {
   trackEvent(user.id, EVENTS.BILLING_PORTAL_OPENED);
 
   try {
-    const subscriptionIds = profile.paddle_subscription_id
-      ? [profile.paddle_subscription_id]
-      : [];
+    const provider = getPaymentProvider();
+    const portal = await provider.createBillingPortalSession({
+      customerId: profile.paddle_customer_id,
+      returnUrl: '',
+      subscriptionIds: profile.paddle_subscription_id
+        ? [profile.paddle_subscription_id]
+        : [],
+    });
 
-    const portalSession = await paddle.customerPortalSessions.create(
-      profile.paddle_customer_id,
-      subscriptionIds,
-    );
-
-    return NextResponse.json({ url: portalSession.urls.general.overview });
+    return NextResponse.json({ url: portal.url });
   } catch (err) {
     console.error('Billing portal error:', err);
     return NextResponse.json({ error: 'Failed to create billing portal session' }, { status: 500 });

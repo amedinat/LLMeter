@@ -1,5 +1,9 @@
 'use client';
 
+/**
+ * @deprecated Use `@/lib/payments-client` instead. This module is kept for
+ * backward compatibility and will be removed in a future release.
+ */
 import { initializePaddle, type Paddle } from '@paddle/paddle-js';
 
 let paddleInstance: Paddle | null = null;

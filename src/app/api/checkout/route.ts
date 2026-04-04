@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { PLAN_TO_PRICE, TRIAL_DAYS } from '@/lib/paddle/server';
+import { getPaymentProvider } from '@/lib/payments';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 
 /**
@@ -23,16 +23,25 @@ export async function POST(req: NextRequest) {
   }
 
   const { plan } = (await req.json()) as { plan: string };
-  const priceId = PLAN_TO_PRICE[plan];
 
-  if (!priceId) {
+  try {
+    const provider = getPaymentProvider();
+    const checkout = await provider.createCheckoutSession({
+      userId: user.id,
+      email: user.email!,
+      plan,
+      existingCustomerId: null,
+      returnUrl: '',
+    });
+
+    return NextResponse.json({
+      priceId: checkout.priceId,
+      customerEmail: checkout.customerEmail,
+      customData: checkout.customData,
+      trialDays: checkout.trialDays,
+    });
+  } catch (err) {
+    console.error('Checkout error:', err);
     return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
   }
-
-  return NextResponse.json({
-    priceId,
-    customerEmail: user.email,
-    customData: { user_id: user.id },
-    trialDays: plan === 'pro' ? TRIAL_DAYS : undefined,
-  });
 }

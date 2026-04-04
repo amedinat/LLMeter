@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { getPaddleInstance } from '@/lib/paddle/client';
+import { getPaddleInstance } from '@/lib/payments-client';
 
 interface PricingCheckoutProps {
   priceId: string;

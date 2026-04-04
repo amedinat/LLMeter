@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `@/lib/payments` instead. This module is kept for backward
+ * compatibility and will be removed in a future release.
+ */
 import { Paddle, Environment, EventName, type EventEntity } from '@paddle/paddle-node-sdk';
 import {
   PLANS,

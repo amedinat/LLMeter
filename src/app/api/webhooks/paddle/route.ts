@@ -1,280 +1,139 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyWebhookEvent, resolvePlanFromPrice, GRACE_PERIOD_DAYS, EventName } from '@/lib/paddle/server';
+import { getPaymentProvider, type ProfileUpdate } from '@/lib/payments';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { pulseTrack } from '@/lib/saas-pulse';
-import type {
-  SubscriptionNotification,
-  SubscriptionCreatedNotification,
-  TransactionNotification,
-} from '@paddle/paddle-node-sdk';
-
-const WEBHOOK_SECRET = process.env.PADDLE_WEBHOOK_SECRET;
 
 export async function POST(req: NextRequest) {
-  if (!WEBHOOK_SECRET) {
-    console.error('Missing PADDLE_WEBHOOK_SECRET');
-    return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 });
-  }
+  const provider = getPaymentProvider();
 
   const body = await req.text();
-  const signature = req.headers.get('paddle-signature');
+  const headers: Record<string, string | null> = {};
+  req.headers.forEach((value, key) => {
+    headers[key] = value;
+  });
 
-  if (!signature) {
-    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
-  }
+  const result = await provider.handleWebhook({ body, headers });
 
-  const event = await verifyWebhookEvent(body, signature, WEBHOOK_SECRET);
-  if (!event) {
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+  if (!result.received) {
+    return NextResponse.json({ error: result.error ?? 'Invalid webhook' }, { status: 400 });
   }
 
   const supabase = createAdminClient();
 
   // Idempotency check
-  const { data: existing } = await supabase
-    .from('paddle_events')
-    .select('id')
-    .eq('id', event.eventId)
-    .single();
+  if (result.eventId) {
+    const { data: existing } = await supabase
+      .from('paddle_events')
+      .select('id')
+      .eq('id', result.eventId)
+      .single();
 
-  if (existing) {
-    return NextResponse.json({ received: true, deduplicated: true });
+    if (existing) {
+      return NextResponse.json({ received: true, deduplicated: true });
+    }
   }
 
   try {
-    switch (event.eventType) {
-      case EventName.SubscriptionCreated:
-        await handleSubscriptionCreated(
-          event.data as SubscriptionCreatedNotification,
-          supabase,
-        );
-        break;
+    const update = result.profileUpdate;
+    if (update) {
+      // Map provider-agnostic fields to LLMeter's Supabase schema
+      const dbUpdate = mapProfileUpdate(update);
 
-      case EventName.SubscriptionUpdated:
-        await handleSubscriptionUpdated(
-          event.data as SubscriptionNotification,
-          supabase,
-        );
-        break;
+      // Track analytics events based on event type
+      trackWebhookEvent(result.eventType, result.customerId, result.userId, update);
 
-      case EventName.SubscriptionCanceled:
-        await handleSubscriptionCanceled(
-          event.data as SubscriptionNotification,
-          supabase,
-        );
-        break;
+      // Apply the profile update — try by provider customer ID first,
+      // then fall back to user ID (for subscription.created where the
+      // customer may not yet be linked in the DB).
+      if (result.customerId) {
+        const { error } = await supabase
+          .from('profiles')
+          .update(dbUpdate)
+          .eq('paddle_customer_id', result.customerId);
 
-      case EventName.TransactionCompleted:
-        await handleTransactionCompleted(
-          event.data as TransactionNotification,
-          supabase,
-        );
-        break;
-
-      case EventName.TransactionPaymentFailed:
-        await handleTransactionPaymentFailed(
-          event.data as TransactionNotification,
-          supabase,
-        );
-        break;
-
-      default:
-        // Unhandled event type — no action needed
+        if (error && result.userId) {
+          await supabase
+            .from('profiles')
+            .update(dbUpdate)
+            .eq('id', result.userId);
+        }
+      } else if (result.userId) {
+        await supabase
+          .from('profiles')
+          .update(dbUpdate)
+          .eq('id', result.userId);
+      }
     }
 
     // Mark event as processed
-    await supabase.from('paddle_events').insert({
-      id: event.eventId,
-      type: event.eventType,
-    });
+    if (result.eventId) {
+      await supabase.from('paddle_events').insert({
+        id: result.eventId,
+        type: result.eventType,
+      });
+    }
   } catch (err) {
-    console.error(`Error processing ${event.eventType}:`, err);
+    console.error(`Error processing ${result.eventType}:`, err);
     return NextResponse.json({ error: 'Processing failed' }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });
 }
 
-
-type AdminClient = ReturnType<typeof createAdminClient>;
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
 /**
- * subscription.created — new subscription created via checkout overlay
+ * Map provider-agnostic ProfileUpdate fields to LLMeter's Supabase column names.
  */
-async function handleSubscriptionCreated(
-  subscription: SubscriptionCreatedNotification,
-  supabase: AdminClient,
-) {
-  const customerId = subscription.customerId;
-  const subscriptionId = subscription.id;
-  const priceId = subscription.items?.[0]?.price?.id;
-  if (!customerId || !subscriptionId || !priceId) return;
+function mapProfileUpdate(update: ProfileUpdate): Record<string, unknown> {
+  const db: Record<string, unknown> = {};
 
-  const plan = resolvePlanFromPrice(priceId);
-  if (!plan) {
-    console.error(`Unknown price ID: ${priceId}`);
-    return;
-  }
+  if (update.plan !== undefined) db.plan = update.plan;
+  if (update.planStatus !== undefined) db.plan_status = update.planStatus;
+  if (update.providerCustomerId !== undefined) db.paddle_customer_id = update.providerCustomerId;
+  if (update.providerSubscriptionId !== undefined) db.paddle_subscription_id = update.providerSubscriptionId;
+  if (update.currentPeriodEnd !== undefined) db.current_period_end = update.currentPeriodEnd;
+  if (update.trialEndsAt !== undefined) db.trial_ends_at = update.trialEndsAt;
+  if (update.paymentIssue !== undefined) db.payment_issue = update.paymentIssue;
 
-  const isTrial = subscription.status === 'trialing';
-  const currentPeriodEnd = subscription.currentBillingPeriod?.endsAt ?? null;
-  const trialEnd = subscription.items?.[0]?.trialDates?.endsAt ?? null;
-
-  // Resolve user ID from custom data passed during checkout
-  const userId = (subscription.customData as Record<string, string> | null)?.user_id;
-
-  pulseTrack(isTrial ? 'trial_started' : 'subscription_created', {
-    user_ref: userId || customerId,
-    metadata: { plan, priceId },
-  });
-
-  // Try updating by paddle_customer_id first, then fall back to user_id
-  const { error } = await supabase
-    .from('profiles')
-    .update({
-      plan,
-      plan_status: plan,
-      paddle_customer_id: customerId,
-      paddle_subscription_id: subscriptionId,
-      current_period_end: currentPeriodEnd,
-      trial_ends_at: isTrial ? trialEnd : null,
-      payment_issue: false,
-    })
-    .eq('paddle_customer_id', customerId);
-
-  if (error && userId) {
-    await supabase
-      .from('profiles')
-      .update({
-        plan,
-        plan_status: plan,
-        paddle_customer_id: customerId,
-        paddle_subscription_id: subscriptionId,
-        current_period_end: currentPeriodEnd,
-        trial_ends_at: isTrial ? trialEnd : null,
-        payment_issue: false,
-      })
-      .eq('id', userId);
-  }
+  return db;
 }
 
 /**
- * subscription.updated — plan change, status change, renewal, etc.
+ * Emit analytics events to SaaS Pulse, preserving the original tracking behavior.
  */
-async function handleSubscriptionUpdated(
-  subscription: SubscriptionNotification,
-  supabase: AdminClient,
+function trackWebhookEvent(
+  eventType: string | undefined,
+  customerId: string | undefined,
+  userId: string | undefined,
+  update: ProfileUpdate,
 ) {
-  const customerId = subscription.customerId;
-  const priceId = subscription.items?.[0]?.price?.id;
-  if (!customerId || !priceId) return;
+  const userRef = userId || customerId;
+  if (!userRef) return;
 
-  const plan = resolvePlanFromPrice(priceId);
-  if (!plan) return;
+  switch (eventType) {
+    case 'subscription.created':
+      pulseTrack(
+        update.trialEndsAt ? 'trial_started' : 'subscription_created',
+        { user_ref: userRef, metadata: { plan: update.plan } },
+      );
+      break;
 
-  const currentPeriodEnd = subscription.currentBillingPeriod?.endsAt ?? null;
+    case 'subscription.canceled':
+      pulseTrack('subscription_cancelled', { user_ref: userRef });
+      break;
 
-  if (subscription.status === 'active' || subscription.status === 'trialing') {
-    await supabase
-      .from('profiles')
-      .update({
-        plan,
-        plan_status: plan,
-        current_period_end: currentPeriodEnd,
-        payment_issue: false,
-      })
-      .eq('paddle_customer_id', customerId);
+    case 'transaction.completed':
+      pulseTrack('subscription_renewed', {
+        user_ref: userRef,
+        metadata: { plan: update.plan ?? 'unknown' },
+      });
+      break;
+
+    case 'transaction.payment_failed':
+      pulseTrack('payment_failed', { user_ref: userRef });
+      break;
   }
-}
-
-/**
- * subscription.canceled — subscription ended
- */
-async function handleSubscriptionCanceled(
-  subscription: SubscriptionNotification,
-  supabase: AdminClient,
-) {
-  const customerId = subscription.customerId;
-  if (!customerId) return;
-
-  pulseTrack('subscription_cancelled', {
-    user_ref: customerId,
-  });
-
-  await supabase
-    .from('profiles')
-    .update({
-      plan: 'free',
-      plan_status: 'free',
-      paddle_subscription_id: null,
-      current_period_end: null,
-      trial_ends_at: null,
-      payment_issue: false,
-    })
-    .eq('paddle_customer_id', customerId);
-}
-
-/**
- * transaction.completed — payment succeeded (initial or renewal)
- */
-async function handleTransactionCompleted(
-  transaction: TransactionNotification,
-  supabase: AdminClient,
-) {
-  const customerId = transaction.customerId;
-  const subscriptionId = transaction.subscriptionId;
-  if (!customerId || !subscriptionId) return;
-
-  // Extract amount from transaction details
-  const amountPaid = transaction.details?.totals?.total
-    ? parseInt(transaction.details.totals.total, 10)
-    : undefined;
-
-  const priceId = transaction.items?.[0]?.price?.id;
-  const plan = priceId ? resolvePlanFromPrice(priceId) : null;
-
-  pulseTrack('subscription_renewed', {
-    user_ref: customerId,
-    amount_cents: amountPaid,
-    metadata: { plan: plan ?? 'unknown' },
-  });
-
-  if (plan) {
-    await supabase
-      .from('profiles')
-      .update({
-        plan,
-        plan_status: plan,
-        payment_issue: false,
-        trial_ends_at: null,
-      })
-      .eq('paddle_customer_id', customerId);
-  }
-}
-
-/**
- * transaction.payment_failed — payment failed, start grace period
- */
-async function handleTransactionPaymentFailed(
-  transaction: TransactionNotification,
-  supabase: AdminClient,
-) {
-  const customerId = transaction.customerId;
-  if (!customerId) return;
-
-  pulseTrack('payment_failed', {
-    user_ref: customerId,
-    metadata: { transaction_id: transaction.id },
-  });
-
-  const graceEnd = new Date();
-  graceEnd.setDate(graceEnd.getDate() + GRACE_PERIOD_DAYS);
-
-  await supabase
-    .from('profiles')
-    .update({
-      payment_issue: true,
-      current_period_end: graceEnd.toISOString(),
-    })
-    .eq('paddle_customer_id', customerId);
 }

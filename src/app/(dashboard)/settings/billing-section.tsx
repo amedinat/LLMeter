@@ -9,7 +9,7 @@ import type { Plan } from '@/types';
 import { PLANS } from '@/config/plans';
 import { format } from 'date-fns';
 import { apiFetch } from '@/lib/api-client';
-import { getPaddleInstance } from '@/lib/paddle/client';
+import { getPaddleInstance } from '@/lib/payments-client';
 
 interface BillingSectionProps {
   plan: Plan;
