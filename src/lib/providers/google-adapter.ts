@@ -45,8 +45,8 @@ export const googleAdapter: ProviderAdapter = {
     // For MVP, we aggregate from the API's response metadata.
     // Users with Google Cloud projects can check billing in GCP Console.
 
-    const from = startDate.toISOString().slice(0, 10);
-    const to = endDate.toISOString().slice(0, 10);
+    const _from = startDate.toISOString().slice(0, 10);
+    const _to = endDate.toISOString().slice(0, 10);
 
     // Try fetching usage via the tuned models endpoint (includes metadata)
     // This is a best-effort approach — Google AI Studio doesn't have a
