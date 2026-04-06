@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 const PROD_URL = 'https://www.llmeter.org';
+const TEST_EMAIL = process.env.E2E_TEST_EMAIL || '';
+const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || '';
 
 test.describe('Dashboard Access (Production)', () => {
   test('should login and see dashboard with data', async ({ page }) => {
@@ -11,8 +13,8 @@ test.describe('Dashboard Access (Production)', () => {
     await page.getByRole('tab', { name: 'Password' }).click();
 
     // Fill credentials
-    await page.locator('#login-email').fill('otto.medina.ai@gmail.com');
-    await page.locator('#login-password').fill('TestPassword123!');
+    await page.locator('#login-email').fill(TEST_EMAIL);
+    await page.locator('#login-password').fill(TEST_PASSWORD);
 
     // Click Sign In
     await page.getByRole('button', { name: 'Sign In' }).click();
@@ -47,7 +49,7 @@ test.describe('Dashboard Access (Production)', () => {
 
     await page.getByRole('link', { name: /Settings/i }).click();
     await expect(page.getByText('Profile')).toBeVisible();
-    await expect(page.getByText('otto.medina.ai@gmail.com')).toBeVisible();
+    await expect(page.getByText(TEST_EMAIL)).toBeVisible();
 
     // Take screenshot of settings
     await page.screenshot({ path: 'e2e/screenshots/settings.png', fullPage: true });
@@ -60,8 +62,8 @@ test.describe('Dashboard Access (Production)', () => {
     // Login
     await page.goto(`${PROD_URL}/login`);
     await page.getByRole('tab', { name: 'Password' }).click();
-    await page.locator('#login-email').fill('otto.medina.ai@gmail.com');
-    await page.locator('#login-password').fill('TestPassword123!');
+    await page.locator('#login-email').fill(TEST_EMAIL);
+    await page.locator('#login-password').fill(TEST_PASSWORD);
     await page.getByRole('button', { name: 'Sign In' }).click();
     await page.waitForURL('**/dashboard**', { timeout: 15000 });
 

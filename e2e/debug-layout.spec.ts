@@ -1,13 +1,16 @@
 import { test, expect } from '@playwright/test';
 
+const TEST_EMAIL = process.env.E2E_TEST_EMAIL || '';
+const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || '';
+
 test('debug layout widths', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
 
   // Login first
   await page.goto('/login');
   await page.getByRole('tab', { name: 'Password' }).click();
-  await page.locator('#login-email').fill('otto.medina.ai@gmail.com');
-  await page.locator('#login-password').fill('TestPassword123!');
+  await page.locator('#login-email').fill(TEST_EMAIL);
+  await page.locator('#login-password').fill(TEST_PASSWORD);
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.waitForURL('**/dashboard**', { timeout: 15000 });
 
