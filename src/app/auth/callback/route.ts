@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { safeRedirect } from '@/lib/security';
+import { sendWelcomeEmail } from '@/lib/email/send-billing';
 
 function getRedirectBase(request: Request, origin: string): string {
   const forwardedHost = request.headers.get('x-forwarded-host');
@@ -9,6 +10,30 @@ function getRedirectBase(request: Request, origin: string): string {
   if (isLocalEnv) return origin;
   if (forwardedHost) return `https://${forwardedHost}`;
   return origin;
+}
+
+/**
+ * Send welcome email if this is a new user (created within last 2 minutes).
+ * Non-blocking — fires and forgets so it doesn't delay the redirect.
+ */
+async function maybeSendWelcomeEmail(supabase: Awaited<ReturnType<typeof createClient>>) {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const createdAt = new Date(user.created_at);
+    const now = new Date();
+    const isNewUser = now.getTime() - createdAt.getTime() < 2 * 60 * 1000;
+
+    if (isNewUser) {
+      const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
+      sendWelcomeEmail({ email: user.email!, name }).catch((err) =>
+        console.error('[auth/callback] Failed to send welcome email:', err)
+      );
+    }
+  } catch (err) {
+    console.error('[auth/callback] Error in maybeSendWelcomeEmail:', err);
+  }
 }
 
 export async function GET(request: Request) {
@@ -33,6 +58,7 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      await maybeSendWelcomeEmail(supabase);
       return NextResponse.redirect(`${base}${next}`, { status: 307 });
     }
     return NextResponse.redirect(
@@ -49,6 +75,7 @@ export async function GET(request: Request) {
       type: type as 'magiclink' | 'email',
     });
     if (!error) {
+      await maybeSendWelcomeEmail(supabase);
       return NextResponse.redirect(`${base}${next}`, { status: 307 });
     }
     return NextResponse.redirect(
