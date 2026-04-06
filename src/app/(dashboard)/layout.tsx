@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { SaasPulseFeedback } from '@/components/feedback-widget';
+import { PoweredByLLMeter } from '@/components/powered-by';
 
 export default async function DashboardLayout({
   children,
@@ -56,6 +57,7 @@ export default async function DashboardLayout({
         </header>
         <main className="flex-1 overflow-x-hidden p-4 sm:px-6 sm:py-0 w-full min-w-0 mx-auto max-w-7xl">
           {children}
+          <PoweredByLLMeter />
         </main>
       </div>
 
