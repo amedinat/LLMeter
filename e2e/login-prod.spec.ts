@@ -2,10 +2,12 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Production login tests against www.llmeter.org
- * Uses a real test account: otto.medina.ai@gmail.com / TestPassword123!
+ * Uses E2E_TEST_EMAIL and E2E_TEST_PASSWORD env vars
  */
 
 const PROD_URL = 'https://www.llmeter.org';
+const TEST_EMAIL = process.env.E2E_TEST_EMAIL || '';
+const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || '';
 
 test.describe('Production Login Flow', () => {
   test('should load login page correctly', async ({ page }) => {
@@ -41,8 +43,8 @@ test.describe('Production Login Flow', () => {
     await page.goto(`${PROD_URL}/login`);
     await page.getByRole('tab', { name: 'Password' }).click();
 
-    await page.locator('#login-email').fill('otto.medina.ai@gmail.com');
-    await page.locator('#login-password').fill('TestPassword123!');
+    await page.locator('#login-email').fill(TEST_EMAIL);
+    await page.locator('#login-password').fill(TEST_PASSWORD);
     await page.getByRole('button', { name: 'Sign In' }).click();
 
     // Should redirect to dashboard
