@@ -79,6 +79,17 @@ export default function HomePage() {
       </header>
 
       <main className="flex-1">
+        {/* Helicone Migration Banner */}
+        <div className="w-full bg-gradient-to-r from-cyan-500/10 via-cyan-500/5 to-cyan-500/10 border-b border-cyan-500/20">
+          <div className="container flex items-center justify-center gap-3 py-2.5 text-sm">
+            <span className="hidden sm:inline font-medium text-cyan-400">Migrating from Helicone?</span>
+            <span className="text-muted-foreground">LLMeter is the open-source alternative — set up in 30 seconds, no SDK needed.</span>
+            <Link href="/login" className="font-semibold text-cyan-400 hover:text-cyan-300 underline underline-offset-2 whitespace-nowrap">
+              Try Free &rarr;
+            </Link>
+          </div>
+        </div>
+
         {/* Hero */}
         <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
