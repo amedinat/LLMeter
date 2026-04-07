@@ -84,8 +84,8 @@ export default function HomePage() {
           <div className="container flex items-center justify-center gap-3 py-2.5 text-sm">
             <span className="hidden sm:inline font-medium text-primary">Migrating from Helicone?</span>
             <span className="text-muted-foreground">LLMeter is the open-source alternative — set up in 30 seconds, no SDK needed.</span>
-            <Link href="/login" className="font-semibold text-primary hover:text-primary/80 underline underline-offset-2 whitespace-nowrap">
-              Try Free &rarr;
+            <Link href="/migrate/helicone" className="font-semibold text-primary hover:text-primary/80 underline underline-offset-2 whitespace-nowrap">
+              Migration Guide &rarr;
             </Link>
           </div>
         </div>
@@ -444,6 +444,7 @@ export default function HomePage() {
               <li><Link href="#features" className="hover:text-foreground transition-colors">Features</Link></li>
               <li><Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
               <li><Link href="https://github.com/amedinat/LLMeter" target="_blank" className="hover:text-foreground transition-colors">GitHub</Link></li>
+              <li><Link href="/migrate/helicone" className="hover:text-foreground transition-colors">Migrate from Helicone</Link></li>
             </ul>
           </div>
           <div>
