@@ -1,0 +1,33 @@
+// src/providers/paddle/client.ts
+import { initializePaddle } from "@paddle/paddle-js";
+var paddleInstance = null;
+var paddlePromise = null;
+async function getPaddleInstance(config) {
+  if (paddleInstance) return paddleInstance;
+  if (!paddlePromise) {
+    paddlePromise = initializePaddle({
+      token: config.clientToken,
+      environment: config.environment === "sandbox" ? "sandbox" : "production"
+    });
+  }
+  const instance = await paddlePromise;
+  if (instance) {
+    paddleInstance = instance;
+  }
+  return paddleInstance;
+}
+function resetPaddleInstance() {
+  paddleInstance = null;
+  paddlePromise = null;
+}
+
+// src/providers/stripe/client.ts
+async function getStripeInstance(_config) {
+  throw new Error("Stripe client is not yet implemented");
+}
+export {
+  getPaddleInstance,
+  getStripeInstance,
+  resetPaddleInstance
+};
+//# sourceMappingURL=client.js.map
