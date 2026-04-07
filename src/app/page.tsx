@@ -70,7 +70,7 @@ export default function HomePage() {
               <Button variant="ghost" asChild>
                 <Link href="/login">Log in</Link>
               </Button>
-              <Button className="bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
+              <Button className="bg-primary hover:bg-primary/90 text-white" asChild>
                 <Link href="/login">Start Free</Link>
               </Button>
             </nav>
@@ -80,11 +80,11 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Helicone Migration Banner */}
-        <div className="w-full bg-gradient-to-r from-cyan-500/10 via-cyan-500/5 to-cyan-500/10 border-b border-cyan-500/20">
+        <div className="w-full bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border-b border-primary/20">
           <div className="container flex items-center justify-center gap-3 py-2.5 text-sm">
-            <span className="hidden sm:inline font-medium text-cyan-400">Migrating from Helicone?</span>
+            <span className="hidden sm:inline font-medium text-primary">Migrating from Helicone?</span>
             <span className="text-muted-foreground">LLMeter is the open-source alternative — set up in 30 seconds, no SDK needed.</span>
-            <Link href="/login" className="font-semibold text-cyan-400 hover:text-cyan-300 underline underline-offset-2 whitespace-nowrap">
+            <Link href="/login" className="font-semibold text-primary hover:text-primary/80 underline underline-offset-2 whitespace-nowrap">
               Try Free &rarr;
             </Link>
           </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
             </Link>
             <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               Your AI Costs Are{' '}
-              <span className="bg-gradient-to-r from-cyan-300 to-cyan-500 bg-clip-text text-transparent">Out of Control.</span>
+              <span className="bg-gradient-to-r from-primary/70 to-primary bg-clip-text text-transparent">Out of Control.</span>
               <br />
               <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground/90">Fix it in 30 seconds.</span>
             </h1>
@@ -110,7 +110,7 @@ export default function HomePage() {
               Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no SDK, no code changes.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-              <Button size="lg" className="h-12 px-8 text-base font-semibold bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
+              <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>
                 <Link href="/login">
                   Start Free — No Credit Card
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -153,30 +153,30 @@ export default function HomePage() {
           </div>
           <div className="mx-auto mt-12 grid gap-8 md:grid-cols-3 max-w-[64rem]">
             <div className="flex flex-col items-center text-center space-y-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20">
-                <KeyRound className="h-7 w-7 text-cyan-400" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+                <KeyRound className="h-7 w-7 text-primary" />
               </div>
-              <div className="text-sm font-bold text-cyan-400">Step 1</div>
+              <div className="text-sm font-bold text-primary">Step 1</div>
               <h3 className="text-lg font-semibold">Paste your API key</h3>
               <p className="text-sm text-muted-foreground">
                 Use a read-only key from OpenAI, Anthropic, DeepSeek, or OpenRouter. AES-256 encrypted at rest.
               </p>
             </div>
             <div className="flex flex-col items-center text-center space-y-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20">
-                <LayoutDashboard className="h-7 w-7 text-cyan-400" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+                <LayoutDashboard className="h-7 w-7 text-primary" />
               </div>
-              <div className="text-sm font-bold text-cyan-400">Step 2</div>
+              <div className="text-sm font-bold text-primary">Step 2</div>
               <h3 className="text-lg font-semibold">See your real costs</h3>
               <p className="text-sm text-muted-foreground">
                 Your dashboard populates instantly with spend by model, daily trends, and cost breakdowns.
               </p>
             </div>
             <div className="flex flex-col items-center text-center space-y-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20">
-                <Shield className="h-7 w-7 text-cyan-400" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+                <Shield className="h-7 w-7 text-primary" />
               </div>
-              <div className="text-sm font-bold text-cyan-400">Step 3</div>
+              <div className="text-sm font-bold text-primary">Step 3</div>
               <h3 className="text-lg font-semibold">Set alerts & optimize</h3>
               <p className="text-sm text-muted-foreground">
                 Create budget alerts so you never get a surprise bill. Get suggestions to cut costs.
@@ -184,7 +184,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="mt-10 flex justify-center">
-            <Button size="lg" className="h-12 px-8 text-base font-semibold bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
+            <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>
               <Link href="/login">
                 Try It Free Now
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -199,7 +199,7 @@ export default function HomePage() {
             <div className="grid gap-8 md:grid-cols-2 items-center">
               <div className="space-y-4">
                 <h2 className="text-2xl md:text-3xl font-bold">
-                  Most teams discover they&apos;re overspending on AI <span className="text-cyan-400">after</span> the bill arrives.
+                  Most teams discover they&apos;re overspending on AI <span className="text-primary">after</span> the bill arrives.
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   You&apos;re using GPT-4o in production, Claude for analysis, maybe DeepSeek for experiments. Each provider has a different billing page, different formats, different cycles. By the time you notice a spike, the damage is done.
@@ -245,7 +245,7 @@ export default function HomePage() {
           <div className="mx-auto grid gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
             <Card className="glass-card">
               <CardHeader>
-                <LayoutDashboard className="h-10 w-10 mb-2 text-cyan-400" />
+                <LayoutDashboard className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>Unified Dashboard</CardTitle>
                 <CardDescription>
                   See OpenAI + Anthropic + DeepSeek spend in one place. No more switching between billing pages.
@@ -254,7 +254,7 @@ export default function HomePage() {
             </Card>
             <Card className="glass-card">
               <CardHeader>
-                <Shield className="h-10 w-10 mb-2 text-cyan-400" />
+                <Shield className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>Budget Alerts</CardTitle>
                 <CardDescription>
                   Set daily or monthly spend limits. Get notified before a runaway job blows your budget.
@@ -263,7 +263,7 @@ export default function HomePage() {
             </Card>
             <Card className="glass-card">
               <CardHeader>
-                <Zap className="h-10 w-10 mb-2 text-cyan-400" />
+                <Zap className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>OpenRouter Support</CardTitle>
                 <CardDescription>
                   Track usage across 500+ models with a single OpenRouter key. Pro feature.
@@ -272,7 +272,7 @@ export default function HomePage() {
             </Card>
             <Card className="glass-card">
               <CardHeader>
-                <LineChart className="h-10 w-10 mb-2 text-cyan-400" />
+                <LineChart className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>Anomaly Detection</CardTitle>
                 <CardDescription>
                   Spot unexpected cost spikes before they escalate. Get alerts when spend deviates from normal.
@@ -281,7 +281,7 @@ export default function HomePage() {
             </Card>
             <Card className="glass-card">
               <CardHeader>
-                <BarChart3 className="h-10 w-10 mb-2 text-cyan-400" />
+                <BarChart3 className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>Cost Breakdown by Model</CardTitle>
                 <CardDescription>
                   See exactly which models and endpoints are driving your costs. Identify savings opportunities.
@@ -290,7 +290,7 @@ export default function HomePage() {
             </Card>
             <Card className="glass-card">
               <CardHeader>
-                <Lock className="h-10 w-10 mb-2 text-cyan-400" />
+                <Lock className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>Enterprise-grade Security</CardTitle>
                 <CardDescription>
                   API keys encrypted at rest with AES-256-GCM. Read-only keys supported. Your data stays yours.
@@ -353,10 +353,10 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mt-8 max-w-[64rem] mx-auto">
             {VISIBLE_PLANS.map((plan) => (
-              <Card key={plan.id} className={`flex flex-col glass-card${plan.highlighted ? ' relative border-cyan-500' : ''}`}>
+              <Card key={plan.id} className={`flex flex-col glass-card${plan.highlighted ? ' relative border-primary' : ''}`}>
                 {plan.highlighted && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-cyan-500 text-white">Most Popular</Badge>
+                    <Badge className="bg-primary text-primary-foreground">Most Popular</Badge>
                   </div>
                 )}
                 <CardHeader>
@@ -366,7 +366,7 @@ export default function HomePage() {
                     ${plan.price}<span className="text-sm font-normal text-muted-foreground">/month</span>
                   </div>
                   {plan.trialDays > 0 && (
-                    <p className="text-sm text-cyan-400 mt-1 font-medium">
+                    <p className="text-sm text-primary mt-1 font-medium">
                       {plan.trialDays}-day free trial included
                     </p>
                   )}
@@ -375,13 +375,13 @@ export default function HomePage() {
                   <ul className="space-y-2 text-sm">
                     {plan.featureList.map((feat) => (
                       <li key={feat} className="flex items-center">
-                        <Check className="mr-2 h-4 w-4 text-cyan-400" /> {feat}
+                        <Check className="mr-2 h-4 w-4 text-primary" /> {feat}
                       </li>
                     ))}
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button variant={plan.ctaVariant} className={`w-full${plan.highlighted ? ' bg-cyan-500 hover:bg-cyan-400 text-white' : ''}`} asChild>
+                  <Button variant={plan.ctaVariant} className={`w-full${plan.highlighted ? ' bg-primary hover:bg-primary/90 text-white' : ''}`} asChild>
                     <Link href="/login">{plan.cta}</Link>
                   </Button>
                 </CardFooter>
@@ -415,7 +415,7 @@ export default function HomePage() {
 
         {/* Final CTA */}
         <section className="container py-12 md:py-20">
-          <div className="mx-auto max-w-[48rem] rounded-xl border bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-8 md:p-12 text-center space-y-6">
+          <div className="mx-auto max-w-[48rem] rounded-xl border bg-gradient-to-br from-primary/10 to-primary/5 p-8 md:p-12 text-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold">
               Stop guessing. Start tracking.
             </h2>
@@ -423,7 +423,7 @@ export default function HomePage() {
               Join developers who switched from checking 3 billing pages to one dashboard. Setup takes 30 seconds. Free forever for 1 provider.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="h-12 px-8 text-base font-semibold bg-cyan-500 hover:bg-cyan-400 text-white" asChild>
+              <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>
                 <Link href="/login">
                   Start Monitoring for Free
                   <ArrowRight className="ml-2 h-4 w-4" />

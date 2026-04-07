@@ -30,7 +30,7 @@ export default async function DashboardLayout({
   return (
     <div className="flex min-h-screen bg-muted/40">
       {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r bg-[#0a0a12] sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r bg-card sm:flex">
         <div className="flex h-14 items-center border-b px-6">
           <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
             <span className="text-cyan-400">LLMeter</span>
