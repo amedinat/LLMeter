@@ -58,7 +58,7 @@ export default async function LoginPage({
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full bg-cyan-500 hover:bg-cyan-400 text-white">
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white">
                   Send Magic Link
                 </Button>
               </form>
@@ -91,7 +91,7 @@ export default async function LoginPage({
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button type="submit" className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-white">
+                  <Button type="submit" className="flex-1 bg-primary hover:bg-primary/90 text-white">
                     Sign In
                   </Button>
                   <Button type="submit" variant="outline" className="flex-1" formAction={signUpWithPassword}>
@@ -107,7 +107,7 @@ export default async function LoginPage({
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-[#0a0a12] px-2 text-muted-foreground">
+              <span className="bg-card px-2 text-muted-foreground">
                 Or continue with
               </span>
             </div>
