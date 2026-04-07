@@ -30,7 +30,7 @@ const alertTypeFormDescriptions: Record<string, string> = {
   daily_threshold:
     'Triggers when your spending in a single day exceeds the specified dollar amount.',
   anomaly:
-    'Triggers when today\u2019s spending is statistically unusual compared to your last 14 days. The sensitivity value is a z-score \u2014 lower values (e.g. 1.5) trigger more easily, higher values (e.g. 3.0) only trigger on extreme spikes. Default: 2.0.',
+    'Triggers when today\u2019s spending is unusually high compared to your last 14 days. Lower sensitivity values (e.g. 1.5) catch smaller changes, higher values (e.g. 3.0) only trigger on major spikes. Default: 2.0.',
 };
 
 const alertTypeIcons: Record<string, React.ReactNode> = {
@@ -57,7 +57,7 @@ function getThresholdInputProps(formType: string) {
   switch (formType) {
     case 'anomaly':
       return {
-        label: 'Sensitivity (z-score)',
+        label: 'Sensitivity Level',
         placeholder: '2.0',
         step: '0.1',
         min: '0.5',
@@ -86,7 +86,7 @@ function getThresholdInputProps(formType: string) {
 function formatAlertDisplay(alert: AlertRow) {
   switch (alert.type) {
     case 'anomaly':
-      return `Sensitivity: ${alert.config.threshold}σ`;
+      return `Sensitivity: ${alert.config.threshold}`;
     case 'daily_threshold':
       return `$${alert.config.threshold.toFixed(2)} / day`;
     case 'budget_limit':
