@@ -45,6 +45,10 @@ const FAQ_ITEMS = [
     question: 'How long does setup take?',
     answer: 'Under 30 seconds. Paste a read-only API key, and your dashboard populates instantly — no SDK, no code changes, no deployment.',
   },
+  {
+    question: 'How is LLMeter different from proxy-based tools?',
+    answer: 'Tools like Helicone and Portkey require you to route all API calls through their proxy. LLMeter reads usage data directly from provider billing APIs — your requests go straight to OpenAI/Anthropic with zero latency impact, and we never see your prompts.',
+  },
 ];
 
 export default function HomePage() {
@@ -107,7 +111,7 @@ export default function HomePage() {
               <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground/90">Fix it in 30 seconds.</span>
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-              Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no SDK, no code changes.
+              Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no proxy, no SDK, no code changes.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
               <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>
@@ -297,6 +301,57 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
+          </div>
+        </section>
+
+        {/* No Proxy Differentiator */}
+        <section className="container py-8 md:py-12">
+          <div className="mx-auto max-w-[64rem] rounded-xl border bg-gradient-to-br from-primary/5 to-transparent p-8 md:p-12">
+            <div className="grid gap-8 md:grid-cols-2 items-center">
+              <div className="space-y-4">
+                <Badge variant="secondary">No proxy. No risk.</Badge>
+                <h2 className="text-2xl md:text-3xl font-bold">
+                  Other tools proxy your API calls.{' '}
+                  <span className="text-primary">We don&apos;t.</span>
+                </h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  Proxy-based tools like Helicone and Portkey sit between you and your LLM provider. That means extra latency, a single point of failure, and a third party seeing your prompts.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  LLMeter reads your usage data directly from provider billing APIs using read-only keys. Your requests go straight to OpenAI/Anthropic — we never touch them.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-medium">Zero latency impact</p>
+                    <p className="text-sm text-muted-foreground">Your API calls go direct — no proxy hop, no added milliseconds</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-medium">No single point of failure</p>
+                    <p className="text-sm text-muted-foreground">If LLMeter goes down, your app keeps working — we&apos;re not in the request path</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-medium">Prompts stay private</p>
+                    <p className="text-sm text-muted-foreground">We only see billing and usage data — never your prompts or completions</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-medium">Works in 30 seconds</p>
+                    <p className="text-sm text-muted-foreground">No SDK, no endpoint changes, no deployment — just paste a key</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
