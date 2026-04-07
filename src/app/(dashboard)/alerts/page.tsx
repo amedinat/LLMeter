@@ -19,9 +19,9 @@ const alertTypeLabels: Record<string, string> = {
 };
 
 const alertTypeDescriptions: Record<string, string> = {
-  budget_limit: 'Accumulated spend limit',
-  anomaly: 'Statistical anomaly detection',
-  daily_threshold: 'Daily spend limit',
+  budget_limit: 'Triggers when total spend exceeds your limit',
+  anomaly: 'Detects unusual spending spikes automatically',
+  daily_threshold: 'Triggers when daily spend exceeds your limit',
 };
 
 const alertTypeFormDescriptions: Record<string, string> = {

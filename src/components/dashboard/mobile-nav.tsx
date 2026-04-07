@@ -37,7 +37,7 @@ export function MobileNav() {
               className="flex items-center gap-2 font-semibold"
               onClick={() => setOpen(false)}
             >
-              LLMeter
+              <span className="text-cyan-400">LLMeter</span>
             </Link>
           </SheetTitle>
         </SheetHeader>
