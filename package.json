@@ -17,7 +17,7 @@
     "@paddle/paddle-node-sdk": "^3.6.1",
     "@react-email/components": "^1.0.8",
     "@simplifai-solutions/saas-pulse-sdk": "^0.3.0",
-    "@simplifai/payments": "file:../simplifai-payments",
+    "@simplifai/payments": "file:./packages/payments",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
     "@upstash/redis": "^1.37.0",
