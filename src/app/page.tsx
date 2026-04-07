@@ -462,7 +462,7 @@ export default function HomePage() {
                 </Link>
               </li>
               <li>
-                <a href="mailto:otto.medina.ai@gmail.com" className="hover:text-foreground transition-colors">
+                <a href="mailto:hello@llmeter.org" className="hover:text-foreground transition-colors">
                   <span className="inline-flex items-center gap-1"><Mail className="h-3 w-3" /> Contact</span>
                 </a>
               </li>
