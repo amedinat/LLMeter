@@ -1,0 +1,20 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/poll-usage",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/check-alerts",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/expire-trials",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/expire-grace-periods",
+      "schedule": "0 7 * * *"
+    }
+  ]
+}

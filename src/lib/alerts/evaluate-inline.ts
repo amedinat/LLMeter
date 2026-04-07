@@ -3,7 +3,7 @@ import { sendAlertEmail } from '@/lib/email/send-alert';
 
 /**
  * Evaluate alerts inline after a sync completes.
- * This is the fallback for when Inngest is not available.
+ * Evaluates alerts after a provider sync completes.
  * Should be called after usage data is upserted for a provider.
  *
  * @param userId - The user whose alerts to check
