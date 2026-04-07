@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { SaasPulseFeedback } from '@/components/feedback-widget';
 import { PoweredByLLMeter } from '@/components/powered-by';
+import { NotificationBell } from '@/components/dashboard/notification-bell';
 
 export default async function DashboardLayout({
   children,
@@ -52,6 +53,7 @@ export default async function DashboardLayout({
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <MobileNav />
           <div className="ml-auto flex items-center gap-4">
+            <NotificationBell />
             <UserNav user={userData} />
           </div>
         </header>
