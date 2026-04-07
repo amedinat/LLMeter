@@ -33,7 +33,7 @@ export async function DELETE(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const rl = checkRateLimit(`providers-mutate:${user.id}`, PROVIDER_MUTATE_LIMIT);
+  const rl = await checkRateLimit(`providers-mutate:${user.id}`, PROVIDER_MUTATE_LIMIT);
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
@@ -76,7 +76,7 @@ export async function PATCH(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const rl = checkRateLimit(`providers-mutate:${user.id}`, PROVIDER_MUTATE_LIMIT);
+  const rl = await checkRateLimit(`providers-mutate:${user.id}`, PROVIDER_MUTATE_LIMIT);
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
@@ -155,7 +155,7 @@ export async function POST(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const rl = checkRateLimit(`providers-sync:${user.id}`, { limit: 10, windowMs: 60_000 });
+  const rl = await checkRateLimit(`providers-sync:${user.id}`, { limit: 10, windowMs: 60_000 });
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Too many sync requests. Please wait before retrying.' },

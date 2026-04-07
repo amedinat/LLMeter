@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
   const { user_id, id: api_key_id } = apiKeyData;
 
   // Rate limit per API key
-  const rl = checkRateLimit(`ingest:${apiKeyHash}`, INGEST_API_LIMIT);
+  const rl = await checkRateLimit(`ingest:${apiKeyHash}`, INGEST_API_LIMIT);
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Rate limit exceeded. Maximum 100 requests per minute.' },

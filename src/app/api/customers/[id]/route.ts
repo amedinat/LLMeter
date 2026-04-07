@@ -53,7 +53,7 @@ export async function PUT(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const rl = checkRateLimit(`customers:${user.id}`, CUSTOMER_API_LIMIT);
+  const rl = await checkRateLimit(`customers:${user.id}`, CUSTOMER_API_LIMIT);
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
@@ -125,7 +125,7 @@ export async function DELETE(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const rl = checkRateLimit(`customers:${user.id}`, CUSTOMER_API_LIMIT);
+  const rl = await checkRateLimit(`customers:${user.id}`, CUSTOMER_API_LIMIT);
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },

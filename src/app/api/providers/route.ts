@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate limit by user ID
-    const rl = checkRateLimit(`providers:${user.id}`, PROVIDER_API_LIMIT);
+    const rl = await checkRateLimit(`providers:${user.id}`, PROVIDER_API_LIMIT);
     if (!rl.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

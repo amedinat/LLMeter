@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const rl = checkRateLimit(`alerts:${user.id}`, ALERT_API_LIMIT);
+    const rl = await checkRateLimit(`alerts:${user.id}`, ALERT_API_LIMIT);
     if (!rl.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

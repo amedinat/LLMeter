@@ -40,8 +40,8 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
 
   // Rate limit by IP and email (US-11.3)
   const ip = await getClientIP();
-  const ipCheck = checkRateLimit(`magic-link:ip:${ip}`, MAGIC_LINK_LIMIT);
-  const emailCheck = checkRateLimit(`magic-link:email:${email}`, MAGIC_LINK_LIMIT);
+  const ipCheck = await checkRateLimit(`magic-link:ip:${ip}`, MAGIC_LINK_LIMIT);
+  const emailCheck = await checkRateLimit(`magic-link:email:${email}`, MAGIC_LINK_LIMIT);
 
   if (!ipCheck.success || !emailCheck.success) {
     redirect('/login?error=Too many requests. Please try again later.');
@@ -80,7 +80,7 @@ export async function loginWithPassword(formData: FormData): Promise<void> {
 
   // Rate limit by IP
   const ip = await getClientIP();
-  const ipCheck = checkRateLimit(`auth-password:ip:${ip}`, AUTH_PASSWORD_LIMIT);
+  const ipCheck = await checkRateLimit(`auth-password:ip:${ip}`, AUTH_PASSWORD_LIMIT);
   if (!ipCheck.success) {
     redirect('/login?error=Too many requests. Please try again later.&tab=password');
   }
@@ -113,7 +113,7 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
 
   // Rate limit by IP
   const ip = await getClientIP();
-  const ipCheck = checkRateLimit(`auth-signup:ip:${ip}`, AUTH_PASSWORD_LIMIT);
+  const ipCheck = await checkRateLimit(`auth-signup:ip:${ip}`, AUTH_PASSWORD_LIMIT);
   if (!ipCheck.success) {
     redirect('/login?error=Too many requests. Please try again later.&tab=password');
   }
