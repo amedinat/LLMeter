@@ -4,7 +4,6 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { connectProviderSchema } from '@/lib/validators/provider';
 import { encryptForDB } from '@/lib/crypto';
 import { getAdapter, getRegisteredProviders } from '@/lib/providers/registry';
-import { inngest } from '@/lib/inngest/client';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { getUserPlan, getPlanLimits } from '@/lib/feature-gate';
@@ -151,78 +150,67 @@ export async function POST(req: NextRequest) {
       throw error;
     }
 
-    // Trigger initial data sync via Inngest, with inline fallback
-    const syncResult: { method: 'inngest' | 'inline'; records?: number; error?: string } = { method: 'inngest' };
+    // Sync initial data inline
+    const syncResult: { method: 'inline'; records?: number; error?: string } = { method: 'inline' };
     let finalStatus = 'syncing';
 
     try {
-      await inngest.send({
-        name: 'provider/connected',
-        data: { providerId: data.id, userId: user.id },
-      });
-    } catch (inngestErr) {
-      // Inngest unavailable — do the initial sync inline
-      console.warn('Inngest unavailable, syncing inline:', inngestErr);
-      syncResult.method = 'inline';
+      const adapter = getAdapter(provider as ProviderType);
+      const startDate = new Date();
+      startDate.setUTCDate(startDate.getUTCDate() - 30);
+      startDate.setUTCHours(0, 0, 0, 0);
+      const endDate = new Date();
+      endDate.setUTCHours(23, 59, 59, 999);
 
-      try {
-        const adapter = getAdapter(provider as ProviderType);
-        const startDate = new Date();
-        startDate.setUTCDate(startDate.getUTCDate() - 30);
-        startDate.setUTCHours(0, 0, 0, 0);
-        const endDate = new Date();
-        endDate.setUTCHours(23, 59, 59, 999);
+      const records = await adapter.fetchUsage(apiKey, startDate, endDate);
 
-        const records = await adapter.fetchUsage(apiKey, startDate, endDate);
+      if (records.length > 0) {
+        const adminSupabase = createAdminClient();
+        const rows = records.map((r) => ({
+          provider_id: data.id,
+          user_id: user.id,
+          date: r.date,
+          model: r.model,
+          input_tokens: r.inputTokens,
+          output_tokens: r.outputTokens,
+          requests: r.requests,
+          cost_usd: r.costUsd,
+        }));
 
-        if (records.length > 0) {
-          const adminSupabase = createAdminClient();
-          const rows = records.map((r) => ({
-            provider_id: data.id,
-            user_id: user.id,
-            date: r.date,
-            model: r.model,
-            input_tokens: r.inputTokens,
-            output_tokens: r.outputTokens,
-            requests: r.requests,
-            cost_usd: r.costUsd,
-          }));
+        const { error: upsertError } = await adminSupabase
+          .from('usage_records')
+          .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
 
-          const { error: upsertError } = await adminSupabase
-            .from('usage_records')
-            .upsert(rows, { onConflict: 'provider_id,date,model', ignoreDuplicates: false });
-
-          if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
-        }
-
-        // Mark as active
-        await supabase
-          .from('providers')
-          .update({ status: 'active', last_sync_at: new Date().toISOString(), last_error: null })
-          .eq('id', data.id);
-
-        finalStatus = 'active';
-        syncResult.records = records.length;
-
-        // Evaluate alerts inline (best-effort, don't block response)
-        evaluateAlertsInline(user.id).catch((err) =>
-          console.warn('[alerts] Inline evaluation failed:', err)
-        );
-      } catch (syncErr) {
-        const rawMessage = syncErr instanceof Error ? syncErr.message : String(syncErr);
-        console.error('Inline sync failed:', rawMessage);
-
-        const safeMessage = sanitizeErrorForStorage(rawMessage);
-
-        // Mark as error so UI can show it
-        await supabase
-          .from('providers')
-          .update({ status: 'error', last_error: safeMessage })
-          .eq('id', data.id);
-
-        finalStatus = 'error';
-        syncResult.error = sanitizeErrorForClient(rawMessage);
+        if (upsertError) throw new Error(`Upsert failed: ${upsertError.message}`);
       }
+
+      // Mark as active
+      await supabase
+        .from('providers')
+        .update({ status: 'active', last_sync_at: new Date().toISOString(), last_error: null })
+        .eq('id', data.id);
+
+      finalStatus = 'active';
+      syncResult.records = records.length;
+
+      // Evaluate alerts inline (best-effort, don't block response)
+      evaluateAlertsInline(user.id).catch((err) =>
+        console.warn('[alerts] Inline evaluation failed:', err)
+      );
+    } catch (syncErr) {
+      const rawMessage = syncErr instanceof Error ? syncErr.message : String(syncErr);
+      console.error('Inline sync failed:', rawMessage);
+
+      const safeMessage = sanitizeErrorForStorage(rawMessage);
+
+      // Mark as error so UI can show it
+      await supabase
+        .from('providers')
+        .update({ status: 'error', last_error: safeMessage })
+        .eq('id', data.id);
+
+      finalStatus = 'error';
+      syncResult.error = sanitizeErrorForClient(rawMessage);
     }
 
     return NextResponse.json({

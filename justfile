@@ -76,12 +76,6 @@ add-dev package:
 ui component:
     npx shadcn@latest add {{component}}
 
-# ─── Inngest ───────────────────────────────────────
-
-# Start Inngest dev server (for local function testing)
-inngest-dev:
-    npx inngest-cli dev
-
 # ─── Utilities ─────────────────────────────────────
 
 # Clean build artifacts

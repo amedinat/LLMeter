@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 /**
- * Supabase admin client for server-side background jobs (Inngest).
+ * Supabase admin client for server-side background jobs (cron, syncs).
  * Uses the service role key — bypasses RLS.
  * NEVER expose this client to the frontend.
  */

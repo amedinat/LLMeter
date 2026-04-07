@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { isStaticFile } from '@/lib/security';
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/api/inngest', '/privacy', '/terms', '/pricing'];
+const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/api/cron', '/privacy', '/terms', '/pricing'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

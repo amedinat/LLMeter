@@ -4,7 +4,6 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { updateProviderSchema } from '@/lib/validators/provider';
 import { decryptFromDB } from '@/lib/crypto';
 import { getAdapter } from '@/lib/providers/registry';
-import { inngest } from '@/lib/inngest/client';
 import { evaluateAlertsInline } from '@/lib/alerts/evaluate-inline';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -181,17 +180,6 @@ export async function POST(
     .from('providers')
     .update({ status: 'syncing' })
     .eq('id', id);
-
-  // Try Inngest first, fallback to inline
-  try {
-    await inngest.send({
-      name: 'provider/connected',
-      data: { providerId: id, userId: user.id },
-    });
-    return NextResponse.json({ success: true, status: 'syncing', method: 'inngest' });
-  } catch {
-    // Inngest unavailable — sync inline
-  }
 
   try {
     const adapter = getAdapter(provider.provider as ProviderType);
