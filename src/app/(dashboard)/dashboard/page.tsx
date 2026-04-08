@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { createClient } from '@/lib/supabase/server';
 import { trackEvent, EVENTS } from '@/lib/analytics';
+import { CheckoutSuccessToast } from './checkout-success-toast';
 
 export default async function DashboardPage() {
   const plan = await getUserPlan();
@@ -39,6 +40,9 @@ export default async function DashboardPage() {
     const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0];
     return (
       <div className="mx-auto max-w-2xl py-4">
+        <Suspense fallback={null}>
+          <CheckoutSuccessToast />
+        </Suspense>
         <OnboardingWelcome
           hasProviders={false}
           hasAlerts={hasAlerts}
@@ -65,6 +69,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-8">
+      <Suspense fallback={null}>
+        <CheckoutSuccessToast />
+      </Suspense>
       {/* Show setup checklist banner if alerts not configured yet */}
       {!hasAlerts && (
         <SetupBanner completedSteps={hasProviders ? 1 : 0} totalSteps={2} />
