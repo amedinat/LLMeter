@@ -20,9 +20,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { plan: targetPlan } = (await req.json()) as { plan: string };
+  let body: { plan?: string };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+  const targetPlan = body.plan;
 
-  if (!ALLOWED_TARGET_PLANS.includes(targetPlan as Plan)) {
+  if (!targetPlan || !ALLOWED_TARGET_PLANS.includes(targetPlan as Plan)) {
     return NextResponse.json({ error: 'Invalid target plan' }, { status: 400 });
   }
 
@@ -60,7 +66,7 @@ export async function POST(req: NextRequest) {
       .from('profiles')
       .update({
         plan: targetPlan,
-        plan_status: targetPlan,
+        plan_status: 'active',
       })
       .eq('id', user.id);
 

@@ -22,7 +22,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { plan } = (await req.json()) as { plan: string };
+  let body: { plan?: string };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+  const { plan } = body;
+
+  if (!plan) {
+    return NextResponse.json({ error: 'Plan is required' }, { status: 400 });
+  }
 
   try {
     const provider = getPaymentProvider();
