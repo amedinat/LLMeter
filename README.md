@@ -14,7 +14,7 @@ LLMeter connects directly to your providers' usage and billing APIs. No proxies,
 
 1. **Sign up** at [llmeter.org](https://llmeter.org) (or self-host)
 2. **Connect** your provider API keys (encrypted with AES-256-GCM at rest)
-3. **LLMeter polls** each provider's usage API hourly via background jobs
+3. **LLMeter polls** each provider's usage API via background cron jobs
 4. **You see** unified costs, trends, and alerts in one dashboard
 
 ```
@@ -25,23 +25,40 @@ LLMeter → polls provider usage APIs → normalizes data → dashboard
 
 **Important:** LLMeter reads your usage data — it does NOT intercept, proxy, or modify your API calls. Your code stays untouched.
 
+## Per-Customer Cost Attribution
+
+Know which of your customers are costing you money. Send usage events via the ingestion API, and LLMeter breaks down costs by customer, model, and time period.
+
+```bash
+curl -X POST https://llmeter.org/api/ingest \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '[{
+    "model": "gpt-4o",
+    "input_tokens": 1500,
+    "output_tokens": 800,
+    "customer_id": "cust_abc123"
+  }]'
+```
+
 ## Supported Providers
 
 | Provider | What LLMeter reads | API key type needed |
 |----------|-------------------|-------------------|
 | **OpenAI** | Token counts + cost estimates | Admin/org key |
 | **Anthropic** | Token counts + actual USD costs | Org API key |
+| **Google AI** | Gemini model usage data | Standard API key |
 | **DeepSeek** | Billing/usage data | Standard API key |
 | **OpenRouter** | Activity across 500+ models | Management API key |
-
-Google AI (Gemini) support is planned once Google provides a public usage API.
 
 ## Features
 
 - **Unified Dashboard** — All providers, all models, one view
+- **Per-Customer Costs** — Know which users are costing you money (Team+)
 - **Cost Tracking** — Usage and spend data pulled directly from provider APIs
-- **Budget Alerts** — Daily and monthly thresholds with email + webhook notifications
+- **Budget Alerts** — Daily and monthly thresholds with email notifications
 - **Anomaly Detection** — Spot unusual spikes before they become expensive (Pro)
+- **Cost Optimization** — Model swap recommendations with estimated savings
 - **Usage Trends** — Analyze consumption by model, provider, and time period
 - **OpenRouter Support** — Track 500+ models with a single key (Pro)
 - **Encrypted Storage** — API keys encrypted with AES-256-GCM, never stored in plain text
@@ -66,6 +83,7 @@ If you need real-time request blocking, you need an AI gateway/proxy (like LiteL
 | Data retention | 30 days | 1 year | Unlimited |
 | OpenRouter | — | ✓ | ✓ |
 | Anomaly detection | — | ✓ | ✓ |
+| Per-customer costs | — | — | ✓ |
 | Team members | — | — | Up to 5 |
 | Trial | — | 7 days free | 7 days free |
 
@@ -76,9 +94,8 @@ LLMeter can be self-hosted if you prefer to keep everything on your infrastructu
 ### Prerequisites
 
 - Node.js 20+
+- pnpm 9+
 - Supabase project (PostgreSQL + Auth)
-- Inngest account (background jobs) or self-hosted Inngest
-- Stripe account (optional, only if you want to charge users)
 - Resend account (for email alerts)
 
 ### Setup
@@ -86,30 +103,28 @@ LLMeter can be self-hosted if you prefer to keep everything on your infrastructu
 ```bash
 git clone https://github.com/amedinat/LLMeter.git
 cd LLMeter
-npm install
+pnpm install
 cp .env.local.example .env.local
-# Fill in your Supabase, Inngest, and other keys
-npx prisma db push
-npm run dev
+# Fill in your Supabase and other keys
+# Run Supabase migrations via the Supabase dashboard or CLI
+pnpm dev
 ```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Tech Stack
 
-- **Frontend:** Next.js (App Router), Tailwind CSS, Shadcn UI
-- **Backend:** Next.js API Routes, Inngest (hourly usage polling)
-- **Database:** PostgreSQL (Supabase), Prisma ORM
-- **Auth:** Supabase Auth (magic link, password, Google OAuth)
-- **Payments:** Stripe (hosted version)
-- **Emails:** Resend
+- **Frontend:** Next.js 16 (App Router), Tailwind CSS 4, Shadcn UI
+- **Backend:** Next.js API Routes, Vercel Cron (background polling)
+- **Database:** PostgreSQL via Supabase (with Row Level Security)
+- **Auth:** Supabase Auth (email/password with email verification)
+- **Payments:** Paddle
+- **Rate Limiting:** Upstash Redis (distributed, fixed-window)
 
 ## Architecture
 
 ```
-┌─────────────┐     hourly cron      ┌──────────────────┐
-│   Inngest   │ ──────────────────→  │  Provider APIs   │
-│  (bg jobs)  │                      │  (OpenAI, etc.)  │
+┌─────────────┐     cron jobs        ┌──────────────────┐
+│ Vercel Cron  │ ──────────────────→ │  Provider APIs   │
+│ (scheduled)  │                     │  (OpenAI, etc.)  │
 └──────┬──────┘                      └────────┬─────────┘
        │                                      │
        │  stores normalized                   │  usage data
@@ -120,29 +135,29 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 │  PostgreSQL  │    insert/upsert   │  (normalizes)    │
 └──────┬───────┘                    └──────────────────┘
        │
-       │  queries
+       │  queries (RLS-protected)
        ▼
 ┌──────────────┐
-│  Next.js     │ → Dashboard, Alerts, API
+│  Next.js 16  │ → Dashboard, Alerts, Ingest API
 │  App Router  │
 └──────────────┘
 ```
 
 ## Roadmap
 
-- [x] Multi-provider support (OpenAI, Anthropic, DeepSeek, OpenRouter)
-- [x] Hourly cost tracking from provider APIs
+- [x] Multi-provider support (OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter)
+- [x] Cost tracking from provider APIs
 - [x] Budget alerts (email + webhook)
 - [x] Anomaly detection
-- [x] Plans & billing (Stripe)
-- [ ] Google AI (Gemini) — waiting on public usage API
+- [x] Per-customer cost attribution
+- [x] Cost optimization recommendations
+- [x] Billing (Paddle)
 - [ ] Fine-grained team permissions
 - [ ] Usage forecasting
-- [ ] Cost optimization recommendations
 
 ## Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions welcome! Please open an issue first to discuss what you'd like to change.
 
 ## License
 
