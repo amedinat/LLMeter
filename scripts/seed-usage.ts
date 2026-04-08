@@ -24,7 +24,7 @@ async function seed() {
   console.log(`Using user: ${users.users[0].email} (${userId})`);
 
   // Create provider if not exists
-  const { data: existingProvider, error: providerError } = await supabase
+  const { data: existingProvider, error: _providerError } = await supabase
     .from('providers')
     .select('id')
     .eq('user_id', userId)

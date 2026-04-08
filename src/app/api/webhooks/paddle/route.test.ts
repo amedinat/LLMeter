@@ -9,11 +9,6 @@ vi.mock('@/lib/payments', () => ({
   getPaymentProvider: () => ({ handleWebhook: mockHandleWebhook }),
 }));
 
-const mockSelect = vi.fn();
-const mockUpdate = vi.fn();
-const mockInsert = vi.fn();
-const mockEq = vi.fn();
-
 function buildChain(terminal: unknown) {
   const chain: Record<string, ReturnType<typeof vi.fn>> = {};
   chain.select = vi.fn().mockReturnValue(chain);
@@ -167,7 +162,6 @@ describe('POST /api/webhooks/paddle', () => {
     // First update (by customer_id) fails, second (by user_id) succeeds
     let updateCallCount = 0;
     const chain = buildChain({ error: null });
-    const origEq = chain.eq;
     chain.update = vi.fn().mockImplementation(() => {
       updateCallCount++;
       return chain;

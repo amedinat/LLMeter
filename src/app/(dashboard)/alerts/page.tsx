@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Loader2, Bell, BellOff, AlertTriangle, DollarSign, Trash2 } from 'lucide-react';
+import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { alertTypes, alertPeriods } from '@/lib/validators/alert';
 

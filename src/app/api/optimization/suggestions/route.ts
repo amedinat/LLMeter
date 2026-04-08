@@ -5,7 +5,6 @@ import { generateOptimizationSuggestions } from '@/features/optimization/server/
 import type { NormalizedUsageRecord } from '@/lib/providers/types';
 import { getSpendSummary } from '@/features/dashboard/server/queries';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(_req: NextRequest) {
   try {
     const supabase = await createClient();
