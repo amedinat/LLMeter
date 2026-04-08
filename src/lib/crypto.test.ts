@@ -71,7 +71,7 @@ describe('crypto', () => {
 
   describe('encryptForDB / decryptFromDB', () => {
     it('round-trips through DB format', () => {
-      const apiKey = 'sk-ant-api03-abcdefghijk';
+      const apiKey = 'sk-test-fake-key-for-unit-tests';
       const dbPayload = encryptForDB(apiKey);
       const result = decryptFromDB(dbPayload);
       expect(result).toBe(apiKey);
