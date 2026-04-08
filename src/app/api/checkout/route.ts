@@ -35,12 +35,18 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('paddle_customer_id')
+      .eq('id', user.id)
+      .single();
+
     const provider = getPaymentProvider();
     const checkout = await provider.createCheckoutSession({
       userId: user.id,
       email: user.email!,
       plan,
-      existingCustomerId: null,
+      existingCustomerId: profile?.paddle_customer_id ?? null,
       returnUrl: '',
     });
 
