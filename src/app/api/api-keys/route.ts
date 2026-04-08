@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createHash, randomBytes } from 'crypto';
+import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 
 export async function GET() {
   const supabase = await createClient();
@@ -24,6 +25,10 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!verifyCsrfHeader(request)) {
+    return csrfForbiddenResponse();
+  }
+
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 

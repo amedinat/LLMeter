@@ -5,9 +5,18 @@ import { NextRequest } from 'next/server';
 
 const mockGetUser = vi.fn();
 
+const mockProfile = vi.fn();
+
 vi.mock('@/lib/supabase/server', () => ({
   createClient: () => ({
     auth: { getUser: mockGetUser },
+    from: () => ({
+      select: () => ({
+        eq: () => ({
+          single: () => mockProfile(),
+        }),
+      }),
+    }),
   }),
 }));
 
@@ -39,6 +48,7 @@ beforeEach(async () => {
   vi.resetModules();
   vi.clearAllMocks();
   mockGetUser.mockResolvedValue({ data: { user: { id: 'user-1', email: 'test@test.com' } } });
+  mockProfile.mockReturnValue({ data: { paddle_customer_id: null }, error: null });
   const mod = await import('./route');
   POST = mod.POST;
 });
@@ -102,6 +112,23 @@ describe('POST /api/checkout', () => {
       existingCustomerId: null,
       returnUrl: '',
     });
+  });
+
+  it('passes existingCustomerId when user has Paddle customer', async () => {
+    mockProfile.mockReturnValue({ data: { paddle_customer_id: 'ctm_abc' }, error: null });
+    mockCreateCheckoutSession.mockResolvedValue({
+      priceId: 'pri_123',
+      customerEmail: 'test@test.com',
+      customData: {},
+      trialDays: 0,
+    });
+
+    const mod = await import('./route');
+    await mod.POST(makeRequest({ plan: 'pro' }));
+
+    expect(mockCreateCheckoutSession).toHaveBeenCalledWith(
+      expect.objectContaining({ existingCustomerId: 'ctm_abc' })
+    );
   });
 
   it('returns 400 when provider throws (invalid plan)', async () => {
