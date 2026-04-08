@@ -1,7 +1,7 @@
 # LLMeter — Metricas y Seguimiento
 
 > Estado actual: MVP completado, pre-lanzamiento
-> Ultima actualizacion: 2026-03-07
+> Ultima actualizacion: 2026-04-08
 
 ## Fase actual: PRE-LANZAMIENTO
 
@@ -10,12 +10,12 @@
 | Item | Estado | Notas |
 |------|--------|-------|
 | MVP funcional | OK | Next.js + Supabase + 4 providers |
-| Tests | OK | 120 tests passing |
+| Tests | OK | 290 tests passing |
 | Repo publico | OK | GitHub, AGPL-3.0 |
 | CONTRIBUTING.md | OK | |
-| OG Image / Social preview | PENDIENTE | |
-| Dominio propio | PENDIENTE | Recomendado: llmeter.dev |
-| Deploy produccion (Vercel) | PENDIENTE | Verificar |
+| OG Image / Social preview | OK | /public/og-image.png (1200x630) |
+| Dominio propio | OK | llmeter.org (live, www redirect) |
+| Deploy produccion (Vercel) | OK | Verified 2026-04-08 (200 OK) |
 | Launch drafts | OK | HN, Reddit, X, Dev.to, PH |
 | Screenshots dashboard | PENDIENTE | Necesarios para PH y articulo |
 
@@ -40,7 +40,7 @@
 | Providers conectados | >20 | — | BD |
 | GitHub stars | >100 | — | GitHub API |
 | Issues/PRs de comunidad | >3 | — | GitHub |
-| Primer pago (Pro) | >1 | — | Stripe |
+| Primer pago (Pro) | >1 | — | Paddle |
 | Feedback especifico recibido | >5 piezas | — | GH Issues, email, Reddit |
 | Retencion D7 | >30% | — | Supabase |
 
@@ -48,7 +48,7 @@
 
 | Metrica | Objetivo | Real | Fuente |
 |---------|----------|------|--------|
-| MRR | >$100 | — | Stripe |
+| MRR | >$100 | — | Paddle |
 | Usuarios activos mensuales | >30 | — | Analytics |
 | Retencion M1 | >20% | — | Supabase |
 | NPS / satisfaccion | >7/10 | — | Survey |
@@ -67,7 +67,7 @@
 
 ## Costos vs Ingresos
 
-| Mes | Ingresos (Stripe) | Costos (infra) | Neto | Notas |
+| Mes | Ingresos (Paddle) | Costos (infra) | Neto | Notas |
 |-----|-------------------|----------------|------|-------|
 | — | — | — | — | — |
 
