@@ -8,7 +8,6 @@ import {
   Clock,
   Code2,
   KeyRound,
-  LayoutDashboard,
   Mail,
   RefreshCw,
   Shield,
