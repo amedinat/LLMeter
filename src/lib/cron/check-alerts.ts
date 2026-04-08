@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendAlertEmail } from '@/lib/email/send-alert';
+import { sendSlackAlert } from '@/lib/slack/send-alert';
 import { pulseTrack } from '@/lib/saas-pulse';
 
 function daysAgo(n: number): Date {
@@ -18,7 +19,8 @@ async function triggerAlert(
   currentValue: number,
   referenceValue: number,
   alertType: 'monthly' | 'daily' | 'anomaly',
-  startDate: string
+  startDate: string,
+  dashboardUrl?: string
 ) {
   const { data: contributors } = await supabase
     .from('usage_records')
@@ -63,6 +65,18 @@ async function triggerAlert(
     threshold: referenceValue,
     topContributors,
   });
+
+  const alertConfig = alert.config as { slack_webhook_url?: string };
+  if (alertConfig.slack_webhook_url) {
+    await sendSlackAlert({
+      webhookUrl: alertConfig.slack_webhook_url,
+      alertType,
+      currentSpend: currentValue,
+      threshold: referenceValue,
+      topContributors,
+      dashboardUrl,
+    });
+  }
 }
 
 /**
@@ -73,6 +87,9 @@ export async function runCheckAlerts(): Promise<{
   triggered: number;
 }> {
   const supabase = createAdminClient();
+  const dashboardUrl = process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
+    : 'https://llmeter.org/dashboard';
 
   const { data: alerts, error } = await supabase
     .from('alerts')
@@ -145,7 +162,7 @@ export async function runCheckAlerts(): Promise<{
         const zScore = stdDev > 0 ? (todaySpend - mean) / stdDev : 0;
 
         if (zScore >= zThreshold) {
-          await triggerAlert(supabase, alert, todaySpend, mean, 'anomaly', today);
+          await triggerAlert(supabase, alert, todaySpend, mean, 'anomaly', today, dashboardUrl);
           triggered++;
         }
         continue;
@@ -181,7 +198,7 @@ export async function runCheckAlerts(): Promise<{
       );
 
       if (totalSpend >= config.threshold) {
-        await triggerAlert(supabase, alert, totalSpend, config.threshold, config.period === 'monthly' ? 'monthly' : 'daily', startDate);
+        await triggerAlert(supabase, alert, totalSpend, config.threshold, config.period === 'monthly' ? 'monthly' : 'daily', startDate, dashboardUrl);
         triggered++;
       }
     } catch (err) {
