@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -40,32 +40,38 @@ export function NotificationBell() {
   const [unreadCount, setUnreadCount] = useState(0);
   const router = useRouter();
 
-  const fetchNotifications = useCallback(async () => {
-    try {
-      const res = await fetch('/api/notifications');
-      if (!res.ok) return;
-      const { events: fetched } = await res.json();
-      setEvents(fetched);
-
-      const lastSeen = getLastSeen();
-      if (lastSeen) {
-        const count = fetched.filter(
-          (e: NotificationEvent) => new Date(e.sent_at) > new Date(lastSeen)
-        ).length;
-        setUnreadCount(count);
-      } else {
-        setUnreadCount(fetched.length);
-      }
-    } catch {
-      // silently fail
-    }
-  }, []);
-
   useEffect(() => {
-    fetchNotifications();
+    let active = true;
+
+    async function fetchNotifications() {
+      try {
+        const res = await fetch('/api/notifications');
+        if (!res.ok || !active) return;
+        const { events: fetched } = await res.json();
+        if (!active) return;
+        setEvents(fetched);
+
+        const lastSeen = getLastSeen();
+        if (lastSeen) {
+          const count = fetched.filter(
+            (e: NotificationEvent) => new Date(e.sent_at) > new Date(lastSeen)
+          ).length;
+          setUnreadCount(count);
+        } else {
+          setUnreadCount(fetched.length);
+        }
+      } catch {
+        // silently fail
+      }
+    }
+
     const interval = setInterval(fetchNotifications, 60_000);
-    return () => clearInterval(interval);
-  }, [fetchNotifications]);
+    fetchNotifications();
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   function handleOpen(open: boolean) {
     if (open && events.length > 0) {
