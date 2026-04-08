@@ -9,6 +9,11 @@ export const createAlertSchema = z.object({
     threshold: z.number().positive('Threshold must be positive'),
     period: z.enum(alertPeriods),
     providers: z.array(z.string()).optional(),
+    slack_webhook_url: z
+      .string()
+      .url('Must be a valid URL')
+      .startsWith('https://hooks.slack.com/', 'Must be a Slack webhook URL (https://hooks.slack.com/...)')
+      .optional(),
   }),
 });
 

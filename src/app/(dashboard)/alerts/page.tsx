@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2 } from 'lucide-react';
+import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2, Slack } from 'lucide-react';
 import { toast } from 'sonner';
 import { alertTypes, alertPeriods } from '@/lib/validators/alert';
 
@@ -48,7 +48,7 @@ interface AlertRow {
   id: string;
   type: string;
   name: string;
-  config: { threshold: number; period: string; providers?: string[] };
+  config: { threshold: number; period: string; providers?: string[]; slack_webhook_url?: string };
   enabled: boolean;
   created_at: string;
 }
@@ -107,6 +107,7 @@ export default function AlertsPage() {
   const [formType, setFormType] = useState('');
   const [formThreshold, setFormThreshold] = useState('');
   const [formPeriod, setFormPeriod] = useState('monthly');
+  const [formSlackWebhook, setFormSlackWebhook] = useState('');
 
   const fetchAlerts = useCallback(async () => {
     try {
@@ -128,6 +129,7 @@ export default function AlertsPage() {
     setFormType('');
     setFormThreshold('');
     setFormPeriod('monthly');
+    setFormSlackWebhook('');
   };
 
   const showPeriodSelector = formType === 'budget_limit';
@@ -150,6 +152,7 @@ export default function AlertsPage() {
             threshold,
             period: effectivePeriod,
             providers: [],
+            ...(formSlackWebhook.trim() ? { slack_webhook_url: formSlackWebhook.trim() } : {}),
           },
         }),
       });
@@ -293,6 +296,24 @@ export default function AlertsPage() {
                 </div>
               )}
 
+              <div className="space-y-2">
+                <Label htmlFor="slackWebhook" className="flex items-center gap-2">
+                  <Slack className="h-3.5 w-3.5" />
+                  Slack Webhook URL
+                  <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">PRO</span>
+                </Label>
+                <Input
+                  id="slackWebhook"
+                  type="url"
+                  placeholder="https://hooks.slack.com/services/..."
+                  value={formSlackWebhook}
+                  onChange={(e) => setFormSlackWebhook(e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Optional. Receive alerts in Slack via an incoming webhook. Pro plan required.
+                </p>
+              </div>
+
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                   Cancel
@@ -373,6 +394,12 @@ export default function AlertsPage() {
                   <p className="mt-1 text-xs text-muted-foreground">
                     {alertTypeDescriptions[a.type]}
                   </p>
+                )}
+                {a.config.slack_webhook_url && (
+                  <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                    <Slack className="h-3 w-3" />
+                    <span>Slack notifications enabled</span>
+                  </div>
                 )}
                 <p className="mt-1 text-xs text-muted-foreground">
                   Created {(a.created_at ? new Date(a.created_at).toLocaleDateString() : "Pending")}

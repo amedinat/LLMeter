@@ -13,7 +13,8 @@ export type Feature =
   | 'anomaly-detection'
   | 'team-attribution'
   | 'optimization-single'
-  | 'optimization-full';
+  | 'optimization-full'
+  | 'slack-notifications';
 
 export interface PlanLimits {
   maxProviders: number;
@@ -94,6 +95,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'unlimited-history',
       'anomaly-detection',
       'optimization-full',
+      'slack-notifications',
     ],
     limits: {
       maxProviders: Infinity,
@@ -107,6 +109,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       '1-year data retention',
       'Unlimited Alerts & Anomaly Detection',
       'OpenRouter Integration',
+      'Slack Notifications for Alerts',
     ],
     highlighted: true,
     cta: 'Start Free Trial',
@@ -131,6 +134,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'anomaly-detection',
       'team-attribution',
       'optimization-full',
+      'slack-notifications',
     ],
     limits: {
       maxProviders: Infinity,
@@ -168,6 +172,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'anomaly-detection',
       'team-attribution',
       'optimization-full',
+      'slack-notifications',
     ],
     limits: {
       maxProviders: Infinity,
