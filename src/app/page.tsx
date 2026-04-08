@@ -51,9 +51,54 @@ const FAQ_ITEMS = [
   },
 ];
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'LLMeter',
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Web',
+  url: 'https://llmeter.org',
+  description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, Google AI, DeepSeek, and OpenRouter from a single dashboard.',
+  offers: [
+    {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      name: 'Free',
+      description: '1 provider, 1 alert, 30-day retention',
+    },
+    {
+      '@type': 'Offer',
+      price: '19',
+      priceCurrency: 'USD',
+      name: 'Pro',
+      description: 'Unlimited providers and alerts, anomaly detection, 1-year retention',
+    },
+    {
+      '@type': 'Offer',
+      price: '49',
+      priceCurrency: 'USD',
+      name: 'Team',
+      description: 'Per-customer cost attribution, team members, unlimited retention',
+    },
+  ],
+  featureList: [
+    'Multi-provider cost tracking',
+    'Budget alerts with email notifications',
+    'Anomaly detection',
+    'Per-customer cost attribution',
+    'Cost optimization recommendations',
+    'OpenRouter support (500+ models)',
+  ],
+};
+
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
