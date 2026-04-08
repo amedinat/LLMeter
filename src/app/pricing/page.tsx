@@ -16,10 +16,26 @@ import { PricingCheckout } from './pricing-checkout';
 
 const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team, PLANS.enterprise];
 
-export const metadata = {
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: 'Pricing — LLMeter',
   description:
-    'Simple, transparent pricing for AI cost monitoring. Free tier included.',
+    'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo, Team at $49/mo.',
+  openGraph: {
+    title: 'Pricing — LLMeter',
+    description:
+      'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo, Team at $49/mo.',
+    url: 'https://llmeter.org/pricing',
+    siteName: 'LLMeter',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pricing — LLMeter',
+    description:
+      'Simple, transparent pricing for AI cost monitoring. Free tier included.',
+  },
 };
 
 export default function PricingPage() {

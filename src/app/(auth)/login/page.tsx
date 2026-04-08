@@ -6,6 +6,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { loginWithMagicLink, loginWithPassword, signUpWithPassword } from '@/features/auth/actions/login';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Sign In — LLMeter',
+  description: 'Sign in to LLMeter to monitor your LLM API costs across all providers.',
+};
 
 export default async function LoginPage({
   searchParams,
