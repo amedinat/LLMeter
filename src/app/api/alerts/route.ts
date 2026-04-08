@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAlertSchema } from '@/lib/validators/alert';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
-import { getUserPlan, getPlanLimits } from '@/lib/feature-gate';
+import { getUserPlan, getPlanLimits, hasFeature } from '@/lib/feature-gate';
 
 const ALERT_API_LIMIT = { limit: 30, windowMs: 60_000 };
 
@@ -96,6 +96,14 @@ export async function POST(request: NextRequest) {
     if (!limits.allowedAlertTypes.includes(type)) {
       return NextResponse.json(
         { error: `Your ${plan} plan does not support the "${type}" alert type. Upgrade to unlock it.` },
+        { status: 403 }
+      );
+    }
+
+    // Enforce Slack notifications plan restriction
+    if (config.slack_webhook_url && !hasFeature(plan, 'slack-notifications')) {
+      return NextResponse.json(
+        { error: 'Slack notifications are a Pro feature. Upgrade to enable them.' },
         { status: 403 }
       );
     }

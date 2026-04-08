@@ -62,6 +62,10 @@ vi.mock('@/lib/feature-gate', () => ({
     }
     return { maxAlerts: 10, allowedAlertTypes: ['budget_limit', 'anomaly', 'daily_threshold'] };
   },
+  hasFeature: (plan: string, feature: string) => {
+    if (feature === 'slack-notifications') return plan !== 'free';
+    return true;
+  },
 }));
 
 // --- Helpers ---
@@ -184,5 +188,48 @@ describe('POST /api/alerts', () => {
       config: { threshold: 100, period: 'monthly' },
     }));
     expect(res.status).toBe(500);
+  });
+
+  it('creates alert with Slack webhook on Pro plan', async () => {
+    mockPlan = 'pro';
+    const res = await POST(makeRequest('POST', {
+      type: 'budget_limit',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+        slack_webhook_url: 'https://hooks.slack.com/services/T000/B000/xxxx',
+      },
+    }));
+    expect(res.status).toBe(201);
+  });
+
+  it('returns 403 when free user tries to add Slack webhook', async () => {
+    mockPlan = 'free';
+    mockCountResult.count = 0;
+    const mod = await import('./route');
+    const res = await mod.POST(makeRequest('POST', {
+      type: 'budget_limit',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+        slack_webhook_url: 'https://hooks.slack.com/services/T000/B000/xxxx',
+      },
+    }));
+    expect(res.status).toBe(403);
+    const json = await res.json();
+    expect(json.error).toContain('Slack');
+  });
+
+  it('returns 400 when slack_webhook_url is not a Slack URL', async () => {
+    mockPlan = 'pro';
+    const res = await POST(makeRequest('POST', {
+      type: 'budget_limit',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+        slack_webhook_url: 'https://evil.com/webhook',
+      },
+    }));
+    expect(res.status).toBe(400);
   });
 });

@@ -106,6 +106,53 @@ describe('createAlertSchema', () => {
       expect(result.success).toBe(true);
     }
   });
+
+  it('accepts valid Slack webhook URL', () => {
+    const result = createAlertSchema.safeParse({
+      type: 'budget_limit',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+        slack_webhook_url: 'https://hooks.slack.com/services/T000/B000/xxxx',
+      },
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects non-Slack webhook URL', () => {
+    const result = createAlertSchema.safeParse({
+      type: 'budget_limit',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+        slack_webhook_url: 'https://evil.com/webhook',
+      },
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('rejects invalid URL format for slack_webhook_url', () => {
+    const result = createAlertSchema.safeParse({
+      type: 'budget_limit',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+        slack_webhook_url: 'not-a-url',
+      },
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('accepts alert without slack_webhook_url (optional field)', () => {
+    const result = createAlertSchema.safeParse({
+      type: 'budget_limit',
+      config: { threshold: 100, period: 'monthly' },
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.config.slack_webhook_url).toBeUndefined();
+    }
+  });
 });
 
 describe('updateAlertSchema', () => {
