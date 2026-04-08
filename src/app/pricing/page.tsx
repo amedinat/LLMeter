@@ -38,9 +38,76 @@ export const metadata: Metadata = {
   },
 };
 
+const pricingJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'LLMeter Pricing',
+  url: 'https://llmeter.org/pricing',
+  description: 'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo with 7-day free trial, Team at $49/mo.',
+  mainEntity: {
+    '@type': 'Product',
+    name: 'LLMeter',
+    offers: VISIBLE_PLANS.filter((p) => p.price !== null).map((plan) => ({
+      '@type': 'Offer',
+      name: plan.label,
+      price: String(plan.price),
+      priceCurrency: 'USD',
+      description: plan.description,
+      ...(plan.trialDays > 0 ? { eligibleDuration: `P${plan.trialDays}D` } : {}),
+    })),
+  },
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Can I try LLMeter Pro before paying?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `Yes! Pro comes with a ${PLANS.pro.trialDays}-day free trial. No credit card required to start.`,
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What happens when my LLMeter trial ends?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'If you haven\'t added a payment method, your account will be downgraded to the Free plan. Your data is preserved but access to premium features is paused.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I change LLMeter plans later?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Absolutely. Upgrade or downgrade at any time from your settings page. Changes are prorated so you only pay for what you use.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is my data secure on LLMeter?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. API keys are encrypted at rest using AES-256-GCM. We never store or log your raw API keys.',
+      },
+    },
+  ],
+};
+
 export default function PricingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
@@ -143,8 +210,8 @@ export default function PricingPage() {
                     )}
                   </div>
                   {plan.trialDays > 0 && (
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {plan.trialDays}-day free trial
+                    <p className="text-sm text-primary mt-1 font-medium">
+                      {plan.trialDays}-day free trial — no credit card required
                     </p>
                   )}
                 </CardHeader>
