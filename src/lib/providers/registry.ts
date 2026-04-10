@@ -5,6 +5,7 @@ import { anthropicAdapter } from './anthropic-adapter';
 // google-adapter exists but is disabled — Google AI doesn't have a public usage API yet
 import { deepseekAdapter } from './deepseek-adapter';
 import { openrouterAdapter } from './openrouter-adapter';
+import { mistralAdapter } from './mistral-adapter';
 
 /**
  * Provider adapter registry.
@@ -18,6 +19,7 @@ adapters.set('openai', openaiAdapter);
 adapters.set('anthropic', anthropicAdapter);
 adapters.set('deepseek', deepseekAdapter);
 adapters.set('openrouter', openrouterAdapter);
+adapters.set('mistral', mistralAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
