@@ -92,4 +92,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://openrouter.ai/settings/keys',
     color: '#6366F1',
   },
+  mistral: {
+    type: 'mistral',
+    name: 'Mistral AI',
+    description: 'Mistral Large, Mistral Small, Codestral, Pixtral',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://console.mistral.ai/api-keys',
+    color: '#FF7000',
+  },
 };
