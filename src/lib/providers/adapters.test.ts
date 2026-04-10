@@ -3,6 +3,7 @@ import { openaiAdapter } from './openai-adapter';
 import { anthropicAdapter } from './anthropic-adapter';
 import { googleAdapter } from './google-adapter';
 import { deepseekAdapter } from './deepseek-adapter';
+import { mistralAdapter } from './mistral-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -357,6 +358,147 @@ describe('Provider Adapters', () => {
       const records = await deepseekAdapter.fetchUsage('sk-test', startDate, endDate);
       expect(records).toEqual([]);
       expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Mistral Adapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await mistralAdapter.validateKey('test-key-123');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.mistral.ai/v1/models',
+        expect.objectContaining({ headers: { Authorization: 'Bearer test-key-123' } })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(mistralAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Mistral API key'
+      );
+    });
+
+    it('validateKey throws with API message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ message: 'Rate limit exceeded' }),
+      });
+
+      await expect(mistralAdapter.validateKey('sk-test')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('fetchUsage returns empty array when usage API fails', async () => {
+      fetchMock.mockResolvedValue({ ok: false, status: 404, json: async () => ({}) });
+
+      const startDate = new Date('2024-01-01T00:00:00Z');
+      const endDate = new Date('2024-01-07T23:59:59Z');
+      const records = await mistralAdapter.fetchUsage('sk-test', startDate, endDate);
+
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage parses daily per-model response', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            {
+              period: '2024-01-15',
+              models: [
+                { model: 'mistral-large-latest', input_tokens: 2000, output_tokens: 800, requests: 5 },
+              ],
+            },
+          ],
+        }),
+      });
+
+      const startDate = new Date('2024-01-15T00:00:00Z');
+      const endDate = new Date('2024-01-15T23:59:59Z');
+      const records = await mistralAdapter.fetchUsage('sk-test', startDate, endDate);
+
+      expect(records).toHaveLength(1);
+      expect(records[0].date).toBe('2024-01-15');
+      expect(records[0].model).toBe('mistral-large-latest');
+      expect(records[0].inputTokens).toBe(2000);
+      expect(records[0].outputTokens).toBe(800);
+      expect(records[0].requests).toBe(5);
+      expect(records[0].costUsd).toBeGreaterThan(0);
+    });
+
+    it('fetchUsage parses flat models array response', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          models: [
+            { model: 'mistral-small-latest', input_tokens: 500, output_tokens: 200, requests: 2 },
+          ],
+        }),
+      });
+
+      const startDate = new Date('2024-01-10T00:00:00Z');
+      const endDate = new Date('2024-01-10T23:59:59Z');
+      const records = await mistralAdapter.fetchUsage('sk-test', startDate, endDate);
+
+      expect(records).toHaveLength(1);
+      expect(records[0].model).toBe('mistral-small-latest');
+      expect(records[0].inputTokens).toBe(500);
+      expect(records[0].outputTokens).toBe(200);
+    });
+
+    it('fetchUsage skips zero-token rows', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            {
+              period: '2024-01-20',
+              models: [
+                { model: 'mistral-large-latest', input_tokens: 0, output_tokens: 0, requests: 0 },
+                { model: 'codestral-latest', input_tokens: 1000, output_tokens: 400, requests: 3 },
+              ],
+            },
+          ],
+        }),
+      });
+
+      const startDate = new Date('2024-01-20T00:00:00Z');
+      const endDate = new Date('2024-01-20T23:59:59Z');
+      const records = await mistralAdapter.fetchUsage('sk-test', startDate, endDate);
+
+      expect(records).toHaveLength(1);
+      expect(records[0].model).toBe('codestral-latest');
+    });
+
+    it('fetchUsage uses provided cost if present', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            {
+              period: '2024-01-25',
+              models: [
+                { model: 'mistral-large-latest', input_tokens: 1000, output_tokens: 500, requests: 1, cost: 0.0123 },
+              ],
+            },
+          ],
+        }),
+      });
+
+      const records = await mistralAdapter.fetchUsage('sk-test', new Date('2024-01-25'), new Date('2024-01-25'));
+      expect(records[0].costUsd).toBe(0.0123);
     });
   });
 });
