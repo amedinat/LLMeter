@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getPaymentProvider } from '@/lib/payments';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
+import { checkRateLimit } from '@/lib/rate-limit';
 import type { Plan } from '@/types';
 
 const ALLOWED_TARGET_PLANS: Plan[] = ['pro', 'team'];
+const CHANGE_PLAN_LIMIT = { limit: 3, windowMs: 60_000 };
 
 export async function POST(req: NextRequest) {
   if (!verifyCsrfHeader(req)) {
@@ -18,6 +20,11 @@ export async function POST(req: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const rl = await checkRateLimit(`change-plan:${user.id}`, CHANGE_PLAN_LIMIT);
+  if (!rl.success) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
   }
 
   let body: { plan?: string };

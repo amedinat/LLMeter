@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getPaymentProvider } from '@/lib/payments';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 /**
  * POST /api/checkout
@@ -10,6 +11,8 @@ import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
  * configuration needed for the frontend to open the Paddle.js overlay
  * (price ID, customer email, custom data for webhook correlation).
  */
+const CHECKOUT_LIMIT = { limit: 5, windowMs: 60_000 };
+
 export async function POST(req: NextRequest) {
   if (!verifyCsrfHeader(req)) {
     return csrfForbiddenResponse();
@@ -20,6 +23,11 @@ export async function POST(req: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const rl = await checkRateLimit(`checkout:${user.id}`, CHECKOUT_LIMIT);
+  if (!rl.success) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
   }
 
   let body: { plan?: string };

@@ -11,6 +11,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Sign In — LLMeter',
   description: 'Sign in to LLMeter to monitor your LLM API costs across all providers.',
+  openGraph: {
+    title: 'Sign In — LLMeter',
+    description: 'Sign in to LLMeter to monitor your LLM API costs across all providers.',
+    url: 'https://llmeter.org/login',
+    siteName: 'LLMeter',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Sign In — LLMeter',
+    description: 'Sign in to LLMeter to monitor your LLM API costs across all providers.',
+  },
 };
 
 export default async function LoginPage({
