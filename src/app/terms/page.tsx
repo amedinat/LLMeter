@@ -3,7 +3,19 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Terms of Service — LLMeter',
-  description: 'LLMeter terms of service.',
+  description: 'LLMeter terms of service. Read our terms and conditions for using LLMeter.',
+  openGraph: {
+    title: 'Terms of Service — LLMeter',
+    description: 'LLMeter terms of service. Read our terms and conditions for using LLMeter.',
+    url: 'https://llmeter.org/terms',
+    siteName: 'LLMeter',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Terms of Service — LLMeter',
+    description: 'LLMeter terms of service. Read our terms and conditions for using LLMeter.',
+  },
 };
 
 export default function TermsPage() {
