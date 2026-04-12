@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     title: 'Pricing — LLMeter',
     description:
       'Simple, transparent pricing for AI cost monitoring. Free tier included.',
+    images: ['/og-image.png'],
   },
 };
 
