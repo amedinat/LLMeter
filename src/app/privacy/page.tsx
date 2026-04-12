@@ -4,6 +4,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Privacy Policy — LLMeter',
   description: 'LLMeter privacy policy. Learn how we handle your data and API keys.',
+  openGraph: {
+    title: 'Privacy Policy — LLMeter',
+    description: 'LLMeter privacy policy. Learn how we handle your data and API keys.',
+    url: 'https://llmeter.org/privacy',
+    siteName: 'LLMeter',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Privacy Policy — LLMeter',
+    description: 'LLMeter privacy policy. Learn how we handle your data and API keys.',
+  },
 };
 
 export default function PrivacyPage() {
