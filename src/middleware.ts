@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { isStaticFile } from '@/lib/security';
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/api/cron', '/privacy', '/terms', '/pricing', '/migrate', '/robots.txt', '/sitemap.xml'];
+const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/privacy', '/terms', '/pricing', '/migrate', '/robots.txt', '/sitemap.xml'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -12,7 +12,10 @@ export async function middleware(request: NextRequest) {
   if (
     PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/')) ||
     pathname.startsWith('/_next') ||
+    // Routes with their own auth: webhook signature, CRON_SECRET, API key
     pathname.startsWith('/api/webhooks') ||
+    pathname.startsWith('/api/cron') ||
+    pathname.startsWith('/api/ingest') ||
     isStaticFile(pathname)
   ) {
     return NextResponse.next();

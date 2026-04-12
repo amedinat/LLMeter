@@ -32,6 +32,11 @@ vi.mock('@/lib/analytics', () => ({
   EVENTS: { BILLING_PORTAL_OPENED: 'billing_portal_opened' },
 }));
 
+const mockCheckRateLimit = vi.fn();
+vi.mock('@/lib/rate-limit', () => ({
+  checkRateLimit: (...args: unknown[]) => mockCheckRateLimit(...args),
+}));
+
 // --- Helpers ---
 
 function makeRequest(): NextRequest {
@@ -61,6 +66,7 @@ beforeEach(async () => {
   vi.clearAllMocks();
   mockCsrfValid = true;
   mockGetUser.mockResolvedValue({ data: { user: { id: 'user-1' } } });
+  mockCheckRateLimit.mockResolvedValue({ success: true, remaining: 4, resetAt: Date.now() + 60_000 });
   const mod = await import('./route');
   POST = mod.POST;
 });
@@ -77,6 +83,14 @@ describe('POST /api/billing/portal', () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
     const res = await POST(makeRequest());
     expect(res.status).toBe(401);
+  });
+
+  it('returns 429 when rate limit exceeded', async () => {
+    mockCheckRateLimit.mockResolvedValue({ success: false, remaining: 0, resetAt: Date.now() + 60_000 });
+    const res = await POST(makeRequest());
+    expect(res.status).toBe(429);
+    const data = await res.json();
+    expect(data.error).toBe('Too many requests');
   });
 
   it('returns 400 when no billing account', async () => {
