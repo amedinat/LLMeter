@@ -14,7 +14,7 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 
 ## Próximo milestone: Colaboración (target: 2026-06-01)
 - [x] Exportar reportes CSV — GET /api/usage/export (2026-04-13)
-- [ ] Exportar reportes PDF
+- [x] Exportar reportes PDF — GET /api/usage/export/pdf (2026-04-13)
 - [ ] Team tier $49/mes — múltiples usuarios por organización
 - [ ] API pública para integraciones
 
