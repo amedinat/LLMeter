@@ -2,6 +2,8 @@
 
 import { StatsGrid, SpendLineChart, UsageTable } from '@/features/dashboard/components';
 import type { SpendSummary, DailySpend } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 
 interface DashboardClientProps {
   summary: SpendSummary;
@@ -11,9 +13,17 @@ interface DashboardClientProps {
 export function DashboardClient({ summary, dailyData }: DashboardClientProps) {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Your AI spending overview</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground">Your AI spending overview</p>
+        </div>
+        <Button asChild variant="outline" size="sm" className="shrink-0 mt-1">
+          <a href="/api/usage/export" download>
+            <Download className="mr-2 h-4 w-4" />
+            Export CSV
+          </a>
+        </Button>
       </div>
 
       {/* KPI Stats */}
