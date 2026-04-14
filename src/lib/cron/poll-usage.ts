@@ -88,11 +88,22 @@ export async function runPollUsage(): Promise<{
       succeeded++;
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      console.error(`[poll-usage] Provider ${provider.id} failed:`, message);
+      const isDecryptionError =
+        message.includes('Encryption data incomplete') ||
+        message.includes('invalid format') ||
+        message.includes('Unsupported state');
+      console.error(
+        `[poll-usage] Provider ${provider.id} failed:`,
+        message,
+        isDecryptionError ? '(needs re-keying)' : '',
+      );
 
       await supabase
         .from('providers')
-        .update({ status: 'error' })
+        .update({
+          status: 'error',
+          last_error: message.slice(0, 500),
+        })
         .eq('id', provider.id);
 
       failed++;

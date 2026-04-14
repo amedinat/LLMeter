@@ -3,10 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import { SettingsClient } from './settings-client';
 import { BillingSection } from './billing-section';
 import { ApiKeysSection } from './api-keys-section';
+import { TeamSection } from './team-section';
 import { User, Calendar, Shield } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Plan } from '@/types';
 import { trackEvent, EVENTS } from '@/lib/analytics';
+import { hasFeature } from '@/lib/feature-gate';
 
 export default async function SettingsPage() {
   const supabase = await createClient();
@@ -90,6 +92,9 @@ export default async function SettingsPage() {
 
       {/* API Keys */}
       <ApiKeysSection />
+
+      {/* Team Members — Team/Enterprise plan only */}
+      {hasFeature(billingData.plan, 'team-attribution') && <TeamSection />}
 
       {/* Billing */}
       <BillingSection
