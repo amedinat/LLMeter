@@ -61,6 +61,9 @@ curl -X POST https://llmeter.org/api/ingest \
 - **Cost Optimization** — Model swap recommendations with estimated savings
 - **Usage Trends** — Analyze consumption by model, provider, and time period
 - **OpenRouter Support** — Track 500+ models with a single key (Pro)
+- **CSV & PDF Export** — Download usage reports for any date range (Pro+)
+- **REST API v1** — Integrate LLMeter data into your own tooling (GET /api/v1/usage, providers, customers)
+- **Team Management** — Invite members, assign roles, shared organization billing (Team)
 - **Encrypted Storage** — API keys encrypted with AES-256-GCM, never stored in plain text
 - **Open Source** — AGPL-3.0, audit the code yourself
 
