@@ -20,12 +20,15 @@ export const metadata: Metadata = {
   title: "LLMeter — OpenAI & AI Cost Tracking Dashboard",
   description:
     "Stop guessing your AI bill. Monitor API costs across OpenAI, Anthropic & DeepSeek. Open-source dashboard with real-time budget alerts.",
-  metadataBase: new URL("https://llmeter.org"),
+  metadataBase: new URL("https://www.llmeter.org"),
+  alternates: {
+    canonical: "https://www.llmeter.org",
+  },
   openGraph: {
     title: "LLMeter — Stop Guessing Your AI Bill",
     description:
       "Open-source AI cost dashboard. Track billing and API usage across OpenAI, Anthropic, DeepSeek & OpenRouter in real-time.",
-    url: "https://llmeter.org",
+    url: "https://www.llmeter.org",
     siteName: "LLMeter",
     images: [
       {
