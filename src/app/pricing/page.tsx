@@ -14,7 +14,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { PLANS } from '@/config/plans';
 import { PricingCheckout } from './pricing-checkout';
 
-const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team, PLANS.enterprise];
+const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team];
 
 import type { Metadata } from 'next';
 
