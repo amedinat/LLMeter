@@ -53,7 +53,7 @@ export default async function DashboardPage() {
   }
 
   const summary = await getSpendSummary();
-  const dailyData = await getDailySpend();
+  const dailyData = await getDailySpend(90);
 
   // Transform dailyData back to NormalizedUsageRecord[] format for the engine
   const mockUsage = summary.by_model.map(m => ({
