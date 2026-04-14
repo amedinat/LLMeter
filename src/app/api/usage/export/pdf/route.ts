@@ -81,7 +81,7 @@ export async function GET(request: Request) {
 
   const filename = `llmeter-usage${from ? `-${from}` : ''}${to ? `-to-${to}` : ''}.pdf`;
 
-  return new Response(pdfBytes, {
+  return new Response(new Uint8Array(pdfBytes), {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
