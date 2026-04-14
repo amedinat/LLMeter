@@ -16,9 +16,10 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [x] Exportar reportes CSV — GET /api/usage/export (2026-04-13)
 - [x] Exportar reportes PDF — GET /api/usage/export/pdf (2026-04-13)
 - [x] Team tier $49/mes — múltiples usuarios por organización (2026-04-13)
-- [ ] API pública para integraciones
+- [x] API pública para integraciones — GET /api/v1/usage, providers, customers (2026-04-13)
 
 ## Backlog (sin priorizar)
+- Retención de datos: purge automático de free-users inactivos 45d — cron + email warning (2026-04-13)
 - Integración con Grafana
 - Alertas Slack/Discord
 - Comparador de modelos por costo/calidad

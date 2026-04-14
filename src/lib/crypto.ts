@@ -94,12 +94,24 @@ export function encryptForDB(plaintext: string): {
 
 /**
  * Convenience: decrypt from DB column format.
+ * Throws descriptive error if encryption fields are missing.
  */
 export function decryptFromDB(row: {
-  api_key_encrypted: string;
-  api_key_iv: string;
-  api_key_tag: string;
+  api_key_encrypted: string | null;
+  api_key_iv: string | null;
+  api_key_tag: string | null;
 }): string {
+  if (!row.api_key_encrypted || !row.api_key_iv || !row.api_key_tag) {
+    const missing = [
+      !row.api_key_encrypted && 'api_key_encrypted',
+      !row.api_key_iv && 'api_key_iv',
+      !row.api_key_tag && 'api_key_tag',
+    ].filter(Boolean).join(', ');
+    throw new Error(`Encryption data incomplete — missing: ${missing}`);
+  }
   const [salt, encrypted] = row.api_key_encrypted.split(':');
+  if (!salt || !encrypted) {
+    throw new Error('api_key_encrypted has invalid format (expected salt:ciphertext)');
+  }
   return decrypt({ encrypted, iv: row.api_key_iv, tag: row.api_key_tag, salt });
 }
