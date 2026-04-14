@@ -19,6 +19,10 @@
     {
       "path": "/api/cron/expire-grace-periods",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/purge-inactive",
+      "schedule": "0 11 * * *"
     }
   ]
 }
