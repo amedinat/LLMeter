@@ -29,6 +29,6 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 ## Próximo milestone: Integraciones y retención (target: 2026-07-01)
 - [ ] Integración con Grafana (dashboard embed)
 - [x] Alertas Slack webhook nativas (gated Pro+) (2026-04-08)
-- [ ] Comparador de modelos por costo/calidad
+- [x] Comparador de modelos por costo/calidad — /models page, 128 models, 6 providers, filterable (2026-04-15)
 - [ ] Soporte multi-cloud (Azure Cognitive Services, AWS Bedrock)
 - [ ] SDK cliente para ingestion (npm package)
