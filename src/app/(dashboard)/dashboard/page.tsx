@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { createClient } from '@/lib/supabase/server';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 import { CheckoutSuccessToast } from './checkout-success-toast';
+import { AlertTriggeredBanner } from '@/components/dashboard/alert-triggered-banner';
 
 export default async function DashboardPage() {
   const plan = await getUserPlan();
@@ -34,6 +35,9 @@ export default async function DashboardPage() {
 
   const hasProviders = (providerCount ?? 0) > 0;
   const hasAlerts = (alertCount ?? 0) > 0;
+
+  // Fetch recently triggered alert events (last 24h) for in-app banner
+  const recentAlertEvents = await getRecentAlertEvents(supabase, user!.id);
 
   // Show onboarding flow if no providers connected yet
   if (!hasProviders) {
@@ -77,6 +81,10 @@ export default async function DashboardPage() {
       {/* Show setup checklist banner if alerts not configured yet */}
       {!hasAlerts && (
         <SetupBanner completedSteps={hasProviders ? 1 : 0} totalSteps={2} />
+      )}
+      {/* Show alert triggered banner when recent alerts fired */}
+      {(recentAlertEvents ?? []).length > 0 && (
+        <AlertTriggeredBanner events={recentAlertEvents!} />
       )}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
@@ -148,6 +156,18 @@ function RetentionPolicyBanner() {
       </a>
     </div>
   );
+}
+
+async function getRecentAlertEvents(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
+  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const { data } = await supabase
+    .from('alert_events')
+    .select('id, message, data, sent_at')
+    .eq('user_id', userId)
+    .gte('sent_at', cutoff)
+    .order('sent_at', { ascending: false })
+    .limit(10);
+  return data ?? [];
 }
 
 function OptimizationSkeleton() {
