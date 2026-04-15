@@ -39,7 +39,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Which providers are supported?',
-    answer: 'OpenAI, Anthropic, DeepSeek, and OpenRouter. More coming soon.',
+    answer: 'OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, and Mistral. More coming soon.',
   },
   {
     question: 'How long does setup take?',
@@ -127,6 +127,7 @@ export default function HomePage() {
             <nav className="flex items-center space-x-6 text-sm font-medium">
               <Link href="#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
               <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
+              <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
               <Link href="#pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
               <Link href="#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
             </nav>
@@ -173,7 +174,7 @@ export default function HomePage() {
               <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground/90">Fix it in 30 seconds.</span>
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-              Connect your OpenAI, Anthropic, DeepSeek, or OpenRouter key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no proxy, no SDK, no code changes.
+              Connect your OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, or Mistral key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no proxy, no SDK, no code changes.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
               <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>
@@ -225,7 +226,7 @@ export default function HomePage() {
               <div className="text-sm font-bold text-primary">Step 1</div>
               <h3 className="text-lg font-semibold">Paste your API key</h3>
               <p className="text-sm text-muted-foreground">
-                Use a read-only key from OpenAI, Anthropic, DeepSeek, or OpenRouter. AES-256 encrypted at rest.
+                Use a read-only key from OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, or Mistral. AES-256 encrypted at rest.
               </p>
             </div>
             <div className="flex flex-col items-center text-center space-y-3">
@@ -314,7 +315,7 @@ export default function HomePage() {
                 <LayoutDashboard className="h-10 w-10 mb-2 text-primary" />
                 <CardTitle>Unified Dashboard</CardTitle>
                 <CardDescription>
-                  See OpenAI + Anthropic + DeepSeek spend in one place. No more switching between billing pages.
+                  See OpenAI + Anthropic + Mistral + DeepSeek spend in one place. No more switching between billing pages.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -436,10 +437,16 @@ export default function HomePage() {
               <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
                 <Globe className="mr-2 h-4 w-4" /> OpenRouter
               </Badge>
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Globe className="mr-2 h-4 w-4" /> Google AI
+              </Badge>
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Globe className="mr-2 h-4 w-4" /> Mistral
+              </Badge>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-8 text-center text-sm text-muted-foreground">
               <div className="flex flex-col items-center gap-1">
-                <span className="text-2xl font-bold text-foreground">4</span>
+                <span className="text-2xl font-bold text-foreground">6</span>
                 <span>Providers supported</span>
               </div>
               <div className="flex flex-col items-center gap-1">
@@ -562,6 +569,7 @@ export default function HomePage() {
               <li><Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
               <li><Link href="https://github.com/amedinat/LLMeter" target="_blank" className="hover:text-foreground transition-colors">GitHub</Link></li>
               <li><Link href="/migrate/helicone" className="hover:text-foreground transition-colors">Migrate from Helicone</Link></li>
+              <li><Link href="/models" className="hover:text-foreground transition-colors">Model Pricing</Link></li>
             </ul>
           </div>
           <div>
@@ -589,7 +597,7 @@ export default function HomePage() {
           <div>
             <h3 className="mb-3 text-sm font-semibold">LLMeter</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Open-source AI cost monitoring for developers. Track spend across OpenAI, Anthropic, DeepSeek &amp; OpenRouter.
+              Open-source AI cost monitoring for developers. Track spend across OpenAI, Anthropic, Google AI, Mistral, DeepSeek &amp; OpenRouter.
             </p>
           </div>
         </div>
