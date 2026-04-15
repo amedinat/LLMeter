@@ -24,7 +24,7 @@ export function GracePeriodEndingEmail({
   daysLeft,
   graceEndDate,
   plan,
-  settingsUrl = 'https://llmeter.dev/settings',
+  settingsUrl = 'https://llmeter.org/settings',
 }: GracePeriodEndingEmailProps) {
   return (
     <Html>

@@ -17,6 +17,8 @@ export interface DailyDigestEmailProps {
   topModels: { model: string; provider: string; cost: number }[];
   date: string; // e.g. "April 7, 2026"
   dashboardUrl?: string;
+  pricingUrl?: string;
+  settingsUrl?: string;
   isProUser?: boolean;
 }
 
@@ -26,6 +28,8 @@ export function DailyDigestEmail({
   topModels = [],
   date,
   dashboardUrl = 'https://llmeter.org/dashboard',
+  pricingUrl = 'https://llmeter.org/pricing',
+  settingsUrl = 'https://llmeter.org/settings',
   isProUser = false,
 }: DailyDigestEmailProps) {
   const diff = sevenDayAvg > 0 ? ((yesterdaySpend - sevenDayAvg) / sevenDayAvg) * 100 : 0;
@@ -84,7 +88,7 @@ export function DailyDigestEmail({
                 <strong>Set a budget alert</strong> — get notified before you overspend.
                 Available on Pro plan.
               </Text>
-              <a href={`${dashboardUrl.replace('/dashboard', '')}/pricing`} style={upsellLink}>
+              <a href={pricingUrl} style={upsellLink}>
                 Upgrade to Pro →
               </a>
             </Section>
@@ -101,7 +105,7 @@ export function DailyDigestEmail({
             LLMeter — LLM cost monitoring without a proxy.
             You&apos;re receiving this because you have providers connected.
             <br />
-            <a href={`${dashboardUrl.replace('/dashboard', '')}/settings`} style={footerLink}>
+            <a href={settingsUrl} style={footerLink}>
               Manage preferences
             </a>
           </Text>

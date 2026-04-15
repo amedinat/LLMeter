@@ -22,7 +22,7 @@ export function TrialExpiringEmail({
   name,
   daysLeft,
   trialEndDate,
-  dashboardUrl = 'https://llmeter.dev/settings',
+  dashboardUrl = 'https://llmeter.org/settings',
 }: TrialExpiringEmailProps) {
   return (
     <Html>

@@ -40,10 +40,8 @@ export async function sendAlertEmail(
     return false;
   }
 
-  const dashboardUrl =
-    process.env.NEXT_PUBLIC_APP_URL
-      ? `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
-      : 'https://llmeter.org/dashboard';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://llmeter.org';
+  const dashboardUrl = `${appUrl}/dashboard?utm_source=llmeter&utm_medium=email&utm_campaign=alert`;
 
   const html = await render(
     AlertTriggeredEmail({
