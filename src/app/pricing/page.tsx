@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check, ArrowLeft } from 'lucide-react';
+import { Check, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { PLANS } from '@/config/plans';
 import { PricingCheckout } from './pricing-checkout';
@@ -21,7 +21,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Pricing — LLMeter',
   description:
-    'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo, Team at $49/mo.',
+    'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo with 7-day free trial, Team at $49/mo.',
   openGraph: {
     title: 'Pricing — LLMeter',
     description:
@@ -66,6 +66,14 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
+      name: 'Is $19/month worth it for LLMeter Pro?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, if you spend more than $50/month on AI APIs. One prevented cost spike — a runaway batch job, a forgotten eval loop, or a misconfigured model — typically costs $30–$200. Pro pays for itself the first time it fires an anomaly alert.',
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'Can I try LLMeter Pro before paying?',
       acceptedAnswer: {
         '@type': 'Answer',
@@ -98,6 +106,23 @@ const faqJsonLd = {
     },
   ],
 };
+
+const FREE_LIMITS = [
+  'Only 1 provider (OpenRouter not included)',
+  'Data deleted after 30 days',
+  'Only 1 budget alert',
+  'No anomaly detection',
+  'No Slack notifications',
+];
+
+const PRO_UNLOCKS = [
+  'All providers — OpenAI, Anthropic, DeepSeek, OpenRouter',
+  '1 year of cost history for trend analysis',
+  'Unlimited budget alerts across all providers',
+  'Anomaly detection — get alerted before a spike hits your card',
+  'Slack notifications so your team sees alerts instantly',
+  'CSV & PDF exports to justify AI costs to finance',
+];
 
 export default function PricingPage() {
   return (
@@ -165,12 +190,21 @@ export default function PricingPage() {
               Back to home
             </Link>
             <h1 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl font-bold">
-              Simple, transparent pricing
+              Stop overpaying for AI you can&apos;t see
             </h1>
             <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-              Start free. Upgrade when you need more providers, longer retention,
-              or team features.
+              The average developer discovers an unexpected AI billing spike <strong>after</strong> the invoice arrives.
+              LLMeter catches it before the charge hits — starting free.
             </p>
+            <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              <Button size="lg" asChild>
+                <Link href="/login">
+                  Start Free — No Credit Card
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <p className="text-sm text-muted-foreground">Pro includes a {PLANS.pro.trialDays}-day free trial</p>
+            </div>
           </div>
         </section>
 
@@ -247,6 +281,94 @@ export default function PricingPage() {
           </div>
         </section>
 
+        {/* Why Pay — ROI section */}
+        <section className="container pb-16">
+          <div className="mx-auto max-w-[64rem] space-y-12">
+            <div className="text-center space-y-3">
+              <h2 className="text-2xl md:text-3xl font-bold">Is $19/month worth it?</h2>
+              <p className="text-muted-foreground max-w-[42rem] mx-auto">
+                Pro pays for itself the first time it catches a cost spike you would have missed.
+              </p>
+            </div>
+
+            {/* Breakeven scenarios */}
+            <div className="grid gap-6 md:grid-cols-3">
+              <div className="rounded-xl border bg-card p-6 space-y-3">
+                <div className="text-3xl font-bold text-primary">1×</div>
+                <h3 className="font-semibold">One prevented overage</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  A runaway batch job or forgotten eval loop typically costs $30–$200.
+                  One anomaly alert pays for Pro for 1–10 months.
+                </p>
+              </div>
+              <div className="rounded-xl border bg-card p-6 space-y-3">
+                <div className="text-3xl font-bold text-primary">2+</div>
+                <h3 className="font-semibold">Multiple LLM providers</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  If you&apos;re juggling OpenAI, Anthropic, and DeepSeek billing pages,
+                  Pro unifies everything in one place — saving 30+ minutes of manual work per week.
+                </p>
+              </div>
+              <div className="rounded-xl border bg-card p-6 space-y-3">
+                <div className="text-3xl font-bold text-primary">$50+</div>
+                <h3 className="font-semibold">Monthly AI API spend</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Once you&apos;re spending $50+/month on AI, visibility into your costs is
+                  worth more than $19. One bad month without monitoring can cost 10× that.
+                </p>
+              </div>
+            </div>
+
+            {/* Free vs Pro comparison */}
+            <div className="rounded-xl border overflow-hidden">
+              <div className="grid grid-cols-2 divide-x">
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-muted-foreground/40" />
+                    <h3 className="font-semibold text-muted-foreground">Staying on Free means…</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {FREE_LIMITS.map((limit) => (
+                      <li key={limit} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <X className="mt-0.5 h-4 w-4 shrink-0 text-destructive/60" />
+                        {limit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="p-6 space-y-4 bg-primary/5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-primary" />
+                    <h3 className="font-semibold">Pro unlocks…</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {PRO_UNLOCKS.map((unlock) => (
+                      <li key={unlock} className="flex items-start gap-2 text-sm">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {unlock}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Start with the {PLANS.pro.trialDays}-day free trial. No credit card required.
+                Cancel before it ends and you&apos;ll never be charged.
+              </p>
+              <Button size="lg" asChild>
+                <Link href="/login">
+                  Try Pro Free for {PLANS.pro.trialDays} Days
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ */}
         <section className="container pb-16">
           <div className="mx-auto max-w-[42rem] space-y-8">
@@ -255,32 +377,46 @@ export default function PricingPage() {
             </h2>
             <div className="space-y-6">
               <div>
+                <h3 className="font-semibold">Is $19/month worth it?</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Yes, if you spend more than $50/month on AI APIs. One prevented spike — a
+                  runaway batch job, a forgotten eval loop — typically costs $30–$200. Pro
+                  pays for itself the first time it fires an anomaly alert.
+                </p>
+              </div>
+              <div>
                 <h3 className="font-semibold">Can I try Pro before paying?</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Yes! Pro comes with a {PLANS.pro.trialDays}-day free trial. No
-                  credit card required to start.
+                  Yes! Pro comes with a {PLANS.pro.trialDays}-day free trial. No credit card
+                  required to start. Cancel before the trial ends and you&apos;ll never be charged.
                 </p>
               </div>
               <div>
                 <h3 className="font-semibold">What happens when my trial ends?</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  If you haven&apos;t added a payment method, your account will be
-                  downgraded to the Free plan. Your data is preserved but access
-                  to premium features is paused.
+                  If you haven&apos;t added a payment method, your account will be downgraded
+                  to the Free plan. Your data is preserved but access to premium features is paused.
                 </p>
               </div>
               <div>
                 <h3 className="font-semibold">Can I change plans later?</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Absolutely. Upgrade or downgrade at any time from your settings
-                  page. Changes are prorated so you only pay for what you use.
+                  Absolutely. Upgrade or downgrade at any time from your settings page.
+                  Changes are prorated so you only pay for what you use.
                 </p>
               </div>
               <div>
                 <h3 className="font-semibold">Is my data secure?</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Yes. API keys are encrypted at rest using AES-256-GCM. We never
-                  store or log your raw API keys.
+                  Yes. API keys are encrypted at rest using AES-256-GCM. We never store or
+                  log your raw API keys. You can use read-only provider keys for maximum safety.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold">What if I only use one provider?</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Free tier covers one provider forever. Upgrade to Pro when you add a second
+                  provider, want anomaly detection, or need more than 30 days of history.
                 </p>
               </div>
             </div>
