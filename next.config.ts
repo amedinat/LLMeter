@@ -43,6 +43,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['pdfkit'],
+  outputFileTracingIncludes: {
+    '/api/usage/export/pdf': ['./node_modules/pdfkit/js/data/**/*'],
+  },
   async headers() {
     return [
       {
