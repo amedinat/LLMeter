@@ -15,12 +15,14 @@ import { PROVIDER_META } from '@/lib/providers';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
+type Range = '7d' | '30d' | '90d';
+
 interface SpendLineChartProps {
   data: DailySpend[];
   className?: string;
+  range?: Range;
+  onRangeChange?: (range: Range) => void;
 }
-
-type Range = '7d' | '30d' | '90d';
 
 const RANGES: { label: string; value: Range; days: number }[] = [
   { label: '7D', value: '7d', days: 7 },
@@ -74,8 +76,10 @@ function CustomTooltip({
   );
 }
 
-export function SpendLineChart({ data, className }: SpendLineChartProps) {
-  const [range, setRange] = useState<Range>('30d');
+export function SpendLineChart({ data, className, range: controlledRange, onRangeChange }: SpendLineChartProps) {
+  const [internalRange, setInternalRange] = useState<Range>('30d');
+  const range = controlledRange ?? internalRange;
+  const setRange = onRangeChange ?? setInternalRange;
 
   const days = RANGES.find((r) => r.value === range)?.days ?? 30;
   const slicedData = data.slice(-days);

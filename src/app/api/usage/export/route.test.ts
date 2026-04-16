@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const mockGetUser = vi.fn();
 const mockQueryResult: { data: unknown[] | null; error: unknown } = { data: [], error: null };
+const mockSingleResult: { data: unknown; error: unknown } = { data: { plan: 'pro' }, error: null };
 const mockGte = vi.fn();
 const mockLte = vi.fn();
 
@@ -13,6 +14,7 @@ vi.mock('@/lib/supabase/server', () => ({
     from: () => ({
       select: () => ({
         eq: () => ({
+          single: () => mockSingleResult,
           order: () => ({
             gte: (...args: unknown[]) => {
               mockGte(...args);
@@ -77,6 +79,8 @@ beforeEach(async () => {
   mockGetUser.mockResolvedValue({ data: { user: { id: 'user-1' } } });
   mockQueryResult.data = [...SAMPLE_RECORDS];
   mockQueryResult.error = null;
+  mockSingleResult.data = { plan: 'pro' };
+  mockSingleResult.error = null;
   const mod = await import('./route');
   GET = mod.GET;
 });

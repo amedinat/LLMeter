@@ -23,12 +23,13 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [ ] 3 artículos Dev.to publicados con tráfico SEO
 - [ ] Paddle env vars en producción (Vercel) — bloqueador de cobro activo
 - [ ] Payoneer conectado a Paddle — necesario para recibir pagos en Colombia
-- [ ] Landing /pricing — copy de venta con why pay explícito
-- [ ] Links con UTM params en todo contenido publicado
+- [x] Landing /pricing — copy de venta con why pay explícito (2026-04-14, commit 9e2b6d0)
+- [x] Links con UTM params en todo contenido publicado (2026-04-15, commit 01909dd)
+- [x] Launch drafts (Show HN, Reddit, X, Dev.to) actualizados — 6 providers, Paddle, Vercel Cron (2026-04-15)
 
 ## Próximo milestone: Integraciones y retención (target: 2026-07-01)
 - [ ] Integración con Grafana (dashboard embed)
-- [ ] Alertas Slack/Discord nativas
-- [ ] Comparador de modelos por costo/calidad
+- [x] Alertas Slack webhook nativas (gated Pro+) (2026-04-08)
+- [x] Comparador de modelos por costo/calidad — /models page, 128 models, 6 providers, filterable (2026-04-15)
 - [ ] Soporte multi-cloud (Azure Cognitive Services, AWS Bedrock)
 - [ ] SDK cliente para ingestion (npm package)

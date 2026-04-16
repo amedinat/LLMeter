@@ -23,7 +23,7 @@ export async function sendWelcomeEmail(params: {
   const html = await render(
     WelcomeEmail({
       name: params.name,
-      dashboardUrl: `${APP_URL}/dashboard`,
+      dashboardUrl: `${APP_URL}/dashboard?utm_source=llmeter&utm_medium=email&utm_campaign=welcome`,
     }),
   );
 
@@ -61,7 +61,7 @@ export async function sendTrialExpiringEmail(params: {
       name: params.name,
       daysLeft: params.daysLeft,
       trialEndDate: params.trialEndDate,
-      dashboardUrl: `${APP_URL}/settings`,
+      dashboardUrl: `${APP_URL}/settings?utm_source=llmeter&utm_medium=email&utm_campaign=trial-expiring`,
     }),
   );
 
@@ -101,7 +101,7 @@ export async function sendGracePeriodEndingEmail(params: {
       daysLeft: params.daysLeft,
       graceEndDate: params.graceEndDate,
       plan: params.plan,
-      settingsUrl: `${APP_URL}/settings`,
+      settingsUrl: `${APP_URL}/settings?utm_source=llmeter&utm_medium=email&utm_campaign=grace-period`,
     }),
   );
 
@@ -139,7 +139,8 @@ export async function sendDataPurgeWarningEmail(params: {
       name: params.name,
       daysLeft: params.daysLeft,
       purgeDate: params.purgeDate,
-      dashboardUrl: `${APP_URL}/dashboard`,
+      dashboardUrl: `${APP_URL}/dashboard?utm_source=llmeter&utm_medium=email&utm_campaign=data-purge`,
+      pricingUrl: `${APP_URL}/pricing?utm_source=llmeter&utm_medium=email&utm_campaign=data-purge`,
     }),
   );
 
