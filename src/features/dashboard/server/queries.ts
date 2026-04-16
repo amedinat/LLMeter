@@ -132,7 +132,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
   const retentionDateStr = format(retentionDate, 'yyyy-MM-dd');
 
   const now = new Date();
-  const startDate = format(new Date(now.setDate(now.getDate() - days)), 'yyyy-MM-dd');
+  const DAY_MS = 86_400_000;
+  const startDate = format(new Date(now.getTime() - days * DAY_MS), 'yyyy-MM-dd');
 
   const effectiveStartDate = retentionDateStr > startDate ? retentionDateStr : startDate;
 
@@ -181,7 +182,31 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
     }
   });
 
-  return Array.from(dateMap.values()).sort((a, b) => { const timeA = new Date(a.date).getTime(); const timeB = new Date(b.date).getTime(); if (isNaN(timeA) || isNaN(timeB)) return 0; return timeA - timeB; });
+  // Fill in missing dates with zero values so chart shows full range
+  const result: DailySpend[] = [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today.getTime() - i * DAY_MS);
+    const dateStr = format(d, 'yyyy-MM-dd');
+    result.push(
+      dateMap.get(dateStr) ?? {
+        date: dateStr,
+        total: 0,
+        by_provider: {
+          openai: 0,
+          anthropic: 0,
+          google: 0,
+          deepseek: 0,
+          openrouter: 0,
+          mistral: 0,
+        },
+      }
+    );
+  }
+
+  return result;
 }
 
 function emptySummary(): SpendSummary {

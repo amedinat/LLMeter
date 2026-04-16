@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { getUserPlan } from '@/lib/feature-gate';
 
 /** Validate YYYY-MM-DD date format */
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
@@ -20,6 +21,12 @@ export async function GET(request: Request) {
 
   if (!user) {
     return new Response('Unauthorized', { status: 401 });
+  }
+
+  // CSV export is a Pro+ feature
+  const plan = await getUserPlan();
+  if (plan === 'free') {
+    return new Response('CSV export requires a Pro plan or higher. Upgrade at /pricing', { status: 403 });
   }
 
   const { searchParams } = new URL(request.url);

@@ -12,9 +12,14 @@ import {
 import { cn } from '@/lib/utils';
 import type { SpendSummary, DailySpend } from '@/types';
 
+type Range = '7d' | '30d' | '90d';
+
+const RANGE_DAYS: Record<Range, number> = { '7d': 7, '30d': 30, '90d': 90 };
+
 interface StatsGridProps {
   summary: SpendSummary;
   dailyData: DailySpend[];
+  range?: Range;
 }
 
 interface StatCardProps {
@@ -70,7 +75,13 @@ function StatCard({ title, value, description, icon, trend }: StatCardProps) {
   );
 }
 
-export function StatsGrid({ summary, dailyData }: StatsGridProps) {
+export function StatsGrid({ summary, dailyData, range = '30d' }: StatsGridProps) {
+  const days = RANGE_DAYS[range];
+  const slicedData = dailyData.slice(-days);
+
+  // Calculate total spend from the selected range
+  const totalSpend = slicedData.reduce((s, d) => s + d.total, 0);
+
   // Calculate total requests
   const totalRequests = summary.by_model.reduce((s, m) => s + m.requests, 0);
 
@@ -81,16 +92,18 @@ export function StatsGrid({ summary, dailyData }: StatsGridProps) {
   );
 
   // Forecast: simple linear projection from current spend pace
-  const daysElapsed = dailyData.length;
+  const daysWithData = slicedData.filter((d) => d.total > 0).length;
   const daysInMonth = 30;
-  const dailyAvg = daysElapsed > 0 ? summary.total_spend / daysElapsed : 0;
+  const dailyAvg = daysWithData > 0 ? totalSpend / daysWithData : 0;
   const forecast = Math.round(dailyAvg * daysInMonth * 100) / 100;
+
+  const rangeLabel = range.toUpperCase();
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <StatCard
-        title="Total Spend (30d)"
-        value={`$${summary.total_spend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+        title={`Total Spend (${rangeLabel})`}
+        value={`$${totalSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
         icon={<DollarSign className="h-4 w-4" />}
         trend={{ value: summary.change_pct, isPositiveBad: true }}
       />

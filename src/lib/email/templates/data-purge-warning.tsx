@@ -16,6 +16,7 @@ interface DataPurgeWarningEmailProps {
   daysLeft: number;
   purgeDate: string;
   dashboardUrl?: string;
+  pricingUrl?: string;
 }
 
 export function DataPurgeWarningEmail({
@@ -23,6 +24,7 @@ export function DataPurgeWarningEmail({
   daysLeft,
   purgeDate,
   dashboardUrl = 'https://llmeter.org/dashboard',
+  pricingUrl = 'https://llmeter.org/pricing',
 }: DataPurgeWarningEmailProps) {
   return (
     <Html>
@@ -66,7 +68,7 @@ export function DataPurgeWarningEmail({
           </Section>
 
           <Section style={upgradeSection}>
-            <a href={`${dashboardUrl.replace('/dashboard', '')}/pricing`} style={upgradeLink}>
+            <a href={pricingUrl} style={upgradeLink}>
               Or upgrade to Pro for $19/mo →
             </a>
           </Section>

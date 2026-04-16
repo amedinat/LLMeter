@@ -32,7 +32,9 @@ export async function sendDailyDigestEmail(params: DigestEmailParams): Promise<b
       sevenDayAvg: params.sevenDayAvg,
       topModels: params.topModels,
       date: params.date,
-      dashboardUrl: `${APP_URL}/dashboard`,
+      dashboardUrl: `${APP_URL}/dashboard?utm_source=llmeter&utm_medium=email&utm_campaign=daily-digest`,
+      pricingUrl: `${APP_URL}/pricing?utm_source=llmeter&utm_medium=email&utm_campaign=daily-digest`,
+      settingsUrl: `${APP_URL}/settings?utm_source=llmeter&utm_medium=email&utm_campaign=daily-digest`,
       isProUser: params.isProUser,
     }),
   );
