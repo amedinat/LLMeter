@@ -8,7 +8,7 @@ import { timingSafeEqual } from 'crypto';
  */
 export function verifyCronSecret(req: NextRequest): boolean {
   const authHeader = req.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
+  const cronSecret = process.env.CRON_SECRET?.trim();
 
   if (!cronSecret) {
     console.warn('[cron] CRON_SECRET not configured');
