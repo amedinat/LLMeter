@@ -154,6 +154,22 @@ const result = await model.generateContent(
   { llmeter_customer_id: 'user_abc123' }
 );`;
 
+const sdkBedrockExample = `import { BedrockRuntimeClient, ConverseCommand } from '@aws-sdk/client-bedrock-runtime';
+import LLMeter, { wrapBedrock } from 'llmeter';
+
+const bedrock = new BedrockRuntimeClient({ region: 'us-east-1' });
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedBedrock = wrapBedrock(bedrock, llmeter);
+
+// All ConverseCommand calls are tracked automatically
+const response = await trackedBedrock.send(
+  new ConverseCommand({
+    modelId: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+    messages: [{ role: 'user', content: [{ text: 'Hello!' }] }],
+  }),
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Bedrock
+)`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -184,7 +200,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for the OpenAI, Anthropic, and Google AI SDKs.
+            provides drop-in wrappers for the OpenAI, Anthropic, Google AI, and AWS Bedrock SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -203,6 +219,7 @@ export default function DocsPage() {
                 <TabsTrigger value="openai">OpenAI wrapper</TabsTrigger>
                 <TabsTrigger value="anthropic">Anthropic wrapper</TabsTrigger>
                 <TabsTrigger value="google">Google AI wrapper</TabsTrigger>
+                <TabsTrigger value="bedrock">AWS Bedrock</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -233,6 +250,17 @@ export default function DocsPage() {
                   call is tracked automatically.
                 </p>
                 <CodeBlock language="typescript" code={sdkGoogleExample} />
+              </TabsContent>
+              <TabsContent value="bedrock" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">BedrockRuntimeClient</code>{' '}
+                  once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">ConverseCommand</code>{' '}
+                  call is tracked automatically. Works with Claude on Bedrock, Amazon Nova,
+                  Meta Llama, Mistral, and all other Converse-compatible models.
+                </p>
+                <CodeBlock language="typescript" code={sdkBedrockExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
