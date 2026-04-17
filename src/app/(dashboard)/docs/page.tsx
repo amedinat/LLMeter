@@ -140,6 +140,20 @@ const message = await trackedAnthropic.messages.create(
   { llmeter_customer_id: 'user_abc123' }
 );`;
 
+const sdkGoogleExample = `import { GoogleGenerativeAI } from '@google/generative-ai';
+import LLMeter, { wrapGoogleAI } from 'llmeter';
+
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGenAI = wrapGoogleAI(genAI, llmeter);
+
+// Pass llmeter_customer_id as the second arg to generateContent — stripped before forwarding
+const model = trackedGenAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+const result = await model.generateContent(
+  'Explain quantum computing in one paragraph',
+  { llmeter_customer_id: 'user_abc123' }
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -170,7 +184,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for the OpenAI and Anthropic SDKs.
+            provides drop-in wrappers for the OpenAI, Anthropic, and Google AI SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -188,6 +202,7 @@ export default function DocsPage() {
                 <TabsTrigger value="quickstart">Quick start</TabsTrigger>
                 <TabsTrigger value="openai">OpenAI wrapper</TabsTrigger>
                 <TabsTrigger value="anthropic">Anthropic wrapper</TabsTrigger>
+                <TabsTrigger value="google">Google AI wrapper</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -208,6 +223,16 @@ export default function DocsPage() {
                   call is tracked automatically.
                 </p>
                 <CodeBlock language="typescript" code={sdkAnthropicExample} />
+              </TabsContent>
+              <TabsContent value="google" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">GoogleGenerativeAI</code>{' '}
+                  client once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">model.generateContent</code>{' '}
+                  call is tracked automatically.
+                </p>
+                <CodeBlock language="typescript" code={sdkGoogleExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
