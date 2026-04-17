@@ -1,0 +1,48 @@
+{
+  "name": "llmeter",
+  "version": "0.1.0",
+  "description": "Official SDK for LLMeter — track LLM API costs and usage from Node.js, Edge, and browser",
+  "keywords": ["llm", "api-cost", "openai", "anthropic", "monitoring", "observability", "llmeter"],
+  "author": "SimplifAI <hello@simplifai.tools>",
+  "license": "MIT",
+  "homepage": "https://llmeter.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simplifai/llmeter"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
