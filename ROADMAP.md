@@ -32,4 +32,4 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [x] Alertas Slack webhook nativas (gated Pro+) (2026-04-08)
 - [x] Comparador de modelos por costo/calidad — /models page, 128 models, 6 providers, filterable (2026-04-15)
 - [ ] Soporte multi-cloud (Azure Cognitive Services, AWS Bedrock)
-- [ ] SDK cliente para ingestion (npm package)
+- [x] SDK cliente para ingestion (npm package) — `packages/sdk`, `llmeter` on npm (2026-04-17)
