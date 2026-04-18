@@ -2,29 +2,45 @@
 
 ## 1. Show HN (Hacker News)
 
-**Titulo:** Show HN: LLMeter — Open-source cost monitoring for LLM APIs (OpenAI, Anthropic, Mistral, DeepSeek)
+**Titulo:** Show HN: LLMeter — LLM cost monitoring without routing traffic through a proxy
 
 **Texto:**
 Hey HN,
 
-I built LLMeter because I was tired of checking 6 different billing dashboards every month. If you use multiple LLM providers, you know the pain: OpenAI has one billing page, Anthropic another, Mistral yet another, and good luck tracking OpenRouter costs per model.
+I built LLMeter after getting a $340 OpenAI bill from a batch eval job I forgot to cancel. The problem wasn't the money — it was that I had no idea it was happening until the invoice landed.
 
-LLMeter connects to your provider APIs and gives you a single dashboard with:
-- Real-time cost tracking per provider, model, and request
-- Budget alerts (email + Slack webhook) before you hit limits
-- Usage insights to identify your most expensive models
-- Team tier with multi-user support ($49/mo)
-- CSV and PDF export for billing reports
+The existing tools (Helicone, Portkey, LangSmith) all require routing your API calls through a proxy: added latency, a new base URL, and trusting a third party to relay every prompt. For production workloads with tight latency budgets, that wasn't acceptable.
+
+**How LLMeter is different:**
+
+It reads usage data directly from provider billing APIs — the same endpoints you'd check on the OpenAI or Anthropic dashboard. Your requests go directly to the AI provider with zero latency impact. We never see your prompts.
+
+Setup takes ~30 seconds: paste a read-only API key, dashboard populates with historical cost data.
+
+For providers without billing APIs (Google AI, AWS Bedrock) or for per-request attribution, there's also an npm SDK:
+
+```
+npm install llmeter
+```
+
+Wrappers for OpenAI, Anthropic, Google AI, and AWS Bedrock — wrap your existing client once, every call is tracked. Zero dependencies.
+
+**Features:**
+- Unified dashboard across OpenAI, Anthropic, DeepSeek, OpenRouter (500+ models), Mistral
+- Budget alerts via email or Slack webhook
+- Anomaly detection (statistical alerting when spend deviates from your pattern)
+- Per-customer cost attribution for SaaS teams (Team plan, $49/mo)
+- CSV + PDF export for finance reports or chargeback
 - Self-hostable (Next.js + Supabase) or use the hosted version
 
-Tech stack: Next.js (App Router), Supabase (Auth + Postgres), Paddle for billing, Vercel Cron for background jobs, Resend for emails.
+Tech stack: Next.js 16, Supabase, Paddle, Vercel Cron, Resend. AGPL-3.0.
 
-Licensed AGPL-3.0. Free tier available (1 provider, 30-day history).
+Free tier: 1 provider, 30-day history, 1 budget alert — no time limit.
 
 Live: https://www.llmeter.org
 GitHub: https://github.com/amedinat/LLMeter
 
-Would love feedback on the approach. What features would make this a must-have for your workflow?
+Would love feedback — especially from anyone who's tried the proxy-based tools and hit the latency/privacy issues.
 
 ---
 
@@ -64,7 +80,7 @@ It's self-hostable (Next.js + Supabase) and has a free hosted tier.
 
 GitHub: https://github.com/amedinat/LLMeter
 
-Roadmap includes usage forecasting, model cost comparator, and Azure/Bedrock support. PRs welcome.
+Also ships an npm SDK (`llmeter`) with wrappers for OpenAI, Anthropic, Google AI, and AWS Bedrock — zero-dependency, drop-in tracking without changing your base URL. Roadmap includes Grafana integration and Azure Cognitive Services. PRs welcome.
 
 ---
 

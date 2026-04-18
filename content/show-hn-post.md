@@ -24,6 +24,25 @@ Setup takes about 30 seconds: paste a read-only API key, and your dashboard popu
 - CSV/PDF export: for finance reports or chargeback models
 - 7-day free trial on Pro ($19/mo) — no credit card required
 
+**Two integration modes:**
+
+The pull approach (zero-code) covers providers that expose billing APIs. For providers that don't — Google AI, AWS Bedrock, or any custom inference — there's an npm SDK:
+
+```
+npm install llmeter
+```
+
+Wrap your existing client once and every call is tracked automatically:
+
+```js
+import LLMeter, { wrapOpenAI } from 'llmeter';
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const openai = wrapOpenAI(new OpenAI(), llmeter);
+// all chat.completions.create calls now tracked
+```
+
+Wrappers exist for OpenAI, Anthropic, Google AI (`@google/generative-ai`), and AWS Bedrock (`ConverseCommand`). For any other provider, call `llmeter.track()` manually after the API response. Zero dependencies, ESM + CJS, works in Node, Edge, and the browser.
+
 **Tech stack:** Next.js 16, Supabase, Paddle billing, Resend email, Vercel. Open source (AGPL-3.0).
 
 The free tier supports 1 provider forever with 30 days of retention and 1 budget alert — no time limit.
