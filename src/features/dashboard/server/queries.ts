@@ -171,6 +171,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           deepseek: 0,
           openrouter: 0,
           mistral: 0,
+          azure: 0,
         }
       });
     }
@@ -201,6 +202,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           deepseek: 0,
           openrouter: 0,
           mistral: 0,
+          azure: 0,
         },
       }
     );

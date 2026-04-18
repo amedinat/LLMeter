@@ -101,4 +101,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.mistral.ai/api-keys',
     color: '#FF7000',
   },
+  azure: {
+    type: 'azure',
+    name: 'Azure OpenAI',
+    description: 'GPT-4o, GPT-4, o1 via Azure OpenAI Service',
+    keyPrefix: 'https://',
+    keyPlaceholder: 'https://my-resource.openai.azure.com/::my-azure-api-key',
+    helpUrl: 'https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/OpenAI',
+    color: '#0078D4',
+  },
 };

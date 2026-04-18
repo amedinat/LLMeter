@@ -32,4 +32,7 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [x] Alertas Slack webhook nativas (gated Pro+) (2026-04-08)
 - [x] Comparador de modelos por costo/calidad — /models page, 128 models, 6 providers, filterable (2026-04-15)
 - [ ] Soporte multi-cloud (Azure Cognitive Services, AWS Bedrock)
-- [ ] SDK cliente para ingestion (npm package)
+  - [x] AWS Bedrock: `wrapBedrock()` SDK wrapper for ConverseCommand calls (2026-04-17)
+  - [x] Azure OpenAI: adapter (validate endpoint+key) + `wrapAzureOpenAI()` SDK wrapper (2026-04-17)
+- [x] SDK cliente para ingestion (npm package) — `packages/sdk`, `llmeter` on npm (2026-04-17)
+  - [x] `wrapOpenAI()`, `wrapAnthropic()`, `wrapGoogleAI()`, `wrapBedrock()` — 4 provider wrappers, 42 tests
