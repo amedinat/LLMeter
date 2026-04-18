@@ -4,6 +4,7 @@ import { anthropicAdapter } from './anthropic-adapter';
 import { googleAdapter } from './google-adapter';
 import { deepseekAdapter } from './deepseek-adapter';
 import { mistralAdapter } from './mistral-adapter';
+import { azureAdapter, parseAzureCredentials } from './azure-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -499,6 +500,89 @@ describe('Provider Adapters', () => {
 
       const records = await mistralAdapter.fetchUsage('sk-test', new Date('2024-01-25'), new Date('2024-01-25'));
       expect(records[0].costUsd).toBe(0.0123);
+    });
+  });
+
+  describe('Azure Adapter', () => {
+    const validCreds = 'https://my-resource.openai.azure.com/::azure-api-key-123';
+
+    describe('parseAzureCredentials', () => {
+      it('parses valid endpoint::apiKey format', () => {
+        const result = parseAzureCredentials(validCreds);
+        expect(result.endpoint).toBe('https://my-resource.openai.azure.com/');
+        expect(result.apiKey).toBe('azure-api-key-123');
+      });
+
+      it('throws when separator is missing', () => {
+        expect(() => parseAzureCredentials('https://example.openai.azure.com/only-key'))
+          .toThrow('Azure credentials must be in the format');
+      });
+
+      it('throws when endpoint does not start with https://', () => {
+        expect(() => parseAzureCredentials('http://resource.openai.azure.com/::key'))
+          .toThrow('Azure endpoint must start with https://');
+      });
+
+      it('throws when apiKey is empty', () => {
+        expect(() => parseAzureCredentials('https://resource.openai.azure.com/::'))
+          .toThrow('Azure API key is missing');
+      });
+    });
+
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await azureAdapter.validateKey(validCreds);
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://my-resource.openai.azure.com/openai/deployments?api-version=2024-02-01',
+        expect.objectContaining({
+          headers: { 'api-key': 'azure-api-key-123' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Access denied' } }),
+      });
+
+      await expect(azureAdapter.validateKey(validCreds)).rejects.toThrow('Access denied');
+    });
+
+    it('validateKey throws on 404 with endpoint hint', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 404,
+        json: async () => ({}),
+      });
+
+      await expect(azureAdapter.validateKey(validCreds)).rejects.toThrow('endpoint not found');
+    });
+
+    it('validateKey throws on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+
+      await expect(azureAdapter.validateKey(validCreds)).rejects.toThrow('Internal server error');
+    });
+
+    it('fetchUsage returns empty array (no billing API via API key)', async () => {
+      const startDate = new Date('2024-01-01T00:00:00Z');
+      const endDate = new Date('2024-01-31T23:59:59Z');
+
+      const records = await azureAdapter.fetchUsage(validCreds, startDate, endDate);
+      expect(records).toEqual([]);
+      // No HTTP call should be made — Azure billing requires Azure AD auth
+      expect(fetchMock).not.toHaveBeenCalled();
     });
   });
 });
