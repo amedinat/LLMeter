@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { SaasPulseFeedback } from '@/components/feedback-widget';
 import { PoweredByLLMeter } from '@/components/powered-by';
 import { NotificationBell } from '@/components/dashboard/notification-bell';
+import { ActivityTracker } from '@/components/activity-tracker';
 
 export default async function DashboardLayout({
   children,
@@ -64,6 +65,7 @@ export default async function DashboardLayout({
       </div>
 
       <SaasPulseFeedback userRef={userData.email} />
+      <ActivityTracker />
     </div>
   );
 }

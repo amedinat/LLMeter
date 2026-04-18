@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { getUserPlan } from '@/lib/feature-gate';
+import { pulseTrack } from '@/lib/saas-pulse';
 
 /** Validate YYYY-MM-DD date format */
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
@@ -80,6 +81,8 @@ export async function GET(request: Request) {
 
   const csv = lines.join('\n');
   const filename = `llmeter-usage${from ? `-${from}` : ''}${to ? `-to-${to}` : ''}.csv`;
+
+  pulseTrack('feature_used', { user_ref: user.id, metadata: { feature: 'export-csv' } });
 
   return new Response(csv, {
     status: 200,

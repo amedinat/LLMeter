@@ -10,7 +10,8 @@ import {
   CalendarClock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { SpendSummary, DailySpend } from '@/types';
+import type { SpendSummary, DailySpend, ProviderType } from '@/types';
+import { PROVIDER_META } from '@/lib/providers';
 
 type Range = '7d' | '30d' | '90d';
 
@@ -82,20 +83,50 @@ export function StatsGrid({ summary, dailyData, range = '30d' }: StatsGridProps)
   // Calculate total spend from the selected range
   const totalSpend = slicedData.reduce((s, d) => s + d.total, 0);
 
-  // Calculate total requests
+  // Calculate change % by comparing selected range to previous equivalent period
+  const previousData = dailyData.slice(-(days * 2), -days);
+  const previousSpend = previousData.reduce((s, d) => s + d.total, 0);
+  const changePct = previousSpend < 0.01
+    ? (totalSpend > 0 ? 100 : 0)
+    : ((totalSpend - previousSpend) / previousSpend) * 100;
+
+  // Calculate total requests from summary (server-side, always 30d)
   const totalRequests = summary.by_model.reduce((s, m) => s + m.requests, 0);
 
-  // Top provider
-  const topProvider = summary.by_provider.reduce(
-    (top, p) => (p.spend > top.spend ? p : top),
-    summary.by_provider[0]
-  );
+  // Top provider computed from the selected range daily data
+  const providerTotals = new Map<ProviderType, number>();
+  slicedData.forEach((d) => {
+    for (const [prov, val] of Object.entries(d.by_provider)) {
+      if (val > 0) {
+        providerTotals.set(
+          prov as ProviderType,
+          (providerTotals.get(prov as ProviderType) ?? 0) + val
+        );
+      }
+    }
+  });
+
+  let topProviderName = 'N/A';
+  let topProviderSpend = 0;
+  let topProviderPct = 0;
+  for (const [prov, spend] of providerTotals) {
+    if (spend > topProviderSpend) {
+      topProviderSpend = spend;
+      topProviderName = PROVIDER_META[prov]?.name ?? prov;
+    }
+  }
+  if (totalSpend > 0) {
+    topProviderPct = (topProviderSpend / totalSpend) * 100;
+  }
 
   // Forecast: simple linear projection from current spend pace
   const daysWithData = slicedData.filter((d) => d.total > 0).length;
   const daysInMonth = 30;
   const dailyAvg = daysWithData > 0 ? totalSpend / daysWithData : 0;
   const forecast = Math.round(dailyAvg * daysInMonth * 100) / 100;
+
+  // Count active providers in selected range
+  const activeProviderCount = providerTotals.size;
 
   const rangeLabel = range.toUpperCase();
 
@@ -105,19 +136,19 @@ export function StatsGrid({ summary, dailyData, range = '30d' }: StatsGridProps)
         title={`Total Spend (${rangeLabel})`}
         value={`$${totalSpend.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
         icon={<DollarSign className="h-4 w-4" />}
-        trend={{ value: summary.change_pct, isPositiveBad: true }}
+        trend={{ value: changePct, isPositiveBad: true }}
       />
       <StatCard
         title="Total Requests"
         value={totalRequests.toLocaleString()}
         icon={<Activity className="h-4 w-4" />}
-        description={`Across ${summary.by_provider.length} providers`}
+        description={`Across ${activeProviderCount} provider${activeProviderCount !== 1 ? 's' : ''}`}
       />
       <StatCard
         title="Top Provider"
-        value={topProvider?.display_name ?? 'N/A'}
+        value={topProviderName}
         icon={<Cpu className="h-4 w-4" />}
-        description={topProvider ? `$${topProvider.spend.toFixed(2)} (${topProvider.pct}%)` : undefined}
+        description={topProviderSpend > 0 ? `$${topProviderSpend.toFixed(2)} (${topProviderPct.toFixed(0)}%)` : undefined}
       />
       <StatCard
         title="Month Forecast"

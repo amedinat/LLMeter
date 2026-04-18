@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { safeRedirect } from '@/lib/security';
 import { sendWelcomeEmail } from '@/lib/email/send-billing';
+import { pulseTrack } from '@/lib/saas-pulse';
 
 function getRedirectBase(request: Request, origin: string): string {
   const forwardedHost = request.headers.get('x-forwarded-host');
@@ -30,6 +31,7 @@ async function maybeSendWelcomeEmail(supabase: Awaited<ReturnType<typeof createC
       sendWelcomeEmail({ email: user.email!, name }).catch((err) =>
         console.error('[auth/callback] Failed to send welcome email:', err)
       );
+      pulseTrack('signup', { user_ref: user.id, metadata: { source: 'email' } });
     }
   } catch (err) {
     console.error('[auth/callback] Error in maybeSendWelcomeEmail:', err);
