@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import PDFDocument from 'pdfkit';
+import { pulseTrack } from '@/lib/saas-pulse';
 
 /** Validate YYYY-MM-DD date format */
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
@@ -75,6 +76,8 @@ export async function GET(request: Request) {
   }
 
   const rows = (data ?? []) as UsageRow[];
+
+  pulseTrack('feature_used', { user_ref: user.id, metadata: { feature: 'export-pdf' } });
 
   // Build PDF in memory
   const pdfBytes = await buildPdf(rows, from, to);

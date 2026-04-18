@@ -28,7 +28,7 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [x] Launch drafts (Show HN, Reddit, X, Dev.to) actualizados — 6 providers, Paddle, Vercel Cron (2026-04-15)
 
 ## Próximo milestone: Integraciones y retención (target: 2026-07-01)
-- [ ] Integración con Grafana (dashboard embed)
+- [x] Integración con Grafana — endpoint Prometheus `/api/v1/metrics` + docs (2026-04-18)
 - [x] Alertas Slack webhook nativas (gated Pro+) (2026-04-08)
 - [x] Comparador de modelos por costo/calidad — /models page, 128 models, 6 providers, filterable (2026-04-15)
 - [ ] Soporte multi-cloud (Azure Cognitive Services, AWS Bedrock)

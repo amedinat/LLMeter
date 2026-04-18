@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { Check, Copy, Package } from 'lucide-react';
+import { BarChart3, Check, Copy, Package } from 'lucide-react';
 
 function CodeBlock({ code, language }: { code: string; language: string }) {
   const [copied, setCopied] = useState(false);
@@ -199,6 +199,34 @@ llmeter.track({
   timestamp: new Date().toISOString(), // optional, defaults to now
 });`;
 
+const grafanaPrometheusConfig = `scrape_configs:
+  - job_name: 'llmeter'
+    scheme: https
+    metrics_path: /api/v1/metrics
+    authorization:
+      credentials: YOUR_API_KEY
+    static_configs:
+      - targets: ['llmeter.org']`;
+
+const grafanaPromqlExamples = `# Total spend by model (all time)
+llmeter_cost_usd_total
+
+# Total spend by provider
+sum by (provider) (llmeter_cost_usd_total)
+
+# Top 5 most expensive models
+topk(5, llmeter_cost_usd_total)
+
+# Total requests across all models
+sum(llmeter_requests_total)
+
+# Input vs output token ratio
+sum(llmeter_output_tokens_total) / sum(llmeter_input_tokens_total)`;
+
+const grafanaDateRangeExample = `# Scrape metrics for a specific month
+GET /api/v1/metrics?from=2026-04-01&to=2026-04-30
+Authorization: Bearer YOUR_API_KEY`;
+
 export default function DocsPage() {
   return (
     <div className="space-y-8 max-w-4xl">
@@ -346,6 +374,110 @@ export default function DocsPage() {
               </table>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      <Separator />
+
+      {/* Grafana / Prometheus Section */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-primary" />
+            <CardTitle>Grafana Integration</CardTitle>
+            <Badge variant="secondary">Team</Badge>
+          </div>
+          <CardDescription>
+            Expose LLM cost and usage as Prometheus metrics and visualize them in Grafana.
+            The <code className="rounded bg-muted px-1.5 py-0.5">/api/v1/metrics</code> endpoint
+            returns data in the Prometheus text exposition format, compatible with any
+            Prometheus-based scraper or monitoring stack.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Metrics exposed */}
+          <div className="space-y-2">
+            <p className="text-sm font-medium">Metric families</p>
+            <div className="overflow-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    <th className="py-2 pr-4 text-left font-medium">Metric</th>
+                    <th className="py-2 pr-4 text-left font-medium">Type</th>
+                    <th className="py-2 text-left font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody className="text-muted-foreground">
+                  <tr className="border-b">
+                    <td className="py-2 pr-4 font-mono text-xs">llmeter_cost_usd_total</td>
+                    <td className="py-2 pr-4">gauge</td>
+                    <td className="py-2">Total spend in USD — labels: <code className="rounded bg-muted px-1 py-0.5">provider</code>, <code className="rounded bg-muted px-1 py-0.5">model</code></td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 pr-4 font-mono text-xs">llmeter_requests_total</td>
+                    <td className="py-2 pr-4">gauge</td>
+                    <td className="py-2">Total API request count — labels: <code className="rounded bg-muted px-1 py-0.5">provider</code>, <code className="rounded bg-muted px-1 py-0.5">model</code></td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 pr-4 font-mono text-xs">llmeter_input_tokens_total</td>
+                    <td className="py-2 pr-4">gauge</td>
+                    <td className="py-2">Total input tokens consumed — labels: <code className="rounded bg-muted px-1 py-0.5">provider</code>, <code className="rounded bg-muted px-1 py-0.5">model</code></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4 font-mono text-xs">llmeter_output_tokens_total</td>
+                    <td className="py-2 pr-4">gauge</td>
+                    <td className="py-2">Total output tokens consumed — labels: <code className="rounded bg-muted px-1 py-0.5">provider</code>, <code className="rounded bg-muted px-1 py-0.5">model</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Tabs: Prometheus config, PromQL, date range */}
+          <div className="space-y-2">
+            <p className="text-sm font-medium">Setup</p>
+            <Tabs defaultValue="prometheus">
+              <TabsList>
+                <TabsTrigger value="prometheus">Prometheus scrape config</TabsTrigger>
+                <TabsTrigger value="promql">PromQL examples</TabsTrigger>
+                <TabsTrigger value="daterange">Date range filter</TabsTrigger>
+              </TabsList>
+              <TabsContent value="prometheus" className="mt-4 space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Add this job to your <code className="rounded bg-muted px-1.5 py-0.5">prometheus.yml</code>.
+                  Replace <code className="rounded bg-muted px-1.5 py-0.5">YOUR_API_KEY</code> with a key
+                  from <strong>Settings → API Keys</strong>.
+                </p>
+                <CodeBlock language="yaml" code={grafanaPrometheusConfig} />
+                <p className="text-sm text-muted-foreground">
+                  Then add LLMeter as a Prometheus data source in Grafana and use the PromQL
+                  examples below to build dashboards.
+                </p>
+              </TabsContent>
+              <TabsContent value="promql" className="mt-4 space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Useful PromQL queries for building Grafana panels.
+                </p>
+                <CodeBlock language="promql" code={grafanaPromqlExamples} />
+              </TabsContent>
+              <TabsContent value="daterange" className="mt-4 space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Add <code className="rounded bg-muted px-1.5 py-0.5">from</code> and{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">to</code> query params
+                  (YYYY-MM-DD) to restrict the aggregation window. Useful for point-in-time
+                  snapshots or monthly billing reports.
+                </p>
+                <CodeBlock language="http" code={grafanaDateRangeExample} />
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          <p className="text-sm text-muted-foreground">
+            The endpoint requires a valid API key with at least <strong>read</strong> scope.
+            Metrics are computed over the full history of your usage records by default, or
+            filtered by date range when the <code className="rounded bg-muted px-1.5 py-0.5">from</code>/
+            <code className="rounded bg-muted px-1.5 py-0.5">to</code> params are provided.
+          </p>
         </CardContent>
       </Card>
 
