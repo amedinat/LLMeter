@@ -170,6 +170,26 @@ const response = await trackedBedrock.send(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Bedrock
 )`;
 
+const sdkAzureExample = `import { AzureOpenAI } from 'openai';
+import LLMeter, { wrapAzureOpenAI } from 'llmeter';
+
+const azure = new AzureOpenAI({
+  endpoint: process.env.AZURE_OPENAI_ENDPOINT!,
+  apiKey: process.env.AZURE_OPENAI_API_KEY!,
+  apiVersion: '2024-02-01',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAzure = wrapAzureOpenAI(azure, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedAzure.chat.completions.create(
+  {
+    model: 'gpt-4o', // your Azure deployment name
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Azure
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -200,7 +220,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for the OpenAI, Anthropic, Google AI, and AWS Bedrock SDKs.
+            provides drop-in wrappers for the OpenAI, Anthropic, Google AI, AWS Bedrock, and Azure OpenAI SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -220,6 +240,7 @@ export default function DocsPage() {
                 <TabsTrigger value="anthropic">Anthropic wrapper</TabsTrigger>
                 <TabsTrigger value="google">Google AI wrapper</TabsTrigger>
                 <TabsTrigger value="bedrock">AWS Bedrock</TabsTrigger>
+                <TabsTrigger value="azure">Azure OpenAI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -261,6 +282,17 @@ export default function DocsPage() {
                   Meta Llama, Mistral, and all other Converse-compatible models.
                 </p>
                 <CodeBlock language="typescript" code={sdkBedrockExample} />
+              </TabsContent>
+              <TabsContent value="azure" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">AzureOpenAI</code>{' '}
+                  client once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Works with the <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  configured for Azure or the <code className="rounded bg-muted px-1.5 py-0.5">@azure/openai</code> package.
+                </p>
+                <CodeBlock language="typescript" code={sdkAzureExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -1306,6 +1306,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     google: [1.25, 5],
     openrouter: [2.5, 10],
     mistral: [0.4, 2],
+    azure: [2.5, 10], // Azure OpenAI mirrors OpenAI list prices
   };
   return defaults[provider];
 }

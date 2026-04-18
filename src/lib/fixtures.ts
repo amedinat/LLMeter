@@ -38,6 +38,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         deepseek: 0,
         openrouter: 0,
         mistral: 0,
+        azure: 0,
       },
     };
   });

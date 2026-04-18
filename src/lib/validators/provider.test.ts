@@ -21,7 +21,7 @@ describe('connectProviderSchema', () => {
 
   it('rejects unknown provider type', () => {
     const result = connectProviderSchema.safeParse({
-      provider: 'mistral',
+      provider: 'unknown_provider',
       apiKey: 'sk-1234567890',
     });
     expect(result.success).toBe(false);
@@ -72,7 +72,7 @@ describe('connectProviderSchema', () => {
   });
 
   it('accepts all valid provider types', () => {
-    for (const provider of ['openai', 'anthropic', 'deepseek', 'openrouter']) {
+    for (const provider of ['openai', 'anthropic', 'deepseek', 'openrouter', 'mistral', 'azure']) {
       const result = connectProviderSchema.safeParse({
         provider,
         apiKey: 'sk-valid-key-123',
