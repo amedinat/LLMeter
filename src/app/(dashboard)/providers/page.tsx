@@ -18,6 +18,8 @@ const providerLabels: Record<string, string> = {
   google: 'Google AI',
   deepseek: 'DeepSeek',
   openrouter: 'OpenRouter',
+  mistral: 'Mistral AI',
+  azure: 'Azure OpenAI',
 };
 
 interface ProviderRow {
@@ -287,12 +289,18 @@ export default function ProvidersPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="apiKey">API Key</Label>
+                <Label htmlFor="apiKey">
+                  {formProvider === 'azure' ? 'Endpoint & API Key' : 'API Key'}
+                </Label>
                 <div className="relative">
                   <Input
                     id="apiKey"
                     type={showKey ? 'text' : 'password'}
-                    placeholder="sk-..."
+                    placeholder={
+                      formProvider === 'azure'
+                        ? 'https://my-resource.openai.azure.com/::my-api-key'
+                        : 'sk-...'
+                    }
                     className="pr-10"
                     value={formApiKey}
                     onChange={(e) => setFormApiKey(e.target.value)}
@@ -310,7 +318,9 @@ export default function ProvidersPage() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Your API key is encrypted before storage and never shown again.
+                  {formProvider === 'azure'
+                    ? 'Combine your Azure endpoint and API key separated by :: (two colons). Both are encrypted before storage.'
+                    : 'Your API key is encrypted before storage and never shown again.'}
                 </p>
               </div>
 
