@@ -43,6 +43,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: process.cwd(),
+  },
   serverExternalPackages: ['pdfkit'],
   outputFileTracingIncludes: {
     '/api/usage/export/pdf': ['./node_modules/pdfkit/js/data/**/*'],
