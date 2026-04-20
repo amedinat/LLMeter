@@ -58,7 +58,7 @@ const jsonLd = {
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Web',
   url: 'https://llmeter.org',
-  description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, Google AI, DeepSeek, and OpenRouter from a single dashboard.',
+  description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, and Mistral from a single dashboard — no proxy, no latency impact.',
   offers: [
     {
       '@type': 'Offer',
@@ -83,12 +83,16 @@ const jsonLd = {
     },
   ],
   featureList: [
-    'Multi-provider cost tracking',
-    'Budget alerts with email notifications',
-    'Anomaly detection',
-    'Per-customer cost attribution',
-    'Cost optimization recommendations',
+    'Multi-provider cost tracking (OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, Mistral)',
+    'Azure OpenAI and AWS Bedrock support via npm SDK',
+    'Budget alerts with email and Slack webhook notifications',
+    'Anomaly detection with statistical alerting',
+    'Per-customer cost attribution for SaaS teams',
+    'Cost optimization recommendations (model switching)',
     'OpenRouter support (500+ models)',
+    'CSV and PDF export for finance reports',
+    'Grafana and Prometheus metrics endpoint',
+    'Self-hostable (Next.js + Supabase, AGPL-3.0)',
   ],
 };
 

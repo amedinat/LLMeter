@@ -22,6 +22,7 @@ Setup takes about 30 seconds: paste a read-only API key, and your dashboard popu
 - Anomaly detection: statistical z-score based alerting when spend deviates from your normal pattern
 - Per-customer cost attribution: tag ingestion calls with customer IDs and track which customers drive your AI costs (Team plan)
 - CSV/PDF export: for finance reports or chargeback models
+- Grafana/Prometheus: `GET /api/v1/metrics` returns Prometheus text format for scraping directly into Grafana
 - 7-day free trial on Pro ($19/mo) — no credit card required
 
 **Two integration modes:**
