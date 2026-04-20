@@ -80,7 +80,7 @@ It's self-hostable (Next.js + Supabase) and has a free hosted tier.
 
 GitHub: https://github.com/amedinat/LLMeter
 
-Also ships an npm SDK (`llmeter`) with wrappers for OpenAI, Anthropic, Google AI, and AWS Bedrock — zero-dependency, drop-in tracking without changing your base URL. Roadmap includes Grafana integration and Azure Cognitive Services. PRs welcome.
+Also ships an npm SDK (`llmeter`) with wrappers for OpenAI, Anthropic, Google AI, and AWS Bedrock — zero-dependency, drop-in tracking without changing your base URL. Grafana/Prometheus metrics endpoint included (`GET /api/v1/metrics`). PRs welcome.
 
 ---
 
@@ -99,7 +99,7 @@ After a few weeks of building, I shipped LLMeter — an open-source platform to 
 
 **Stack:** Next.js, Supabase, Paddle (billing), Vercel Cron (background jobs), Resend (email).
 
-**Numbers so far:** 431 tests passing, 6 providers supported, deployed on Vercel.
+**Numbers so far:** 468 tests passing, 6 providers supported (+ Azure OpenAI + AWS Bedrock via SDK), deployed on Vercel.
 
 What I'd love feedback on:
 1. Is the pricing right?
@@ -122,7 +122,7 @@ Live: https://www.llmeter.org
 4. The billing model (open core, Paddle integration, plan config)
 5. Going open source (secret remediation, license choice AGPL-3.0)
 6. Lessons learned
-7. What's next (Grafana embed, model cost comparator, multi-cloud)
+7. What's next (forecasting, awesome-list submissions, community growth)
 
 [Articulo completo por escribir — necesita screenshots del dashboard]
 
@@ -170,10 +170,12 @@ Team ($49/mo): Multi-user + team permissions
 GitHub: github.com/amedinat/LLMeter
 Try it: www.llmeter.org
 
-6/ Coming next:
-- Usage forecasting
-- Model cost comparator
-- Azure Cognitive Services + AWS Bedrock support
+6/ Already shipped:
+- Model cost comparator: /models page (128 models, 6 providers, filterable)
+- Azure OpenAI + AWS Bedrock: supported via `wrapAzureOpenAI()` + `wrapBedrock()` SDK wrappers
+- Grafana: Prometheus metrics endpoint at GET /api/v1/metrics
+
+Next up: usage forecasting, community growth.
 
 Star the repo if this is useful. PRs welcome.
 
