@@ -21,12 +21,13 @@ export async function GET() {
   }
 
   // Get or create org for this owner
-  let { data: org, error: orgError } = await supabase
+  const { data: existingOrg, error: orgError } = await supabase
     .from('organizations')
     .select('id, name')
     .eq('owner_id', user.id)
     .single();
 
+  let org = existingOrg;
   if (orgError || !org) {
     const { data: newOrg, error: createError } = await supabase
       .from('organizations')
