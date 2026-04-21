@@ -264,7 +264,7 @@ export default function PricingPage() {
                 <CardFooter>
                   {plan.paddlePriceId ? (
                     <PricingCheckout
-                      priceId={plan.paddlePriceId}
+                      planId={plan.id}
                       cta={plan.cta}
                       ctaVariant={plan.ctaVariant}
                     />
