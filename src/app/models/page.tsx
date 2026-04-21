@@ -60,31 +60,33 @@ export default function ModelsPage() {
       />
       <div className="flex min-h-screen flex-col bg-background">
         {/* Nav */}
-        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 font-bold">
-              <span className="text-cyan-400">LLMeter</span>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center">
+          <div className="mr-4 hidden md:flex">
+            <Link href="/" className="mr-6 flex items-center space-x-2">
+              <span className="hidden font-bold text-cyan-400 sm:inline-block">LLMeter</span>
             </Link>
-            <nav className="flex items-center gap-4 text-sm text-muted-foreground">
-              <Link href="/pricing" className="hover:text-foreground transition-colors">
-                Pricing
-              </Link>
-              <Link href="/migrate/helicone" className="hover:text-foreground transition-colors">
-                Migrate
-              </Link>
-              <Link href="/login">
-                <Button size="sm" variant="outline">
-                  Sign in
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button size="sm">
-                  Get started free
-                </Button>
-              </Link>
+            <nav className="flex items-center space-x-6 text-sm font-medium">
+              <Link href="/#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
+              <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
+              <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground">Model Pricing</Link>
+              <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
+              <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
             </nav>
           </div>
-        </header>
+          <div className="flex flex-1 items-center justify-end space-x-2">
+            <Link href="/" className="md:hidden font-bold text-cyan-400">LLMeter</Link>
+            <nav className="flex items-center space-x-2">
+              <Button variant="ghost" asChild>
+                <Link href="/login">Log in</Link>
+              </Button>
+              <Button className="bg-primary hover:bg-primary/90 text-white" asChild>
+                <Link href="/login">Start Free</Link>
+              </Button>
+            </nav>
+          </div>
+        </div>
+      </header>
 
         <main className="flex-1">
           <div className="container max-w-screen-xl py-10 md:py-16">

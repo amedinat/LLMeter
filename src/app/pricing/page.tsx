@@ -143,24 +143,11 @@ export default function PricingPage() {
               <span className="hidden font-bold sm:inline-block">LLMeter</span>
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
-              <Link
-                href="/#features"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                Features
-              </Link>
-              <Link
-                href="/pricing"
-                className="transition-colors hover:text-foreground/80 text-foreground"
-              >
-                Pricing
-              </Link>
-              <Link
-                href="https://github.com/amedinat/LLMeter"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                GitHub
-              </Link>
+              <Link href="/#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
+              <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
+              <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
+              <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground">Pricing</Link>
+              <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
             </nav>
           </div>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
@@ -210,7 +197,7 @@ export default function PricingPage() {
 
         {/* Plans grid */}
         <section className="container pb-16">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-[80rem] mx-auto">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-[64rem] mx-auto">
             {VISIBLE_PLANS.map((plan) => (
               <Card
                 key={plan.id}
