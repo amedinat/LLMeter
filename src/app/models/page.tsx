@@ -161,7 +161,7 @@ export default function ModelsPage() {
 
         {/* Footer */}
         <footer className="border-t border-border py-6">
-          <div className="container max-w-screen-xl text-center text-sm text-muted-foreground">
+          <div className="container max-w-screen-xl space-y-3 text-center text-sm text-muted-foreground">
             <p>
               Prices are sourced from provider billing APIs and updated regularly.{' '}
               <Link href="/" className="hover:text-foreground underline-offset-4 hover:underline">
@@ -169,6 +169,12 @@ export default function ModelsPage() {
               </Link>{' '}
               — open-source LLM cost monitoring.
             </p>
+            <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs">
+              <Link href="/terms" className="hover:text-foreground underline-offset-4 hover:underline">Terms</Link>
+              <Link href="/privacy" className="hover:text-foreground underline-offset-4 hover:underline">Privacy</Link>
+              <Link href="/refund" className="hover:text-foreground underline-offset-4 hover:underline">Refund</Link>
+              <a href="mailto:hello@llmeter.org" className="hover:text-foreground underline-offset-4 hover:underline">Contact</a>
+            </nav>
           </div>
         </footer>
       </div>
