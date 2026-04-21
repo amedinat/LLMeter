@@ -21,8 +21,11 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [ ] 10 early adopters pagantes
 - [ ] Show HN — post en Hacker News (draft listo)
 - [ ] 3 artículos Dev.to publicados con tráfico SEO
+- [x] Payoneer conectado a Paddle — cuenta aprobada, GPS USD activo, email linked en Paddle Payouts Settings (2026-04-21)
+- [x] Paddle legal pages & KYC readiness — /terms (MoR), /privacy (GDPR/CCPA/LGPD/Ley 1581), /refund (14-day), footers expuestos en /pricing /models /migrate/helicone (2026-04-21, commit 8968bb3)
+- [ ] Paddle Business Verification (KYC) sometido — SLA 2-5 días hábiles
+- [ ] Paddle.js integrado en /pricing — price IDs + webhook HMAC + success page
 - [ ] Paddle env vars en producción (Vercel) — bloqueador de cobro activo
-- [ ] Payoneer conectado a Paddle — necesario para recibir pagos en Colombia
 - [x] Landing /pricing — copy de venta con why pay explícito (2026-04-14, commit 9e2b6d0)
 - [x] Links con UTM params en todo contenido publicado (2026-04-15, commit 01909dd)
 - [x] Launch drafts (Show HN, Reddit, X, Dev.to) actualizados — 6 providers, Paddle, Vercel Cron (2026-04-15)
