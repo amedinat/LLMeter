@@ -79,6 +79,70 @@ const message = await trackedAnthropic.messages.create(
 );
 ```
 
+## Google AI wrapper
+
+Wraps `GoogleGenerativeAI` from `@google/generative-ai`. The `llmeter_customer_id` option is accepted as a second argument to `generateContent` and stripped before forwarding.
+
+```ts
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import LLMeter, { wrapGoogleAI } from 'llmeter';
+
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGenAI = wrapGoogleAI(genAI, llmeter);
+
+const model = trackedGenAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+const result = await model.generateContent(
+  'Explain quantum computing',
+  { llmeter_customer_id: 'user_abc123' }
+);
+```
+
+## AWS Bedrock wrapper
+
+Wraps `BedrockRuntimeClient.send()` for **Converse API** calls (`ConverseCommand`). Uses duck-typing — no AWS SDK import required in `llmeter`. `llmeter_customer_id` is accepted as a field in the send options and stripped before forwarding.
+
+```ts
+import { BedrockRuntimeClient, ConverseCommand } from '@aws-sdk/client-bedrock-runtime';
+import LLMeter, { wrapBedrock } from 'llmeter';
+
+const bedrock = new BedrockRuntimeClient({ region: 'us-east-1' });
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedBedrock = wrapBedrock(bedrock, llmeter);
+
+const response = await trackedBedrock.send(
+  new ConverseCommand({
+    modelId: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+    messages: [{ role: 'user', content: [{ text: 'Hello!' }] }],
+  }),
+  { llmeter_customer_id: 'user_abc123' }
+);
+```
+
+> Only `ConverseCommand` calls are tracked. `InvokeModelCommand` is passed through unchanged.
+
+## Azure OpenAI wrapper
+
+Works with `AzureOpenAI` from the `openai` package (v4+) or `@azure/openai` (v2+). Same interface as `wrapOpenAI`.
+
+```ts
+import { AzureOpenAI } from 'openai';
+import LLMeter, { wrapAzureOpenAI } from 'llmeter';
+
+const azure = new AzureOpenAI({
+  endpoint: 'https://my-resource.openai.azure.com/',
+  apiKey: process.env.AZURE_OPENAI_API_KEY,
+  apiVersion: '2024-02-01',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAzure = wrapAzureOpenAI(azure, llmeter);
+
+const completion = await trackedAzure.chat.completions.create(
+  { model: 'gpt-4o', messages: [{ role: 'user', content: 'Hello!' }] },
+  { llmeter_customer_id: 'user_abc123' }
+);
+```
+
 ## Manual tracking (any provider)
 
 Use `track()` directly if you call an LLM API that doesn't have a wrapper yet:
