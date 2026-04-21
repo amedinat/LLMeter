@@ -13,10 +13,11 @@ import {
 import { useState } from 'react';
 
 const NAV_LINKS = [
-  { href: '#how-it-works', label: 'How It Works' },
-  { href: '#features', label: 'Features' },
-  { href: '#pricing', label: 'Pricing' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/#how-it-works', label: 'How It Works' },
+  { href: '/#features', label: 'Features' },
+  { href: '/models', label: 'Model Pricing' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/#faq', label: 'FAQ' },
 ];
 
 export function MobileNav() {
