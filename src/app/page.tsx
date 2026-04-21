@@ -129,11 +129,11 @@ export default function HomePage() {
               <span className="hidden font-bold text-cyan-400 sm:inline-block">LLMeter</span>
             </Link>
             <nav className="flex items-center space-x-6 text-sm font-medium">
-              <Link href="#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
-              <Link href="#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
+              <Link href="/#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
+              <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
               <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
-              <Link href="#pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
-              <Link href="#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
+              <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
+              <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
             </nav>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-2">
@@ -569,8 +569,8 @@ export default function HomePage() {
           <div>
             <h3 className="mb-3 text-sm font-semibold">Product</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="#features" className="hover:text-foreground transition-colors">Features</Link></li>
-              <li><Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
+              <li><Link href="/#features" className="hover:text-foreground transition-colors">Features</Link></li>
+              <li><Link href="/pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
               <li><Link href="https://github.com/amedinat/LLMeter" target="_blank" className="hover:text-foreground transition-colors">GitHub</Link></li>
               <li><Link href="/migrate/helicone" className="hover:text-foreground transition-colors">Migrate from Helicone</Link></li>
               <li><Link href="/models" className="hover:text-foreground transition-colors">Model Pricing</Link></li>
