@@ -197,7 +197,7 @@ export default function PricingPage() {
 
         {/* Plans grid */}
         <section className="container pb-16">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-[80rem] mx-auto">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-[64rem] mx-auto">
             {VISIBLE_PLANS.map((plan) => (
               <Card
                 key={plan.id}
