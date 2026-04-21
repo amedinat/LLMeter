@@ -65,22 +65,17 @@ export default function ModelsPage() {
             <Link href="/" className="flex items-center gap-2 font-bold">
               <span className="text-cyan-400">LLMeter</span>
             </Link>
-            <nav className="flex items-center gap-4 text-sm text-muted-foreground">
-              <Link href="/pricing" className="hover:text-foreground transition-colors">
-                Pricing
-              </Link>
-              <Link href="/migrate/helicone" className="hover:text-foreground transition-colors">
-                Migrate
+            <nav className="flex items-center gap-6 text-sm text-muted-foreground">
+              <Link href="/#how-it-works" className="hover:text-foreground transition-colors">How It Works</Link>
+              <Link href="/#features" className="hover:text-foreground transition-colors">Features</Link>
+              <Link href="/models" className="hover:text-foreground transition-colors text-foreground">Model Pricing</Link>
+              <Link href="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
+              <Link href="/#faq" className="hover:text-foreground transition-colors">FAQ</Link>
+              <Link href="/login">
+                <Button size="sm" variant="ghost">Log in</Button>
               </Link>
               <Link href="/login">
-                <Button size="sm" variant="outline">
-                  Sign in
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button size="sm">
-                  Get started free
-                </Button>
+                <Button size="sm">Start Free</Button>
               </Link>
             </nav>
           </div>
