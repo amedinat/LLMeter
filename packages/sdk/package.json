@@ -8,7 +8,11 @@
   "homepage": "https://llmeter.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/simplifai/llmeter"
+    "url": "https://github.com/amedinat/LLMeter",
+    "directory": "packages/sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/amedinat/LLMeter/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",
