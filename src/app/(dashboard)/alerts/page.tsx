@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2, Slack } from 'lucide-react';
+import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2, Slack, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { alertTypes, alertPeriods } from '@/lib/validators/alert';
 
@@ -102,6 +102,7 @@ export default function AlertsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [testingId, setTestingId] = useState<string | null>(null);
 
   // Form state
   const [formType, setFormType] = useState('');
@@ -194,6 +195,27 @@ export default function AlertsPage() {
       toast.error(err instanceof Error ? err.message : 'Failed to update');
     } finally {
       setTogglingId(null);
+    }
+  };
+
+  const sendTestAlert = async (id: string) => {
+    setTestingId(id);
+    try {
+      const res = await fetch(`/api/alerts/${id}/test`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(body.error || `Failed to send test (${res.status})`);
+      }
+
+      toast.success(body.message || 'Test email sent — check your inbox');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to send test');
+    } finally {
+      setTestingId(null);
     }
   };
 
@@ -368,6 +390,21 @@ export default function AlertsPage() {
                     disabled={togglingId === a.id}
                     aria-label={a.enabled ? 'Disable alert' : 'Enable alert'}
                   />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                    onClick={() => sendTestAlert(a.id)}
+                    disabled={testingId === a.id}
+                    aria-label="Send test email"
+                    title="Send test email"
+                  >
+                    {testingId === a.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                  </Button>
                   <Button
                     variant="ghost"
                     size="icon"
