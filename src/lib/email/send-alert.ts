@@ -9,6 +9,7 @@ interface AlertEmailParams {
   currentSpend: number;
   threshold: number;
   topContributors?: { model: string; provider: string; cost: number }[];
+  isTest?: boolean;
 }
 
 /**
@@ -50,15 +51,17 @@ export async function sendAlertEmail(
       threshold: params.threshold,
       topContributors: params.topContributors,
       dashboardUrl,
+      isTest: params.isTest,
     })
   );
 
   const periodLabel = params.alertType === 'monthly' ? 'Mensual' : 'Diario';
+  const subjectPrefix = params.isTest ? '[TEST] ' : '';
 
   const { error } = await resend.emails.send({
     from: EMAIL_FROM,
     to: user.email,
-    subject: `⚠️ Alerta LLMeter: Gasto ${periodLabel} excedió $${params.threshold.toFixed(2)}`,
+    subject: `${subjectPrefix}⚠️ Alerta LLMeter: Gasto ${periodLabel} excedió $${params.threshold.toFixed(2)}`,
     html,
   });
 

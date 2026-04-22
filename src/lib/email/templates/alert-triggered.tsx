@@ -17,6 +17,7 @@ interface AlertTriggeredEmailProps {
   threshold: number;
   topContributors?: { model: string; provider: string; cost: number }[];
   dashboardUrl?: string;
+  isTest?: boolean;
 }
 
 export function AlertTriggeredEmail({
@@ -25,9 +26,12 @@ export function AlertTriggeredEmail({
   threshold,
   topContributors = [],
   dashboardUrl = 'https://llmeter.org/dashboard',
+  isTest = false,
 }: AlertTriggeredEmailProps) {
   const periodLabel = alertType === 'monthly' ? 'mensual' : 'diario';
-  const previewText = `⚠️ Tu gasto ${periodLabel} ($${currentSpend.toFixed(2)}) superó el umbral de $${threshold.toFixed(2)}`;
+  const previewText = isTest
+    ? `[TEST] Email de prueba — tu alerta está bien configurada`
+    : `⚠️ Tu gasto ${periodLabel} ($${currentSpend.toFixed(2)}) superó el umbral de $${threshold.toFixed(2)}`;
 
   return (
     <Html>
@@ -35,6 +39,13 @@ export function AlertTriggeredEmail({
       <Preview>{previewText}</Preview>
       <Body style={main}>
         <Container style={container}>
+          {isTest && (
+            <Section style={testBanner}>
+              <Text style={testBannerText}>
+                🧪 <strong>Email de prueba.</strong> Tu alerta está correctamente configurada y la entrega de email funciona. Los valores mostrados son ficticios.
+              </Text>
+            </Section>
+          )}
           <Heading style={heading}>⚠️ Alerta de Presupuesto</Heading>
 
           <Section style={alertBox}>
@@ -172,6 +183,21 @@ const footer = {
   color: '#9ca3af',
   textAlign: 'center' as const,
   marginTop: '8px',
+};
+
+const testBanner = {
+  backgroundColor: '#dbeafe',
+  border: '1px solid #60a5fa',
+  borderRadius: '6px',
+  padding: '12px 16px',
+  marginBottom: '20px',
+};
+
+const testBannerText = {
+  fontSize: '13px',
+  color: '#1e40af',
+  margin: '0',
+  lineHeight: '1.5',
 };
 
 export default AlertTriggeredEmail;
