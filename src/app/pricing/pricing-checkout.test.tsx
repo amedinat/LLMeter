@@ -124,6 +124,42 @@ describe('PricingCheckout', () => {
     expect(mockPaddleOpen).not.toHaveBeenCalled();
   });
 
+  it('auto-triggers checkout when autoTrigger=true and user is authenticated', async () => {
+    mockGetSession.mockResolvedValue({
+      data: { session: { user: { id: 'user_42', email: 'u@example.com' } } },
+    });
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        priceId: 'pri_pro_123',
+        customerEmail: 'u@example.com',
+        customData: { user_id: 'user_42' },
+      }),
+    } as unknown as Response);
+    const paddle = { Checkout: { open: mockPaddleOpen } };
+    mockGetPaddleInstance.mockResolvedValue(paddle);
+
+    render(<PricingCheckout {...defaultProps} autoTrigger={true} />);
+
+    await waitFor(() => {
+      expect(mockPaddleOpen).toHaveBeenCalled();
+    });
+    expect(mockFetch).toHaveBeenCalledWith('/api/checkout', expect.objectContaining({
+      method: 'POST',
+      body: JSON.stringify({ plan: 'pro' }),
+    }));
+  });
+
+  it('does not auto-trigger when autoTrigger is false', async () => {
+    mockGetSession.mockResolvedValue({
+      data: { session: { user: { id: 'user_42', email: 'u@example.com' } } },
+    });
+    render(<PricingCheckout {...defaultProps} autoTrigger={false} />);
+    await new Promise((r) => setTimeout(r, 50));
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(mockPaddleOpen).not.toHaveBeenCalled();
+  });
+
   it('shows Loading... while processing', async () => {
     mockGetSession.mockImplementation(
       () => new Promise((resolve) => setTimeout(() => resolve({ data: { session: null } }), 50)),

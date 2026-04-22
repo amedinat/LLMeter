@@ -28,10 +28,12 @@ export const metadata: Metadata = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ message?: string; error?: string; tab?: string }>;
+  searchParams: Promise<{ message?: string; error?: string; tab?: string; plan?: string }>;
 }) {
-  const { message, error, tab } = await searchParams;
+  const { message, error, tab, plan } = await searchParams;
   const defaultTab = tab === 'password' ? 'password' : 'magic-link';
+  const validPlans = ['pro', 'team'] as const;
+  const safePlan = validPlans.includes(plan as typeof validPlans[number]) ? plan : undefined;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#030303] px-4">
@@ -45,6 +47,12 @@ export default async function LoginPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {safePlan && (
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-primary/10 border border-primary/20 p-3 text-sm text-primary">
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              <p>Sign in to start your <strong className="capitalize">{safePlan}</strong> free trial — no credit card required.</p>
+            </div>
+          )}
           {error && (
             <div className="mb-4 flex items-center gap-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive">
               <AlertCircle className="h-4 w-4 shrink-0" />
@@ -66,6 +74,7 @@ export default async function LoginPage({
 
             <TabsContent value="magic-link" className="space-y-4 pt-4">
               <form action={loginWithMagicLink} className="space-y-4">
+                {safePlan && <input type="hidden" name="plan" value={safePlan} />}
                 <div className="space-y-2">
                   <Label htmlFor="magic-email">Email</Label>
                   <Input
@@ -87,6 +96,7 @@ export default async function LoginPage({
 
             <TabsContent value="password" className="space-y-4 pt-4">
               <form action={loginWithPassword} className="space-y-4">
+                {safePlan && <input type="hidden" name="plan" value={safePlan} />}
                 <div className="space-y-2">
                   <Label htmlFor="login-email">Email</Label>
                   <Input
