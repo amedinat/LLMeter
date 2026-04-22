@@ -31,8 +31,17 @@ async function getClientIP(): Promise<string> {
   );
 }
 
+const VALID_PLANS = ['pro', 'team'] as const;
+type ValidPlan = typeof VALID_PLANS[number];
+
+function parsePlan(raw: FormDataEntryValue | null): ValidPlan | undefined {
+  if (VALID_PLANS.includes(raw as ValidPlan)) return raw as ValidPlan;
+  return undefined;
+}
+
 export async function loginWithMagicLink(formData: FormData): Promise<void> {
   const email = (formData.get('email') as string)?.trim().toLowerCase();
+  const plan = parsePlan(formData.get('plan'));
 
   if (!email) {
     redirect('/login?error=Email is required');
@@ -50,10 +59,11 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
   const origin = await getOrigin();
   const supabase = await createClient();
 
+  const nextPath = plan ? `/pricing?plan=${plan}` : '/dashboard';
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
     },
   });
 
@@ -61,7 +71,8 @@ export async function loginWithMagicLink(formData: FormData): Promise<void> {
     redirect(`/login?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect('/login?message=Check your email for a magic link');
+  const planParam = plan ? `&plan=${plan}` : '';
+  redirect(`/login?message=Check your email for a magic link${planParam}`);
 }
 
 /** Rate limit config for password login/signup: 10 requests per 15 minutes */
@@ -73,6 +84,7 @@ const AUTH_PASSWORD_LIMIT = {
 export async function loginWithPassword(formData: FormData): Promise<void> {
   const email = (formData.get('email') as string)?.trim().toLowerCase();
   const password = formData.get('password') as string;
+  const plan = parsePlan(formData.get('plan'));
 
   if (!email || !password) {
     redirect('/login?error=Email and password are required&tab=password');
@@ -93,15 +105,17 @@ export async function loginWithPassword(formData: FormData): Promise<void> {
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+    const planParam = plan ? `&plan=${plan}` : '';
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password${planParam}`);
   }
 
-  redirect('/dashboard');
+  redirect(plan ? `/pricing?plan=${plan}` : '/dashboard');
 }
 
 export async function signUpWithPassword(formData: FormData): Promise<void> {
   const email = (formData.get('email') as string)?.trim().toLowerCase();
   const password = formData.get('password') as string;
+  const plan = parsePlan(formData.get('plan'));
 
   if (!email || !password) {
     redirect('/login?error=Email and password are required&tab=password');
@@ -121,19 +135,22 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
   const origin = await getOrigin();
   const supabase = await createClient();
 
+  const nextPath = plan ? `/pricing?plan=${plan}` : '/dashboard';
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
     },
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password`);
+    const planParam = plan ? `&plan=${plan}` : '';
+    redirect(`/login?error=${encodeURIComponent(error.message)}&tab=password${planParam}`);
   }
 
-  redirect('/login?message=Check your email to confirm your account&tab=password');
+  const planParam = plan ? `&plan=${plan}` : '';
+  redirect(`/login?message=Check your email to confirm your account&tab=password${planParam}`);
 }
 
 export async function loginWithGoogle(): Promise<void> {

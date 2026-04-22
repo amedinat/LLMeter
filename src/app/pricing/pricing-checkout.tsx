@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { getPaddleInstance } from '@/lib/payments-client';
 import { createClient } from '@/lib/supabase/client';
@@ -10,12 +10,13 @@ interface PricingCheckoutProps {
   planId: string;
   cta: string;
   ctaVariant: 'default' | 'outline';
+  autoTrigger?: boolean;
 }
 
-export function PricingCheckout({ planId, cta, ctaVariant }: PricingCheckoutProps) {
+export function PricingCheckout({ planId, cta, ctaVariant, autoTrigger }: PricingCheckoutProps) {
   const [loading, setLoading] = useState(false);
 
-  async function handleClick() {
+  const openCheckout = useCallback(async () => {
     setLoading(true);
     try {
       // Unauthenticated users must sign in first so the Paddle subscription
@@ -52,13 +53,17 @@ export function PricingCheckout({ planId, cta, ctaVariant }: PricingCheckoutProp
     } finally {
       setLoading(false);
     }
-  }
+  }, [planId]);
+
+  useEffect(() => {
+    if (autoTrigger) openCheckout();
+  }, [autoTrigger, openCheckout]);
 
   return (
     <Button
       variant={ctaVariant}
       className="w-full"
-      onClick={handleClick}
+      onClick={openCheckout}
       disabled={loading}
     >
       {loading ? 'Loading...' : cta}

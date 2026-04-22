@@ -15,6 +15,7 @@ import { PLANS } from '@/config/plans';
 import { PricingCheckout } from './pricing-checkout';
 
 const VISIBLE_PLANS = [PLANS.free, PLANS.pro, PLANS.team];
+const VALID_PLANS = ['pro', 'team'] as const;
 
 import type { Metadata } from 'next';
 
@@ -124,7 +125,13 @@ const PRO_UNLOCKS = [
   'CSV & PDF exports to justify AI costs to finance',
 ];
 
-export default function PricingPage() {
+export default async function PricingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
+  const { plan } = await searchParams;
+  const autoTriggerPlan = VALID_PLANS.includes(plan as typeof VALID_PLANS[number]) ? plan : undefined;
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <script
@@ -254,6 +261,7 @@ export default function PricingPage() {
                       planId={plan.id}
                       cta={plan.cta}
                       ctaVariant={plan.ctaVariant}
+                      autoTrigger={autoTriggerPlan === plan.id}
                     />
                   ) : (
                     <Button variant={plan.ctaVariant} className="w-full" asChild>
