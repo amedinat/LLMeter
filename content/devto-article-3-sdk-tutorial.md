@@ -187,13 +187,11 @@ const response = await openai.chat.completions.create({
 
 `llmeter_customer_id` is extracted from the params by the wrapper before the request is forwarded. OpenAI never sees it. LLMeter records the event against that customer ID.
 
-You can also set a default customer ID on the client:
+You can also set a default customer ID on the client (applies to all calls through this instance):
 
 ```typescript
 // All calls from this client instance attributed to this customer
-const openai = wrapOpenAI(new OpenAI(), llmeter, {
-  customer_id: req.user.tenantId
-});
+const openai = wrapOpenAI(new OpenAI(), llmeter, req.user.tenantId);
 ```
 
 In the LLMeter dashboard, costs break down by customer alongside model and provider. Export to CSV or PDF for finance/chargeback.
@@ -207,13 +205,11 @@ For providers not yet supported by a wrapper (or any custom inference endpoint),
 ```typescript
 // After your API call completes
 llmeter.track({
-  provider: 'custom',
   model: 'my-fine-tuned-llama-3',
-  input_tokens: response.usage.input_tokens,
-  output_tokens: response.usage.output_tokens,
-  cost_usd: calculateCost(response.usage), // optional — LLMeter calculates if omitted for known models
-  customer_id: session.customerId,         // optional
-  metadata: { request_id: response.id },  // optional, any JSON
+  inputTokens: response.usage.input_tokens,
+  outputTokens: response.usage.output_tokens,
+  customerId: session.customerId,          // optional
+  timestamp: new Date().toISOString(),     // optional, defaults to now
 });
 ```
 

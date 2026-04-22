@@ -1,6 +1,6 @@
 # How I Built an Open-Source LLM Cost Tracker — No Proxy Required
 
-*Tech stack: Next.js 16, Supabase, Paddle, Vercel Cron, Resend. ~468 tests. AGPL-3.0.*
+*Tech stack: Next.js 16, Supabase, Paddle, Vercel Cron, Resend. 475 tests. AGPL-3.0.*
 
 ---
 
@@ -225,11 +225,10 @@ export function wrapOpenAI(client: OpenAI, tracker: LLMeter): OpenAI {
                       
                       if ('usage' in result && result.usage) {
                         tracker.track({
-                          provider: 'openai',
                           model: result.model,
-                          input_tokens: result.usage.prompt_tokens,
-                          output_tokens: result.usage.completion_tokens,
-                          customer_id: llmeter_customer_id,
+                          inputTokens: result.usage.prompt_tokens,
+                          outputTokens: result.usage.completion_tokens,
+                          customerId: llmeter_customer_id ?? 'anonymous',
                         });
                       }
                       return result;
@@ -319,7 +318,7 @@ This means even if there's a bug in the API layer that accidentally omits a `WHE
 
 ---
 
-## Testing: 468 Tests Across Unit, Integration, and E2E
+## Testing: 475 Tests Across Unit, Integration, and E2E
 
 The test suite is split:
 
