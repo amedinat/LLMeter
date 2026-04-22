@@ -21,6 +21,7 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [ ] 10 early adopters pagantes
 - [ ] Show HN — post en Hacker News (draft listo)
 - [ ] 3 artículos Dev.to publicados con tráfico SEO
+- [x] Sync develop → main (2026-04-22) — Send Test Alert button + SDK fixes; 482 tests pass (commit 1b55557)
 - [x] Payoneer conectado a Paddle — cuenta aprobada, GPS USD activo, email linked en Paddle Payouts Settings (2026-04-21)
 - [x] Paddle legal pages & KYC readiness — /terms (MoR), /privacy (GDPR/CCPA/LGPD/Ley 1581), /refund (14-day), footers expuestos en /pricing /models /migrate/helicone (2026-04-21, PR #4)
 - [x] Header consistency & layout fixes — 5-item nav unificado en home/pricing/models/terms/privacy/refund, /pricing cards grid 3-col, /models header 3-col pattern, sitemap dinámico con /refund y /models (2026-04-21, PR #6)
