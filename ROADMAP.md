@@ -32,6 +32,7 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [x] Landing /pricing — copy de venta con why pay explícito (2026-04-14, commit 9e2b6d0)
 - [x] Links con UTM params en todo contenido publicado (2026-04-15, commit 01909dd)
 - [x] Launch drafts (Show HN, Reddit, X, Dev.to) actualizados — 6 providers, Paddle, Vercel Cron (2026-04-15)
+- [x] Branding: "A Simplifai product" badge en 7 páginas públicas (landing, pricing, models, migrate/helicone, terms, privacy, refund) — commit bb86e3c (2026-04-22)
 
 ## Próximo milestone: Integraciones y retención (target: 2026-07-01)
 - [x] Integración con Grafana — endpoint Prometheus `/api/v1/metrics` + docs (2026-04-18)
