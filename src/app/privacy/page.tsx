@@ -141,7 +141,7 @@ export default function PrivacyPage() {
       </main>
       <footer className="border-t py-6">
         <div className="container text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} LLMeter. <Link href="/terms" className="underline underline-offset-4">Terms</Link> &middot; <Link href="/refund" className="underline underline-offset-4">Refund</Link> &middot; <Link href="/" className="underline underline-offset-4">Home</Link>
+          &copy; {new Date().getFullYear()} LLMeter. <Link href="/terms" className="underline underline-offset-4">Terms</Link> &middot; <Link href="/refund" className="underline underline-offset-4">Refund</Link> &middot; <Link href="/" className="underline underline-offset-4">Home</Link> &middot; <a href="https://simplifai.tools" target="_blank" rel="noreferrer" className="underline underline-offset-4">A Simplifai product</a>
         </div>
       </footer>
     </div>
