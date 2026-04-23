@@ -99,7 +99,7 @@ After a few weeks of building, I shipped LLMeter — an open-source platform to 
 
 **Stack:** Next.js, Supabase, Paddle (billing), Vercel Cron (background jobs), Resend (email).
 
-**Numbers so far:** 468 tests passing, 6 providers supported (+ Azure OpenAI + AWS Bedrock via SDK), deployed on Vercel.
+**Numbers so far:** 482 tests passing, 6 providers supported (+ Azure OpenAI + AWS Bedrock via SDK), deployed on Vercel.
 
 What I'd love feedback on:
 1. Is the pricing right?
