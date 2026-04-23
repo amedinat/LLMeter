@@ -41,28 +41,95 @@ curl -X POST https://llmeter.org/api/ingest \
   }]'
 ```
 
+Or use the SDK for automatic per-call attribution:
+
+```js
+import LLMeter, { wrapOpenAI } from 'llmeter';
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const openai = wrapOpenAI(new OpenAI(), llmeter, 'cust_abc123');
+// every call is automatically attributed to cust_abc123
+```
+
 ## Supported Providers
 
-| Provider | What LLMeter reads | API key type needed |
-|----------|-------------------|-------------------|
-| **OpenAI** | Token counts + cost estimates | Admin/org key |
-| **Anthropic** | Token counts + actual USD costs | Org API key |
-| **Google AI** | Gemini model usage data | Standard API key |
-| **DeepSeek** | Billing/usage data | Standard API key |
-| **OpenRouter** | Activity across 500+ models | Management API key |
+| Provider | Integration | Key type needed |
+|----------|-------------|-----------------|
+| **OpenAI** | Billing API (zero-code) | Admin/org key |
+| **Anthropic** | Billing API (zero-code) | Org API key |
+| **Mistral** | Billing API (zero-code) | Standard API key |
+| **DeepSeek** | Billing API (zero-code) | Standard API key |
+| **OpenRouter** | Billing API (zero-code) — 500+ models | Management API key |
+| **Google AI** | SDK wrapper (`wrapGoogleAI`) | Standard API key |
+| **Azure OpenAI** | SDK wrapper (`wrapAzureOpenAI`) | endpoint::apiKey format |
+| **AWS Bedrock** | SDK wrapper (`wrapBedrock`) | AWS credentials |
+
+## npm SDK
+
+For providers without billing APIs (Google AI, Azure OpenAI, AWS Bedrock) or for per-request attribution, install the zero-dependency SDK:
+
+```bash
+npm install llmeter
+```
+
+Wrap your existing client once — every call is tracked automatically, with no changes to your base URL or request handling:
+
+```js
+import LLMeter, { wrapOpenAI, wrapAnthropic, wrapGoogleAI, wrapAzureOpenAI, wrapBedrock } from 'llmeter';
+
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+
+// OpenAI
+const openai = wrapOpenAI(new OpenAI(), llmeter);
+
+// Anthropic
+const anthropic = wrapAnthropic(new Anthropic(), llmeter);
+
+// Google AI (Gemini)
+const genai = wrapGoogleAI(new GoogleGenerativeAI(apiKey), llmeter);
+
+// Azure OpenAI
+const azure = wrapAzureOpenAI(new AzureOpenAI({ endpoint, apiKey }), llmeter);
+
+// AWS Bedrock
+const bedrock = wrapBedrock(new BedrockRuntimeClient({ region }), llmeter);
+```
+
+All wrappers: zero dependencies, ESM + CJS dual build, works in Node.js, Edge, and the browser.
+
+## Grafana / Prometheus
+
+LLMeter exposes a Prometheus-compatible metrics endpoint that you can scrape directly into Grafana:
+
+```
+GET /api/v1/metrics
+Authorization: Bearer YOUR_API_KEY
+```
+
+Returns `cost_usd`, `requests`, `input_tokens`, and `output_tokens` metrics, labeled by `provider` and `model`. Optional `from` / `to` date params for historical scraping.
+
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: llmeter
+    static_configs:
+      - targets: ['llmeter.org']
+    metrics_path: /api/v1/metrics
+    bearer_token: YOUR_API_KEY
+```
 
 ## Features
 
 - **Unified Dashboard** — All providers, all models, one view
 - **Per-Customer Costs** — Know which users are costing you money (Team+)
-- **Cost Tracking** — Usage and spend data pulled directly from provider APIs
-- **Budget Alerts** — Daily and monthly thresholds with email notifications
-- **Anomaly Detection** — Spot unusual spikes before they become expensive (Pro)
+- **Cost Tracking** — Usage and spend pulled directly from provider billing APIs
+- **Budget Alerts** — Daily and monthly thresholds with email + Slack webhook notifications
+- **Anomaly Detection** — Statistical z-score alerting when spend deviates from your normal pattern (Pro)
 - **Cost Optimization** — Model swap recommendations with estimated savings
 - **Usage Trends** — Analyze consumption by model, provider, and time period
+- **Grafana / Prometheus** — `GET /api/v1/metrics` Prometheus endpoint, scrape directly into Grafana
 - **OpenRouter Support** — Track 500+ models with a single key (Pro)
 - **CSV & PDF Export** — Download usage reports for any date range (Pro+)
-- **REST API v1** — Integrate LLMeter data into your own tooling (GET /api/v1/usage, providers, customers)
+- **REST API v1** — Programmatic access to usage, providers, and customers
 - **Team Management** — Invite members, assign roles, shared organization billing (Team)
 - **Encrypted Storage** — API keys encrypted with AES-256-GCM, never stored in plain text
 - **Open Source** — AGPL-3.0, audit the code yourself
@@ -141,19 +208,23 @@ pnpm dev
        │  queries (RLS-protected)
        ▼
 ┌──────────────┐
-│  Next.js 16  │ → Dashboard, Alerts, Ingest API
+│  Next.js 16  │ → Dashboard, Alerts, Ingest API, Prometheus
 │  App Router  │
 └──────────────┘
 ```
 
 ## Roadmap
 
-- [x] Multi-provider support (OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter)
+- [x] Multi-provider support (OpenAI, Anthropic, Google AI, Mistral, DeepSeek, OpenRouter)
+- [x] Azure OpenAI + AWS Bedrock via SDK wrappers
 - [x] Cost tracking from provider APIs
-- [x] Budget alerts (email + webhook)
+- [x] Budget alerts (email + Slack webhook)
 - [x] Anomaly detection
 - [x] Per-customer cost attribution
 - [x] Cost optimization recommendations
+- [x] npm SDK (`llmeter`) — wrappers for OpenAI, Anthropic, Google AI, Azure OpenAI, AWS Bedrock
+- [x] Grafana/Prometheus metrics endpoint
+- [x] CSV + PDF export
 - [x] Billing (Paddle)
 - [ ] Fine-grained team permissions
 - [ ] Usage forecasting
