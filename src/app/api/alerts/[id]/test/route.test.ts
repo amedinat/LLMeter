@@ -60,7 +60,7 @@ beforeEach(async () => {
     data: { id: ALERT_ID, type: 'budget_limit', config: { threshold: 50, period: 'monthly' } },
     error: null,
   });
-  mockSendAlertEmail.mockResolvedValue(true);
+  mockSendAlertEmail.mockResolvedValue({ ok: true });
   const mod = await import('./route');
   POST = mod.POST;
 });
@@ -110,10 +110,13 @@ describe('POST /api/alerts/[id]/test', () => {
     expect(args.threshold).toBe(2);
   });
 
-  it('returns 503 when email service fails', async () => {
-    mockSendAlertEmail.mockResolvedValue(false);
+  it('returns 503 with reason when email service fails', async () => {
+    mockSendAlertEmail.mockResolvedValue({ ok: false, reason: 'Resend rejected send: API key is invalid' });
     const res = await POST(makeRequest(), makeParams());
     expect(res.status).toBe(503);
+    const json = await res.json();
+    expect(json.error).toContain('API key is invalid');
+    expect(json.code).toBe('email_send_failed');
   });
 
   it('returns 500 on database lookup error', async () => {

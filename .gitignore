@@ -47,6 +47,7 @@ lerna-debug.log*
 .env.development
 .env.production
 .env.test
+.env.vercel*
 # Keep .env.local.example for reference
 !.env.local.example
 

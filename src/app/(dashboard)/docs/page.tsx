@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { BarChart3, Check, Copy, Package } from 'lucide-react';
 
+const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.llmeter.org';
+
 function CodeBlock({ code, language }: { code: string; language: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -34,7 +36,7 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
   );
 }
 
-const curlExample = `curl -X POST https://your-app.vercel.app/api/ingest \\
+const curlExample = `curl -X POST ${APP_BASE_URL}/api/ingest \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '[
@@ -47,7 +49,7 @@ const curlExample = `curl -X POST https://your-app.vercel.app/api/ingest \\
     }
   ]'`;
 
-const nodeExample = `const response = await fetch("https://your-app.vercel.app/api/ingest", {
+const nodeExample = `const response = await fetch("${APP_BASE_URL}/api/ingest", {
   method: "POST",
   headers: {
     "Authorization": "Bearer YOUR_API_KEY",
@@ -70,7 +72,7 @@ console.log(data);`;
 const pythonExample = `import requests
 
 response = requests.post(
-    "https://your-app.vercel.app/api/ingest",
+    "${APP_BASE_URL}/api/ingest",
     headers={
         "Authorization": "Bearer YOUR_API_KEY",
         "Content-Type": "application/json",
