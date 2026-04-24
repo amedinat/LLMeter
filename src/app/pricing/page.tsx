@@ -441,7 +441,15 @@ export default async function PricingPage({
             >
               GitHub
             </a>
-            .
+            . &middot;{' '}
+            <a
+              href="https://simplifai.tools"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium underline underline-offset-4"
+            >
+              A Simplifai product
+            </a>
           </p>
           <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <Link href="/terms" className="hover:text-foreground underline-offset-4 hover:underline">Terms</Link>
