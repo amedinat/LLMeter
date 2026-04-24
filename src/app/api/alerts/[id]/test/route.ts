@@ -63,7 +63,7 @@ export async function POST(
   const alertType: 'monthly' | 'daily' =
     alert.type === 'budget_limit' && cfg.period === 'monthly' ? 'monthly' : 'daily';
 
-  const sent = await sendAlertEmail({
+  const result = await sendAlertEmail({
     userId: user.id,
     alertType,
     currentSpend: threshold * 1.1,
@@ -76,9 +76,9 @@ export async function POST(
     isTest: true,
   });
 
-  if (!sent) {
+  if (!result.ok) {
     return NextResponse.json(
-      { error: 'Email service not configured or failed to send. Check server logs.' },
+      { error: result.reason ?? 'Email send failed', code: 'email_send_failed' },
       { status: 503 }
     );
   }

@@ -56,7 +56,8 @@ describe('sendAlertEmail', () => {
       currentSpend: 100,
       threshold: 50,
     });
-    expect(result).toBe(false);
+    expect(result.ok).toBe(false);
+    expect(result.reason).toBeTruthy();
     expect(mockResend.emails.send).not.toHaveBeenCalled();
   });
 
@@ -73,7 +74,8 @@ describe('sendAlertEmail', () => {
       threshold: 50,
     });
 
-    expect(result).toBe(false);
+    expect(result.ok).toBe(false);
+    expect(result.reason).toBeTruthy();
     expect(mockSupabase.auth.admin.getUserById).toHaveBeenCalledWith('user_123');
     expect(mockResend.emails.send).not.toHaveBeenCalled();
   });
@@ -95,7 +97,7 @@ describe('sendAlertEmail', () => {
       ],
     });
 
-    expect(result).toBe(true);
+    expect(result.ok).toBe(true);
     expect(mockResend.emails.send).toHaveBeenCalledWith({
       from: 'test@example.com',
       to: 'john@example.com',
@@ -122,6 +124,7 @@ describe('sendAlertEmail', () => {
       threshold: 500,
     });
 
-    expect(result).toBe(false);
+    expect(result.ok).toBe(false);
+    expect(result.reason).toBeTruthy();
   });
 });
