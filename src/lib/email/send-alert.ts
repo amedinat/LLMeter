@@ -12,22 +12,26 @@ interface AlertEmailParams {
   isTest?: boolean;
 }
 
+export interface SendAlertResult {
+  ok: boolean;
+  reason?: string;
+}
+
 /**
  * Sends an alert notification email to the user.
  * Gracefully degrades if Resend is not configured.
  *
- * @returns true if email was sent, false if skipped (no client/email)
+ * @returns { ok: true } on success, { ok: false, reason } when skipped or failed
  */
 export async function sendAlertEmail(
   params: AlertEmailParams
-): Promise<boolean> {
+): Promise<SendAlertResult> {
   const resend = getResendClient();
   if (!resend) {
     console.warn('[email] Resend not configured, skipping alert email');
-    return false;
+    return { ok: false, reason: 'RESEND_API_KEY not configured' };
   }
 
-  // Look up user's email from Supabase auth
   const supabase = createAdminClient();
   const {
     data: { user },
@@ -35,10 +39,9 @@ export async function sendAlertEmail(
   } = await supabase.auth.admin.getUserById(params.userId);
 
   if (userError || !user?.email) {
-    console.warn(
-      `[email] Could not resolve email for user ${params.userId}: ${userError?.message ?? 'no email'}`
-    );
-    return false;
+    const reason = `Could not resolve user email: ${userError?.message ?? 'no email on account'}`;
+    console.warn(`[email] ${reason} (user=${params.userId})`);
+    return { ok: false, reason };
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://llmeter.org';
@@ -66,9 +69,10 @@ export async function sendAlertEmail(
   });
 
   if (error) {
-    console.error(`[email] Failed to send alert email: ${error.message}`);
-    return false;
+    const reason = `Resend rejected send: ${error.message}`;
+    console.error(`[email] ${reason}`);
+    return { ok: false, reason };
   }
 
-  return true;
+  return { ok: true };
 }
