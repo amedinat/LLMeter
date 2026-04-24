@@ -169,7 +169,15 @@ export default function ModelsPage() {
               <Link href="/" className="hover:text-foreground underline-offset-4 hover:underline">
                 LLMeter
               </Link>{' '}
-              — open-source LLM cost monitoring.
+              — open-source LLM cost monitoring. &middot;{' '}
+              <a
+                href="https://simplifai.tools"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-foreground underline-offset-4 hover:underline"
+              >
+                A Simplifai product
+              </a>
             </p>
             <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs">
               <Link href="/terms" className="hover:text-foreground underline-offset-4 hover:underline">Terms</Link>

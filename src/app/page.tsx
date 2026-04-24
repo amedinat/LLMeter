@@ -608,7 +608,15 @@ export default function HomePage() {
         </div>
         <div className="container mt-8 flex flex-col items-center justify-between gap-4 max-w-[64rem] mx-auto border-t pt-6 md:flex-row">
           <p className="text-center text-xs text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} LLMeter. All rights reserved.
+            &copy; {new Date().getFullYear()} LLMeter. All rights reserved. &middot;{' '}
+            <a
+              href="https://simplifai.tools"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              A Simplifai product
+            </a>
           </p>
           <span className="text-[10px] text-muted-foreground/30 select-none">
             {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'dev'}
