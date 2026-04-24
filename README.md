@@ -180,6 +180,23 @@ cp .env.local.example .env.local
 pnpm dev
 ```
 
+### Email alerts (Resend)
+
+Budget and anomaly alerts are sent via [Resend](https://resend.com). To enable
+them in self-hosting or production:
+
+1. Create an API key at https://resend.com/api-keys → set `RESEND_API_KEY`.
+2. Add and verify your sending domain at https://resend.com/domains. Resend
+   provides DNS records (SPF/DKIM) that you must add at your DNS provider
+   (Cloudflare, Route 53, etc.). Verification typically completes in 5–15 min.
+3. Set `EMAIL_FROM` to an address on that verified domain
+   (e.g. `LLMeter <alerts@yourdomain.com>`).
+
+If the domain is not verified, the in-app **Test** button on `/alerts` will
+display the exact Resend error (e.g. `Resend rejected send: The domain is not
+verified`). For quick local testing without a domain, use
+`LLMeter <onboarding@resend.dev>` as `EMAIL_FROM`.
+
 ## Tech Stack
 
 - **Frontend:** Next.js 16 (App Router), Tailwind CSS 4, Shadcn UI
