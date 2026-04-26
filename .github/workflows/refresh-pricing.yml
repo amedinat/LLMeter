@@ -1,0 +1,62 @@
+name: Refresh model pricing catalog
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Refresh pricing from OpenRouter
+        run: npx --yes tsx scripts/refresh-pricing.ts
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet -- src/data/model-pricing.ts; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create pull request
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: develop
+          branch: chore/refresh-pricing-${{ github.run_id }}
+          commit-message: "chore(pricing): refresh model catalog from OpenRouter"
+          title: "chore(pricing): refresh model catalog from OpenRouter"
+          body: |
+            Automated weekly refresh of `src/data/model-pricing.ts` from OpenRouter's public API.
+
+            Run: ${{ github.run_id }} • Triggered: ${{ github.event_name }}
+          labels: pricing,automated
+          delete-branch: true
+
+      - name: No changes
+        if: steps.diff.outputs.changed == 'false'
+        run: echo "Pricing catalog already up to date — no PR opened."
