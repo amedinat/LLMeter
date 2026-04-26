@@ -3,9 +3,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { isStaticFile } from '@/lib/security';
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/privacy', '/terms', '/refund', '/pricing', '/migrate', '/models', '/robots.txt', '/sitemap.xml'];
+const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/privacy', '/terms', '/refund', '/pricing', '/migrate', '/models', '/validate', '/api/waitlist', '/robots.txt', '/sitemap.xml'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip auth check for public routes and known static file extensions
@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
     )
       .then(({ error }) => {
         if (error) {
-          console.error('[middleware] last_seen_at update failed:', error.message);
+          console.error('[proxy] last_seen_at update failed:', error.message);
         }
       })
       .catch(() => {
