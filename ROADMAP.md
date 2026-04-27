@@ -21,6 +21,7 @@ Target: devs con > $20/mes en APIs LLM. Canales: Dev.to, HN, r/LocalLLaMA.
 - [ ] 10 early adopters pagantes
 - [ ] Show HN — post en Hacker News (draft listo)
 - [ ] 3 artículos Dev.to publicados con tráfico SEO
+- [x] Sync develop → main (2026-04-27) — SEO canonical/blog scaffold + first post; Vercel Analytics; /validate/budget-guard waitlist; pricing refresh automation; 482 tests pass (commit cc7c7ae)
 - [x] Sync develop → main (2026-04-24) — security: postcss XSS + uuid CVE; Simplifai badge; 3 Dev.to drafts; 482 tests pass (commit 0a5615b)
 - [x] Sync develop → main (2026-04-22) — Send Test Alert button + SDK fixes; 482 tests pass (commit 1b55557)
 - [x] Payoneer conectado a Paddle — cuenta aprobada, GPS USD activo, email linked en Paddle Payouts Settings (2026-04-21)
