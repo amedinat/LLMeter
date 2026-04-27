@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'LLM Model Pricing Comparison 2026 — LLMeter',
     description:
       'Compare input and output token pricing across 128+ models from OpenAI, Anthropic, Google AI, Mistral, DeepSeek, and OpenRouter.',
-    url: 'https://llmeter.org/models',
+    url: 'https://www.llmeter.org/models',
     siteName: 'LLMeter',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   alternates: {
-    canonical: 'https://llmeter.org/models',
+    canonical: 'https://www.llmeter.org/models',
   },
 };
 
@@ -36,7 +36,7 @@ export default function ModelsPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'LLM Model Pricing Comparison 2026',
-    url: 'https://llmeter.org/models',
+    url: 'https://www.llmeter.org/models',
     description:
       'Compare LLM API pricing across 128+ models from OpenAI, Anthropic, Google AI, Mistral, DeepSeek, and OpenRouter.',
     mainEntity: {

@@ -5,10 +5,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Privacy Policy — LLMeter',
   description: 'LLMeter privacy policy. Learn how we handle your data and API keys.',
+  metadataBase: new URL('https://www.llmeter.org'),
+  alternates: { canonical: 'https://www.llmeter.org/privacy' },
   openGraph: {
     title: 'Privacy Policy — LLMeter',
     description: 'LLMeter privacy policy. Learn how we handle your data and API keys.',
-    url: 'https://llmeter.org/privacy',
+    url: 'https://www.llmeter.org/privacy',
     siteName: 'LLMeter',
     type: 'website',
   },

@@ -4,4 +4,4 @@ Disallow: /dashboard/
 Disallow: /api/
 Disallow: /auth/
 
-Sitemap: https://llmeter.org/sitemap.xml
+Sitemap: https://www.llmeter.org/sitemap.xml
