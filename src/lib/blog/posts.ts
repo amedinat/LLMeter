@@ -11,6 +11,16 @@ export type BlogPost = {
 
 export const POSTS: BlogPost[] = [
   {
+    slug: 'llm-cost-grafana-prometheus',
+    title: 'How to Scrape LLM API Costs into Grafana Using Prometheus',
+    description:
+      'LLMeter exposes a native Prometheus endpoint at /api/v1/metrics. This guide shows you the full setup: scrape config, PromQL queries, Grafana panel JSON, and alerting rules — copy-paste ready.',
+    publishedAt: '2026-04-27',
+    author: 'LLMeter Team',
+    keyword: 'llm cost grafana prometheus',
+    readingMinutes: 8,
+  },
+  {
     slug: 'reduce-llm-api-costs',
     title: '5 Proven Ways to Reduce LLM API Costs Without Sacrificing Quality',
     description:
