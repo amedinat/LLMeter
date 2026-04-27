@@ -5,10 +5,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Refund Policy — LLMeter',
   description: 'LLMeter refund policy. 14-day money-back guarantee on new subscriptions, processed via Paddle.',
+  metadataBase: new URL('https://www.llmeter.org'),
+  alternates: { canonical: 'https://www.llmeter.org/refund' },
   openGraph: {
     title: 'Refund Policy — LLMeter',
     description: 'LLMeter refund policy. 14-day money-back guarantee on new subscriptions, processed via Paddle.',
-    url: 'https://llmeter.org/refund',
+    url: 'https://www.llmeter.org/refund',
     siteName: 'LLMeter',
     type: 'website',
   },
