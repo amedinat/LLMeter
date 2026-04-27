@@ -11,10 +11,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Sign In — LLMeter',
   description: 'Sign in to LLMeter to monitor your LLM API costs across all providers.',
+  metadataBase: new URL('https://www.llmeter.org'),
+  alternates: { canonical: 'https://www.llmeter.org/login' },
   openGraph: {
     title: 'Sign In — LLMeter',
     description: 'Sign in to LLMeter to monitor your LLM API costs across all providers.',
-    url: 'https://llmeter.org/login',
+    url: 'https://www.llmeter.org/login',
     siteName: 'LLMeter',
     type: 'website',
   },
