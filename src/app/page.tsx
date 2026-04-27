@@ -57,7 +57,7 @@ const jsonLd = {
   name: 'LLMeter',
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Web',
-  url: 'https://llmeter.org',
+  url: 'https://www.llmeter.org',
   description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, and Mistral from a single dashboard — no proxy, no latency impact.',
   offers: [
     {
@@ -133,6 +133,7 @@ export default function HomePage() {
               <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
               <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
               <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
+              <Link href="/blog" className="transition-colors hover:text-foreground/80 text-foreground/60">Blog</Link>
               <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
             </nav>
           </div>

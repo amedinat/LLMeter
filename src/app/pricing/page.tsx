@@ -23,11 +23,13 @@ export const metadata: Metadata = {
   title: 'Pricing — LLMeter',
   description:
     'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo with 7-day free trial, Team at $49/mo.',
+  metadataBase: new URL('https://www.llmeter.org'),
+  alternates: { canonical: 'https://www.llmeter.org/pricing' },
   openGraph: {
     title: 'Pricing — LLMeter',
     description:
       'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo, Team at $49/mo.',
-    url: 'https://llmeter.org/pricing',
+    url: 'https://www.llmeter.org/pricing',
     siteName: 'LLMeter',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
@@ -45,7 +47,7 @@ const pricingJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: 'LLMeter Pricing',
-  url: 'https://llmeter.org/pricing',
+  url: 'https://www.llmeter.org/pricing',
   description: 'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo with 7-day free trial, Team at $49/mo.',
   mainEntity: {
     '@type': 'Product',
