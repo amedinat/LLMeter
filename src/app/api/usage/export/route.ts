@@ -70,12 +70,19 @@ export async function GET(request: Request) {
     'date,provider,model,requests,input_tokens,output_tokens,cost_usd',
   ];
 
+  // PostgREST may return NUMERIC columns as strings in some configs; coerce defensively.
+  const toNum = (v: unknown): number => {
+    if (v == null) return 0;
+    const n = typeof v === 'number' ? v : Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
+
   for (const r of rows) {
     const provider = Array.isArray(r.providers)
       ? r.providers[0]?.display_name ?? ''
       : (r.providers as { display_name: string } | null)?.display_name ?? '';
     lines.push(
-      [r.date, `"${provider}"`, `"${r.model}"`, r.requests, r.input_tokens, r.output_tokens, r.cost_usd.toFixed(6)].join(',')
+      [r.date, `"${provider}"`, `"${r.model}"`, r.requests, r.input_tokens, r.output_tokens, toNum(r.cost_usd).toFixed(6)].join(',')
     );
   }
 

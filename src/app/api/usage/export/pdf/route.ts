@@ -13,10 +13,10 @@ function isValidDate(value: string): boolean {
 type UsageRow = {
   date: string;
   model: string;
-  input_tokens: number;
-  output_tokens: number;
-  requests: number;
-  cost_usd: number;
+  input_tokens: number | string;
+  output_tokens: number | string;
+  requests: number | string;
+  cost_usd: number | string;
   providers: { display_name: string } | { display_name: string }[] | null;
 };
 
@@ -24,6 +24,12 @@ function getProviderName(providers: UsageRow['providers']): string {
   if (!providers) return '';
   if (Array.isArray(providers)) return providers[0]?.display_name ?? '';
   return providers.display_name;
+}
+
+function toNum(value: number | string | null | undefined): number {
+  if (value == null) return 0;
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? n : 0;
 }
 
 /**
@@ -77,10 +83,15 @@ export async function GET(request: Request) {
 
   const rows = (data ?? []) as UsageRow[];
 
-  pulseTrack('feature_used', { user_ref: user.id, metadata: { feature: 'export-pdf' } });
+  let pdfBytes: Buffer;
+  try {
+    pdfBytes = await buildPdf(rows, from, to);
+  } catch (err) {
+    console.error('PDF generation error:', err);
+    return new Response('Failed to generate PDF', { status: 500 });
+  }
 
-  // Build PDF in memory
-  const pdfBytes = await buildPdf(rows, from, to);
+  pulseTrack('feature_used', { user_ref: user.id, metadata: { feature: 'export-pdf' } });
 
   const filename = `llmeter-usage${from ? `-${from}` : ''}${to ? `-to-${to}` : ''}.pdf`;
 
@@ -127,10 +138,11 @@ function buildPdf(
     doc.moveDown(1);
 
     // --- Summary stats ---
-    const totalCost = rows.reduce((sum, r) => sum + r.cost_usd, 0);
-    const totalRequests = rows.reduce((sum, r) => sum + r.requests, 0);
-    const totalInput = rows.reduce((sum, r) => sum + r.input_tokens, 0);
-    const totalOutput = rows.reduce((sum, r) => sum + r.output_tokens, 0);
+    // PostgREST may return NUMERIC columns as strings in some configs; coerce defensively.
+    const totalCost = rows.reduce((sum, r) => sum + toNum(r.cost_usd), 0);
+    const totalRequests = rows.reduce((sum, r) => sum + toNum(r.requests), 0);
+    const totalInput = rows.reduce((sum, r) => sum + toNum(r.input_tokens), 0);
+    const totalOutput = rows.reduce((sum, r) => sum + toNum(r.output_tokens), 0);
 
     doc.fontSize(12).font('Helvetica-Bold').text('Summary');
     doc.moveDown(0.3);
@@ -217,10 +229,10 @@ function buildPdf(
             r.date,
             provider,
             r.model,
-            r.requests.toLocaleString(),
-            r.input_tokens.toLocaleString(),
-            r.output_tokens.toLocaleString(),
-            `$${r.cost_usd.toFixed(6)}`,
+            toNum(r.requests).toLocaleString(),
+            toNum(r.input_tokens).toLocaleString(),
+            toNum(r.output_tokens).toLocaleString(),
+            `$${toNum(r.cost_usd).toFixed(6)}`,
           ],
           rowY,
           { bg }
