@@ -160,4 +160,31 @@ describe('GET /api/usage/export/pdf', () => {
     const res = await GET(makeRequest());
     expect(res.status).toBe(200);
   });
+
+  it('handles NUMERIC columns returned as strings (PostgREST precision mode)', async () => {
+    mockQueryResult.data = [
+      {
+        date: '2026-01-01',
+        model: 'gpt-4o',
+        input_tokens: '1000',
+        output_tokens: '500',
+        requests: '5',
+        cost_usd: '0.025',
+        providers: { provider: 'openai', display_name: 'OpenAI' },
+      },
+      {
+        date: '2026-01-02',
+        model: 'claude',
+        input_tokens: '2000',
+        output_tokens: '800',
+        requests: '3',
+        cost_usd: '0.018',
+        providers: { provider: 'anthropic', display_name: 'Anthropic' },
+      },
+    ];
+    const res = await GET(makeRequest());
+    expect(res.status).toBe(200);
+    const buffer = await res.arrayBuffer();
+    expect(new TextDecoder().decode(buffer.slice(0, 4))).toBe('%PDF');
+  });
 });
