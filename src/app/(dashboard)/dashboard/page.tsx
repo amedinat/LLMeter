@@ -12,6 +12,7 @@ import { createClient } from '@/lib/supabase/server';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 import { CheckoutSuccessToast } from './checkout-success-toast';
 import { AlertTriggeredBanner } from '@/components/dashboard/alert-triggered-banner';
+import { PLANS } from '@/config/plans';
 
 export default async function DashboardPage() {
   const plan = await getUserPlan();
@@ -100,7 +101,7 @@ export default async function DashboardPage() {
               <CardTitle className="text-sm font-medium">Plan Usage</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold uppercase">{plan}</div>
+              <div className="text-2xl font-bold">{PLANS[plan].label}</div>
               <p className="text-xs text-muted-foreground">
                 Your current active subscription plan.
               </p>

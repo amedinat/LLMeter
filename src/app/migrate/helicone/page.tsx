@@ -50,7 +50,7 @@ const COMPARISON = [
   { feature: 'Budget alerts', helicone: 'Basic', llmeter: 'Advanced (anomaly detection, daily thresholds)' },
   { feature: 'Free tier', helicone: '10K requests/mo', llmeter: 'Free forever (1 provider)' },
   { feature: 'Prompt/data access', helicone: 'Proxies all traffic', llmeter: 'Never sees prompts or completions' },
-  { feature: 'Team features', helicone: 'Yes', llmeter: 'Yes (Team & Enterprise plans)' },
+  { feature: 'Team features', helicone: 'Yes', llmeter: 'Yes (Team plan, $49/mo)' },
 ];
 
 const MIGRATION_STEPS = [
