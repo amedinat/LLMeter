@@ -55,7 +55,7 @@ describe('CheckoutSuccessToast', () => {
   it('does not fire toast when checkout param is absent', () => {
     vi.mocked(useSearchParams).mockReturnValue({
       get: () => null,
-    } as ReturnType<typeof useSearchParams>);
+    } as unknown as ReturnType<typeof useSearchParams>);
 
     render(<CheckoutSuccessToast />);
 
@@ -76,7 +76,7 @@ describe('CheckoutSuccessToast', () => {
   it('renders nothing visible (null return)', () => {
     vi.mocked(useSearchParams).mockReturnValue({
       get: () => null,
-    } as ReturnType<typeof useSearchParams>);
+    } as unknown as ReturnType<typeof useSearchParams>);
 
     const { container } = render(<CheckoutSuccessToast />);
     expect(container.firstChild).toBeNull();
