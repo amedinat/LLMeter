@@ -94,7 +94,6 @@ vi.mock('@/lib/supabase/admin', () => ({
   createAdminClient: () => mockAdminClient,
 }));
 
-// eslint-disable-next-line prefer-const
 let mockAdminClient = makeSupabaseMock();
 
 beforeEach(() => {

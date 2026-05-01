@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { AcceptInviteClient } from './accept-invite-client';
 
 interface Props {
