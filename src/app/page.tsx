@@ -58,7 +58,12 @@ const jsonLd = {
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Web',
   url: 'https://www.llmeter.org',
+  image: 'https://www.llmeter.org/og-image.png',
   description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, and Mistral from a single dashboard — no proxy, no latency impact.',
+  brand: {
+    '@type': 'Brand',
+    name: 'Simplifai',
+  },
   offers: [
     {
       '@type': 'Offer',
@@ -66,6 +71,9 @@ const jsonLd = {
       priceCurrency: 'USD',
       name: 'Free',
       description: '1 provider, 1 alert, 30-day retention',
+      url: 'https://www.llmeter.org/pricing',
+      availability: 'https://schema.org/InStock',
+      category: 'SaaS subscription',
     },
     {
       '@type': 'Offer',
@@ -73,6 +81,9 @@ const jsonLd = {
       priceCurrency: 'USD',
       name: 'Pro',
       description: 'Unlimited providers and alerts, anomaly detection, 1-year retention',
+      url: 'https://www.llmeter.org/pricing',
+      availability: 'https://schema.org/InStock',
+      category: 'SaaS subscription',
     },
     {
       '@type': 'Offer',
@@ -80,6 +91,9 @@ const jsonLd = {
       priceCurrency: 'USD',
       name: 'Team',
       description: 'Per-customer cost attribution, team members, unlimited retention',
+      url: 'https://www.llmeter.org/pricing',
+      availability: 'https://schema.org/InStock',
+      category: 'SaaS subscription',
     },
   ],
   featureList: [
