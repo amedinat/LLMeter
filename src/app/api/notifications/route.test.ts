@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // --- Mocks ---
 
 const mockGetUser = vi.fn();
-const mockQueryResult = { data: [], error: null };
+const mockQueryResult: { data: unknown[] | null; error: unknown } = { data: [], error: null };
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: () => ({

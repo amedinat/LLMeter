@@ -6,7 +6,7 @@ import { NextRequest } from 'next/server';
 const mockGetUser = vi.fn();
 const mockFrom = vi.fn();
 
-const mockSelectResult = { data: [], error: null };
+const mockSelectResult: { data: unknown[]; error: unknown } = { data: [], error: null };
 const mockCountResult = { count: 0, error: null };
 const mockInsertResult = {
   data: { id: 'alert-1', type: 'budget_limit', name: 'Budget Limit - $100 monthly', config: { threshold: 100, period: 'monthly' }, enabled: true },

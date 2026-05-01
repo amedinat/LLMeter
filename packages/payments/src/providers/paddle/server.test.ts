@@ -59,6 +59,11 @@ describe('PaddleProvider', () => {
   let provider: PaddleProvider;
   let mockPaddleInstance: InstanceType<typeof Paddle>;
 
+  type UnmarshalFn = InstanceType<typeof Paddle>['webhooks']['unmarshal'];
+  function mockUnmarshal(event: unknown): void {
+    mockPaddleInstance.webhooks.unmarshal = vi.fn(() => event) as unknown as UnmarshalFn;
+  }
+
   beforeEach(() => {
     provider = new PaddleProvider(CONFIG, PLANS);
     // Access the internal paddle instance for mocking
@@ -146,7 +151,7 @@ describe('PaddleProvider', () => {
     });
 
     it('handles subscription.created event', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_1',
         eventType: EventName.SubscriptionCreated,
         data: {
@@ -157,7 +162,7 @@ describe('PaddleProvider', () => {
           currentBillingPeriod: { endsAt: '2026-05-07T00:00:00Z' },
           customData: { user_id: 'usr_789' },
         },
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',
@@ -180,7 +185,7 @@ describe('PaddleProvider', () => {
     });
 
     it('handles subscription.created with trial', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_2',
         eventType: EventName.SubscriptionCreated,
         data: {
@@ -196,7 +201,7 @@ describe('PaddleProvider', () => {
           currentBillingPeriod: { endsAt: '2026-05-07T00:00:00Z' },
           customData: { user_id: 'usr_trial' },
         },
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',
@@ -207,14 +212,14 @@ describe('PaddleProvider', () => {
     });
 
     it('handles subscription.canceled event', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_3',
         eventType: EventName.SubscriptionCanceled,
         data: {
           customerId: 'ctm_cancel',
           items: [{ price: { id: 'pri_pro_123' } }],
         },
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',
@@ -232,7 +237,7 @@ describe('PaddleProvider', () => {
     });
 
     it('handles transaction.completed event', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_4',
         eventType: EventName.TransactionCompleted,
         data: {
@@ -240,7 +245,7 @@ describe('PaddleProvider', () => {
           subscriptionId: 'sub_pay',
           items: [{ price: { id: 'pri_pro_123' } }],
         },
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',
@@ -252,14 +257,14 @@ describe('PaddleProvider', () => {
     });
 
     it('handles transaction.payment_failed event', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_5',
         eventType: EventName.TransactionPaymentFailed,
         data: {
           customerId: 'ctm_fail',
           items: [{ price: { id: 'pri_pro_123' } }],
         },
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',
@@ -277,7 +282,7 @@ describe('PaddleProvider', () => {
     });
 
     it('handles subscription.updated for active status', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_6',
         eventType: EventName.SubscriptionUpdated,
         data: {
@@ -286,7 +291,7 @@ describe('PaddleProvider', () => {
           items: [{ price: { id: 'pri_team_456' } }],
           currentBillingPeriod: { endsAt: '2026-06-07T00:00:00Z' },
         },
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',
@@ -298,11 +303,11 @@ describe('PaddleProvider', () => {
     });
 
     it('ignores unhandled event types', async () => {
-      mockPaddleInstance.webhooks.unmarshal = vi.fn(() => ({
+      mockUnmarshal({
         eventId: 'evt_7',
         eventType: 'some.unknown.event',
         data: {},
-      }));
+      });
 
       const result = await provider.handleWebhook({
         body: '{}',

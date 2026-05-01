@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server';
 // --- Mocks ---
 
 const mockGetUser = vi.fn();
-const mockSelectResult = { data: [], error: null };
+const mockSelectResult: { data: unknown[]; error: unknown } = { data: [], error: null };
 const mockCountResult = { count: 0, error: null };
 const mockUpsertResult = {
   data: { id: 'prov-1', provider: 'openai', display_name: null, status: 'syncing' },
