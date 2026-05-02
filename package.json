@@ -62,12 +62,14 @@
   },
   "overrides": {
     "uuid": "^14.0.0",
-    "postcss": "^8.5.10"
+    "postcss": "^8.5.10",
+    "hono": "^4.12.14"
   },
   "pnpm": {
     "overrides": {
       "uuid": "^14.0.0",
-      "postcss": "^8.5.10"
+      "postcss": "^8.5.10",
+      "hono": "^4.12.14"
     }
   }
 }
