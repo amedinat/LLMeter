@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // --- Mocks ---
 
 const mockGetUser = vi.fn();
-const mockQueryResult = { data: [], error: null };
+const mockQueryResult: { data: unknown[]; error: unknown } = { data: [], error: null };
 const mockGte = vi.fn();
 const mockLte = vi.fn();
 

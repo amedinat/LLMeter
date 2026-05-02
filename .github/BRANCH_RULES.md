@@ -1,20 +1,19 @@
 # Branch Rules — LLMeter
 
-## GitFlow (simplificado)
+## GitFlow (simplified)
 
-- `main` = producción (Vercel deploy)
-- `develop` = integración
-- `feature/*`, `fix/*` = trabajo en progreso
+- `main` — production (deployed to Vercel)
+- `develop` — integration branch
+- `feature/*`, `fix/*`, `chore/*` — work in progress
 
-## Reglas
+## Rules
 
-1. **NUNCA** hacer commits directos a `main`
-2. Todo trabajo va a `develop` o a un branch `feature/` / `fix/`
-3. `main` solo recibe merges desde `develop`
-4. Antes de mergear, verificar: `git log develop..main` debe estar vacío
-5. Sub-agentes (Otto, Codex, Claude Code) trabajan en `develop` únicamente
+1. **Never** commit directly to `main`
+2. All work lands on `develop` or a `feature/` / `fix/` / `chore/` branch
+3. `main` only receives merges from `develop`
+4. Before opening a release merge, verify `git log develop..main` is empty
 
-## Merge a main (release)
+## Releasing to main
 
 ```bash
 git checkout main

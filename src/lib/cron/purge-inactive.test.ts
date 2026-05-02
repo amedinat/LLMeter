@@ -6,7 +6,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const mockGetUserById = vi.fn();
 const mockProfilesSelect = vi.fn();
-const mockProfilesUpdate = vi.fn();
 const mockUsageDelete = vi.fn();
 const mockCustomerUsageDelete = vi.fn();
 
@@ -21,7 +20,7 @@ vi.mock('@/lib/supabase/admin', () => ({
       if (table === 'profiles') {
         return {
           select: mockProfilesSelect,
-          update: (vals: unknown) => ({
+          update: () => ({
             eq: () => Promise.resolve({ error: null }),
           }),
         };
@@ -92,7 +91,6 @@ describe('runPurgeInactive', () => {
     // First call: usersToWarn (30-45 days); second call: usersToPurge (45+ days)
     let callCount = 0;
     mockProfilesSelect.mockImplementation(() => {
-      const fluent: Record<string, () => unknown> = {};
       const chain: Record<string, unknown> = {
         eq: () => chain,
         lte: () => chain,
