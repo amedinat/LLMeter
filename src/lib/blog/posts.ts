@@ -11,6 +11,36 @@ export type BlogPost = {
 
 export const POSTS: BlogPost[] = [
   {
+    slug: 'llm-cost-grafana-prometheus',
+    title: 'How to Scrape LLM API Costs into Grafana Using Prometheus',
+    description:
+      'LLMeter exposes a native Prometheus endpoint at /api/v1/metrics. This guide shows you the full setup: scrape config, PromQL queries, Grafana panel JSON, and alerting rules — copy-paste ready.',
+    publishedAt: '2026-04-27',
+    author: 'LLMeter Team',
+    keyword: 'llm cost grafana prometheus',
+    readingMinutes: 8,
+  },
+  {
+    slug: 'reduce-llm-api-costs',
+    title: '5 Proven Ways to Reduce LLM API Costs Without Sacrificing Quality',
+    description:
+      'LLM API bills grow faster than usage because of hidden multipliers: output token pricing, prompt bloat, over-engineered models, and agentic loops. Here are five strategies that cut spend 40–80% without touching quality.',
+    publishedAt: '2026-04-27',
+    author: 'LLMeter Team',
+    keyword: 'reduce llm api costs',
+    readingMinutes: 9,
+  },
+  {
+    slug: 'track-openai-api-costs',
+    title: 'How to Track OpenAI API Costs Per Model, Project, and Customer in 2026',
+    description:
+      'OpenAI\'s dashboard shows total spend but not which model, project, or customer drove it. Here\'s how to get per-model and per-customer cost breakdowns — with and without a proxy.',
+    publishedAt: '2026-04-27',
+    author: 'LLMeter Team',
+    keyword: 'track openai api costs',
+    readingMinutes: 8,
+  },
+  {
     slug: 'llm-cost-monitoring-without-proxy',
     title: 'LLM Cost Monitoring Without a Proxy: Why It Matters in 2026',
     description:
