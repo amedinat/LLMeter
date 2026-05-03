@@ -39,7 +39,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Which providers are supported?',
-    answer: 'OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, and Mistral. More coming soon.',
+    answer: 'OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, and Azure OpenAI today. Google AI (Gemini) coming soon.',
   },
   {
     question: 'How long does setup take?',
@@ -59,7 +59,7 @@ const jsonLd = {
   operatingSystem: 'Web',
   url: 'https://www.llmeter.org',
   image: 'https://www.llmeter.org/og-image.png',
-  description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, and Mistral from a single dashboard — no proxy, no latency impact.',
+  description: 'Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, and Azure OpenAI from a single dashboard — no proxy, no latency impact.',
   brand: {
     '@type': 'Brand',
     name: 'Simplifai',
@@ -97,7 +97,7 @@ const jsonLd = {
     },
   ],
   featureList: [
-    'Multi-provider cost tracking (OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, Mistral)',
+    'Multi-provider cost tracking (OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, Azure OpenAI)',
     'Azure OpenAI and AWS Bedrock support via npm SDK',
     'Budget alerts with email and Slack webhook notifications',
     'Anomaly detection with statistical alerting',
@@ -193,7 +193,7 @@ export default function HomePage() {
               <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground/90">Fix it in 30 seconds.</span>
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-              Connect your OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, or Mistral key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no proxy, no SDK, no code changes.
+              Connect your OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, or Azure OpenAI key. Get a unified dashboard with real costs, budget alerts, and optimization insights — no proxy, no SDK, no code changes.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
               <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>
@@ -203,10 +203,15 @@ export default function HomePage() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="https://github.com/amedinat/LLMeter" target="_blank">View on GitHub</Link>
+                <Link href="/pricing">See Pricing</Link>
+              </Button>
+              <Button size="lg" variant="ghost" className="text-muted-foreground hover:text-foreground" asChild>
+                <Link href="https://github.com/amedinat/LLMeter" target="_blank">GitHub</Link>
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground/70">Free forever for 1 provider. Upgrade anytime.</p>
+            <p className="text-xs text-muted-foreground/70">
+              Free forever for 1 provider · Pro $19/mo · Team $49/mo. <Link href="/pricing" className="underline underline-offset-2 hover:text-foreground">Compare plans &rarr;</Link>
+            </p>
           </div>
 
           {/* Hero Image */}
@@ -245,7 +250,7 @@ export default function HomePage() {
               <div className="text-sm font-bold text-primary">Step 1</div>
               <h3 className="text-lg font-semibold">Paste your API key</h3>
               <p className="text-sm text-muted-foreground">
-                Use a read-only key from OpenAI, Anthropic, Google AI, DeepSeek, OpenRouter, or Mistral. AES-256 encrypted at rest.
+                Use a read-only key from OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, or Azure OpenAI. AES-256 encrypted at rest.
               </p>
             </div>
             <div className="flex flex-col items-center text-center space-y-3">
@@ -457,10 +462,10 @@ export default function HomePage() {
                 <Globe className="mr-2 h-4 w-4" /> OpenRouter
               </Badge>
               <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
-                <Globe className="mr-2 h-4 w-4" /> Google AI
+                <Globe className="mr-2 h-4 w-4" /> Mistral
               </Badge>
               <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
-                <Globe className="mr-2 h-4 w-4" /> Mistral
+                <Globe className="mr-2 h-4 w-4" /> Azure OpenAI
               </Badge>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-8 text-center text-sm text-muted-foreground">
@@ -617,7 +622,7 @@ export default function HomePage() {
           <div>
             <h3 className="mb-3 text-sm font-semibold">LLMeter</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Open-source AI cost monitoring for developers. Track spend across OpenAI, Anthropic, Google AI, Mistral, DeepSeek &amp; OpenRouter.
+              Open-source AI cost monitoring for developers. Track spend across OpenAI, Anthropic, Mistral, Azure, DeepSeek &amp; OpenRouter.
             </p>
           </div>
         </div>
