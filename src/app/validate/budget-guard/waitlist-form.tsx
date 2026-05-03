@@ -10,6 +10,7 @@ const SOURCE = 'validate-budget-guard';
 
 export function WaitlistForm({ ctaLabel = 'Get Early Access' }: { ctaLabel?: string }) {
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'duplicate' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -27,7 +28,10 @@ export function WaitlistForm({ ctaLabel = 'Get Early Access' }: { ctaLabel?: str
         body: JSON.stringify({
           email,
           source: SOURCE,
-          metadata: { referrer: typeof document !== 'undefined' ? document.referrer || null : null },
+          metadata: {
+            referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+            role: role || undefined,
+          },
         }),
       });
 
@@ -113,6 +117,20 @@ export function WaitlistForm({ ctaLabel = 'Get Early Access' }: { ctaLabel?: str
           )}
         </Button>
       </div>
+      <select
+        name="role"
+        value={role}
+        onChange={(e) => setRole(e.target.value)}
+        disabled={status === 'submitting'}
+        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground focus:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+        aria-label="Your role (optional)"
+      >
+        <option value="">Optional: your role</option>
+        <option value="founder-cto">Founder / CTO</option>
+        <option value="senior-eng">Senior engineer</option>
+        <option value="eng-manager">Eng manager</option>
+        <option value="other">Other</option>
+      </select>
       {status === 'error' && errorMessage && (
         <p className="text-sm text-destructive">{errorMessage}. Please try again or email hello@llmeter.org.</p>
       )}

@@ -194,7 +194,7 @@ export default function ValidateBudgetGuard() {
         <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-24">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
             <Badge variant="secondary" className="rounded-2xl px-4 py-1.5 text-sm">
-              <AlertTriangle className="mr-1.5 h-3.5 w-3.5" /> Validation — early access
+              <AlertTriangle className="mr-1.5 h-3.5 w-3.5" /> Pre-launch — code shipping in 5 weeks
             </Badge>
             <h1 className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               Alerts won&apos;t stop your{' '}
@@ -203,7 +203,7 @@ export default function ValidateBudgetGuard() {
               </span>
             </h1>
             <p className="max-w-[44rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-              LLM Budget Guard enforces <span className="font-semibold text-foreground">hard cutoffs at the provider</span> — across OpenAI, Anthropic, and DeepSeek — before runaway agents burn $47K in 11 days or get your account terminated.
+              LLM Budget Guard <span className="font-semibold text-foreground">will enforce hard cutoffs at the provider</span> — across OpenAI, Anthropic, and DeepSeek — before runaway agents burn $47K in 11 days or get your account terminated.
             </p>
 
             <div id="waitlist" className="w-full pt-6">
@@ -211,7 +211,7 @@ export default function ValidateBudgetGuard() {
             </div>
 
             <p className="text-xs text-muted-foreground/60 pt-2">
-              Founding-team pricing locked for life. No spam, ever.
+              Founding-team pricing locked for life. No spam, ever. <span className="font-mono">github.com/amedinat/llm-budget-guard</span> opens at MVP.
             </p>
           </div>
         </section>
@@ -337,6 +337,36 @@ export default function ValidateBudgetGuard() {
           </div>
         </section>
 
+        {/* Try LLMeter today (exit hatch for visitors not ready for waitlist) */}
+        <section className="container py-12 md:py-20 border-t">
+          <div className="mx-auto max-w-[48rem] rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-6 md:p-8 text-center space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-wide text-cyan-400">
+              Need cost visibility today?
+            </p>
+            <h3 className="text-xl md:text-2xl font-semibold">
+              Budget Guard ships soon. <span className="text-muted-foreground">LLMeter is live now.</span>
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-[36rem] mx-auto">
+              Track LLM spend across OpenAI, Anthropic, DeepSeek &amp; OpenRouter — open-source, free forever for 1 provider, 30-second setup with a read-only API key.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <Button
+                size="lg"
+                className="h-11 px-6 text-sm font-semibold bg-primary hover:bg-primary/90 text-white"
+                asChild
+              >
+                <Link href="/login">
+                  Try LLMeter Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="ghost" className="h-11 px-6 text-sm" asChild>
+                <Link href="/">Learn more</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ */}
         <section className="container py-12 md:py-20 border-t">
           <div className="mx-auto max-w-[64rem]">
@@ -365,36 +395,6 @@ export default function ValidateBudgetGuard() {
               Join the waitlist. We email you the day Budget Guard ships — and lock founding-team pricing for life.
             </p>
             <WaitlistForm ctaLabel="Join the Waitlist" />
-          </div>
-        </section>
-
-        {/* Try LLMeter today (exit hatch for visitors not ready for waitlist) */}
-        <section className="container pb-16 md:pb-24">
-          <div className="mx-auto max-w-[48rem] rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-6 md:p-8 text-center space-y-3">
-            <p className="text-sm font-semibold uppercase tracking-wide text-cyan-400">
-              Need cost visibility today?
-            </p>
-            <h3 className="text-xl md:text-2xl font-semibold">
-              Budget Guard ships soon. <span className="text-muted-foreground">LLMeter is live now.</span>
-            </h3>
-            <p className="text-sm text-muted-foreground max-w-[36rem] mx-auto">
-              Track LLM spend across OpenAI, Anthropic, DeepSeek &amp; OpenRouter — open-source, free forever for 1 provider, 30-second setup with a read-only API key.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-              <Button
-                size="lg"
-                className="h-11 px-6 text-sm font-semibold bg-primary hover:bg-primary/90 text-white"
-                asChild
-              >
-                <Link href="/login">
-                  Try LLMeter Free
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="ghost" className="h-11 px-6 text-sm" asChild>
-                <Link href="/">Learn more</Link>
-              </Button>
-            </div>
           </div>
         </section>
 
