@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Migrate from Helicone to LLMeter — Fast, Open-Source Alternative',
+  title: 'Helicone Acquired by Mintlify? Switch to LLMeter — Open-Source Alternative',
   description:
-    'Helicone was acquired by Mintlify and is entering maintenance mode. LLMeter is the open-source alternative with zero-code setup — migrate in 30 seconds.',
+    'Helicone is now Mintlify-owned and in maintenance mode (no new features confirmed). LLMeter is the active open-source alternative — read-only API keys, zero-code setup, migrate in 30 seconds. Free tier.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Migrate from Helicone to LLMeter',
+    title: 'Helicone Acquired by Mintlify? Switch to LLMeter',
     description:
-      'Helicone is in maintenance mode. LLMeter is the open-source alternative — set up in 30 seconds, no SDK needed.',
+      'Helicone is in maintenance mode after Mintlify acquisition. LLMeter is the active open-source alternative — read-only API keys, no SDK, free tier.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Migrate from Helicone to LLMeter',
+    title: 'Helicone Acquired by Mintlify? Switch to LLMeter',
     description:
-      'Helicone is in maintenance mode. LLMeter is the open-source alternative — set up in 30 seconds, no SDK needed.',
+      'Helicone is in maintenance mode after Mintlify acquisition. LLMeter is the active open-source alternative — read-only API keys, no SDK, free tier.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
