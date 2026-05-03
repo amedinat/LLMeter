@@ -43,6 +43,15 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.llmeter.org' },
+    { '@type': 'ListItem', position: 2, name: 'Pricing', item: 'https://www.llmeter.org/pricing' },
+  ],
+};
+
 const pricingJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
@@ -148,6 +157,10 @@ export default async function PricingPage({
   const autoTriggerPlan = VALID_PLANS.includes(plan as typeof VALID_PLANS[number]) ? plan : undefined;
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}
