@@ -11,6 +11,26 @@ export type BlogPost = {
 
 export const POSTS: BlogPost[] = [
   {
+    slug: 'anthropic-cost-tracking',
+    title: 'How to Track Anthropic API Costs: Claude Spend by Model and Customer',
+    description:
+      "Anthropic's console shows total Claude spend but not which model, feature, or customer drove it. Here's how to get per-model and per-customer cost breakdowns using the Anthropic Usage API and the llmeter SDK.",
+    publishedAt: '2026-04-27',
+    author: 'LLMeter Team',
+    keyword: 'anthropic api cost tracking',
+    readingMinutes: 8,
+  },
+  {
+    slug: 'llm-api-budget-alerts',
+    title: 'How to Set LLM API Budget Alerts (Before Your Bill Surprises You)',
+    description:
+      "LLM API bills compound fast: one agentic loop, one runaway batch job, or one heavy user can push a day's spend into territory you didn't plan for. Here's how to set threshold alerts, per-customer caps, and anomaly detection before the invoice arrives.",
+    publishedAt: '2026-04-27',
+    author: 'LLMeter Team',
+    keyword: 'llm api budget alerts',
+    readingMinutes: 9,
+  },
+  {
     slug: 'llm-cost-grafana-prometheus',
     title: 'How to Scrape LLM API Costs into Grafana Using Prometheus',
     description:
