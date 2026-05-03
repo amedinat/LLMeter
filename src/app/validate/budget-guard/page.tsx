@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   AlertTriangle,
+  ArrowRight,
   Ban,
   Bell,
   CheckCircle2,
@@ -364,6 +365,36 @@ export default function ValidateBudgetGuard() {
               Join the waitlist. We email you the day Budget Guard ships — and lock founding-team pricing for life.
             </p>
             <WaitlistForm ctaLabel="Join the Waitlist" />
+          </div>
+        </section>
+
+        {/* Try LLMeter today (exit hatch for visitors not ready for waitlist) */}
+        <section className="container pb-16 md:pb-24">
+          <div className="mx-auto max-w-[48rem] rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-6 md:p-8 text-center space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-wide text-cyan-400">
+              Need cost visibility today?
+            </p>
+            <h3 className="text-xl md:text-2xl font-semibold">
+              Budget Guard ships soon. <span className="text-muted-foreground">LLMeter is live now.</span>
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-[36rem] mx-auto">
+              Track LLM spend across OpenAI, Anthropic, DeepSeek &amp; OpenRouter — open-source, free forever for 1 provider, 30-second setup with a read-only API key.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <Button
+                size="lg"
+                className="h-11 px-6 text-sm font-semibold bg-primary hover:bg-primary/90 text-white"
+                asChild
+              >
+                <Link href="/login">
+                  Try LLMeter Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="ghost" className="h-11 px-6 text-sm" asChild>
+                <Link href="/">Learn more</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
