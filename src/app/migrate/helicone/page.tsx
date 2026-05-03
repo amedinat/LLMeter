@@ -358,6 +358,19 @@ export default function MigrateHelicone() {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.llmeter.org' },
+                { '@type': 'ListItem', position: 2, name: 'Migrate from Helicone', item: 'https://www.llmeter.org/migrate/helicone' },
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
               '@type': 'WebPage',
               name: 'Migrate from Helicone to LLMeter',
               description: 'Migration guide for teams moving from Helicone to LLMeter for LLM cost monitoring.',
