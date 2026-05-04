@@ -12,7 +12,6 @@ import {
   RefreshCw,
   Shield,
   Users,
-  Zap,
 } from 'lucide-react';
 import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
