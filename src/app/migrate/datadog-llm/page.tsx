@@ -11,7 +11,6 @@ import {
   Mail,
   RefreshCw,
   Server,
-  X,
   Zap,
 } from 'lucide-react';
 import { MobileNav } from '@/components/mobile-nav';
