@@ -20,13 +20,13 @@ const VALID_PLANS = ['pro', 'team'] as const;
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Pricing — LLMeter',
+  title: 'LLMeter Pricing — LLM Cost Monitoring from $19/mo',
   description:
     'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo with 7-day free trial, Team at $49/mo.',
   metadataBase: new URL('https://www.llmeter.org'),
   alternates: { canonical: 'https://www.llmeter.org/pricing' },
   openGraph: {
-    title: 'Pricing — LLMeter',
+    title: 'LLMeter Pricing — LLM Cost Monitoring from $19/mo',
     description:
       'Simple, transparent pricing for AI cost monitoring. Free tier with 1 provider, Pro at $19/mo, Team at $49/mo.',
     url: 'https://www.llmeter.org/pricing',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pricing — LLMeter',
+    title: 'LLMeter Pricing — LLM Cost Monitoring from $19/mo',
     description:
       'Simple, transparent pricing for AI cost monitoring. Free tier included.',
     images: ['/og-image.png'],
