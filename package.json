@@ -64,14 +64,16 @@
     "uuid": "^14.0.0",
     "postcss": "^8.5.10",
     "hono": "^4.12.14",
-    "eslint-plugin-react-hooks": "7.0.1"
+    "eslint-plugin-react-hooks": "7.0.1",
+    "ip-address": "^10.2.0"
   },
   "pnpm": {
     "overrides": {
       "uuid": "^14.0.0",
       "postcss": "^8.5.10",
       "hono": "^4.12.14",
-      "eslint-plugin-react-hooks": "7.0.1"
+      "eslint-plugin-react-hooks": "7.0.1",
+      "ip-address": "^10.2.0"
     }
   }
 }
