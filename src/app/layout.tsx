@@ -7,6 +7,39 @@ import "./globals.css";
 
 const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.llmeter.org/#organization",
+  name: "LLMeter",
+  alternateName: "Simplifai LLMeter",
+  url: "https://www.llmeter.org",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://www.llmeter.org/og-image.png",
+    width: 1200,
+    height: 630,
+  },
+  description:
+    "Open-source LLM cost monitoring. Track usage and spend across OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, and Azure OpenAI from one dashboard.",
+  email: "hello@llmeter.org",
+  sameAs: [
+    "https://github.com/amedinat/LLMeter",
+    "https://simplifai.tools",
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.llmeter.org/#website",
+  url: "https://www.llmeter.org",
+  name: "LLMeter",
+  description: "Open-source LLM cost monitoring",
+  publisher: { "@id": "https://www.llmeter.org/#organization" },
+  inLanguage: "en-US",
+};
+
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
@@ -73,16 +106,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      {plausibleDomain && (
-        <head>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        {plausibleDomain && (
           <Script
             defer
             data-domain={plausibleDomain}
             src="https://plausible.io/js/script.js"
             strategy="afterInteractive"
           />
-        </head>
-      )}
+        )}
+      </head>
       <body
         className={`${plusJakarta.variable} ${jetbrainsMono.variable} antialiased`}
       >
