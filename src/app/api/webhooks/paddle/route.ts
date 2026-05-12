@@ -49,12 +49,18 @@ export async function POST(req: NextRequest) {
       // then fall back to user ID (for subscription.created where the
       // customer may not yet be linked in the DB).
       if (result.customerId) {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('profiles')
           .update(dbUpdate)
-          .eq('paddle_customer_id', result.customerId);
+          .eq('paddle_customer_id', result.customerId)
+          .select('id');
 
-        if (error && result.userId) {
+        // A Supabase update that matches zero rows returns no error and an
+        // empty array — so checking `error` alone is not enough. Fall back to
+        // the app-provided user ID (from Paddle custom_data) so the first
+        // subscription event still upgrades the profile even though the
+        // paddle_customer_id column hasn't been linked yet.
+        if ((error || !data || data.length === 0) && result.userId) {
           await supabase
             .from('profiles')
             .update(dbUpdate)

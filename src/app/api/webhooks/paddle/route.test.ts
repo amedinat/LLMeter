@@ -156,60 +156,55 @@ describe('POST /api/webhooks/paddle', () => {
     expect(profilesChain.eq).toHaveBeenCalledWith('paddle_customer_id', 'ctm_01');
   });
 
-  it('falls back to userId when customerId update fails', async () => {
+  it('falls back to userId when the customerId update matches zero rows', async () => {
     mockHandleWebhook.mockResolvedValue(webhookResult());
 
-    // First update (by customer_id) fails, second (by user_id) succeeds
-    let updateCallCount = 0;
-    const chain = buildChain({ error: null });
-    chain.update = vi.fn().mockImplementation(() => {
-      updateCallCount++;
-      return chain;
-    });
-    // Make the single() for the first update return an error
-    chain.single = vi.fn().mockResolvedValue({ error: null });
-    // Override eq to track and simulate error on first path
-    chain.eq = vi.fn().mockImplementation(() => {
-      if (updateCallCount === 1) {
-        return { error: new Error('no match'), data: null };
-      }
-      return chain;
-    });
-
-    // The route uses .update().eq() pattern which returns { error } directly
-    // Let me re-check: it does `const { error } = await supabase.from('profiles').update(dbUpdate).eq('paddle_customer_id', result.customerId)`
-    // So the chain needs to be awaitable and return { error }
+    // The update by paddle_customer_id matches no row (returns no error and an
+    // empty array, like a real Supabase update would) — the route must then
+    // fall back to updating by the app-provided user ID.
     const profilesChain: Record<string, unknown> = {};
-    let profileUpdateCount = 0;
     profilesChain.update = vi.fn().mockReturnValue(profilesChain);
-    profilesChain.eq = vi.fn().mockImplementation(() => {
-      profileUpdateCount++;
-      if (profileUpdateCount === 1) {
-        // First call (by customer_id) — return error to trigger fallback
-        return Promise.resolve({ error: new Error('no rows') });
-      }
-      // Second call (by user_id) — success
-      return Promise.resolve({ error: null });
-    });
+    profilesChain.eq = vi.fn().mockReturnValue(profilesChain);
+    profilesChain.select = vi.fn().mockResolvedValue({ data: [], error: null });
+    // The fallback path is awaited directly (no .select()), so the chain must
+    // also be thenable and resolve to a successful update.
+    profilesChain.then = (resolve: (v: unknown) => void) =>
+      resolve({ data: [{ id: 'profile_01' }], error: null });
 
-    const paddleEventsChain: Record<string, unknown> = {};
-    paddleEventsChain.select = vi.fn().mockReturnValue(paddleEventsChain);
-    paddleEventsChain.eq = vi.fn().mockReturnValue(paddleEventsChain);
-    paddleEventsChain.single = vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } });
-    paddleEventsChain.insert = vi.fn().mockResolvedValue({ error: null });
+    const paddleEventsChain = buildChain({ data: null, error: { code: 'PGRST116' } });
 
     fromBehavior = (table: string) => {
-      if (table === 'paddle_events') return paddleEventsChain as ReturnType<typeof buildChain>;
+      if (table === 'paddle_events') return paddleEventsChain;
       return profilesChain as ReturnType<typeof buildChain>;
     };
 
     const res = await POST(makeRequest());
     expect(res.status).toBe(200);
 
-    // Should have been called twice: first by customer_id, then by user_id
-    expect((profilesChain.eq as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(2);
     expect((profilesChain.eq as ReturnType<typeof vi.fn>)).toHaveBeenCalledWith('paddle_customer_id', 'ctm_01');
     expect((profilesChain.eq as ReturnType<typeof vi.fn>)).toHaveBeenCalledWith('id', 'user_01');
+  });
+
+  it('does not fall back to userId when the customerId update matched a row', async () => {
+    mockHandleWebhook.mockResolvedValue(webhookResult());
+
+    const profilesChain: Record<string, unknown> = {};
+    profilesChain.update = vi.fn().mockReturnValue(profilesChain);
+    profilesChain.eq = vi.fn().mockReturnValue(profilesChain);
+    profilesChain.select = vi.fn().mockResolvedValue({ data: [{ id: 'profile_01' }], error: null });
+
+    const paddleEventsChain = buildChain({ data: null, error: { code: 'PGRST116' } });
+
+    fromBehavior = (table: string) => {
+      if (table === 'paddle_events') return paddleEventsChain;
+      return profilesChain as ReturnType<typeof buildChain>;
+    };
+
+    const res = await POST(makeRequest());
+    expect(res.status).toBe(200);
+
+    expect((profilesChain.eq as ReturnType<typeof vi.fn>)).toHaveBeenCalledWith('paddle_customer_id', 'ctm_01');
+    expect((profilesChain.eq as ReturnType<typeof vi.fn>)).not.toHaveBeenCalledWith('id', 'user_01');
   });
 
   it('updates by userId when no customerId present', async () => {
@@ -247,7 +242,8 @@ describe('POST /api/webhooks/paddle', () => {
 
     const profilesChain = buildChain({ error: null });
     profilesChain.update = vi.fn().mockReturnValue(profilesChain);
-    profilesChain.eq = vi.fn().mockResolvedValue({ error: null });
+    profilesChain.eq = vi.fn().mockReturnValue(profilesChain);
+    profilesChain.select = vi.fn().mockResolvedValue({ data: [{ id: 'profile_01' }], error: null });
     const paddleEventsChain = buildChain({ data: null, error: { code: 'PGRST116' } });
 
     fromBehavior = (table: string) => {
