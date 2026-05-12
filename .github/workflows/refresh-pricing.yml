@@ -21,17 +21,22 @@ jobs:
           ref: develop
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --no-audit --no-fund
+        run: pnpm install --frozen-lockfile
 
       - name: Refresh pricing from OpenRouter
-        run: npx --yes tsx scripts/refresh-pricing.ts
+        run: pnpm dlx tsx scripts/refresh-pricing.ts
 
       - name: Detect changes
         id: diff
