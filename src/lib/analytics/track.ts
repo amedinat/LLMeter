@@ -16,7 +16,7 @@ export function trackEvent(
         .from('user_events')
         .insert({
           user_id: userId,
-          event_name: eventName,
+          event: eventName,
           metadata: metadata ?? {},
         })
         .then(({ error }) => {
