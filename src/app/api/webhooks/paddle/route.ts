@@ -15,6 +15,9 @@ export async function POST(req: NextRequest) {
   const result = await provider.handleWebhook({ body, headers });
 
   if (!result.received) {
+    // Log the underlying reason — a misconfigured PADDLE_WEBHOOK_SECRET shows up
+    // here as "Webhook signature verification failed" and is otherwise opaque.
+    console.error('Paddle webhook rejected:', result.error ?? 'unknown reason');
     return NextResponse.json({ error: result.error ?? 'Invalid webhook' }, { status: 400 });
   }
 
