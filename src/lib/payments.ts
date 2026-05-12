@@ -57,12 +57,21 @@ export function getPaymentProvider(): PaymentProvider {
     throw new Error('Missing PADDLE_API_KEY environment variable');
   }
 
+  // The webhook secret is required to verify Paddle webhook signatures. If it
+  // is missing (or set to an empty string in the deployment env), every webhook
+  // would fail signature verification and return a generic 400 — fail loudly
+  // here instead so the misconfiguration is obvious in the logs.
+  const webhookSecret = process.env.PADDLE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    throw new Error('Missing PADDLE_WEBHOOK_SECRET environment variable');
+  }
+
   _provider = createPaymentProvider({
     provider: 'paddle',
     plans: buildSharedPlans(),
     paddle: {
       apiKey,
-      webhookSecret: process.env.PADDLE_WEBHOOK_SECRET ?? '',
+      webhookSecret,
       environment:
         (process.env.PADDLE_ENVIRONMENT as 'production' | 'sandbox') === 'sandbox'
           ? 'sandbox'
