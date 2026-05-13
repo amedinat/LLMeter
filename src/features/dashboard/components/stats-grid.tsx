@@ -12,6 +12,7 @@ import {
 import { cn } from '@/lib/utils';
 import type { SpendSummary, DailySpend, ProviderType } from '@/types';
 import { PROVIDER_META } from '@/lib/providers';
+import { forecastSpend } from '@/lib/forecasting';
 
 type Range = '7d' | '30d' | '90d';
 
@@ -119,11 +120,10 @@ export function StatsGrid({ summary, dailyData, range = '30d' }: StatsGridProps)
     topProviderPct = (topProviderSpend / totalSpend) * 100;
   }
 
-  // Forecast: simple linear projection from current spend pace
-  const daysWithData = slicedData.filter((d) => d.total > 0).length;
-  const daysInMonth = 30;
-  const dailyAvg = daysWithData > 0 ? totalSpend / daysWithData : 0;
-  const forecast = Math.round(dailyAvg * daysInMonth * 100) / 100;
+  // Forecast: linear-regression projection (uses all 90d data for better accuracy)
+  const forecastResult = forecastSpend(dailyData);
+  const forecast = forecastResult.projectedMonthTotal;
+  const forecastTrend = forecastResult.trend;
 
   // Count active providers in selected range
   const activeProviderCount = providerTotals.size;
@@ -154,7 +154,13 @@ export function StatsGrid({ summary, dailyData, range = '30d' }: StatsGridProps)
         title="Month Forecast"
         value={`$${forecast.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
         icon={<CalendarClock className="h-4 w-4" />}
-        description="Based on current pace"
+        description={
+          forecastTrend === 'rising'
+            ? 'Trend: rising ↑'
+            : forecastTrend === 'falling'
+              ? 'Trend: falling ↓'
+              : 'Trend: stable'
+        }
       />
     </div>
   );
