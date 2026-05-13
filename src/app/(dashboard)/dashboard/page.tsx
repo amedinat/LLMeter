@@ -13,6 +13,7 @@ import { trackEvent, EVENTS } from '@/lib/analytics';
 import { CheckoutSuccessToast } from './checkout-success-toast';
 import { AlertTriggeredBanner } from '@/components/dashboard/alert-triggered-banner';
 import { PLANS } from '@/config/plans';
+import { ForecastPanel } from '@/features/dashboard/components';
 
 export default async function DashboardPage() {
   const plan = await getUserPlan();
@@ -95,6 +96,8 @@ export default async function DashboardPage() {
           <Suspense fallback={<OptimizationSkeleton />}>
             <OptimizationCard suggestions={suggestions} plan={plan} />
           </Suspense>
+
+          <ForecastPanel dailyData={dailyData} />
 
           <Card>
             <CardHeader className="pb-2">
