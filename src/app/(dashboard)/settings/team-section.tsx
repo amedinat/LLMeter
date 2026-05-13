@@ -15,15 +15,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Users, UserPlus, Trash2, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { apiFetch } from '@/lib/api-client';
 
+type MemberRole = 'owner' | 'admin' | 'member' | 'viewer';
+
 interface TeamMember {
   id: string;
   invited_email: string;
-  role: 'owner' | 'member';
+  role: MemberRole;
   status: 'pending' | 'active' | 'removed';
   created_at: string;
   accepted_at: string | null;
@@ -35,12 +44,30 @@ interface TeamData {
   maxMembers: number;
 }
 
+const ROLE_LABELS: Record<MemberRole, string> = {
+  owner: 'Owner',
+  admin: 'Admin',
+  member: 'Member',
+  viewer: 'Viewer',
+};
+
+const ROLE_DESCRIPTIONS: Record<MemberRole, string> = {
+  owner: 'Full access + billing management',
+  admin: 'Full access, can manage team members',
+  member: 'Standard access — add providers, create alerts',
+  viewer: 'Read-only access to cost data',
+};
+
+const ASSIGNABLE_ROLES: MemberRole[] = ['admin', 'member', 'viewer'];
+
 export function TeamSection() {
   const [team, setTeam] = useState<TeamData | null>(null);
   const [loading, setLoading] = useState(true);
   const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState<MemberRole>('member');
   const [inviting, setInviting] = useState(false);
   const [removing, setRemoving] = useState<string | null>(null);
+  const [changingRole, setChangingRole] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const fetchTeam = useCallback(async () => {
@@ -65,13 +92,14 @@ export function TeamSection() {
     try {
       const res = await apiFetch('/api/team', {
         method: 'POST',
-        body: JSON.stringify({ email: inviteEmail }),
+        body: JSON.stringify({ email: inviteEmail, role: inviteRole }),
       });
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || 'Failed to send invite');
       }
       setInviteEmail('');
+      setInviteRole('member');
       setDialogOpen(false);
       await fetchTeam();
       toast.success(`Invite sent to ${inviteEmail}`);
@@ -79,6 +107,33 @@ export function TeamSection() {
       toast.error(err instanceof Error ? err.message : 'Failed to send invite');
     } finally {
       setInviting(false);
+    }
+  };
+
+  const changeRole = async (id: string, email: string, role: MemberRole) => {
+    setChangingRole(id);
+    try {
+      const res = await apiFetch(`/api/team/members/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ role }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to update role');
+      }
+      setTeam((prev) =>
+        prev
+          ? {
+              ...prev,
+              members: prev.members.map((m) => (m.id === id ? { ...m, role } : m)),
+            }
+          : prev,
+      );
+      toast.success(`${email} is now ${ROLE_LABELS[role]}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to update role');
+    } finally {
+      setChangingRole(null);
     }
   };
 
@@ -131,7 +186,7 @@ export function TeamSection() {
                   They will receive an invite link to join your workspace.
                 </DialogDescription>
               </DialogHeader>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div>
                   <Label htmlFor="invite-email">Email address</Label>
                   <Input
@@ -142,6 +197,29 @@ export function TeamSection() {
                     onChange={(e) => setInviteEmail(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && !inviting && inviteMember()}
                   />
+                </div>
+                <div>
+                  <Label htmlFor="invite-role">Role</Label>
+                  <Select
+                    value={inviteRole}
+                    onValueChange={(v) => setInviteRole(v as MemberRole)}
+                  >
+                    <SelectTrigger id="invite-role">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ASSIGNABLE_ROLES.map((r) => (
+                        <SelectItem key={r} value={r}>
+                          <div>
+                            <span className="font-medium">{ROLE_LABELS[r]}</span>
+                            <span className="ml-2 text-xs text-muted-foreground">
+                              — {ROLE_DESCRIPTIONS[r]}
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
               <DialogFooter>
@@ -175,7 +253,7 @@ export function TeamSection() {
             {team.members.map((member) => (
               <div
                 key={member.id}
-                className="flex items-center justify-between rounded-lg border p-3"
+                className="flex items-center justify-between rounded-lg border p-3 gap-3"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {member.status === 'pending' ? (
@@ -194,17 +272,28 @@ export function TeamSection() {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <Badge
-                    variant={
-                      member.role === 'owner'
-                        ? 'default'
-                        : member.status === 'active'
-                          ? 'default'
-                          : 'secondary'
-                    }
-                  >
-                    {member.role === 'owner' ? 'Owner' : member.status === 'pending' ? 'Pending' : 'Member'}
-                  </Badge>
+                  {member.role === 'owner' ? (
+                    <Badge variant="default">Owner</Badge>
+                  ) : member.status === 'pending' ? (
+                    <Badge variant="secondary">Pending — {ROLE_LABELS[member.role]}</Badge>
+                  ) : (
+                    <Select
+                      value={member.role}
+                      onValueChange={(v) => changeRole(member.id, member.invited_email, v as MemberRole)}
+                      disabled={changingRole === member.id}
+                    >
+                      <SelectTrigger className="h-7 w-[100px] text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ASSIGNABLE_ROLES.map((r) => (
+                          <SelectItem key={r} value={r} className="text-xs">
+                            {ROLE_LABELS[r]}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
                   {member.role !== 'owner' && (
                     <Button
                       size="icon-sm"
