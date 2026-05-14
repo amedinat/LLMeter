@@ -1424,6 +1424,124 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-14T00:00:00.000Z',
   },
+  // ── Fireworks AI ─────────────────────────────────────────
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama4-maverick-instruct-basic',
+    display_name: 'Fireworks: Llama 4 Maverick',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.88,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama4-scout-instruct-basic',
+    display_name: 'Fireworks: Llama 4 Scout',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+    display_name: 'Fireworks: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.9,
+    output_price_per_1m_tokens: 0.9,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama-v3p1-405b-instruct',
+    display_name: 'Fireworks: Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 3.0,
+    output_price_per_1m_tokens: 3.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
+    display_name: 'Fireworks: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.9,
+    output_price_per_1m_tokens: 0.9,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama-v3p1-8b-instruct',
+    display_name: 'Fireworks: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.2,
+    output_price_per_1m_tokens: 0.2,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/deepseek-r1',
+    display_name: 'Fireworks: DeepSeek R1',
+    input_price_per_1m_tokens: 8.0,
+    output_price_per_1m_tokens: 8.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/deepseek-v3',
+    display_name: 'Fireworks: DeepSeek V3',
+    input_price_per_1m_tokens: 0.9,
+    output_price_per_1m_tokens: 0.9,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/qwen2p5-72b-instruct',
+    display_name: 'Fireworks: Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.9,
+    output_price_per_1m_tokens: 0.9,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/mixtral-8x7b-instruct',
+    display_name: 'Fireworks: Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.5,
+    output_price_per_1m_tokens: 0.5,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/gemma2-9b-it',
+    display_name: 'Fireworks: Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.2,
+    output_price_per_1m_tokens: 0.2,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama-v3-70b-instruct',
+    display_name: 'Fireworks: Llama 3 70B Instruct',
+    input_price_per_1m_tokens: 0.9,
+    output_price_per_1m_tokens: 0.9,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'fireworks',
+    model_id: 'accounts/fireworks/models/llama-v3-8b-instruct',
+    display_name: 'Fireworks: Llama 3 8B Instruct',
+    input_price_per_1m_tokens: 0.2,
+    output_price_per_1m_tokens: 0.2,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1561,6 +1679,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     cohere: [0.15, 0.6], // Command R list prices
     groq: [0.59, 0.79], // Llama 3.3 70B Versatile list prices
     together: [0.88, 0.88], // Llama 3.3 70B Turbo list prices
+    fireworks: [0.9, 0.9], // Llama 3.3 70B Instruct list prices
   };
   return defaults[provider];
 }

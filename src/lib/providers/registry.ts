@@ -11,6 +11,7 @@ import { xaiAdapter } from './xai-adapter';
 import { cohereAdapter } from './cohere-adapter';
 import { groqAdapter } from './groq-adapter';
 import { togetherAdapter } from './together-adapter';
+import { fireworksAdapter } from './fireworks-adapter';
 
 /**
  * Provider adapter registry.
@@ -30,6 +31,7 @@ adapters.set('xai', xaiAdapter);
 adapters.set('cohere', cohereAdapter);
 adapters.set('groq', groqAdapter);
 adapters.set('together', togetherAdapter);
+adapters.set('fireworks', fireworksAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
