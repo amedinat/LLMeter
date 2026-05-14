@@ -7,7 +7,7 @@ shipped, in flight, and on the horizon.
 ## Shipped
 
 ### Core platform
-- Multi-provider support: OpenAI, Anthropic, Google AI, Mistral, DeepSeek, OpenRouter, xAI (Grok), Cohere, Groq (500+ models)
+- Multi-provider support: OpenAI, Anthropic, Google AI, Mistral, DeepSeek, OpenRouter, xAI (Grok), Cohere, Groq, Together AI, Fireworks AI (500+ models)
 - Azure OpenAI and AWS Bedrock via SDK wrappers
 - Cost tracking pulled directly from provider billing APIs (no proxy)
 - Budget alerts via email and Slack webhook
