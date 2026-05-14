@@ -5,6 +5,8 @@ import { getUserPlan, hasFeature } from '@/lib/feature-gate';
 import { randomBytes } from 'crypto';
 
 const MAX_TEAM_MEMBERS = 5; // including owner
+const ASSIGNABLE_ROLES = ['admin', 'member', 'viewer'] as const;
+type AssignableRole = typeof ASSIGNABLE_ROLES[number];
 
 /** GET /api/team — return org + members for the current user (owner view). */
 export async function GET() {
@@ -77,8 +79,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Team plan required' }, { status: 403 });
   }
 
-  const body = await request.json().catch(() => ({})) as { email?: string };
+  const body = await request.json().catch(() => ({})) as { email?: string; role?: unknown };
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+  const role: AssignableRole = ASSIGNABLE_ROLES.includes(body.role as AssignableRole)
+    ? (body.role as AssignableRole)
+    : 'member';
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
@@ -143,7 +148,7 @@ export async function POST(request: Request) {
     .insert({
       org_id: org.id,
       invited_email: email,
-      role: 'member',
+      role,
       status: 'pending',
       invite_token: inviteToken,
     })

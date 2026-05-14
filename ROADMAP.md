@@ -29,12 +29,11 @@ shipped, in flight, and on the horizon.
 - Distributed rate limiting (Upstash Redis)
 - Row Level Security on all tenant tables
 - Vercel Cron for background polling
+- Fine-grained team permissions (owner / admin / member / viewer)
 
 ## In progress
 
 - More provider integrations
-- Fine-grained team permissions
-- Usage forecasting
 
 ## Considering / not committed
 

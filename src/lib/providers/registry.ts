@@ -7,6 +7,7 @@ import { deepseekAdapter } from './deepseek-adapter';
 import { openrouterAdapter } from './openrouter-adapter';
 import { mistralAdapter } from './mistral-adapter';
 import { azureAdapter } from './azure-adapter';
+import { xaiAdapter } from './xai-adapter';
 
 /**
  * Provider adapter registry.
@@ -22,6 +23,7 @@ adapters.set('deepseek', deepseekAdapter);
 adapters.set('openrouter', openrouterAdapter);
 adapters.set('mistral', mistralAdapter);
 adapters.set('azure', azureAdapter);
+adapters.set('xai', xaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

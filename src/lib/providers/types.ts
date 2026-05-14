@@ -110,4 +110,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/OpenAI',
     color: '#0078D4',
   },
+  xai: {
+    type: 'xai',
+    name: 'xAI (Grok)',
+    description: 'Grok 3, Grok 3 Fast, Grok 3 Mini',
+    keyPrefix: 'xai-',
+    keyPlaceholder: 'xai-...',
+    helpUrl: 'https://console.x.ai/settings/api-keys',
+    color: '#1DA1F2',
+  },
 };

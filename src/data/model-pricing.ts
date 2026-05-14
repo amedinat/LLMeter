@@ -1092,6 +1092,62 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-05-12T21:53:37.569Z',
   },
+
+  // ── xAI (Grok) ───────────────────────────────────────────────
+  {
+    provider: 'xai',
+    model_id: 'grok-3',
+    display_name: 'xAI: Grok 3',
+    input_price_per_1m_tokens: 3,
+    output_price_per_1m_tokens: 15,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-13T00:00:00.000Z',
+  },
+  {
+    provider: 'xai',
+    model_id: 'grok-3-fast',
+    display_name: 'xAI: Grok 3 Fast',
+    input_price_per_1m_tokens: 5,
+    output_price_per_1m_tokens: 25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-13T00:00:00.000Z',
+  },
+  {
+    provider: 'xai',
+    model_id: 'grok-3-mini',
+    display_name: 'xAI: Grok 3 Mini',
+    input_price_per_1m_tokens: 0.3,
+    output_price_per_1m_tokens: 0.5,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-13T00:00:00.000Z',
+  },
+  {
+    provider: 'xai',
+    model_id: 'grok-3-mini-fast',
+    display_name: 'xAI: Grok 3 Mini Fast',
+    input_price_per_1m_tokens: 0.6,
+    output_price_per_1m_tokens: 4,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-13T00:00:00.000Z',
+  },
+  {
+    provider: 'xai',
+    model_id: 'grok-2-1212',
+    display_name: 'xAI: Grok 2',
+    input_price_per_1m_tokens: 2,
+    output_price_per_1m_tokens: 10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-13T00:00:00.000Z',
+  },
+  {
+    provider: 'xai',
+    model_id: 'grok-2-vision-1212',
+    display_name: 'xAI: Grok 2 Vision',
+    input_price_per_1m_tokens: 2,
+    output_price_per_1m_tokens: 10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-13T00:00:00.000Z',
+  },
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1225,6 +1281,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     openrouter: [2.5, 10],
     mistral: [0.4, 2],
     azure: [2.5, 10], // Azure OpenAI mirrors OpenAI list prices
+    xai: [3, 15], // Grok 3 list prices
   };
   return defaults[provider];
 }
