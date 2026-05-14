@@ -59,6 +59,7 @@ const ZERO_PROVIDERS = {
   cohere: 0,
   groq: 0,
   together: 0,
+  fireworks: 0,
 };
 
 // --- Tests ---
