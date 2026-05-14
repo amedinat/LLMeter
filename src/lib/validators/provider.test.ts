@@ -72,7 +72,7 @@ describe('connectProviderSchema', () => {
   });
 
   it('accepts all valid provider types', () => {
-    for (const provider of ['openai', 'anthropic', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai']) {
+    for (const provider of ['openai', 'anthropic', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere']) {
       const result = connectProviderSchema.safeParse({
         provider,
         apiKey: 'sk-valid-key-123',

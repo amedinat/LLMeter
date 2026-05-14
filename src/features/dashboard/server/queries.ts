@@ -172,6 +172,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           openrouter: 0,
           mistral: 0,
           azure: 0,
+          xai: 0,
+          cohere: 0,
         }
       });
     }
@@ -203,6 +205,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           openrouter: 0,
           mistral: 0,
           azure: 0,
+          xai: 0,
+          cohere: 0,
         },
       }
     );

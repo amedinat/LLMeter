@@ -39,6 +39,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         openrouter: 0,
         mistral: 0,
         azure: 0,
+        xai: 0,
+        cohere: 0,
       },
     };
   });

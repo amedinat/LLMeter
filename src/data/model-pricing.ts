@@ -1148,6 +1148,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-05-13T00:00:00.000Z',
   },
+
+  // ── Cohere ────────────────────────────────────────────────────
+  {
+    provider: 'cohere',
+    model_id: 'command-r-plus',
+    display_name: 'Cohere: Command R+',
+    input_price_per_1m_tokens: 2.5,
+    output_price_per_1m_tokens: 10,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'command-r-plus-08-2024',
+    display_name: 'Cohere: Command R+ (Aug 2024)',
+    input_price_per_1m_tokens: 2.5,
+    output_price_per_1m_tokens: 10,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'command-r',
+    display_name: 'Cohere: Command R',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'command-r-08-2024',
+    display_name: 'Cohere: Command R (Aug 2024)',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'command',
+    display_name: 'Cohere: Command',
+    input_price_per_1m_tokens: 1.0,
+    output_price_per_1m_tokens: 2.0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'command-light',
+    display_name: 'Cohere: Command Light',
+    input_price_per_1m_tokens: 0.3,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'embed-english-v3.0',
+    display_name: 'Cohere: Embed English v3',
+    input_price_per_1m_tokens: 0.1,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'cohere',
+    model_id: 'embed-multilingual-v3.0',
+    display_name: 'Cohere: Embed Multilingual v3',
+    input_price_per_1m_tokens: 0.1,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1282,6 +1356,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     mistral: [0.4, 2],
     azure: [2.5, 10], // Azure OpenAI mirrors OpenAI list prices
     xai: [3, 15], // Grok 3 list prices
+    cohere: [0.15, 0.6], // Command R list prices
   };
   return defaults[provider];
 }
