@@ -10,6 +10,7 @@ import { azureAdapter } from './azure-adapter';
 import { xaiAdapter } from './xai-adapter';
 import { cohereAdapter } from './cohere-adapter';
 import { groqAdapter } from './groq-adapter';
+import { togetherAdapter } from './together-adapter';
 
 /**
  * Provider adapter registry.
@@ -28,6 +29,7 @@ adapters.set('azure', azureAdapter);
 adapters.set('xai', xaiAdapter);
 adapters.set('cohere', cohereAdapter);
 adapters.set('groq', groqAdapter);
+adapters.set('together', togetherAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

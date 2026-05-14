@@ -58,6 +58,7 @@ const ZERO_PROVIDERS = {
   xai: 0,
   cohere: 0,
   groq: 0,
+  together: 0,
 };
 
 // --- Tests ---

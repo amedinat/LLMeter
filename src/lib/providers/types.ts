@@ -137,4 +137,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.groq.com/keys',
     color: '#F55036',
   },
+  together: {
+    type: 'together',
+    name: 'Together AI',
+    description: 'Llama 4, DeepSeek R1/V3, Qwen 2.5, Mixtral — open-source models',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://api.together.ai/settings/api-keys',
+    color: '#0F6FFF',
+  },
 };
