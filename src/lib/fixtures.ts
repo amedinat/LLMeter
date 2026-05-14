@@ -41,6 +41,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         azure: 0,
         xai: 0,
         cohere: 0,
+        groq: 0,
       },
     };
   });
