@@ -1314,6 +1314,116 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-14T00:00:00.000Z',
   },
+
+  // ── Together AI ───────────────────────────────────────────────
+  {
+    provider: 'together',
+    model_id: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    display_name: 'Together: Llama 4 Scout 17B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.59,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8',
+    display_name: 'Together: Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 0.85,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'meta-llama/llama-3.3-70b-instruct-turbo',
+    display_name: 'Together: Llama 3.3 70B Turbo',
+    input_price_per_1m_tokens: 0.88,
+    output_price_per_1m_tokens: 0.88,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'meta-llama/meta-llama-3.1-405b-instruct-turbo',
+    display_name: 'Together: Llama 3.1 405B Turbo',
+    input_price_per_1m_tokens: 3.5,
+    output_price_per_1m_tokens: 3.5,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'meta-llama/meta-llama-3.1-70b-instruct-turbo',
+    display_name: 'Together: Llama 3.1 70B Turbo',
+    input_price_per_1m_tokens: 0.88,
+    output_price_per_1m_tokens: 0.88,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'meta-llama/meta-llama-3.1-8b-instruct-turbo',
+    display_name: 'Together: Llama 3.1 8B Turbo',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'deepseek-ai/deepseek-r1',
+    display_name: 'Together: DeepSeek R1',
+    input_price_per_1m_tokens: 7.0,
+    output_price_per_1m_tokens: 7.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'deepseek-ai/deepseek-v3',
+    display_name: 'Together: DeepSeek V3',
+    input_price_per_1m_tokens: 1.25,
+    output_price_per_1m_tokens: 1.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'qwen/qwen2.5-72b-instruct-turbo',
+    display_name: 'Together: Qwen 2.5 72B Turbo',
+    input_price_per_1m_tokens: 1.2,
+    output_price_per_1m_tokens: 1.2,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'qwen/qwen2.5-7b-instruct-turbo',
+    display_name: 'Together: Qwen 2.5 7B Turbo',
+    input_price_per_1m_tokens: 0.3,
+    output_price_per_1m_tokens: 0.3,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'mistralai/mixtral-8x7b-instruct-v0.1',
+    display_name: 'Together: Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.54,
+    output_price_per_1m_tokens: 0.54,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'together',
+    model_id: 'mistralai/mistral-7b-instruct-v0.3',
+    display_name: 'Together: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.2,
+    output_price_per_1m_tokens: 0.2,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1450,6 +1560,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     xai: [3, 15], // Grok 3 list prices
     cohere: [0.15, 0.6], // Command R list prices
     groq: [0.59, 0.79], // Llama 3.3 70B Versatile list prices
+    together: [0.88, 0.88], // Llama 3.3 70B Turbo list prices
   };
   return defaults[provider];
 }

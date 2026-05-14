@@ -14,6 +14,7 @@ export type { BedrockSendOptions } from './bedrock.js';
 export { wrapAzureOpenAI } from './azure.js';
 export { wrapCohere } from './cohere.js';
 export { wrapGroq } from './groq.js';
+export { wrapTogether } from './together.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

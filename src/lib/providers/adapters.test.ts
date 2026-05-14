@@ -8,6 +8,7 @@ import { azureAdapter, parseAzureCredentials } from './azure-adapter';
 import { xaiAdapter } from './xai-adapter';
 import { cohereAdapter } from './cohere-adapter';
 import { groqAdapter } from './groq-adapter';
+import { togetherAdapter } from './together-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -966,6 +967,132 @@ describe('Provider Adapters', () => {
       fetchMock.mockRejectedValue(new Error('Network error'));
 
       const records = await groqAdapter.fetchUsage('gsk_test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(records).toEqual([]);
+    });
+  });
+
+  describe('togetherAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [{ id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo' }] }),
+      });
+
+      const result = await togetherAdapter.validateKey('test-together-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.together.xyz/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-together-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(togetherAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Together AI API key'
+      );
+    });
+
+    it('validateKey throws with API error message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(togetherAdapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('fetchUsage returns empty array when usage endpoint returns 404', async () => {
+      fetchMock.mockResolvedValue({ ok: false, status: 404, json: async () => ({}) });
+
+      const records = await togetherAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage parses usage data with prompt_tokens/completion_tokens', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            {
+              date: '2024-01-15',
+              model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+              prompt_tokens: 8000,
+              completion_tokens: 2000,
+              num_requests: 15,
+            },
+            {
+              date: '2024-01-15',
+              model: 'deepseek-ai/DeepSeek-R1',
+              input_tokens: 20000,
+              output_tokens: 5000,
+              requests: 40,
+            },
+          ],
+        }),
+      });
+
+      const records = await togetherAdapter.fetchUsage('test-key', new Date('2024-01-15'), new Date('2024-01-15'));
+
+      expect(records).toHaveLength(2);
+      expect(records[0]).toEqual(
+        expect.objectContaining({
+          date: '2024-01-15',
+          model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+          inputTokens: 8000,
+          outputTokens: 2000,
+          requests: 15,
+        })
+      );
+      expect(records[0].costUsd).toBeGreaterThan(0);
+      expect(records[1].model).toBe('deepseek-ai/DeepSeek-R1');
+      expect(records[1].inputTokens).toBe(20000);
+    });
+
+    it('fetchUsage skips zero-token rows', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            { date: '2024-01-20', model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', prompt_tokens: 0, completion_tokens: 0, num_requests: 0 },
+            { date: '2024-01-20', model: 'Qwen/Qwen2.5-7B-Instruct-Turbo', prompt_tokens: 1000, completion_tokens: 400, requests: 5 },
+          ],
+        }),
+      });
+
+      const records = await togetherAdapter.fetchUsage('test-key', new Date('2024-01-20'), new Date('2024-01-20'));
+      expect(records).toHaveLength(1);
+      expect(records[0].model).toBe('Qwen/Qwen2.5-7B-Instruct-Turbo');
+    });
+
+    it('fetchUsage uses provided cost when present', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            { date: '2024-01-25', model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', prompt_tokens: 2000, completion_tokens: 800, requests: 2, cost: 0.00249 },
+          ],
+        }),
+      });
+
+      const records = await togetherAdapter.fetchUsage('test-key', new Date('2024-01-25'), new Date('2024-01-25'));
+      expect(records[0].costUsd).toBe(0.00249);
+    });
+
+    it('fetchUsage returns empty array when fetch throws', async () => {
+      fetchMock.mockRejectedValue(new Error('Network error'));
+
+      const records = await togetherAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
       expect(records).toEqual([]);
     });
   });
