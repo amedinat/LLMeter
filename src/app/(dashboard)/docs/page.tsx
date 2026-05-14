@@ -264,6 +264,26 @@ const completion = await trackedFireworks.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fireworks AI
 );`;
 
+const sdkXaiExample = `import OpenAI from 'openai';
+import LLMeter, { wrapXai } from 'llmeter';
+
+// xAI (Grok) is OpenAI-compatible — use the openai package with their base URL
+const xai = new OpenAI({
+  apiKey: process.env.XAI_API_KEY,
+  baseURL: 'https://api.x.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedXai = wrapXai(xai, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedXai.chat.completions.create(
+  {
+    model: 'grok-3',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to xAI
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -322,7 +342,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, and Together AI SDKs.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, and xAI (Grok) SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -347,6 +367,7 @@ export default function DocsPage() {
                 <TabsTrigger value="groq">Groq</TabsTrigger>
                 <TabsTrigger value="together">Together AI</TabsTrigger>
                 <TabsTrigger value="fireworks">Fireworks AI</TabsTrigger>
+                <TabsTrigger value="xai">xAI (Grok)</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -438,6 +459,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen 2.5, Mixtral, and 200+ open-source models.
                 </p>
                 <CodeBlock language="typescript" code={sdkFireworksExample} />
+              </TabsContent>
+              <TabsContent value="xai" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  xAI (Grok) is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with xAI&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Grok 3, Grok 3 Fast, Grok 3 Mini, and Grok 2 Vision.
+                </p>
+                <CodeBlock language="typescript" code={sdkXaiExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
