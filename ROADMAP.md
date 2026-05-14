@@ -7,7 +7,7 @@ shipped, in flight, and on the horizon.
 ## Shipped
 
 ### Core platform
-- Multi-provider support: OpenAI, Anthropic, Google AI, Mistral, DeepSeek, OpenRouter (500+ models)
+- Multi-provider support: OpenAI, Anthropic, Google AI, Mistral, DeepSeek, OpenRouter, xAI (Grok), Cohere, Groq (500+ models)
 - Azure OpenAI and AWS Bedrock via SDK wrappers
 - Cost tracking pulled directly from provider billing APIs (no proxy)
 - Budget alerts via email and Slack webhook
@@ -19,7 +19,7 @@ shipped, in flight, and on the horizon.
 - Prometheus metrics endpoint (`/api/v1/metrics`) for Grafana scraping
 
 ### SDK
-- `llmeter` npm package — wrappers for OpenAI, Anthropic, Google AI, Azure OpenAI, AWS Bedrock
+- `llmeter` npm package — wrappers for OpenAI, Anthropic, Google AI, Azure OpenAI, AWS Bedrock, Cohere, Groq
 - Zero dependencies, ESM + CJS dual build, works in Node.js, Edge, and the browser
 
 ### Operations

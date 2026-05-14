@@ -192,6 +192,38 @@ const completion = await trackedAzure.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Azure
 );`;
 
+const sdkCohereExample = `import { CohereClient } from 'cohere-ai';
+import LLMeter, { wrapCohere } from 'llmeter';
+
+const cohere = new CohereClient({ token: process.env.COHERE_API_KEY });
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCohere = wrapCohere(cohere, llmeter);
+
+// All cohere.chat() calls are tracked automatically
+const response = await trackedCohere.chat(
+  {
+    model: 'command-r-plus',
+    message: 'Hello!',
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Cohere
+);`;
+
+const sdkGroqExample = `import Groq from 'groq-sdk';
+import LLMeter, { wrapGroq } from 'llmeter';
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGroq = wrapGroq(groq, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedGroq.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-versatile',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Groq
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -250,7 +282,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for the OpenAI, Anthropic, Google AI, AWS Bedrock, and Azure OpenAI SDKs.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, and Groq SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -271,6 +303,8 @@ export default function DocsPage() {
                 <TabsTrigger value="google">Google AI wrapper</TabsTrigger>
                 <TabsTrigger value="bedrock">AWS Bedrock</TabsTrigger>
                 <TabsTrigger value="azure">Azure OpenAI</TabsTrigger>
+                <TabsTrigger value="cohere">Cohere</TabsTrigger>
+                <TabsTrigger value="groq">Groq</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -323,6 +357,25 @@ export default function DocsPage() {
                   configured for Azure or the <code className="rounded bg-muted px-1.5 py-0.5">@azure/openai</code> package.
                 </p>
                 <CodeBlock language="typescript" code={sdkAzureExample} />
+              </TabsContent>
+              <TabsContent value="cohere" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">CohereClient</code>{' '}
+                  once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">cohere.chat()</code>{' '}
+                  call is tracked automatically. Works with <code className="rounded bg-muted px-1.5 py-0.5">cohere-ai</code> v7+.
+                </p>
+                <CodeBlock language="typescript" code={sdkCohereExample} />
+              </TabsContent>
+              <TabsContent value="groq" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Groq client once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Works with the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">groq-sdk</code> package.
+                </p>
+                <CodeBlock language="typescript" code={sdkGroqExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -8,6 +8,8 @@ import { openrouterAdapter } from './openrouter-adapter';
 import { mistralAdapter } from './mistral-adapter';
 import { azureAdapter } from './azure-adapter';
 import { xaiAdapter } from './xai-adapter';
+import { cohereAdapter } from './cohere-adapter';
+import { groqAdapter } from './groq-adapter';
 
 /**
  * Provider adapter registry.
@@ -24,6 +26,8 @@ adapters.set('openrouter', openrouterAdapter);
 adapters.set('mistral', mistralAdapter);
 adapters.set('azure', azureAdapter);
 adapters.set('xai', xaiAdapter);
+adapters.set('cohere', cohereAdapter);
+adapters.set('groq', groqAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

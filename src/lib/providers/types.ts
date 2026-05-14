@@ -119,4 +119,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.x.ai/settings/api-keys',
     color: '#1DA1F2',
   },
+  cohere: {
+    type: 'cohere',
+    name: 'Cohere',
+    description: 'Command R+, Command R, Embed, Rerank',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://dashboard.cohere.com/api-keys',
+    color: '#39594D',
+  },
+  groq: {
+    type: 'groq',
+    name: 'Groq',
+    description: 'Llama 4, Llama 3.3 70B, Gemma 2, Mixtral — ultra-fast inference',
+    keyPrefix: 'gsk_',
+    keyPlaceholder: 'gsk_...',
+    helpUrl: 'https://console.groq.com/keys',
+    color: '#F55036',
+  },
 };
