@@ -5,6 +5,7 @@ import { googleAdapter } from './google-adapter';
 import { deepseekAdapter } from './deepseek-adapter';
 import { mistralAdapter } from './mistral-adapter';
 import { azureAdapter, parseAzureCredentials } from './azure-adapter';
+import { xaiAdapter } from './xai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -583,6 +584,136 @@ describe('Provider Adapters', () => {
       expect(records).toEqual([]);
       // No HTTP call should be made — Azure billing requires Azure AD auth
       expect(fetchMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('xAI Adapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [{ id: 'grok-3' }] }),
+      });
+
+      const result = await xaiAdapter.validateKey('xai-test-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.x.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer xai-test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(xaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid xAI API key'
+      );
+    });
+
+    it('validateKey throws with API error message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(xaiAdapter.validateKey('xai-test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('fetchUsage returns empty array when usage endpoint returns 404', async () => {
+      fetchMock.mockResolvedValue({ ok: false, status: 404, json: async () => ({}) });
+
+      const startDate = new Date('2024-01-01T00:00:00Z');
+      const endDate = new Date('2024-01-07T23:59:59Z');
+      const records = await xaiAdapter.fetchUsage('xai-test', startDate, endDate);
+
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage parses usage data array when endpoint returns records', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            {
+              date: '2024-01-15',
+              model: 'grok-3',
+              input_tokens: 4000,
+              output_tokens: 1000,
+              requests: 8,
+            },
+            {
+              date: '2024-01-15',
+              model: 'grok-3-mini',
+              input_tokens: 10000,
+              output_tokens: 3000,
+              requests: 20,
+            },
+          ],
+        }),
+      });
+
+      const startDate = new Date('2024-01-15T00:00:00Z');
+      const endDate = new Date('2024-01-15T23:59:59Z');
+      const records = await xaiAdapter.fetchUsage('xai-test', startDate, endDate);
+
+      expect(records).toHaveLength(2);
+      expect(records[0]).toEqual(
+        expect.objectContaining({
+          date: '2024-01-15',
+          model: 'grok-3',
+          inputTokens: 4000,
+          outputTokens: 1000,
+          requests: 8,
+        })
+      );
+      expect(records[0].costUsd).toBeGreaterThan(0);
+      expect(records[1].model).toBe('grok-3-mini');
+    });
+
+    it('fetchUsage skips zero-token rows', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            { date: '2024-01-20', model: 'grok-3', input_tokens: 0, output_tokens: 0, requests: 0 },
+            { date: '2024-01-20', model: 'grok-3-mini', input_tokens: 500, output_tokens: 200, requests: 2 },
+          ],
+        }),
+      });
+
+      const records = await xaiAdapter.fetchUsage('xai-test', new Date('2024-01-20'), new Date('2024-01-20'));
+      expect(records).toHaveLength(1);
+      expect(records[0].model).toBe('grok-3-mini');
+    });
+
+    it('fetchUsage uses provided cost when present', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            { date: '2024-01-25', model: 'grok-3', input_tokens: 1000, output_tokens: 500, requests: 1, cost: 0.0075 },
+          ],
+        }),
+      });
+
+      const records = await xaiAdapter.fetchUsage('xai-test', new Date('2024-01-25'), new Date('2024-01-25'));
+      expect(records[0].costUsd).toBe(0.0075);
+    });
+
+    it('fetchUsage returns empty array when fetch throws', async () => {
+      fetchMock.mockRejectedValue(new Error('Network error'));
+
+      const records = await xaiAdapter.fetchUsage('xai-test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(records).toEqual([]);
     });
   });
 });
