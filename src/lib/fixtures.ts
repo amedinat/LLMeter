@@ -43,6 +43,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         cohere: 0,
         groq: 0,
         together: 0,
+        fireworks: 0,
       },
     };
   });

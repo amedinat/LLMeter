@@ -244,6 +244,26 @@ const completion = await trackedTogether.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Together AI
 );`;
 
+const sdkFireworksExample = `import OpenAI from 'openai';
+import LLMeter, { wrapFireworks } from 'llmeter';
+
+// Fireworks AI is OpenAI-compatible — use the openai package with their base URL
+const fireworks = new OpenAI({
+  apiKey: process.env.FIREWORKS_API_KEY,
+  baseURL: 'https://api.fireworks.ai/inference/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedFireworks = wrapFireworks(fireworks, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedFireworks.chat.completions.create(
+  {
+    model: 'accounts/fireworks/models/llama-v3p3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fireworks AI
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -326,6 +346,7 @@ export default function DocsPage() {
                 <TabsTrigger value="cohere">Cohere</TabsTrigger>
                 <TabsTrigger value="groq">Groq</TabsTrigger>
                 <TabsTrigger value="together">Together AI</TabsTrigger>
+                <TabsTrigger value="fireworks">Fireworks AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -407,6 +428,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen 2.5, and 100+ open-source models.
                 </p>
                 <CodeBlock language="typescript" code={sdkTogetherExample} />
+              </TabsContent>
+              <TabsContent value="fireworks" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Fireworks AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Fireworks&apos; base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen 2.5, Mixtral, and 200+ open-source models.
+                </p>
+                <CodeBlock language="typescript" code={sdkFireworksExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

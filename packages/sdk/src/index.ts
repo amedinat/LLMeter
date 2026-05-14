@@ -15,6 +15,7 @@ export { wrapAzureOpenAI } from './azure.js';
 export { wrapCohere } from './cohere.js';
 export { wrapGroq } from './groq.js';
 export { wrapTogether } from './together.js';
+export { wrapFireworks } from './fireworks.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

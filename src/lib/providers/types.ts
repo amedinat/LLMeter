@@ -146,4 +146,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://api.together.ai/settings/api-keys',
     color: '#0F6FFF',
   },
+  fireworks: {
+    type: 'fireworks',
+    name: 'Fireworks AI',
+    description: 'Llama 4, DeepSeek R1/V3, Qwen 2.5, Mixtral — fast open-source inference',
+    keyPrefix: 'fw_',
+    keyPlaceholder: 'fw_...',
+    helpUrl: 'https://fireworks.ai/settings/users/api-keys',
+    color: '#FF6B35',
+  },
 };
