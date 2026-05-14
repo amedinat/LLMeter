@@ -224,6 +224,26 @@ const completion = await trackedGroq.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Groq
 );`;
 
+const sdkTogetherExample = `import OpenAI from 'openai';
+import LLMeter, { wrapTogether } from 'llmeter';
+
+// Together AI is OpenAI-compatible — use the openai package with their base URL
+const together = new OpenAI({
+  apiKey: process.env.TOGETHER_API_KEY,
+  baseURL: 'https://api.together.xyz/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedTogether = wrapTogether(together, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedTogether.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Together AI
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -282,7 +302,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, and Groq SDKs.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, and Together AI SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -305,6 +325,7 @@ export default function DocsPage() {
                 <TabsTrigger value="azure">Azure OpenAI</TabsTrigger>
                 <TabsTrigger value="cohere">Cohere</TabsTrigger>
                 <TabsTrigger value="groq">Groq</TabsTrigger>
+                <TabsTrigger value="together">Together AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -376,6 +397,16 @@ export default function DocsPage() {
                   <code className="rounded bg-muted px-1.5 py-0.5">groq-sdk</code> package.
                 </p>
                 <CodeBlock language="typescript" code={sdkGroqExample} />
+              </TabsContent>
+              <TabsContent value="together" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Together AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Together&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen 2.5, and 100+ open-source models.
+                </p>
+                <CodeBlock language="typescript" code={sdkTogetherExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
