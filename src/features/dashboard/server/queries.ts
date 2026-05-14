@@ -174,6 +174,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           azure: 0,
           xai: 0,
           cohere: 0,
+          groq: 0,
         }
       });
     }
@@ -207,6 +208,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           azure: 0,
           xai: 0,
           cohere: 0,
+          groq: 0,
         },
       }
     );
