@@ -164,4 +164,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://www.perplexity.ai/settings/api',
     color: '#20B2AA',
   },
+  cerebras: {
+    type: 'cerebras',
+    name: 'Cerebras',
+    description: 'Llama 3.1/3.3, Qwen 3, DeepSeek R1 — ultra-fast inference on Cerebras hardware',
+    keyPrefix: 'csk-',
+    keyPlaceholder: 'csk-...',
+    helpUrl: 'https://cloud.cerebras.ai/platform',
+    color: '#F15A24',
+  },
+  ai21: {
+    type: 'ai21',
+    name: 'AI21 Labs',
+    description: 'Jamba 1.5/1.6 Mini and Large — long-context SSM-Transformer hybrid models',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://studio.ai21.com/account/api-key',
+    color: '#6C47FF',
+  },
 };

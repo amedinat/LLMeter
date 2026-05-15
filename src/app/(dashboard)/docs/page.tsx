@@ -284,6 +284,46 @@ const completion = await trackedPerplexity.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Perplexity AI
 );`;
 
+const sdkCerebrasExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCerebras } from 'llmeter';
+
+// Cerebras is OpenAI-compatible — use the openai package with their base URL
+const cerebras = new OpenAI({
+  apiKey: process.env.CEREBRAS_API_KEY,
+  baseURL: 'https://api.cerebras.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCerebras = wrapCerebras(cerebras, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedCerebras.chat.completions.create(
+  {
+    model: 'llama-3.3-70b',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Cerebras
+);`;
+
+const sdkAI21Example = `import OpenAI from 'openai';
+import LLMeter, { wrapAI21 } from 'llmeter';
+
+// AI21 Labs is OpenAI-compatible — use the openai package with their base URL
+const ai21 = new OpenAI({
+  apiKey: process.env.AI21_API_KEY,
+  baseURL: 'https://api.ai21.com/studio/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAI21 = wrapAI21(ai21, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedAI21.chat.completions.create(
+  {
+    model: 'jamba-1.5-large',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI21 Labs
+);`;
+
 const sdkXaiExample = `import OpenAI from 'openai';
 import LLMeter, { wrapXai } from 'llmeter';
 
@@ -362,7 +402,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, and xAI (Grok) SDKs.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, and xAI (Grok) SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -388,6 +428,8 @@ export default function DocsPage() {
                 <TabsTrigger value="together">Together AI</TabsTrigger>
                 <TabsTrigger value="fireworks">Fireworks AI</TabsTrigger>
                 <TabsTrigger value="perplexity">Perplexity AI</TabsTrigger>
+                <TabsTrigger value="cerebras">Cerebras</TabsTrigger>
+                <TabsTrigger value="ai21">AI21 Labs</TabsTrigger>
                 <TabsTrigger value="xai">xAI (Grok)</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
@@ -490,6 +532,26 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Sonar, Sonar Pro, Sonar Reasoning, and R1-1776.
                 </p>
                 <CodeBlock language="typescript" code={sdkPerplexityExample} />
+              </TabsContent>
+              <TabsContent value="cerebras" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Cerebras is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Cerebras&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.1 8B/70B, Llama 3.3 70B, Qwen 3 32B, and DeepSeek R1 Distill.
+                </p>
+                <CodeBlock language="typescript" code={sdkCerebrasExample} />
+              </TabsContent>
+              <TabsContent value="ai21" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  AI21 Labs is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with AI21&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Jamba 1.5 Mini/Large and Jamba 1.6 Mini/Large.
+                </p>
+                <CodeBlock language="typescript" code={sdkAI21Example} />
               </TabsContent>
               <TabsContent value="xai" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

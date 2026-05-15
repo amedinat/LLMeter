@@ -61,6 +61,8 @@ const ZERO_PROVIDERS = {
   together: 0,
   fireworks: 0,
   perplexity: 0,
+  cerebras: 0,
+  ai21: 0,
 };
 
 // --- Tests ---

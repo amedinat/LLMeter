@@ -1597,6 +1597,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-05-14T00:00:00.000Z',
   },
+  // ── Cerebras ──────────────────────────────────────────────
+  {
+    provider: 'cerebras',
+    model_id: 'llama3.1-8b',
+    display_name: 'Cerebras: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.1,
+    output_price_per_1m_tokens: 0.1,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'cerebras',
+    model_id: 'llama3.1-70b',
+    display_name: 'Cerebras: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.6,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'cerebras',
+    model_id: 'llama-3.3-70b',
+    display_name: 'Cerebras: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.85,
+    output_price_per_1m_tokens: 0.85,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'cerebras',
+    model_id: 'qwen-3-32b',
+    display_name: 'Cerebras: Qwen 3 32B',
+    input_price_per_1m_tokens: 0.4,
+    output_price_per_1m_tokens: 0.4,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'cerebras',
+    model_id: 'deepseek-r1-distill-llama-70b',
+    display_name: 'Cerebras: DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.6,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  // ── AI21 Labs ─────────────────────────────────────────────
+  {
+    provider: 'ai21',
+    model_id: 'jamba-1.5-mini',
+    display_name: 'AI21: Jamba 1.5 Mini',
+    input_price_per_1m_tokens: 0.2,
+    output_price_per_1m_tokens: 0.4,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'ai21',
+    model_id: 'jamba-1.5-large',
+    display_name: 'AI21: Jamba 1.5 Large',
+    input_price_per_1m_tokens: 2.0,
+    output_price_per_1m_tokens: 8.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'ai21',
+    model_id: 'jamba-1.6-mini',
+    display_name: 'AI21: Jamba 1.6 Mini',
+    input_price_per_1m_tokens: 0.2,
+    output_price_per_1m_tokens: 0.4,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
+  {
+    provider: 'ai21',
+    model_id: 'jamba-1.6-large',
+    display_name: 'AI21: Jamba 1.6 Large',
+    input_price_per_1m_tokens: 2.0,
+    output_price_per_1m_tokens: 8.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-15T00:00:00.000Z',
+  },
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1736,6 +1819,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     together: [0.88, 0.88], // Llama 3.3 70B Turbo list prices
     fireworks: [0.9, 0.9], // Llama 3.3 70B Instruct list prices
     perplexity: [1.0, 1.0], // Sonar list prices
+    cerebras: [0.6, 0.6], // Llama 3.1 70B list prices
+    ai21: [0.2, 0.4], // Jamba 1.5 Mini list prices
   };
   return defaults[provider];
 }

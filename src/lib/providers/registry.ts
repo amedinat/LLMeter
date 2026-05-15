@@ -13,6 +13,8 @@ import { groqAdapter } from './groq-adapter';
 import { togetherAdapter } from './together-adapter';
 import { fireworksAdapter } from './fireworks-adapter';
 import { perplexityAdapter } from './perplexity-adapter';
+import { cerebrasAdapter } from './cerebras-adapter';
+import { ai21Adapter } from './ai21-adapter';
 
 /**
  * Provider adapter registry.
@@ -34,6 +36,8 @@ adapters.set('groq', groqAdapter);
 adapters.set('together', togetherAdapter);
 adapters.set('fireworks', fireworksAdapter);
 adapters.set('perplexity', perplexityAdapter);
+adapters.set('cerebras', cerebrasAdapter);
+adapters.set('ai21', ai21Adapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
