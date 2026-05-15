@@ -11,6 +11,8 @@ import { groqAdapter } from './groq-adapter';
 import { togetherAdapter } from './together-adapter';
 import { fireworksAdapter } from './fireworks-adapter';
 import { perplexityAdapter } from './perplexity-adapter';
+import { cerebrasAdapter } from './cerebras-adapter';
+import { ai21Adapter } from './ai21-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -1348,6 +1350,154 @@ describe('Provider Adapters', () => {
 
       const records = await perplexityAdapter.fetchUsage('pplx-test', new Date('2024-01-01'), new Date('2024-01-31'));
       expect(records).toEqual([]);
+    });
+  });
+
+  describe('cerebrasAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ object: 'list', data: [{ id: 'llama3.1-8b' }] }),
+      });
+
+      const result = await cerebrasAdapter.validateKey('csk-test-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.cerebras.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer csk-test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(cerebrasAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Cerebras API key'
+      );
+    });
+
+    it('validateKey throws with API error message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(cerebrasAdapter.validateKey('csk-test')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('validateKey throws with status code when no error body', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(cerebrasAdapter.validateKey('csk-test')).rejects.toThrow(
+        'Cerebras API returned 503'
+      );
+    });
+
+    it('fetchUsage always returns empty array (no public usage API)', async () => {
+      const records = await cerebrasAdapter.fetchUsage('csk-test', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await cerebrasAdapter.fetchUsage('csk-test', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await cerebrasAdapter.fetchUsage('csk-test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('cerebrasAdapter.type is cerebras', () => {
+      expect(cerebrasAdapter.type).toBe('cerebras');
+    });
+  });
+
+  describe('ai21Adapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ([{ id: 'jamba-1.5-mini', object: 'model' }]),
+      });
+
+      const result = await ai21Adapter.validateKey('test-ai21-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.ai21.com/studio/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-ai21-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ detail: 'Authentication credentials were not provided.' }),
+      });
+
+      await expect(ai21Adapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI21 Labs API key'
+      );
+    });
+
+    it('validateKey throws with detail message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ detail: 'Rate limit exceeded' }),
+      });
+
+      await expect(ai21Adapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('validateKey throws with status code when no error body', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(ai21Adapter.validateKey('test-key')).rejects.toThrow(
+        'AI21 Labs API returned 503'
+      );
+    });
+
+    it('fetchUsage always returns empty array (no public usage API)', async () => {
+      const records = await ai21Adapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await ai21Adapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await ai21Adapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('ai21Adapter.type is ai21', () => {
+      expect(ai21Adapter.type).toBe('ai21');
     });
   });
 });
