@@ -605,6 +605,7 @@ export default function HomePage() {
               <li><Link href="/pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
               <li><Link href="https://github.com/amedinat/LLMeter" target="_blank" className="hover:text-foreground transition-colors">GitHub</Link></li>
               <li><Link href="/migrate/helicone" className="hover:text-foreground transition-colors">Migrate from Helicone</Link></li>
+              <li><Link href="/migrate/langfuse" className="hover:text-foreground transition-colors">Migrate from Langfuse</Link></li>
               <li><Link href="/models" className="hover:text-foreground transition-colors">Model Pricing</Link></li>
             </ul>
           </div>
