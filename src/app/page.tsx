@@ -606,6 +606,11 @@ export default function HomePage() {
               <li><Link href="https://github.com/amedinat/LLMeter" target="_blank" className="hover:text-foreground transition-colors">GitHub</Link></li>
               <li><Link href="/migrate/helicone" className="hover:text-foreground transition-colors">Migrate from Helicone</Link></li>
               <li><Link href="/migrate/langfuse" className="hover:text-foreground transition-colors">Migrate from Langfuse</Link></li>
+              <li><Link href="/migrate/langsmith" className="hover:text-foreground transition-colors">Migrate from LangSmith</Link></li>
+              <li><Link href="/migrate/datadog-llm" className="hover:text-foreground transition-colors">Migrate from Datadog LLM</Link></li>
+              <li><Link href="/migrate/openai-usage" className="hover:text-foreground transition-colors">OpenAI Usage Alternative</Link></li>
+              <li><Link href="/migrate/portkey" className="hover:text-foreground transition-colors">Migrate from Portkey</Link></li>
+              <li><Link href="/migrate/braintrust" className="hover:text-foreground transition-colors">Migrate from Braintrust</Link></li>
               <li><Link href="/models" className="hover:text-foreground transition-colors">Model Pricing</Link></li>
             </ul>
           </div>
