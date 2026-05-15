@@ -264,6 +264,26 @@ const completion = await trackedFireworks.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fireworks AI
 );`;
 
+const sdkPerplexityExample = `import OpenAI from 'openai';
+import LLMeter, { wrapPerplexity } from 'llmeter';
+
+// Perplexity AI is OpenAI-compatible — use the openai package with their base URL
+const perplexity = new OpenAI({
+  apiKey: process.env.PERPLEXITY_API_KEY,
+  baseURL: 'https://api.perplexity.ai',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedPerplexity = wrapPerplexity(perplexity, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedPerplexity.chat.completions.create(
+  {
+    model: 'sonar-pro',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Perplexity AI
+);`;
+
 const sdkXaiExample = `import OpenAI from 'openai';
 import LLMeter, { wrapXai } from 'llmeter';
 
@@ -342,7 +362,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, and xAI (Grok) SDKs.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, and xAI (Grok) SDKs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -367,6 +387,7 @@ export default function DocsPage() {
                 <TabsTrigger value="groq">Groq</TabsTrigger>
                 <TabsTrigger value="together">Together AI</TabsTrigger>
                 <TabsTrigger value="fireworks">Fireworks AI</TabsTrigger>
+                <TabsTrigger value="perplexity">Perplexity AI</TabsTrigger>
                 <TabsTrigger value="xai">xAI (Grok)</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
@@ -459,6 +480,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen 2.5, Mixtral, and 200+ open-source models.
                 </p>
                 <CodeBlock language="typescript" code={sdkFireworksExample} />
+              </TabsContent>
+              <TabsContent value="perplexity" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Perplexity AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Perplexity&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Sonar, Sonar Pro, Sonar Reasoning, and R1-1776.
+                </p>
+                <CodeBlock language="typescript" code={sdkPerplexityExample} />
               </TabsContent>
               <TabsContent value="xai" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

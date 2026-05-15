@@ -12,6 +12,7 @@ import { cohereAdapter } from './cohere-adapter';
 import { groqAdapter } from './groq-adapter';
 import { togetherAdapter } from './together-adapter';
 import { fireworksAdapter } from './fireworks-adapter';
+import { perplexityAdapter } from './perplexity-adapter';
 
 /**
  * Provider adapter registry.
@@ -32,6 +33,7 @@ adapters.set('cohere', cohereAdapter);
 adapters.set('groq', groqAdapter);
 adapters.set('together', togetherAdapter);
 adapters.set('fireworks', fireworksAdapter);
+adapters.set('perplexity', perplexityAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

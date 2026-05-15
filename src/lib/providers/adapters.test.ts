@@ -10,6 +10,7 @@ import { cohereAdapter } from './cohere-adapter';
 import { groqAdapter } from './groq-adapter';
 import { togetherAdapter } from './together-adapter';
 import { fireworksAdapter } from './fireworks-adapter';
+import { perplexityAdapter } from './perplexity-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -1220,6 +1221,132 @@ describe('Provider Adapters', () => {
       fetchMock.mockRejectedValue(new Error('Network error'));
 
       const records = await fireworksAdapter.fetchUsage('fw_test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(records).toEqual([]);
+    });
+  });
+
+  describe('perplexityAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [{ id: 'sonar', object: 'model' }] }),
+      });
+
+      const result = await perplexityAdapter.validateKey('pplx-test-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.perplexity.ai/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer pplx-test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(perplexityAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Perplexity AI API key'
+      );
+    });
+
+    it('validateKey throws with API error message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(perplexityAdapter.validateKey('pplx-test')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('fetchUsage returns empty array when usage endpoint returns 404', async () => {
+      fetchMock.mockResolvedValue({ ok: false, status: 404, json: async () => ({}) });
+
+      const records = await perplexityAdapter.fetchUsage('pplx-test', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage parses usage data with prompt_tokens/completion_tokens', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            {
+              date: '2024-01-15',
+              model: 'sonar-pro',
+              prompt_tokens: 8000,
+              completion_tokens: 2000,
+              total_requests: 15,
+            },
+            {
+              date: '2024-01-15',
+              model: 'sonar-reasoning',
+              input_tokens: 20000,
+              output_tokens: 5000,
+              requests: 40,
+            },
+          ],
+        }),
+      });
+
+      const records = await perplexityAdapter.fetchUsage('pplx-test', new Date('2024-01-15'), new Date('2024-01-15'));
+
+      expect(records).toHaveLength(2);
+      expect(records[0]).toEqual(
+        expect.objectContaining({
+          date: '2024-01-15',
+          model: 'sonar-pro',
+          inputTokens: 8000,
+          outputTokens: 2000,
+          requests: 15,
+        })
+      );
+      expect(records[0].costUsd).toBeGreaterThan(0);
+      expect(records[1].model).toBe('sonar-reasoning');
+      expect(records[1].inputTokens).toBe(20000);
+    });
+
+    it('fetchUsage skips zero-token rows', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            { date: '2024-01-20', model: 'sonar', prompt_tokens: 0, completion_tokens: 0, total_requests: 0 },
+            { date: '2024-01-20', model: 'sonar-pro', prompt_tokens: 1000, completion_tokens: 400, requests: 5 },
+          ],
+        }),
+      });
+
+      const records = await perplexityAdapter.fetchUsage('pplx-test', new Date('2024-01-20'), new Date('2024-01-20'));
+      expect(records).toHaveLength(1);
+      expect(records[0].model).toBe('sonar-pro');
+    });
+
+    it('fetchUsage uses provided cost when present', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: [
+            { date: '2024-01-25', model: 'sonar-pro', prompt_tokens: 2000, completion_tokens: 800, requests: 2, cost: 0.01642 },
+          ],
+        }),
+      });
+
+      const records = await perplexityAdapter.fetchUsage('pplx-test', new Date('2024-01-25'), new Date('2024-01-25'));
+      expect(records[0].costUsd).toBe(0.01642);
+    });
+
+    it('fetchUsage returns empty array when fetch throws', async () => {
+      fetchMock.mockRejectedValue(new Error('Network error'));
+
+      const records = await perplexityAdapter.fetchUsage('pplx-test', new Date('2024-01-01'), new Date('2024-01-31'));
       expect(records).toEqual([]);
     });
   });

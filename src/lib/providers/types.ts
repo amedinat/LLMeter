@@ -155,4 +155,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://fireworks.ai/settings/users/api-keys',
     color: '#FF6B35',
   },
+  perplexity: {
+    type: 'perplexity',
+    name: 'Perplexity AI',
+    description: 'Sonar, Sonar Pro, Sonar Reasoning — search-augmented models',
+    keyPrefix: 'pplx-',
+    keyPlaceholder: 'pplx-...',
+    helpUrl: 'https://www.perplexity.ai/settings/api',
+    color: '#20B2AA',
+  },
 };
