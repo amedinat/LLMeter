@@ -177,6 +177,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           groq: 0,
           together: 0,
           fireworks: 0,
+          perplexity: 0,
         }
       });
     }
@@ -213,6 +214,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           groq: 0,
           together: 0,
           fireworks: 0,
+          perplexity: 0,
         },
       }
     );
