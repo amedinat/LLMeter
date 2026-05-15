@@ -1542,6 +1542,61 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-14T00:00:00.000Z',
   },
+  // ── Perplexity AI ─────────────────────────────────────────
+  {
+    provider: 'perplexity',
+    model_id: 'sonar',
+    display_name: 'Perplexity: Sonar',
+    input_price_per_1m_tokens: 1.0,
+    output_price_per_1m_tokens: 1.0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'perplexity',
+    model_id: 'sonar-pro',
+    display_name: 'Perplexity: Sonar Pro',
+    input_price_per_1m_tokens: 3.0,
+    output_price_per_1m_tokens: 15.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'perplexity',
+    model_id: 'sonar-reasoning',
+    display_name: 'Perplexity: Sonar Reasoning',
+    input_price_per_1m_tokens: 1.0,
+    output_price_per_1m_tokens: 5.0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'perplexity',
+    model_id: 'sonar-reasoning-pro',
+    display_name: 'Perplexity: Sonar Reasoning Pro',
+    input_price_per_1m_tokens: 2.0,
+    output_price_per_1m_tokens: 8.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'perplexity',
+    model_id: 'sonar-deep-research',
+    display_name: 'Perplexity: Sonar Deep Research',
+    input_price_per_1m_tokens: 2.0,
+    output_price_per_1m_tokens: 8.0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
+  {
+    provider: 'perplexity',
+    model_id: 'r1-1776',
+    display_name: 'Perplexity: R1 1776',
+    input_price_per_1m_tokens: 2.0,
+    output_price_per_1m_tokens: 8.0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-14T00:00:00.000Z',
+  },
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1680,6 +1735,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     groq: [0.59, 0.79], // Llama 3.3 70B Versatile list prices
     together: [0.88, 0.88], // Llama 3.3 70B Turbo list prices
     fireworks: [0.9, 0.9], // Llama 3.3 70B Instruct list prices
+    perplexity: [1.0, 1.0], // Sonar list prices
   };
   return defaults[provider];
 }

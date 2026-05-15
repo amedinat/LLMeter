@@ -17,6 +17,7 @@ export { wrapGroq } from './groq.js';
 export { wrapTogether } from './together.js';
 export { wrapFireworks } from './fireworks.js';
 export { wrapXai } from './xai.js';
+export { wrapPerplexity } from './perplexity.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
