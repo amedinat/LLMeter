@@ -364,6 +364,46 @@ const completion = await trackedMistral.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Mistral
 );`;
 
+const sdkDeepSeekExample = `import OpenAI from 'openai';
+import LLMeter, { wrapDeepSeek } from 'llmeter';
+
+// DeepSeek is OpenAI-compatible — use the openai package with their base URL
+const deepseek = new OpenAI({
+  apiKey: process.env.DEEPSEEK_API_KEY,
+  baseURL: 'https://api.deepseek.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedDeepSeek = wrapDeepSeek(deepseek, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedDeepSeek.chat.completions.create(
+  {
+    model: 'deepseek-chat',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DeepSeek
+);`;
+
+const sdkOpenRouterExample = `import OpenAI from 'openai';
+import LLMeter, { wrapOpenRouter } from 'llmeter';
+
+// OpenRouter is OpenAI-compatible — access 500+ models via a single API key
+const openrouter = new OpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: 'https://openrouter.ai/api/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedOpenRouter = wrapOpenRouter(openrouter, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedOpenRouter.chat.completions.create(
+  {
+    model: 'anthropic/claude-3-5-sonnet',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OpenRouter
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -422,7 +462,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, and xAI (Grok) SDKs.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, xAI (Grok), Mistral AI, DeepSeek, and OpenRouter.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -452,6 +492,8 @@ export default function DocsPage() {
                 <TabsTrigger value="ai21">AI21 Labs</TabsTrigger>
                 <TabsTrigger value="xai">xAI (Grok)</TabsTrigger>
                 <TabsTrigger value="mistral">Mistral AI</TabsTrigger>
+                <TabsTrigger value="deepseek">DeepSeek</TabsTrigger>
+                <TabsTrigger value="openrouter">OpenRouter</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -593,6 +635,27 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Mistral Large, Mistral Small, Codestral, Pixtral, and Ministral.
                 </p>
                 <CodeBlock language="typescript" code={sdkMistralExample} />
+              </TabsContent>
+              <TabsContent value="deepseek" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  DeepSeek is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with DeepSeek&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports DeepSeek-Chat (V3) and DeepSeek-Reasoner (R1).
+                </p>
+                <CodeBlock language="typescript" code={sdkDeepSeekExample} />
+              </TabsContent>
+              <TabsContent value="openrouter" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  OpenRouter is OpenAI-compatible and gives access to 500+ models (Claude, GPT-4o,
+                  Gemini, Llama, Mistral, and more) via a single API key. Use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with OpenRouter&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically.
+                </p>
+                <CodeBlock language="typescript" code={sdkOpenRouterExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
