@@ -404,6 +404,26 @@ const completion = await trackedOpenRouter.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OpenRouter
 );`;
 
+const sdkDeepInfraExample = `import OpenAI from 'openai';
+import LLMeter, { wrapDeepInfra } from 'llmeter';
+
+// DeepInfra is OpenAI-compatible — use the openai package with their base URL
+const deepinfra = new OpenAI({
+  apiKey: process.env.DEEPINFRA_API_KEY,
+  baseURL: 'https://api.deepinfra.com/v1/openai',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedDeepInfra = wrapDeepInfra(deepinfra, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedDeepInfra.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DeepInfra
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -462,7 +482,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, xAI (Grok), Mistral AI, DeepSeek, and OpenRouter.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, xAI (Grok), Mistral AI, DeepSeek, OpenRouter, and DeepInfra.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -494,6 +514,7 @@ export default function DocsPage() {
                 <TabsTrigger value="mistral">Mistral AI</TabsTrigger>
                 <TabsTrigger value="deepseek">DeepSeek</TabsTrigger>
                 <TabsTrigger value="openrouter">OpenRouter</TabsTrigger>
+                <TabsTrigger value="deepinfra">DeepInfra</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -656,6 +677,16 @@ export default function DocsPage() {
                   call is tracked automatically.
                 </p>
                 <CodeBlock language="typescript" code={sdkOpenRouterExample} />
+              </TabsContent>
+              <TabsContent value="deepinfra" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  DeepInfra is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with DeepInfra&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen, Phi-4, Mixtral, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkDeepInfraExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

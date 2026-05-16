@@ -1668,6 +1668,114 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'premium',
     last_verified_at: '2026-05-15T00:00:00.000Z',
   },
+  {
+    provider: 'deepinfra',
+    model_id: 'meta-llama/Llama-4-Scout-17B-16E-Instruct',
+    display_name: 'DeepInfra: Llama 4 Scout 17B',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8',
+    display_name: 'DeepInfra: Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.54,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'DeepInfra: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.59,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'DeepInfra: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'DeepInfra: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.39,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepInfra: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepInfra: DeepSeek V3',
+    input_price_per_1m_tokens: 0.42,
+    output_price_per_1m_tokens: 0.85,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'DeepInfra: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.39,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'Qwen/QwQ-32B',
+    display_name: 'DeepInfra: QwQ 32B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'DeepInfra: Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'microsoft/Phi-4',
+    display_name: 'DeepInfra: Phi-4',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'deepinfra',
+    model_id: 'nvidia/Llama-3.1-Nemotron-70B-Instruct',
+    display_name: 'DeepInfra: Llama 3.1 Nemotron 70B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
 
 ];
 
@@ -1810,6 +1918,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     perplexity: [1.0, 1.0], // Sonar list prices
     cerebras: [0.6, 0.6], // Llama 3.1 70B list prices
     ai21: [0.2, 0.4], // Jamba 1.5 Mini list prices
+    deepinfra: [0.22, 0.59], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }
