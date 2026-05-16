@@ -19,7 +19,7 @@ shipped, in flight, and on the horizon.
 - Prometheus metrics endpoint (`/api/v1/metrics`) for Grafana scraping
 
 ### SDK
-- `llmeter` npm package — wrappers for OpenAI, Anthropic, Google AI, Azure OpenAI, AWS Bedrock, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, xAI (Grok)
+- `llmeter` npm package — wrappers for OpenAI, Anthropic, Google AI, Azure OpenAI, AWS Bedrock, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, xAI (Grok), Mistral AI, DeepSeek, OpenRouter
 - Zero dependencies, ESM + CJS dual build, works in Node.js, Edge, and the browser
 
 ### Operations
