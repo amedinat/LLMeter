@@ -344,6 +344,26 @@ const completion = await trackedXai.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to xAI
 );`;
 
+const sdkMistralExample = `import OpenAI from 'openai';
+import LLMeter, { wrapMistral } from 'llmeter';
+
+// Mistral is OpenAI-compatible — use the openai package with their base URL
+const mistral = new OpenAI({
+  apiKey: process.env.MISTRAL_API_KEY,
+  baseURL: 'https://api.mistral.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedMistral = wrapMistral(mistral, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedMistral.chat.completions.create(
+  {
+    model: 'mistral-large-latest',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Mistral
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -431,6 +451,7 @@ export default function DocsPage() {
                 <TabsTrigger value="cerebras">Cerebras</TabsTrigger>
                 <TabsTrigger value="ai21">AI21 Labs</TabsTrigger>
                 <TabsTrigger value="xai">xAI (Grok)</TabsTrigger>
+                <TabsTrigger value="mistral">Mistral AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -562,6 +583,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Grok 3, Grok 3 Fast, Grok 3 Mini, and Grok 2 Vision.
                 </p>
                 <CodeBlock language="typescript" code={sdkXaiExample} />
+              </TabsContent>
+              <TabsContent value="mistral" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Mistral AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Mistral&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Mistral Large, Mistral Small, Codestral, Pixtral, and Ministral.
+                </p>
+                <CodeBlock language="typescript" code={sdkMistralExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
