@@ -64,6 +64,7 @@ const ZERO_PROVIDERS = {
   cerebras: 0,
   ai21: 0,
   deepinfra: 0,
+  novita: 0,
 };
 
 // --- Tests ---

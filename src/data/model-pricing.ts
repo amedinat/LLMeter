@@ -1777,6 +1777,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-16T00:00:00.000Z',
   },
 
+  // ── Novita AI ─────────────────────────────────────────────────────────────
+  {
+    provider: 'novita',
+    model_id: 'meta-llama/llama-3.1-8b-instruct',
+    display_name: 'Novita: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'meta-llama/llama-3.1-70b-instruct',
+    display_name: 'Novita: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'meta-llama/llama-3.3-70b-instruct',
+    display_name: 'Novita: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'Qwen/Qwen2.5-7B-Instruct',
+    display_name: 'Novita: Qwen 2.5 7B',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Novita: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'deepseek/deepseek_r1',
+    display_name: 'Novita: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'deepseek/deepseek_v3_0324',
+    display_name: 'Novita: DeepSeek V3',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'mistralai/mistral-7b-instruct-v0.3',
+    display_name: 'Novita: Mistral 7B',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'google/gemma-2-27b-it',
+    display_name: 'Novita: Gemma 2 27B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'novita',
+    model_id: 'Qwen/QwQ-32B',
+    display_name: 'Novita: QwQ 32B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -1919,6 +2011,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     cerebras: [0.6, 0.6], // Llama 3.1 70B list prices
     ai21: [0.2, 0.4], // Jamba 1.5 Mini list prices
     deepinfra: [0.22, 0.59], // Llama 3.3 70B list prices
+    novita: [0.40, 0.40], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

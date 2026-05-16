@@ -191,4 +191,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://deepinfra.com/dash/api_keys',
     color: '#6B21A8',
   },
+  novita: {
+    type: 'novita',
+    name: 'Novita AI',
+    description: 'Llama 3.1/3.3, DeepSeek R1/V3, Qwen 2.5, Mistral — cheap open-source inference',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://novita.ai/settings/key-management',
+    color: '#7C3AED',
+  },
 };

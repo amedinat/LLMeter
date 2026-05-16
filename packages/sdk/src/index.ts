@@ -24,6 +24,7 @@ export { wrapMistral } from './mistral.js';
 export { wrapDeepSeek } from './deepseek.js';
 export { wrapOpenRouter } from './openrouter.js';
 export { wrapDeepInfra } from './deepinfra.js';
+export { wrapNovita } from './novita.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

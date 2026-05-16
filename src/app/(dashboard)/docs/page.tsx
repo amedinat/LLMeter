@@ -404,6 +404,26 @@ const completion = await trackedOpenRouter.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OpenRouter
 );`;
 
+const sdkNovitaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNovita } from 'llmeter';
+
+// Novita AI is OpenAI-compatible — use the openai package with their base URL
+const novita = new OpenAI({
+  apiKey: process.env.NOVITA_API_KEY,
+  baseURL: 'https://api.novita.ai/v3/openai',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNovita = wrapNovita(novita, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedNovita.chat.completions.create(
+  {
+    model: 'meta-llama/llama-3.3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Novita AI
+);`;
+
 const sdkDeepInfraExample = `import OpenAI from 'openai';
 import LLMeter, { wrapDeepInfra } from 'llmeter';
 
@@ -482,7 +502,7 @@ export default function DocsPage() {
           <CardDescription>
             The <code className="rounded bg-muted px-1.5 py-0.5">llmeter</code> npm package
             is the fastest way to integrate. It auto-batches events, retries on errors, and
-            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, xAI (Grok), Mistral AI, DeepSeek, OpenRouter, and DeepInfra.
+            provides drop-in wrappers for OpenAI, Anthropic, Google AI, AWS Bedrock, Azure OpenAI, Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Cerebras, AI21 Labs, xAI (Grok), Mistral AI, DeepSeek, OpenRouter, DeepInfra, and Novita AI.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -515,6 +535,7 @@ export default function DocsPage() {
                 <TabsTrigger value="deepseek">DeepSeek</TabsTrigger>
                 <TabsTrigger value="openrouter">OpenRouter</TabsTrigger>
                 <TabsTrigger value="deepinfra">DeepInfra</TabsTrigger>
+                <TabsTrigger value="novita">Novita AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -687,6 +708,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen, Phi-4, Mixtral, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkDeepInfraExample} />
+              </TabsContent>
+              <TabsContent value="novita" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Novita AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Novita&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.1/3.3, DeepSeek R1/V3, Qwen 2.5, Mistral, Gemma 2, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkNovitaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

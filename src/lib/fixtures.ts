@@ -48,6 +48,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         cerebras: 0,
         ai21: 0,
         deepinfra: 0,
+        novita: 0,
       },
     };
   });
