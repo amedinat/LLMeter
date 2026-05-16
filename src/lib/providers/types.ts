@@ -182,4 +182,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://studio.ai21.com/account/api-key',
     color: '#6C47FF',
   },
+  deepinfra: {
+    type: 'deepinfra',
+    name: 'DeepInfra',
+    description: 'Llama 4, DeepSeek R1/V3, Qwen, Phi-4, Mixtral — low-cost open-source inference',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://deepinfra.com/dash/api_keys',
+    color: '#6B21A8',
+  },
 };

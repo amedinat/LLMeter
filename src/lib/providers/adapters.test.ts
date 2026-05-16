@@ -13,6 +13,7 @@ import { fireworksAdapter } from './fireworks-adapter';
 import { perplexityAdapter } from './perplexity-adapter';
 import { cerebrasAdapter } from './cerebras-adapter';
 import { ai21Adapter } from './ai21-adapter';
+import { deepinfraAdapter } from './deepinfra-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -1498,6 +1499,80 @@ describe('Provider Adapters', () => {
 
     it('ai21Adapter.type is ai21', () => {
       expect(ai21Adapter.type).toBe('ai21');
+    });
+  });
+
+  describe('deepinfraAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [{ id: 'meta-llama/Llama-3.3-70B-Instruct', object: 'model' }] }),
+      });
+
+      const result = await deepinfraAdapter.validateKey('test-deepinfra-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.deepinfra.com/v1/openai/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-deepinfra-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Invalid API key' } }),
+      });
+
+      await expect(deepinfraAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid DeepInfra API key'
+      );
+    });
+
+    it('validateKey throws with error message on other errors', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(deepinfraAdapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('validateKey throws with status code when no error body', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(deepinfraAdapter.validateKey('test-key')).rejects.toThrow(
+        'DeepInfra API returned 503'
+      );
+    });
+
+    it('fetchUsage always returns empty array (no public usage API)', async () => {
+      const records = await deepinfraAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await deepinfraAdapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await deepinfraAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('deepinfraAdapter.type is deepinfra', () => {
+      expect(deepinfraAdapter.type).toBe('deepinfra');
     });
   });
 });
