@@ -20,6 +20,7 @@ export { wrapXai } from './xai.js';
 export { wrapPerplexity } from './perplexity.js';
 export { wrapCerebras } from './cerebras.js';
 export { wrapAI21 } from './ai21.js';
+export { wrapMistral } from './mistral.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
