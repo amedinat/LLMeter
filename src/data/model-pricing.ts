@@ -2293,6 +2293,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-17T00:00:00.000Z',
   },
 
+  // ── NVIDIA NIM ────────────────────────────────────────────────
+  {
+    provider: 'nvidia',
+    model_id: 'meta/llama-3.3-70b-instruct',
+    display_name: 'NVIDIA NIM: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.23,
+    output_price_per_1m_tokens: 0.23,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'meta/llama-3.1-405b-instruct',
+    display_name: 'NVIDIA NIM: Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.99,
+    output_price_per_1m_tokens: 2.99,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'meta/llama-3.1-70b-instruct',
+    display_name: 'NVIDIA NIM: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'meta/llama-3.1-8b-instruct',
+    display_name: 'NVIDIA NIM: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'nvidia/nemotron-4-340b-instruct',
+    display_name: 'NVIDIA NIM: Nemotron 4 340B Instruct',
+    input_price_per_1m_tokens: 4.20,
+    output_price_per_1m_tokens: 4.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'mistralai/mistral-7b-instruct-v0.3',
+    display_name: 'NVIDIA NIM: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'mistralai/mixtral-8x7b-instruct-v0.1',
+    display_name: 'NVIDIA NIM: Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'NVIDIA NIM: Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'microsoft/phi-3-medium-128k-instruct',
+    display_name: 'NVIDIA NIM: Phi 3 Medium 128K',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nvidia',
+    model_id: 'deepseek-ai/deepseek-r1',
+    display_name: 'NVIDIA NIM: DeepSeek R1',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2441,6 +2533,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     lambdalabs: [0.06, 0.09], // Llama 3.3 70B list prices
     lepton: [0.80, 0.80], // Llama 3.1 70B list prices
     inferencenet: [0.20, 0.20], // Llama 3.3 70B list prices
+    nvidia: [0.23, 0.23], // Llama 3.3 70B Instruct list prices
   };
   return defaults[provider];
 }

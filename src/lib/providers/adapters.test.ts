@@ -20,6 +20,7 @@ import { sambanovaAdapter } from './sambanova-adapter';
 import { lambdalabsAdapter } from './lambdalabs-adapter';
 import { leptonAdapter } from './lepton-adapter';
 import { inferencenetAdapter } from './inferencenet-adapter';
+import { nvidiaAdapter } from './nvidia-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2023,6 +2024,77 @@ describe('Provider Adapters', () => {
 
     it('inferencenetAdapter.type is inferencenet', () => {
       expect(inferencenetAdapter.type).toBe('inferencenet');
+    });
+  });
+
+  describe('nvidiaAdapter', () => {
+    it('validates a correct NVIDIA API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await nvidiaAdapter.validateKey('nvapi-valid-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://integrate.api.nvidia.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer nvapi-valid-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ detail: 'Unauthorized' }),
+      });
+
+      await expect(nvidiaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NVIDIA API key'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ detail: 'Internal server error' }),
+      });
+
+      await expect(nvidiaAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws with status code when no error body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => { throw new Error('not json'); },
+      });
+
+      await expect(nvidiaAdapter.validateKey('test-key')).rejects.toThrow(
+        'NVIDIA API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await nvidiaAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await nvidiaAdapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await nvidiaAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('nvidiaAdapter.type is nvidia', () => {
+      expect(nvidiaAdapter.type).toBe('nvidia');
     });
   });
 });

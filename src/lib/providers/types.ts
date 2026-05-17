@@ -245,4 +245,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.inference.net/keys',
     color: '#10B981',
   },
+  nvidia: {
+    type: 'nvidia',
+    name: 'NVIDIA NIM',
+    description: 'Llama 3.3 70B, Nemotron, Mistral, DeepSeek R1 — NVIDIA-hosted inference APIs',
+    keyPrefix: 'nvapi-',
+    keyPlaceholder: 'nvapi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://build.nvidia.com',
+    color: '#76B900',
+  },
 };
