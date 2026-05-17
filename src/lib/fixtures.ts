@@ -52,6 +52,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         hyperbolic: 0,
         sambanova: 0,
         lambdalabs: 0,
+        lepton: 0,
       },
     };
   });
