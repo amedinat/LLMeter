@@ -544,6 +544,26 @@ const completion = await trackedInferenceNet.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Inference.net
 );`;
 
+const sdkNvidiaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNvidia } from 'llmeter';
+
+// NVIDIA NIM is OpenAI-compatible — use the openai package with NVIDIA's base URL
+const nvidia = new OpenAI({
+  apiKey: process.env.NVIDIA_API_KEY, // nvapi-...
+  baseURL: 'https://integrate.api.nvidia.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNvidia = wrapNvidia(nvidia, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedNvidia.chat.completions.create(
+  {
+    model: 'meta/llama-3.3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NVIDIA NIM
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -641,6 +661,7 @@ export default function DocsPage() {
                 <TabsTrigger value="lambdalabs">Lambda Labs</TabsTrigger>
                 <TabsTrigger value="lepton">Lepton AI</TabsTrigger>
                 <TabsTrigger value="inferencenet">Inference.net</TabsTrigger>
+                <TabsTrigger value="nvidia">NVIDIA NIM</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -873,6 +894,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.3 70B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral 7B, Phi 4, and more — all on NVIDIA H100 GPUs.
                 </p>
                 <CodeBlock language="typescript" code={sdkInferenceNetExample} />
+              </TabsContent>
+              <TabsContent value="nvidia" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  NVIDIA NIM is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with NVIDIA&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.3 70B, Llama 3.1 405B/70B/8B, Nemotron 4 340B, DeepSeek R1, Mistral 7B, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkNvidiaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
