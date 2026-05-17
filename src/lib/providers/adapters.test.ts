@@ -18,6 +18,7 @@ import { novitaAdapter } from './novita-adapter';
 import { hyperbolicAdapter } from './hyperbolic-adapter';
 import { sambanovaAdapter } from './sambanova-adapter';
 import { lambdalabsAdapter } from './lambdalabs-adapter';
+import { leptonAdapter } from './lepton-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -1873,6 +1874,80 @@ describe('Provider Adapters', () => {
 
     it('lambdalabsAdapter.type is lambdalabs', () => {
       expect(lambdalabsAdapter.type).toBe('lambdalabs');
+    });
+  });
+
+  describe('leptonAdapter', () => {
+    it('validateKey returns true for a valid key', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await leptonAdapter.validateKey('valid-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://llm.lepton.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer valid-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with a friendly message', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(leptonAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Lepton AI API key'
+      );
+    });
+
+    it('validateKey throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(leptonAdapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('validateKey throws generic message when no error body', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(leptonAdapter.validateKey('test-key')).rejects.toThrow(
+        'Lepton AI API returned 503'
+      );
+    });
+
+    it('fetchUsage always returns empty array (no public usage API)', async () => {
+      const records = await leptonAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await leptonAdapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await leptonAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('leptonAdapter.type is lepton', () => {
+      expect(leptonAdapter.type).toBe('lepton');
     });
   });
 });
