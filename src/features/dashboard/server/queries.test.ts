@@ -69,6 +69,7 @@ const ZERO_PROVIDERS = {
   sambanova: 0,
   lambdalabs: 0,
   lepton: 0,
+  inferencenet: 0,
 };
 
 // --- Tests ---
