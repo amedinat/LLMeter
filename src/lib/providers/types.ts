@@ -236,4 +236,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://dashboard.lepton.ai/',
     color: '#6366F1',
   },
+  inferencenet: {
+    type: 'inferencenet',
+    name: 'Inference.net',
+    description: 'Llama 3.3 70B, DeepSeek R1/V3, Qwen 2.5, Mistral — NVIDIA H100-powered inference',
+    keyPrefix: '',
+    keyPlaceholder: 'inf-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://app.inference.net/keys',
+    color: '#10B981',
+  },
 };

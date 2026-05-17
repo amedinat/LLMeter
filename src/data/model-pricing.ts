@@ -2127,6 +2127,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-17T00:00:00.000Z',
   },
 
+  // ── Inference.net ─────────────────────────────────────────
+  {
+    provider: 'inferencenet',
+    model_id: 'meta-llama/llama-3.3-70b-instruct/fp-8',
+    display_name: 'Inference.net: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'meta-llama/llama-3.1-8b-instruct/fp-8',
+    display_name: 'Inference.net: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'meta-llama/llama-3.1-70b-instruct/fp-8',
+    display_name: 'Inference.net: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'deepseek/deepseek-r1/fp-8',
+    display_name: 'Inference.net: DeepSeek R1',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'deepseek/deepseek-v3/fp-8',
+    display_name: 'Inference.net: DeepSeek V3',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'qwen/qwen2.5-72b-instruct/fp-8',
+    display_name: 'Inference.net: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'mistralai/mistral-7b-instruct/fp-8',
+    display_name: 'Inference.net: Mistral 7B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'mistralai/mixtral-8x7b-instruct/fp-8',
+    display_name: 'Inference.net: Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'google/gemma-2-9b-it/fp-8',
+    display_name: 'Inference.net: Gemma 2 9B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'inferencenet',
+    model_id: 'microsoft/phi-4/fp-8',
+    display_name: 'Inference.net: Phi 4',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+
   // ── Lepton AI ─────────────────────────────────────────────
   {
     provider: 'lepton',
@@ -2347,6 +2439,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     hyperbolic: [0.40, 0.40], // Llama 3.3 70B list prices
     sambanova: [0.60, 1.20], // Llama 3.3 70B list prices
     lambdalabs: [0.06, 0.09], // Llama 3.3 70B list prices
+    lepton: [0.80, 0.80], // Llama 3.1 70B list prices
+    inferencenet: [0.20, 0.20], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

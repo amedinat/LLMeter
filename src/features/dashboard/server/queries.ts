@@ -186,6 +186,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           sambanova: 0,
           lambdalabs: 0,
           lepton: 0,
+          inferencenet: 0,
         }
       });
     }
@@ -231,6 +232,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           sambanova: 0,
           lambdalabs: 0,
           lepton: 0,
+          inferencenet: 0,
         },
       }
     );
