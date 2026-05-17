@@ -227,4 +227,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.lambdalabs.com/api-keys',
     color: '#7B2D8B',
   },
+  lepton: {
+    type: 'lepton',
+    name: 'Lepton AI',
+    description: 'Llama 3.1/3, Mistral 7B, Mixtral 8x7B, Qwen 2.5 — low-latency inference API',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://dashboard.lepton.ai/',
+    color: '#6366F1',
+  },
 };

@@ -68,6 +68,7 @@ const ZERO_PROVIDERS = {
   hyperbolic: 0,
   sambanova: 0,
   lambdalabs: 0,
+  lepton: 0,
 };
 
 // --- Tests ---

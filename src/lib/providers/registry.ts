@@ -20,6 +20,7 @@ import { novitaAdapter } from './novita-adapter';
 import { hyperbolicAdapter } from './hyperbolic-adapter';
 import { sambanovaAdapter } from './sambanova-adapter';
 import { lambdalabsAdapter } from './lambdalabs-adapter';
+import { leptonAdapter } from './lepton-adapter';
 
 /**
  * Provider adapter registry.
@@ -48,6 +49,7 @@ adapters.set('novita', novitaAdapter);
 adapters.set('hyperbolic', hyperbolicAdapter);
 adapters.set('sambanova', sambanovaAdapter);
 adapters.set('lambdalabs', lambdalabsAdapter);
+adapters.set('lepton', leptonAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

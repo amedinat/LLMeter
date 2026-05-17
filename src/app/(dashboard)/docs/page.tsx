@@ -504,6 +504,26 @@ const completion = await trackedSambaNova.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SambaNova
 );`;
 
+const sdkLeptonExample = `import OpenAI from 'openai';
+import LLMeter, { wrapLepton } from 'llmeter';
+
+// Lepton AI is OpenAI-compatible — use the openai package with their base URL
+const lepton = new OpenAI({
+  apiKey: process.env.LEPTON_API_KEY,
+  baseURL: 'https://llm.lepton.ai/api/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedLepton = wrapLepton(lepton, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedLepton.chat.completions.create(
+  {
+    model: 'llama3-1-70b',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Lepton AI
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -599,6 +619,7 @@ export default function DocsPage() {
                 <TabsTrigger value="hyperbolic">Hyperbolic</TabsTrigger>
                 <TabsTrigger value="sambanova">SambaNova</TabsTrigger>
                 <TabsTrigger value="lambdalabs">Lambda Labs</TabsTrigger>
+                <TabsTrigger value="lepton">Lepton AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -811,6 +832,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.1/3.3, Hermes 3, Qwen 2.5 Coder, Liquid LFM, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkLambdaLabsExample} />
+              </TabsContent>
+              <TabsContent value="lepton" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Lepton AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Lepton AI&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.1/3, Mistral 7B, Mixtral 8x7B, Qwen 2.5, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkLeptonExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
