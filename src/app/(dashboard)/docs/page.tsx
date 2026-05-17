@@ -524,6 +524,26 @@ const completion = await trackedLepton.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Lepton AI
 );`;
 
+const sdkInferenceNetExample = `import OpenAI from 'openai';
+import LLMeter, { wrapInferenceNet } from 'llmeter';
+
+// Inference.net is OpenAI-compatible — use the openai package with their base URL
+const inferencenet = new OpenAI({
+  apiKey: process.env.INFERENCENET_API_KEY,
+  baseURL: 'https://api.inference.net/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedInferenceNet = wrapInferenceNet(inferencenet, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedInferenceNet.chat.completions.create(
+  {
+    model: 'meta-llama/llama-3.3-70b-instruct/fp-8',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Inference.net
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -620,6 +640,7 @@ export default function DocsPage() {
                 <TabsTrigger value="sambanova">SambaNova</TabsTrigger>
                 <TabsTrigger value="lambdalabs">Lambda Labs</TabsTrigger>
                 <TabsTrigger value="lepton">Lepton AI</TabsTrigger>
+                <TabsTrigger value="inferencenet">Inference.net</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -842,6 +863,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.1/3, Mistral 7B, Mixtral 8x7B, Qwen 2.5, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkLeptonExample} />
+              </TabsContent>
+              <TabsContent value="inferencenet" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Inference.net is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Inference.net&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.3 70B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral 7B, Phi 4, and more — all on NVIDIA H100 GPUs.
+                </p>
+                <CodeBlock language="typescript" code={sdkInferenceNetExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
