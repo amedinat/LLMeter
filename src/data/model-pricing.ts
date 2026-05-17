@@ -1921,7 +1921,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Hyperbolic: DeepSeek R1',
     input_price_per_1m_tokens: 0.50,
     output_price_per_1m_tokens: 2.18,
-    capability_tier: 'reasoning',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-16T00:00:00.000Z',
   },
   {
@@ -1949,6 +1949,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.11,
     output_price_per_1m_tokens: 0.11,
     capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+
+  // ── SambaNova Cloud ───────────────────────────────────────────
+  {
+    provider: 'sambanova',
+    model_id: 'Meta-Llama-3.2-1B-Instruct',
+    display_name: 'SambaNova: Llama 3.2 1B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Meta-Llama-3.2-3B-Instruct',
+    display_name: 'SambaNova: Llama 3.2 3B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Meta-Llama-3.1-8B-Instruct',
+    display_name: 'SambaNova: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Meta-Llama-3.1-70B-Instruct',
+    display_name: 'SambaNova: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Meta-Llama-3.1-405B-Instruct',
+    display_name: 'SambaNova: Llama 3.1 405B',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Meta-Llama-3.3-70B-Instruct',
+    display_name: 'SambaNova: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'DeepSeek-R1',
+    display_name: 'SambaNova: DeepSeek R1',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'DeepSeek-V3-0324',
+    display_name: 'SambaNova: DeepSeek V3',
+    input_price_per_1m_tokens: 0.70,
+    output_price_per_1m_tokens: 1.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Qwen2.5-72B-Instruct',
+    display_name: 'SambaNova: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'sambanova',
+    model_id: 'Qwen2.5-Coder-32B-Instruct',
+    display_name: 'SambaNova: Qwen 2.5 Coder 32B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
     last_verified_at: '2026-05-16T00:00:00.000Z',
   },
 
@@ -2096,6 +2188,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     deepinfra: [0.22, 0.59], // Llama 3.3 70B list prices
     novita: [0.40, 0.40], // Llama 3.3 70B list prices
     hyperbolic: [0.40, 0.40], // Llama 3.3 70B list prices
+    sambanova: [0.60, 1.20], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

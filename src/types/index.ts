@@ -1,7 +1,7 @@
 // LLMeter Types
 
 export type Plan = 'free' | 'pro' | 'team' | 'enterprise';
-export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek' | 'openrouter' | 'mistral' | 'azure' | 'xai' | 'cohere' | 'groq' | 'together' | 'fireworks' | 'perplexity' | 'cerebras' | 'ai21' | 'deepinfra' | 'novita' | 'hyperbolic';
+export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek' | 'openrouter' | 'mistral' | 'azure' | 'xai' | 'cohere' | 'groq' | 'together' | 'fireworks' | 'perplexity' | 'cerebras' | 'ai21' | 'deepinfra' | 'novita' | 'hyperbolic' | 'sambanova';
 export type ProviderStatus = 'active' | 'error' | 'disconnected' | 'syncing';
 export type AlertType = 'budget_limit' | 'anomaly' | 'daily_threshold';
 export type SuggestionStatus = 'pending' | 'applied' | 'dismissed';
