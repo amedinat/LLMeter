@@ -17,6 +17,7 @@ import { cerebrasAdapter } from './cerebras-adapter';
 import { ai21Adapter } from './ai21-adapter';
 import { deepinfraAdapter } from './deepinfra-adapter';
 import { novitaAdapter } from './novita-adapter';
+import { hyperbolicAdapter } from './hyperbolic-adapter';
 
 /**
  * Provider adapter registry.
@@ -42,6 +43,7 @@ adapters.set('cerebras', cerebrasAdapter);
 adapters.set('ai21', ai21Adapter);
 adapters.set('deepinfra', deepinfraAdapter);
 adapters.set('novita', novitaAdapter);
+adapters.set('hyperbolic', hyperbolicAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
