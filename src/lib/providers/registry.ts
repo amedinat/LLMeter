@@ -22,6 +22,7 @@ import { sambanovaAdapter } from './sambanova-adapter';
 import { lambdalabsAdapter } from './lambdalabs-adapter';
 import { leptonAdapter } from './lepton-adapter';
 import { inferencenetAdapter } from './inferencenet-adapter';
+import { nvidiaAdapter } from './nvidia-adapter';
 
 /**
  * Provider adapter registry.
@@ -52,6 +53,7 @@ adapters.set('sambanova', sambanovaAdapter);
 adapters.set('lambdalabs', lambdalabsAdapter);
 adapters.set('lepton', leptonAdapter);
 adapters.set('inferencenet', inferencenetAdapter);
+adapters.set('nvidia', nvidiaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
