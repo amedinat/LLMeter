@@ -564,6 +564,27 @@ const completion = await trackedNvidia.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NVIDIA NIM
 );`;
 
+const sdkCloudflareExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCloudflare } from 'llmeter';
+
+// Cloudflare Workers AI is OpenAI-compatible — use the openai package with your account URL
+const accountId = process.env.CLOUDFLARE_ACCOUNT_ID; // from dash.cloudflare.com
+const cloudflare = new OpenAI({
+  apiKey: process.env.CLOUDFLARE_API_TOKEN,
+  baseURL: \`https://api.cloudflare.com/client/v4/accounts/\${accountId}/ai/v1\`,
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCF = wrapCloudflare(cloudflare, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedCF.chat.completions.create(
+  {
+    model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Cloudflare
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -662,6 +683,7 @@ export default function DocsPage() {
                 <TabsTrigger value="lepton">Lepton AI</TabsTrigger>
                 <TabsTrigger value="inferencenet">Inference.net</TabsTrigger>
                 <TabsTrigger value="nvidia">NVIDIA NIM</TabsTrigger>
+                <TabsTrigger value="cloudflare">Cloudflare Workers AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -904,6 +926,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.3 70B, Llama 3.1 405B/70B/8B, Nemotron 4 340B, DeepSeek R1, Mistral 7B, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkNvidiaExample} />
+              </TabsContent>
+              <TabsContent value="cloudflare" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Cloudflare Workers AI exposes an OpenAI-compatible endpoint — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with your account&apos;s Workers AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.3 70B, Llama 3.2 11B Vision, Mistral 7B, Gemma, Phi-2, Qwen 1.5, and more — all running on Cloudflare&apos;s global edge network.
+                </p>
+                <CodeBlock language="typescript" code={sdkCloudflareExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

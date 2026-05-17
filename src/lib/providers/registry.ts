@@ -23,6 +23,7 @@ import { lambdalabsAdapter } from './lambdalabs-adapter';
 import { leptonAdapter } from './lepton-adapter';
 import { inferencenetAdapter } from './inferencenet-adapter';
 import { nvidiaAdapter } from './nvidia-adapter';
+import { cloudflareAdapter } from './cloudflare-adapter';
 
 /**
  * Provider adapter registry.
@@ -54,6 +55,7 @@ adapters.set('lambdalabs', lambdalabsAdapter);
 adapters.set('lepton', leptonAdapter);
 adapters.set('inferencenet', inferencenetAdapter);
 adapters.set('nvidia', nvidiaAdapter);
+adapters.set('cloudflare', cloudflareAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

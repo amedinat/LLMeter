@@ -55,6 +55,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         lepton: 0,
         inferencenet: 0,
         nvidia: 0,
+        cloudflare: 0,
       },
     };
   });
