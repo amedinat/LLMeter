@@ -464,6 +464,26 @@ const completion = await trackedDeepInfra.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DeepInfra
 );`;
 
+const sdkLambdaLabsExample = `import OpenAI from 'openai';
+import LLMeter, { wrapLambdaLabs } from 'llmeter';
+
+// Lambda Labs is OpenAI-compatible — use the openai package with their base URL
+const lambdalabs = new OpenAI({
+  apiKey: process.env.LAMBDA_API_KEY,
+  baseURL: 'https://api.lambdalabs.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedLambdaLabs = wrapLambdaLabs(lambdalabs, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedLambdaLabs.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct-FP8',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Lambda Labs
+);`;
+
 const sdkSambanovaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapSambaNova } from 'llmeter';
 
@@ -578,6 +598,7 @@ export default function DocsPage() {
                 <TabsTrigger value="novita">Novita AI</TabsTrigger>
                 <TabsTrigger value="hyperbolic">Hyperbolic</TabsTrigger>
                 <TabsTrigger value="sambanova">SambaNova</TabsTrigger>
+                <TabsTrigger value="lambdalabs">Lambda Labs</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -780,6 +801,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.1/3.3 (including 405B), DeepSeek R1/V3, Qwen 2.5, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkSambanovaExample} />
+              </TabsContent>
+              <TabsContent value="lambdalabs" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Lambda Labs is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Lambda Labs&apos; base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.1/3.3, Hermes 3, Qwen 2.5 Coder, Liquid LFM, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkLambdaLabsExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

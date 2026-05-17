@@ -218,4 +218,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.sambanova.ai/apis',
     color: '#FF6B35',
   },
+  lambdalabs: {
+    type: 'lambdalabs',
+    name: 'Lambda Labs',
+    description: 'Llama 3.1/3.3, Hermes 3, Qwen 2.5, Liquid LFM — on-demand GPU cloud inference',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://cloud.lambdalabs.com/api-keys',
+    color: '#7B2D8B',
+  },
 };

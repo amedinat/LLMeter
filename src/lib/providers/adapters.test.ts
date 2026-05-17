@@ -17,6 +17,7 @@ import { deepinfraAdapter } from './deepinfra-adapter';
 import { novitaAdapter } from './novita-adapter';
 import { hyperbolicAdapter } from './hyperbolic-adapter';
 import { sambanovaAdapter } from './sambanova-adapter';
+import { lambdalabsAdapter } from './lambdalabs-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -1798,6 +1799,80 @@ describe('Provider Adapters', () => {
 
     it('sambanovaAdapter.type is sambanova', () => {
       expect(sambanovaAdapter.type).toBe('sambanova');
+    });
+  });
+
+  describe('lambdalabsAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await lambdalabsAdapter.validateKey('test-lambdalabs-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.lambdalabs.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-lambdalabs-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with a friendly message', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(lambdalabsAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Lambda Labs API key'
+      );
+    });
+
+    it('validateKey throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(lambdalabsAdapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('validateKey throws generic message when no error body', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(lambdalabsAdapter.validateKey('test-key')).rejects.toThrow(
+        'Lambda Labs API returned 503'
+      );
+    });
+
+    it('fetchUsage always returns empty array (no public usage API)', async () => {
+      const records = await lambdalabsAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await lambdalabsAdapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await lambdalabsAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('lambdalabsAdapter.type is lambdalabs', () => {
+      expect(lambdalabsAdapter.type).toBe('lambdalabs');
     });
   });
 });

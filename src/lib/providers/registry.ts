@@ -19,6 +19,7 @@ import { deepinfraAdapter } from './deepinfra-adapter';
 import { novitaAdapter } from './novita-adapter';
 import { hyperbolicAdapter } from './hyperbolic-adapter';
 import { sambanovaAdapter } from './sambanova-adapter';
+import { lambdalabsAdapter } from './lambdalabs-adapter';
 
 /**
  * Provider adapter registry.
@@ -46,6 +47,7 @@ adapters.set('deepinfra', deepinfraAdapter);
 adapters.set('novita', novitaAdapter);
 adapters.set('hyperbolic', hyperbolicAdapter);
 adapters.set('sambanova', sambanovaAdapter);
+adapters.set('lambdalabs', lambdalabsAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
