@@ -2044,6 +2044,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-16T00:00:00.000Z',
   },
 
+  // ── Lambda Labs ───────────────────────────────────────────────
+  {
+    provider: 'lambdalabs',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct-FP8',
+    display_name: 'Lambda Labs: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Lambda Labs: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.018,
+    output_price_per_1m_tokens: 0.018,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct-FP8',
+    display_name: 'Lambda Labs: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'meta-llama/Llama-3.1-405B-Instruct-FP8',
+    display_name: 'Lambda Labs: Llama 3.1 405B',
+    input_price_per_1m_tokens: 0.53,
+    output_price_per_1m_tokens: 0.53,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'hermes3-405b',
+    display_name: 'Lambda Labs: Hermes 3 405B',
+    input_price_per_1m_tokens: 0.53,
+    output_price_per_1m_tokens: 0.53,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'hermes3-70b',
+    display_name: 'Lambda Labs: Hermes 3 70B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'hermes3-8b',
+    display_name: 'Lambda Labs: Hermes 3 8B',
+    input_price_per_1m_tokens: 0.018,
+    output_price_per_1m_tokens: 0.018,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'Qwen/Qwen2.5-Coder-32B-Instruct',
+    display_name: 'Lambda Labs: Qwen 2.5 Coder 32B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'lambdalabs',
+    model_id: 'lfm-40b',
+    display_name: 'Lambda Labs: Liquid LFM 40B MoE',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2189,6 +2272,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     novita: [0.40, 0.40], // Llama 3.3 70B list prices
     hyperbolic: [0.40, 0.40], // Llama 3.3 70B list prices
     sambanova: [0.60, 1.20], // Llama 3.3 70B list prices
+    lambdalabs: [0.06, 0.09], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

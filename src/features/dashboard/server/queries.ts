@@ -184,6 +184,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           novita: 0,
           hyperbolic: 0,
           sambanova: 0,
+          lambdalabs: 0,
         }
       });
     }
@@ -227,6 +228,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           novita: 0,
           hyperbolic: 0,
           sambanova: 0,
+          lambdalabs: 0,
         },
       }
     );

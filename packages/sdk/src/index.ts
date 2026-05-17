@@ -27,6 +27,7 @@ export { wrapDeepInfra } from './deepinfra.js';
 export { wrapNovita } from './novita.js';
 export { wrapHyperbolic } from './hyperbolic.js';
 export { wrapSambaNova } from './sambanova.js';
+export { wrapLambdaLabs } from './lambdalabs.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

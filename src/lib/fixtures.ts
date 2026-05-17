@@ -51,6 +51,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         novita: 0,
         hyperbolic: 0,
         sambanova: 0,
+        lambdalabs: 0,
       },
     };
   });
