@@ -181,6 +181,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           cerebras: 0,
           ai21: 0,
           deepinfra: 0,
+          novita: 0,
         }
       });
     }
@@ -221,6 +222,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           cerebras: 0,
           ai21: 0,
           deepinfra: 0,
+          novita: 0,
         },
       }
     );

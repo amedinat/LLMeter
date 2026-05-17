@@ -16,6 +16,7 @@ import { perplexityAdapter } from './perplexity-adapter';
 import { cerebrasAdapter } from './cerebras-adapter';
 import { ai21Adapter } from './ai21-adapter';
 import { deepinfraAdapter } from './deepinfra-adapter';
+import { novitaAdapter } from './novita-adapter';
 
 /**
  * Provider adapter registry.
@@ -40,6 +41,7 @@ adapters.set('perplexity', perplexityAdapter);
 adapters.set('cerebras', cerebrasAdapter);
 adapters.set('ai21', ai21Adapter);
 adapters.set('deepinfra', deepinfraAdapter);
+adapters.set('novita', novitaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
