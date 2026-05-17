@@ -15,6 +15,7 @@ import { cerebrasAdapter } from './cerebras-adapter';
 import { ai21Adapter } from './ai21-adapter';
 import { deepinfraAdapter } from './deepinfra-adapter';
 import { novitaAdapter } from './novita-adapter';
+import { hyperbolicAdapter } from './hyperbolic-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -1648,6 +1649,80 @@ describe('Provider Adapters', () => {
 
     it('novitaAdapter.type is novita', () => {
       expect(novitaAdapter.type).toBe('novita');
+    });
+  });
+
+  describe('hyperbolicAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await hyperbolicAdapter.validateKey('test-hyperbolic-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.hyperbolic.xyz/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-hyperbolic-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with a friendly message', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(hyperbolicAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Hyperbolic API key'
+      );
+    });
+
+    it('validateKey throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: { message: 'Rate limit exceeded' } }),
+      });
+
+      await expect(hyperbolicAdapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
+      );
+    });
+
+    it('validateKey throws generic message when no error body', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(hyperbolicAdapter.validateKey('test-key')).rejects.toThrow(
+        'Hyperbolic API returned 503'
+      );
+    });
+
+    it('fetchUsage always returns empty array (no public usage API)', async () => {
+      const records = await hyperbolicAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await hyperbolicAdapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await hyperbolicAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('hyperbolicAdapter.type is hyperbolic', () => {
+      expect(hyperbolicAdapter.type).toBe('hyperbolic');
     });
   });
 });

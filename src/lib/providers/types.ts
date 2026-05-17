@@ -200,4 +200,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://novita.ai/settings/key-management',
     color: '#7C3AED',
   },
+  hyperbolic: {
+    type: 'hyperbolic',
+    name: 'Hyperbolic',
+    description: 'Llama 4, DeepSeek R1/V3, Qwen 2.5, Mistral — low-latency open-source inference',
+    keyPrefix: '',
+    keyPlaceholder: 'eyJhbGc...',
+    helpUrl: 'https://app.hyperbolic.xyz/settings',
+    color: '#0EA5E9',
+  },
 };

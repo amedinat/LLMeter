@@ -1869,6 +1869,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-16T00:00:00.000Z',
   },
 
+  // ── Hyperbolic ────────────────────────────────────────────────
+  {
+    provider: 'hyperbolic',
+    model_id: 'meta-llama/Llama-4-Scout-17B-16E-Instruct',
+    display_name: 'Hyperbolic: Llama 4 Scout',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct',
+    display_name: 'Hyperbolic: Llama 4 Maverick',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Hyperbolic: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Hyperbolic: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Hyperbolic: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'Hyperbolic: DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.18,
+    capability_tier: 'reasoning',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'Hyperbolic: DeepSeek V3',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Hyperbolic: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperbolic',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Hyperbolic: Mistral 7B',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-16T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2012,6 +2095,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ai21: [0.2, 0.4], // Jamba 1.5 Mini list prices
     deepinfra: [0.22, 0.59], // Llama 3.3 70B list prices
     novita: [0.40, 0.40], // Llama 3.3 70B list prices
+    hyperbolic: [0.40, 0.40], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }
