@@ -209,4 +209,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.hyperbolic.xyz/settings',
     color: '#0EA5E9',
   },
+  sambanova: {
+    type: 'sambanova',
+    name: 'SambaNova Cloud',
+    description: 'Llama 3.1/3.3/4, DeepSeek R1/V3, Qwen 2.5 — ultra-fast inference on custom hardware',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    helpUrl: 'https://cloud.sambanova.ai/apis',
+    color: '#FF6B35',
+  },
 };

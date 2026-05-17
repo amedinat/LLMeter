@@ -66,6 +66,7 @@ const ZERO_PROVIDERS = {
   deepinfra: 0,
   novita: 0,
   hyperbolic: 0,
+  sambanova: 0,
 };
 
 // --- Tests ---

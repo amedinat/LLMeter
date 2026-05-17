@@ -464,6 +464,26 @@ const completion = await trackedDeepInfra.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DeepInfra
 );`;
 
+const sdkSambanovaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSambaNova } from 'llmeter';
+
+// SambaNova Cloud is OpenAI-compatible — use the openai package with their base URL
+const sambanova = new OpenAI({
+  apiKey: process.env.SAMBANOVA_API_KEY,
+  baseURL: 'https://api.sambanova.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedSambaNova = wrapSambaNova(sambanova, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedSambaNova.chat.completions.create(
+  {
+    model: 'Meta-Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SambaNova
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -557,6 +577,7 @@ export default function DocsPage() {
                 <TabsTrigger value="deepinfra">DeepInfra</TabsTrigger>
                 <TabsTrigger value="novita">Novita AI</TabsTrigger>
                 <TabsTrigger value="hyperbolic">Hyperbolic</TabsTrigger>
+                <TabsTrigger value="sambanova">SambaNova</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -749,6 +770,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 4, DeepSeek R1/V3, Qwen 2.5, Mistral, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkHyperbolicExample} />
+              </TabsContent>
+              <TabsContent value="sambanova" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  SambaNova Cloud is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with SambaNova&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.1/3.3 (including 405B), DeepSeek R1/V3, Qwen 2.5, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkSambanovaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
