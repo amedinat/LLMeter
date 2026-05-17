@@ -21,6 +21,7 @@ import { lambdalabsAdapter } from './lambdalabs-adapter';
 import { leptonAdapter } from './lepton-adapter';
 import { inferencenetAdapter } from './inferencenet-adapter';
 import { nvidiaAdapter } from './nvidia-adapter';
+import { cloudflareAdapter, parseCloudflareCredentials } from './cloudflare-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2095,6 +2096,104 @@ describe('Provider Adapters', () => {
 
     it('nvidiaAdapter.type is nvidia', () => {
       expect(nvidiaAdapter.type).toBe('nvidia');
+    });
+  });
+
+  describe('cloudflareAdapter', () => {
+    describe('parseCloudflareCredentials', () => {
+      it('parses valid accountId::apiToken format', () => {
+        const result = parseCloudflareCredentials('abc123::my-api-token');
+        expect(result.accountId).toBe('abc123');
+        expect(result.apiToken).toBe('my-api-token');
+      });
+
+      it('throws when :: separator is missing', () => {
+        expect(() => parseCloudflareCredentials('justanapitoken'))
+          .toThrow('Cloudflare credentials must be in the format');
+      });
+
+      it('throws when accountId is empty', () => {
+        expect(() => parseCloudflareCredentials('::my-api-token'))
+          .toThrow('Account ID is missing');
+      });
+
+      it('throws when apiToken is empty', () => {
+        expect(() => parseCloudflareCredentials('abc123::'))
+          .toThrow('API token is missing');
+      });
+    });
+
+    it('validates key successfully', async () => {
+      const validCreds = 'abc123def456::my-cloudflare-token';
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true, result: [] }),
+      });
+
+      const result = await cloudflareAdapter.validateKey(validCreds);
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.cloudflare.com/client/v4/accounts/abc123def456/ai/models/search?search=llama',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer my-cloudflare-token' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ errors: [{ message: 'Invalid API token' }] }),
+      });
+
+      await expect(cloudflareAdapter.validateKey('acc::bad-token')).rejects.toThrow(
+        'Invalid API token'
+      );
+    });
+
+    it('throws on 404 with account not found message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 404,
+        json: async () => ({}),
+      });
+
+      await expect(cloudflareAdapter.validateKey('bad-acc::token')).rejects.toThrow(
+        'Cloudflare account not found'
+      );
+    });
+
+    it('throws on non-401/404 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ errors: [{ message: 'Internal server error' }] }),
+      });
+
+      await expect(cloudflareAdapter.validateKey('acc::token')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await cloudflareAdapter.fetchUsage('acc::token', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await cloudflareAdapter.fetchUsage('acc::token', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await cloudflareAdapter.fetchUsage('acc::token', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('cloudflareAdapter.type is cloudflare', () => {
+      expect(cloudflareAdapter.type).toBe('cloudflare');
     });
   });
 });

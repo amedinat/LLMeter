@@ -2385,6 +2385,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-17T00:00:00.000Z',
   },
 
+  // ── Cloudflare Workers AI ──────────────────────────────────────
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+    display_name: 'Cloudflare: Llama 3.3 70B Instruct (Fast)',
+    input_price_per_1m_tokens: 0.56,
+    output_price_per_1m_tokens: 0.56,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/meta/llama-3.1-8b-instruct-fast',
+    display_name: 'Cloudflare: Llama 3.1 8B Instruct (Fast)',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/meta/llama-3.2-11b-vision-instruct',
+    display_name: 'Cloudflare: Llama 3.2 11B Vision Instruct',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/meta/llama-3.2-3b-instruct',
+    display_name: 'Cloudflare: Llama 3.2 3B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/meta/llama-3.2-1b-instruct',
+    display_name: 'Cloudflare: Llama 3.2 1B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/mistral/mistral-7b-instruct-v0.1',
+    display_name: 'Cloudflare: Mistral 7B Instruct v0.1',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/google/gemma-7b-it',
+    display_name: 'Cloudflare: Gemma 7B IT',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/google/gemma-2b-it',
+    display_name: 'Cloudflare: Gemma 2B IT',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/microsoft/phi-2',
+    display_name: 'Cloudflare: Phi-2',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'cloudflare',
+    model_id: '@cf/qwen/qwen1.5-14b-chat-awq',
+    display_name: 'Cloudflare: Qwen 1.5 14B Chat (AWQ)',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2534,6 +2626,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     lepton: [0.80, 0.80], // Llama 3.1 70B list prices
     inferencenet: [0.20, 0.20], // Llama 3.3 70B list prices
     nvidia: [0.23, 0.23], // Llama 3.3 70B Instruct list prices
+    cloudflare: [0.56, 0.56], // Llama 3.3 70B Fast list prices
   };
   return defaults[provider];
 }

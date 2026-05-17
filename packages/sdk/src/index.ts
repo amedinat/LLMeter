@@ -31,6 +31,7 @@ export { wrapLambdaLabs } from './lambdalabs.js';
 export { wrapLepton } from './lepton.js';
 export { wrapInferenceNet } from './inferencenet.js';
 export { wrapNvidia } from './nvidia.js';
+export { wrapCloudflare } from './cloudflare.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

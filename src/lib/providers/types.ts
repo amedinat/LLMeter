@@ -254,4 +254,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://build.nvidia.com',
     color: '#76B900',
   },
+  cloudflare: {
+    type: 'cloudflare',
+    name: 'Cloudflare Workers AI',
+    description: 'Llama 3.3 70B, Llama 3.2, Mistral 7B, Gemma — edge inference with global network',
+    keyPrefix: '',
+    keyPlaceholder: 'accountId::apiToken',
+    helpUrl: 'https://dash.cloudflare.com/profile/api-tokens',
+    color: '#F38020',
+  },
 };
