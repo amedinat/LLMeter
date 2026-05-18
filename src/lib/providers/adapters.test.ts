@@ -28,6 +28,7 @@ import { featherlessAdapter } from './featherless-adapter';
 import { huggingfaceAdapter } from './huggingface-adapter';
 import { yiAdapter } from './yi-adapter';
 import { zhipuAdapter } from './zhipu-adapter';
+import { upstageAdapter } from './upstage-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2643,6 +2644,79 @@ describe('Provider Adapters', () => {
 
     it('zhipuAdapter.type is zhipu', () => {
       expect(zhipuAdapter.type).toBe('zhipu');
+    });
+  });
+
+  describe('upstageAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await upstageAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Upstage models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await upstageAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.upstage.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(upstageAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Upstage API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(upstageAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(upstageAdapter.validateKey('test-key')).rejects.toThrow(
+        'Upstage API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await upstageAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await upstageAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('upstageAdapter.type is upstage', () => {
+      expect(upstageAdapter.type).toBe('upstage');
     });
   });
 });

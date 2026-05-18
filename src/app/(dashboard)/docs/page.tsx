@@ -645,6 +645,26 @@ const completion = await trackedYi.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to 01.AI
 );`;
 
+const sdkUpstageExample = `import OpenAI from 'openai';
+import LLMeter, { wrapUpstage } from 'llmeter';
+
+// Upstage Solar models are OpenAI-compatible — use the openai package with Upstage's base URL
+const upstage = new OpenAI({
+  apiKey: process.env.UPSTAGE_API_KEY,
+  baseURL: 'https://api.upstage.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedUpstage = wrapUpstage(upstage, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedUpstage.chat.completions.create(
+  {
+    model: 'solar-pro',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Upstage
+);`;
+
 const sdkHuggingFaceExample = `import OpenAI from 'openai';
 import LLMeter, { wrapHuggingFace } from 'llmeter';
 
@@ -810,6 +830,7 @@ export default function DocsPage() {
                 <TabsTrigger value="huggingface">HuggingFace</TabsTrigger>
                 <TabsTrigger value="yi">01.AI Yi</TabsTrigger>
                 <TabsTrigger value="zhipu">Zhipu AI</TabsTrigger>
+                <TabsTrigger value="upstage">Upstage</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1122,6 +1143,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes GLM-4-Plus ($7/1M tokens), GLM-4, GLM-4-Long (128K context), GLM-4-Flash (near-free), GLM-4-Air, GLM-4-AirX, GLM-4V-Plus, GLM-4V, and GLM-Zero-Preview (reasoning).
                 </p>
                 <CodeBlock language="typescript" code={sdkZhipuExample} />
+              </TabsContent>
+              <TabsContent value="upstage" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Upstage Solar models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Upstage&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Solar Pro ($2/1M tokens), Solar Mini ($0.15/1M), Solar Mini Japanese, Solar 1 Mini Chat, Solar translation models (KO↔EN), and Solar DocVision.
+                </p>
+                <CodeBlock language="typescript" code={sdkUpstageExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

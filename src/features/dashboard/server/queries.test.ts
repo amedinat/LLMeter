@@ -78,6 +78,7 @@ const ZERO_PROVIDERS = {
   huggingface: 0,
   yi: 0,
   zhipu: 0,
+  upstage: 0,
 };
 
 // --- Tests ---

@@ -3010,6 +3010,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
 
+  // ── Upstage Solar ─────────────────────────────────────────────
+  {
+    provider: 'upstage',
+    model_id: 'solar-pro',
+    display_name: 'Upstage: Solar Pro',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-pro-preview',
+    display_name: 'Upstage: Solar Pro Preview',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-mini',
+    display_name: 'Upstage: Solar Mini',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-mini-ja',
+    display_name: 'Upstage: Solar Mini (Japanese)',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-1-mini-chat',
+    display_name: 'Upstage: Solar 1 Mini Chat',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-1-mini-translate-koen',
+    display_name: 'Upstage: Solar 1 Mini Translate (KO→EN)',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-1-mini-translate-enko',
+    display_name: 'Upstage: Solar 1 Mini Translate (EN→KO)',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'upstage',
+    model_id: 'solar-docvision',
+    display_name: 'Upstage: Solar DocVision',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3166,6 +3240,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     huggingface: [0.40, 0.50], // Llama 3.3 70B list prices
     yi: [0.14, 0.14], // Yi-Lightning list prices
     zhipu: [7.00, 7.00], // GLM-4-Plus list prices
+    upstage: [2.00, 2.00], // Solar Pro list prices
   };
   return defaults[provider];
 }

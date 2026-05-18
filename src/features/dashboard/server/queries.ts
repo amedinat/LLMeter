@@ -195,6 +195,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           huggingface: 0,
           yi: 0,
           zhipu: 0,
+          upstage: 0,
         }
       });
     }
@@ -249,6 +250,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           huggingface: 0,
           yi: 0,
           zhipu: 0,
+          upstage: 0,
         },
       }
     );

@@ -317,4 +317,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://open.bigmodel.cn/usercenter/apikeys',
     color: '#4E6EF2',
   },
+  upstage: {
+    type: 'upstage',
+    name: 'Upstage',
+    description: 'Solar Pro, Solar Mini — Korean AI company, top-ranked open LLMs on OpenLLM leaderboard',
+    keyPrefix: 'up_',
+    keyPlaceholder: 'up_...',
+    helpUrl: 'https://console.upstage.ai/api-keys',
+    color: '#FF6B2B',
+  },
 };

@@ -30,6 +30,7 @@ import { featherlessAdapter } from './featherless-adapter';
 import { huggingfaceAdapter } from './huggingface-adapter';
 import { yiAdapter } from './yi-adapter';
 import { zhipuAdapter } from './zhipu-adapter';
+import { upstageAdapter } from './upstage-adapter';
 
 /**
  * Provider adapter registry.
@@ -68,6 +69,7 @@ adapters.set('featherless', featherlessAdapter);
 adapters.set('huggingface', huggingfaceAdapter);
 adapters.set('yi', yiAdapter);
 adapters.set('zhipu', zhipuAdapter);
+adapters.set('upstage', upstageAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
