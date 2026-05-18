@@ -585,6 +585,26 @@ const completion = await trackedCF.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Cloudflare
 );`;
 
+const sdkNebiusExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNebius } from 'llmeter';
+
+// Nebius AI is OpenAI-compatible — use the openai package with Nebius' base URL
+const nebius = new OpenAI({
+  apiKey: process.env.NEBIUS_API_KEY, // eyJhbGci...
+  baseURL: 'https://api.studio.nebius.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNebius = wrapNebius(nebius, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedNebius.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nebius AI
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -684,6 +704,7 @@ export default function DocsPage() {
                 <TabsTrigger value="inferencenet">Inference.net</TabsTrigger>
                 <TabsTrigger value="nvidia">NVIDIA NIM</TabsTrigger>
                 <TabsTrigger value="cloudflare">Cloudflare Workers AI</TabsTrigger>
+                <TabsTrigger value="nebius">Nebius AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -936,6 +957,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.3 70B, Llama 3.2 11B Vision, Mistral 7B, Gemma, Phi-2, Qwen 1.5, and more — all running on Cloudflare&apos;s global edge network.
                 </p>
                 <CodeBlock language="typescript" code={sdkCloudflareExample} />
+              </TabsContent>
+              <TabsContent value="nebius" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Nebius AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Nebius&apos; base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.3 70B, Llama 3.1 70B/8B, DeepSeek R1/V3, Qwen 2.5 72B/7B, Mistral Nemo, Phi-3 Mini, and Gemma 2 9B — European-first cloud infrastructure.
+                </p>
+                <CodeBlock language="typescript" code={sdkNebiusExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

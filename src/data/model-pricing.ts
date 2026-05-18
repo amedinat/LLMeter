@@ -2477,6 +2477,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-17T00:00:00.000Z',
   },
 
+  // ── Nebius AI ──────────────────────────────────────────────────────────────
+  {
+    provider: 'nebius',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Nebius: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.13,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Nebius: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.13,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Nebius: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'Nebius: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'Nebius: DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Nebius: Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.13,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'Qwen/Qwen2.5-7B-Instruct',
+    display_name: 'Nebius: Qwen 2.5 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'mistralai/Mistral-Nemo-Instruct-2407',
+    display_name: 'Nebius: Mistral Nemo',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'microsoft/Phi-3-mini-128k-instruct',
+    display_name: 'Nebius: Phi-3 Mini (128k)',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'nebius',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'Nebius: Gemma 2 9B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2627,6 +2719,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     inferencenet: [0.20, 0.20], // Llama 3.3 70B list prices
     nvidia: [0.23, 0.23], // Llama 3.3 70B Instruct list prices
     cloudflare: [0.56, 0.56], // Llama 3.3 70B Fast list prices
+    nebius: [0.13, 0.40], // Llama 3.3 70B Instruct list prices
   };
   return defaults[provider];
 }
