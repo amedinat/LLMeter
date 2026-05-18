@@ -73,6 +73,7 @@ const ZERO_PROVIDERS = {
   nvidia: 0,
   cloudflare: 0,
   nebius: 0,
+  replicate: 0,
 };
 
 // --- Tests ---
