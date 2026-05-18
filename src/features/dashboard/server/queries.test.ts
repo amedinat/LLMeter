@@ -76,6 +76,7 @@ const ZERO_PROVIDERS = {
   replicate: 0,
   featherless: 0,
   huggingface: 0,
+  yi: 0,
 };
 
 // --- Tests ---

@@ -26,6 +26,7 @@ import { nebiusAdapter } from './nebius-adapter';
 import { replicateAdapter } from './replicate-adapter';
 import { featherlessAdapter } from './featherless-adapter';
 import { huggingfaceAdapter } from './huggingface-adapter';
+import { yiAdapter } from './yi-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2487,6 +2488,86 @@ describe('Provider Adapters', () => {
 
       await expect(huggingfaceAdapter.validateKey('hf_test')).rejects.toThrow(
         'HuggingFace API returned 429'
+      );
+    });
+  });
+
+  describe('yiAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await yiAdapter.validateKey('test-yi-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.lingyiwanwu.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-yi-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with a friendly message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(yiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid 01.AI API key. Get your key from platform.lingyiwanwu.com/apikeys.'
+      );
+    });
+
+    it('validateKey throws with API message on other errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+
+      await expect(yiAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('validateKey throws generic message when no body detail', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(yiAdapter.validateKey('test-key')).rejects.toThrow(
+        '01.AI API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await yiAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await yiAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('yiAdapter.type is yi', () => {
+      expect(yiAdapter.type).toBe('yi');
+    });
+
+    it('validateKey throws with message field on other errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: async () => ({ message: 'Rate limit exceeded' }),
+      });
+
+      await expect(yiAdapter.validateKey('test-key')).rejects.toThrow(
+        'Rate limit exceeded'
       );
     });
   });

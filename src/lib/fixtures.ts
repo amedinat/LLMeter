@@ -60,6 +60,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         replicate: 0,
         featherless: 0,
         huggingface: 0,
+        yi: 0,
       },
     };
   });

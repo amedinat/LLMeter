@@ -28,6 +28,7 @@ import { nebiusAdapter } from './nebius-adapter';
 import { replicateAdapter } from './replicate-adapter';
 import { featherlessAdapter } from './featherless-adapter';
 import { huggingfaceAdapter } from './huggingface-adapter';
+import { yiAdapter } from './yi-adapter';
 
 /**
  * Provider adapter registry.
@@ -64,6 +65,7 @@ adapters.set('nebius', nebiusAdapter);
 adapters.set('replicate', replicateAdapter);
 adapters.set('featherless', featherlessAdapter);
 adapters.set('huggingface', huggingfaceAdapter);
+adapters.set('yi', yiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

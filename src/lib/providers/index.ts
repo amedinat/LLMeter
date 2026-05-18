@@ -6,3 +6,4 @@ export { anthropicAdapter } from './anthropic-adapter';
 export { googleAdapter } from './google-adapter';
 export { deepseekAdapter } from './deepseek-adapter';
 export { mistralAdapter } from './mistral-adapter';
+export { yiAdapter } from './yi-adapter';

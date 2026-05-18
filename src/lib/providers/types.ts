@@ -299,4 +299,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://huggingface.co/settings/tokens',
     color: '#FF9D00',
   },
+  yi: {
+    type: 'yi',
+    name: '01.AI',
+    description: 'Yi-Lightning, Yi-Large, Yi-Medium, Yi-Spark — 01.AI Yi models, OpenAI-compatible, ultra-low cost',
+    keyPrefix: '',
+    keyPlaceholder: 'your-01ai-api-key',
+    helpUrl: 'https://platform.lingyiwanwu.com/apikeys',
+    color: '#1A73E8',
+  },
 };

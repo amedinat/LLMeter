@@ -605,6 +605,26 @@ const completion = await trackedFeatherless.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Featherless
 );`;
 
+const sdkYiExample = `import OpenAI from 'openai';
+import LLMeter, { wrapYi } from 'llmeter';
+
+// 01.AI Yi models are OpenAI-compatible — use the openai package with 01.AI's base URL
+const yi = new OpenAI({
+  apiKey: process.env.YI_API_KEY,
+  baseURL: 'https://api.lingyiwanwu.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedYi = wrapYi(yi, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedYi.chat.completions.create(
+  {
+    model: 'yi-lightning',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to 01.AI
+);`;
+
 const sdkHuggingFaceExample = `import OpenAI from 'openai';
 import LLMeter, { wrapHuggingFace } from 'llmeter';
 
@@ -768,6 +788,7 @@ export default function DocsPage() {
                 <TabsTrigger value="replicate">Replicate</TabsTrigger>
                 <TabsTrigger value="featherless">Featherless.ai</TabsTrigger>
                 <TabsTrigger value="huggingface">HuggingFace</TabsTrigger>
+                <TabsTrigger value="yi">01.AI Yi</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1060,6 +1081,16 @@ export default function DocsPage() {
                   call is tracked automatically. Access 100,000+ open-source models including Llama 3.3 70B, Mistral 7B, Qwen 2.5, DeepSeek R1, Gemma 2, Phi-4, and more.
                 </p>
                 <CodeBlock language="typescript" code={sdkHuggingFaceExample} />
+              </TabsContent>
+              <TabsContent value="yi" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  01.AI Yi models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with 01.AI&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Yi-Lightning ($0.14/1M tokens), Yi-Large, Yi-Large-Turbo, Yi-Medium, Yi-Spark, Yi-Large-Preview, Yi-Medium-200K, and Yi-Vision-01.
+                </p>
+                <CodeBlock language="typescript" code={sdkYiExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

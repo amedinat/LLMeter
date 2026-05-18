@@ -193,6 +193,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           replicate: 0,
           featherless: 0,
           huggingface: 0,
+          yi: 0,
         }
       });
     }
@@ -245,6 +246,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           replicate: 0,
           featherless: 0,
           huggingface: 0,
+          yi: 0,
         },
       }
     );
