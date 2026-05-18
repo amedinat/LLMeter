@@ -34,6 +34,7 @@ export { wrapNvidia } from './nvidia.js';
 export { wrapCloudflare } from './cloudflare.js';
 export { wrapNebius } from './nebius.js';
 export { wrapReplicate } from './replicate.js';
+export { wrapFeatherless } from './featherless.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

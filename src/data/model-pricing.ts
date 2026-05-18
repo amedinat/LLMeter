@@ -2660,6 +2660,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-17T00:00:00.000Z',
   },
 
+  // ── Featherless.ai ────────────────────────────────────────────
+  {
+    provider: 'featherless',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Featherless: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Featherless: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Featherless: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'Featherless: DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'Featherless: DeepSeek V3',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Featherless: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Featherless: Mistral 7B',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'microsoft/phi-4',
+    display_name: 'Featherless: Phi-4 14B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'google/gemma-2-27b-it',
+    display_name: 'Featherless: Gemma 2 27B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'featherless',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Featherless: Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2812,6 +2904,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     cloudflare: [0.56, 0.56], // Llama 3.3 70B Fast list prices
     nebius: [0.13, 0.40], // Llama 3.3 70B Instruct list prices
     replicate: [0.90, 0.90], // Llama 3.3 70B list prices
+    featherless: [0.06, 0.10], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

@@ -58,6 +58,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         cloudflare: 0,
         nebius: 0,
         replicate: 0,
+        featherless: 0,
       },
     };
   });

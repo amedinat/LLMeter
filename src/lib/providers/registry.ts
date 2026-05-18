@@ -26,6 +26,7 @@ import { nvidiaAdapter } from './nvidia-adapter';
 import { cloudflareAdapter } from './cloudflare-adapter';
 import { nebiusAdapter } from './nebius-adapter';
 import { replicateAdapter } from './replicate-adapter';
+import { featherlessAdapter } from './featherless-adapter';
 
 /**
  * Provider adapter registry.
@@ -60,6 +61,7 @@ adapters.set('nvidia', nvidiaAdapter);
 adapters.set('cloudflare', cloudflareAdapter);
 adapters.set('nebius', nebiusAdapter);
 adapters.set('replicate', replicateAdapter);
+adapters.set('featherless', featherlessAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

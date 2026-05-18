@@ -74,6 +74,7 @@ const ZERO_PROVIDERS = {
   cloudflare: 0,
   nebius: 0,
   replicate: 0,
+  featherless: 0,
 };
 
 // --- Tests ---

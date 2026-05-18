@@ -191,6 +191,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           cloudflare: 0,
           nebius: 0,
           replicate: 0,
+          featherless: 0,
         }
       });
     }
@@ -241,6 +242,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           cloudflare: 0,
           nebius: 0,
           replicate: 0,
+          featherless: 0,
         },
       }
     );

@@ -281,4 +281,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://replicate.com/account/api-tokens',
     color: '#000000',
   },
+  featherless: {
+    type: 'featherless',
+    name: 'Featherless.ai',
+    description: 'Llama 3.3 70B, DeepSeek R1, Qwen 2.5, Phi-4 — 3,000+ open-source models, serverless, no GPU setup',
+    keyPrefix: '',
+    keyPlaceholder: 'your-featherless-api-key',
+    helpUrl: 'https://featherless.ai/account',
+    color: '#7C3AED',
+  },
 };

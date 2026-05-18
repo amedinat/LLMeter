@@ -24,6 +24,7 @@ import { nvidiaAdapter } from './nvidia-adapter';
 import { cloudflareAdapter, parseCloudflareCredentials } from './cloudflare-adapter';
 import { nebiusAdapter } from './nebius-adapter';
 import { replicateAdapter } from './replicate-adapter';
+import { featherlessAdapter } from './featherless-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2338,6 +2339,74 @@ describe('Provider Adapters', () => {
 
     it('replicateAdapter.type is replicate', () => {
       expect(replicateAdapter.type).toBe('replicate');
+    });
+  });
+
+  describe('featherlessAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [{ id: 'meta-llama/Llama-3.3-70B-Instruct' }] }),
+      });
+
+      const result = await featherlessAdapter.validateKey('test-featherless-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.featherless.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-featherless-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(featherlessAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Featherless API key'
+      );
+    });
+
+    it('validateKey throws with API message on other errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+
+      await expect(featherlessAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('validateKey throws generic message when no body detail', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(featherlessAdapter.validateKey('test-key')).rejects.toThrow(
+        'Featherless API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await featherlessAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await featherlessAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('featherlessAdapter.type is featherless', () => {
+      expect(featherlessAdapter.type).toBe('featherless');
     });
   });
 });
