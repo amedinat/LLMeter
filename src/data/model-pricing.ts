@@ -3084,6 +3084,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
 
+  // ── Moonshot AI (Kimi) ────────────────────────────────────────
+  {
+    provider: 'moonshot',
+    model_id: 'moonshot-v1-8k',
+    display_name: 'Moonshot AI: moonshot-v1-8k',
+    input_price_per_1m_tokens: 1.67,
+    output_price_per_1m_tokens: 1.67,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'moonshot-v1-32k',
+    display_name: 'Moonshot AI: moonshot-v1-32k',
+    input_price_per_1m_tokens: 3.33,
+    output_price_per_1m_tokens: 3.33,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'moonshot-v1-128k',
+    display_name: 'Moonshot AI: moonshot-v1-128k',
+    input_price_per_1m_tokens: 8.33,
+    output_price_per_1m_tokens: 8.33,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'moonshot-v1-8k-vision',
+    display_name: 'Moonshot AI: moonshot-v1-8k Vision',
+    input_price_per_1m_tokens: 1.67,
+    output_price_per_1m_tokens: 1.67,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'moonshot-v1-32k-vision',
+    display_name: 'Moonshot AI: moonshot-v1-32k Vision',
+    input_price_per_1m_tokens: 3.33,
+    output_price_per_1m_tokens: 3.33,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'kimi-k1.5-preview',
+    display_name: 'Moonshot AI: Kimi k1.5 Preview',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'kimi-k1.5-long-context',
+    display_name: 'Moonshot AI: Kimi k1.5 Long Context',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'moonshot',
+    model_id: 'moonshot-v1-auto',
+    display_name: 'Moonshot AI: moonshot-v1-auto',
+    input_price_per_1m_tokens: 8.33,
+    output_price_per_1m_tokens: 8.33,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3241,6 +3315,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     yi: [0.14, 0.14], // Yi-Lightning list prices
     zhipu: [7.00, 7.00], // GLM-4-Plus list prices
     upstage: [2.00, 2.00], // Solar Pro list prices
+    moonshot: [8.33, 8.33], // moonshot-v1-128k list prices
   };
   return defaults[provider];
 }

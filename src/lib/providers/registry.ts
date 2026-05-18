@@ -31,6 +31,7 @@ import { huggingfaceAdapter } from './huggingface-adapter';
 import { yiAdapter } from './yi-adapter';
 import { zhipuAdapter } from './zhipu-adapter';
 import { upstageAdapter } from './upstage-adapter';
+import { moonshotAdapter } from './moonshot-adapter';
 
 /**
  * Provider adapter registry.
@@ -70,6 +71,7 @@ adapters.set('huggingface', huggingfaceAdapter);
 adapters.set('yi', yiAdapter);
 adapters.set('zhipu', zhipuAdapter);
 adapters.set('upstage', upstageAdapter);
+adapters.set('moonshot', moonshotAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

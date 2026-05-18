@@ -63,6 +63,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         yi: 0,
         zhipu: 0,
         upstage: 0,
+        moonshot: 0,
       },
     };
   });

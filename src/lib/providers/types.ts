@@ -326,4 +326,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.upstage.ai/api-keys',
     color: '#FF6B2B',
   },
+  moonshot: {
+    type: 'moonshot',
+    name: 'Moonshot AI',
+    description: 'moonshot-v1-8k, moonshot-v1-32k, moonshot-v1-128k — Kimi models, OpenAI-compatible, long-context Chinese AI',
+    keyPrefix: 'sk-',
+    keyPlaceholder: 'sk-...',
+    helpUrl: 'https://platform.moonshot.cn/user/api-keys',
+    color: '#1A73E8',
+  },
 };

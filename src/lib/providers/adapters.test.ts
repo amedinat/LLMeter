@@ -29,6 +29,7 @@ import { huggingfaceAdapter } from './huggingface-adapter';
 import { yiAdapter } from './yi-adapter';
 import { zhipuAdapter } from './zhipu-adapter';
 import { upstageAdapter } from './upstage-adapter';
+import { moonshotAdapter } from './moonshot-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2717,6 +2718,79 @@ describe('Provider Adapters', () => {
 
     it('upstageAdapter.type is upstage', () => {
       expect(upstageAdapter.type).toBe('upstage');
+    });
+  });
+
+  describe('moonshotAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await moonshotAdapter.validateKey('sk-test');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Moonshot AI models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await moonshotAdapter.validateKey('sk-test');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.moonshot.cn/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer sk-test' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(moonshotAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Moonshot AI API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(moonshotAdapter.validateKey('sk-test')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(moonshotAdapter.validateKey('sk-test')).rejects.toThrow(
+        'Moonshot AI API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await moonshotAdapter.fetchUsage('sk-test', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await moonshotAdapter.fetchUsage('sk-test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('moonshotAdapter.type is moonshot', () => {
+      expect(moonshotAdapter.type).toBe('moonshot');
     });
   });
 });
