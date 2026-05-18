@@ -308,4 +308,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.lingyiwanwu.com/apikeys',
     color: '#1A73E8',
   },
+  zhipu: {
+    type: 'zhipu',
+    name: 'Zhipu AI',
+    description: 'GLM-4-Plus, GLM-4, GLM-4-Long, GLM-4-Flash, GLM-4-Air — ChatGLM models, OpenAI-compatible, Chinese AI',
+    keyPrefix: '',
+    keyPlaceholder: 'your-zhipu-api-key',
+    helpUrl: 'https://open.bigmodel.cn/usercenter/apikeys',
+    color: '#4E6EF2',
+  },
 };

@@ -77,6 +77,7 @@ const ZERO_PROVIDERS = {
   featherless: 0,
   huggingface: 0,
   yi: 0,
+  zhipu: 0,
 };
 
 // --- Tests ---

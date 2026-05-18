@@ -605,6 +605,26 @@ const completion = await trackedFeatherless.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Featherless
 );`;
 
+const sdkZhipuExample = `import OpenAI from 'openai';
+import LLMeter, { wrapZhipu } from 'llmeter';
+
+// Zhipu AI GLM models are OpenAI-compatible — use the openai package with Zhipu's base URL
+const zhipu = new OpenAI({
+  apiKey: process.env.ZHIPU_API_KEY,
+  baseURL: 'https://open.bigmodel.cn/api/paas/v4',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedZhipu = wrapZhipu(zhipu, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedZhipu.chat.completions.create(
+  {
+    model: 'glm-4-plus',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Zhipu AI
+);`;
+
 const sdkYiExample = `import OpenAI from 'openai';
 import LLMeter, { wrapYi } from 'llmeter';
 
@@ -789,6 +809,7 @@ export default function DocsPage() {
                 <TabsTrigger value="featherless">Featherless.ai</TabsTrigger>
                 <TabsTrigger value="huggingface">HuggingFace</TabsTrigger>
                 <TabsTrigger value="yi">01.AI Yi</TabsTrigger>
+                <TabsTrigger value="zhipu">Zhipu AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1091,6 +1112,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Yi-Lightning ($0.14/1M tokens), Yi-Large, Yi-Large-Turbo, Yi-Medium, Yi-Spark, Yi-Large-Preview, Yi-Medium-200K, and Yi-Vision-01.
                 </p>
                 <CodeBlock language="typescript" code={sdkYiExample} />
+              </TabsContent>
+              <TabsContent value="zhipu" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Zhipu AI GLM models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Zhipu&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes GLM-4-Plus ($7/1M tokens), GLM-4, GLM-4-Long (128K context), GLM-4-Flash (near-free), GLM-4-Air, GLM-4-AirX, GLM-4V-Plus, GLM-4V, and GLM-Zero-Preview (reasoning).
+                </p>
+                <CodeBlock language="typescript" code={sdkZhipuExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

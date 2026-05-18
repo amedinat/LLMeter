@@ -2918,6 +2918,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
 
+  // ── Zhipu AI (ChatGLM) ────────────────────────────────────────
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4-plus',
+    display_name: 'Zhipu AI: GLM-4-Plus',
+    input_price_per_1m_tokens: 7.00,
+    output_price_per_1m_tokens: 7.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4',
+    display_name: 'Zhipu AI: GLM-4',
+    input_price_per_1m_tokens: 14.00,
+    output_price_per_1m_tokens: 14.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4-long',
+    display_name: 'Zhipu AI: GLM-4-Long (128K)',
+    input_price_per_1m_tokens: 14.00,
+    output_price_per_1m_tokens: 14.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4-flash',
+    display_name: 'Zhipu AI: GLM-4-Flash',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0.01,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4-flashx',
+    display_name: 'Zhipu AI: GLM-4-FlashX',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4-air',
+    display_name: 'Zhipu AI: GLM-4-Air',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4-airx',
+    display_name: 'Zhipu AI: GLM-4-AirX',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4v-plus',
+    display_name: 'Zhipu AI: GLM-4V-Plus',
+    input_price_per_1m_tokens: 14.00,
+    output_price_per_1m_tokens: 14.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-4v',
+    display_name: 'Zhipu AI: GLM-4V',
+    input_price_per_1m_tokens: 7.00,
+    output_price_per_1m_tokens: 7.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'zhipu',
+    model_id: 'glm-zero-preview',
+    display_name: 'Zhipu AI: GLM-Zero-Preview',
+    input_price_per_1m_tokens: 14.00,
+    output_price_per_1m_tokens: 14.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3072,6 +3164,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     replicate: [0.90, 0.90], // Llama 3.3 70B list prices
     featherless: [0.06, 0.10], // Llama 3.3 70B list prices
     huggingface: [0.40, 0.50], // Llama 3.3 70B list prices
+    yi: [0.14, 0.14], // Yi-Lightning list prices
+    zhipu: [7.00, 7.00], // GLM-4-Plus list prices
   };
   return defaults[provider];
 }

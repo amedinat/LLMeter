@@ -27,6 +27,7 @@ import { replicateAdapter } from './replicate-adapter';
 import { featherlessAdapter } from './featherless-adapter';
 import { huggingfaceAdapter } from './huggingface-adapter';
 import { yiAdapter } from './yi-adapter';
+import { zhipuAdapter } from './zhipu-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2569,6 +2570,79 @@ describe('Provider Adapters', () => {
       await expect(yiAdapter.validateKey('test-key')).rejects.toThrow(
         'Rate limit exceeded'
       );
+    });
+  });
+
+  describe('zhipuAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await zhipuAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Zhipu AI models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await zhipuAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://open.bigmodel.cn/api/paas/v4/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(zhipuAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Zhipu AI API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(zhipuAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(zhipuAdapter.validateKey('test-key')).rejects.toThrow(
+        'Zhipu AI API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await zhipuAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await zhipuAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('zhipuAdapter.type is zhipu', () => {
+      expect(zhipuAdapter.type).toBe('zhipu');
     });
   });
 });
