@@ -59,6 +59,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         nebius: 0,
         replicate: 0,
         featherless: 0,
+        huggingface: 0,
       },
     };
   });

@@ -25,6 +25,7 @@ import { cloudflareAdapter, parseCloudflareCredentials } from './cloudflare-adap
 import { nebiusAdapter } from './nebius-adapter';
 import { replicateAdapter } from './replicate-adapter';
 import { featherlessAdapter } from './featherless-adapter';
+import { huggingfaceAdapter } from './huggingface-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2407,6 +2408,86 @@ describe('Provider Adapters', () => {
 
     it('featherlessAdapter.type is featherless', () => {
       expect(featherlessAdapter.type).toBe('featherless');
+    });
+  });
+
+  describe('huggingfaceAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ name: 'test-user', type: 'user' }),
+      });
+
+      const result = await huggingfaceAdapter.validateKey('hf_test_token');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://huggingface.co/api/whoami',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer hf_test_token' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with a friendly message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ error: 'Invalid token' }),
+      });
+
+      await expect(huggingfaceAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid HuggingFace token'
+      );
+    });
+
+    it('validateKey throws with API message on other errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: 'Internal server error' }),
+      });
+
+      await expect(huggingfaceAdapter.validateKey('hf_test')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('validateKey throws generic message when no body detail', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(huggingfaceAdapter.validateKey('hf_test')).rejects.toThrow(
+        'HuggingFace API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await huggingfaceAdapter.fetchUsage('hf_test', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await huggingfaceAdapter.fetchUsage('hf_test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('huggingfaceAdapter.type is huggingface', () => {
+      expect(huggingfaceAdapter.type).toBe('huggingface');
+    });
+
+    it('validateKey rethrows non-JSON error responses gracefully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: async () => { throw new SyntaxError('invalid json'); },
+      });
+
+      await expect(huggingfaceAdapter.validateKey('hf_test')).rejects.toThrow(
+        'HuggingFace API returned 429'
+      );
     });
   });
 });

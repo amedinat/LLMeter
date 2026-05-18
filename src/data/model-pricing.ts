@@ -2752,6 +2752,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
 
+  // ── HuggingFace Serverless Inference ──────────────────────
+  {
+    provider: 'huggingface',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'HuggingFace: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'HuggingFace: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'HuggingFace: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'meta-llama/Llama-3.2-11B-Vision-Instruct',
+    display_name: 'HuggingFace: Llama 3.2 11B Vision',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'HuggingFace: Mistral 7B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'HuggingFace: Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'HuggingFace: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'HuggingFace: DeepSeek R1',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 3.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'HuggingFace: Gemma 2 9B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'huggingface',
+    model_id: 'microsoft/Phi-4',
+    display_name: 'HuggingFace: Phi-4 14B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -2905,6 +2997,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nebius: [0.13, 0.40], // Llama 3.3 70B Instruct list prices
     replicate: [0.90, 0.90], // Llama 3.3 70B list prices
     featherless: [0.06, 0.10], // Llama 3.3 70B list prices
+    huggingface: [0.40, 0.50], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

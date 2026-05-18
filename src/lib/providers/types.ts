@@ -290,4 +290,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://featherless.ai/account',
     color: '#7C3AED',
   },
+  huggingface: {
+    type: 'huggingface',
+    name: 'HuggingFace',
+    description: 'Llama 3.3 70B, Mistral 7B, Qwen 2.5, DeepSeek R1, Gemma 2 — serverless inference on 100,000+ open-source models',
+    keyPrefix: 'hf_',
+    keyPlaceholder: 'hf_...',
+    helpUrl: 'https://huggingface.co/settings/tokens',
+    color: '#FF9D00',
+  },
 };

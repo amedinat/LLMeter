@@ -605,6 +605,26 @@ const completion = await trackedFeatherless.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Featherless
 );`;
 
+const sdkHuggingFaceExample = `import OpenAI from 'openai';
+import LLMeter, { wrapHuggingFace } from 'llmeter';
+
+// HuggingFace Serverless Inference is OpenAI-compatible — use the openai package with HF's router URL
+const hf = new OpenAI({
+  apiKey: process.env.HF_API_TOKEN,  // hf_...
+  baseURL: 'https://router.huggingface.co/hf-inference/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedHF = wrapHuggingFace(hf, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedHF.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to HuggingFace
+);`;
+
 const sdkReplicateExample = `import OpenAI from 'openai';
 import LLMeter, { wrapReplicate } from 'llmeter';
 
@@ -747,6 +767,7 @@ export default function DocsPage() {
                 <TabsTrigger value="nebius">Nebius AI</TabsTrigger>
                 <TabsTrigger value="replicate">Replicate</TabsTrigger>
                 <TabsTrigger value="featherless">Featherless.ai</TabsTrigger>
+                <TabsTrigger value="huggingface">HuggingFace</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1029,6 +1050,16 @@ export default function DocsPage() {
                   call is tracked automatically. Access 3,000+ open-source models including Llama 3.3 70B, DeepSeek R1/V3, Qwen 2.5 72B, Phi-4, Gemma 2, Mixtral, and more — no GPU setup required.
                 </p>
                 <CodeBlock language="typescript" code={sdkFeatherlessExample} />
+              </TabsContent>
+              <TabsContent value="huggingface" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  HuggingFace Serverless Inference is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with HuggingFace&apos;s router URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Access 100,000+ open-source models including Llama 3.3 70B, Mistral 7B, Qwen 2.5, DeepSeek R1, Gemma 2, Phi-4, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkHuggingFaceExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
