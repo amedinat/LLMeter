@@ -40,6 +40,7 @@ export { wrapYi } from './yi.js';
 export { wrapZhipu } from './zhipu.js';
 export { wrapUpstage } from './upstage.js';
 export { wrapMoonshot } from './moonshot.js';
+export { wrapWriter } from './writer.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

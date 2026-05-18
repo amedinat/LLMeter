@@ -665,6 +665,26 @@ const completion = await trackedMoonshot.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Moonshot
 );`;
 
+const sdkWriterExample = `import OpenAI from 'openai';
+import LLMeter, { wrapWriter } from 'llmeter';
+
+// Writer models are OpenAI-compatible — use the openai package with Writer's base URL
+const writer = new OpenAI({
+  apiKey: process.env.WRITER_API_KEY,
+  baseURL: 'https://api.writer.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedWriter = wrapWriter(writer, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedWriter.chat.completions.create(
+  {
+    model: 'palmyra-x-004',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Writer
+);`;
+
 const sdkUpstageExample = `import OpenAI from 'openai';
 import LLMeter, { wrapUpstage } from 'llmeter';
 
@@ -852,6 +872,7 @@ export default function DocsPage() {
                 <TabsTrigger value="zhipu">Zhipu AI</TabsTrigger>
                 <TabsTrigger value="upstage">Upstage</TabsTrigger>
                 <TabsTrigger value="moonshot">Moonshot AI</TabsTrigger>
+                <TabsTrigger value="writer">Writer</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1184,6 +1205,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes moonshot-v1-8k ($1.67/1M), moonshot-v1-32k ($3.33/1M), moonshot-v1-128k ($8.33/1M), vision variants, and Kimi k1.5 reasoning models.
                 </p>
                 <CodeBlock language="typescript" code={sdkMoonshotExample} />
+              </TabsContent>
+              <TabsContent value="writer" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Writer models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Writer&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Palmyra X 004 ($0.80/$3.00 per 1M tokens), Palmyra X 004 Turbo ($0.50/$2.00), Palmyra X 005 ($1.50/$6.00), domain-specialized Palmyra Med 70B and Palmyra Fin 70B for healthcare and finance, and Palmyra Vision for multimodal tasks.
+                </p>
+                <CodeBlock language="typescript" code={sdkWriterExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -30,6 +30,7 @@ import { yiAdapter } from './yi-adapter';
 import { zhipuAdapter } from './zhipu-adapter';
 import { upstageAdapter } from './upstage-adapter';
 import { moonshotAdapter } from './moonshot-adapter';
+import { writerAdapter } from './writer-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2791,6 +2792,79 @@ describe('Provider Adapters', () => {
 
     it('moonshotAdapter.type is moonshot', () => {
       expect(moonshotAdapter.type).toBe('moonshot');
+    });
+  });
+
+  describe('writerAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await writerAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Writer models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await writerAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.writer.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(writerAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Writer API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(writerAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(writerAdapter.validateKey('test-key')).rejects.toThrow(
+        'Writer API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await writerAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await writerAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('writerAdapter.type is writer', () => {
+      expect(writerAdapter.type).toBe('writer');
     });
   });
 });

@@ -335,4 +335,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.moonshot.cn/user/api-keys',
     color: '#1A73E8',
   },
+  writer: {
+    type: 'writer',
+    name: 'Writer',
+    description: 'Palmyra X 004, Palmyra Med 70B, Palmyra Fin 70B — enterprise AI, domain-specialized models, OpenAI-compatible',
+    keyPrefix: '',
+    keyPlaceholder: 'your-writer-api-key',
+    helpUrl: 'https://app.writer.com/aistudio/organization/apps',
+    color: '#6C47FF',
+  },
 };
