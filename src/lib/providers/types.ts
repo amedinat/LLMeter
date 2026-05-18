@@ -272,4 +272,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://studio.nebius.ai',
     color: '#5B4CF5',
   },
+  replicate: {
+    type: 'replicate',
+    name: 'Replicate',
+    description: 'Llama 3.3 70B, DeepSeek R1, Mixtral, Gemma 2, Qwen 2.5 — deploy and run any open-source model',
+    keyPrefix: 'r8_',
+    keyPlaceholder: 'r8_...',
+    helpUrl: 'https://replicate.com/account/api-tokens',
+    color: '#000000',
+  },
 };

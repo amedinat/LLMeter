@@ -23,6 +23,7 @@ import { inferencenetAdapter } from './inferencenet-adapter';
 import { nvidiaAdapter } from './nvidia-adapter';
 import { cloudflareAdapter, parseCloudflareCredentials } from './cloudflare-adapter';
 import { nebiusAdapter } from './nebius-adapter';
+import { replicateAdapter } from './replicate-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2269,6 +2270,74 @@ describe('Provider Adapters', () => {
 
     it('nebiusAdapter.type is nebius', () => {
       expect(nebiusAdapter.type).toBe('nebius');
+    });
+  });
+
+  describe('replicateAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ username: 'testuser', type: 'user' }),
+      });
+
+      const result = await replicateAdapter.validateKey('r8_test_key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.replicate.com/v1/account',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Token r8_test_key' }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ detail: 'Invalid token' }),
+      });
+
+      await expect(replicateAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Replicate API token'
+      );
+    });
+
+    it('validateKey throws with API message on other errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ detail: 'Internal server error' }),
+      });
+
+      await expect(replicateAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('validateKey throws generic message when no body detail', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(replicateAdapter.validateKey('test-key')).rejects.toThrow(
+        'Replicate API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await replicateAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await replicateAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('replicateAdapter.type is replicate', () => {
+      expect(replicateAdapter.type).toBe('replicate');
     });
   });
 });

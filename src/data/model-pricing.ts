@@ -2569,6 +2569,96 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-17T00:00:00.000Z',
   },
+  {
+    provider: 'replicate',
+    model_id: 'meta/llama-3.3-70b-instruct',
+    display_name: 'Replicate: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'meta/llama-3.1-405b-instruct',
+    display_name: 'Replicate: Llama 3.1 405B',
+    input_price_per_1m_tokens: 9.50,
+    output_price_per_1m_tokens: 9.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'meta/llama-3.1-70b-instruct',
+    display_name: 'Replicate: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.65,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'meta/llama-3.1-8b-instruct',
+    display_name: 'Replicate: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'meta/llama-3.2-11b-vision-instruct',
+    display_name: 'Replicate: Llama 3.2 11B Vision',
+    input_price_per_1m_tokens: 0.055,
+    output_price_per_1m_tokens: 0.055,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'deepseek-ai/deepseek-r1',
+    display_name: 'Replicate: DeepSeek R1',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 8.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'deepseek-ai/deepseek-v3',
+    display_name: 'Replicate: DeepSeek V3',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'mistralai/mixtral-8x7b-instruct-v0.1',
+    display_name: 'Replicate: Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'google-deepmind/gemma-2-9b-it',
+    display_name: 'Replicate: Gemma 2 9B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
+  {
+    provider: 'replicate',
+    model_id: 'qwen/qwen2.5-72b-instruct',
+    display_name: 'Replicate: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-17T00:00:00.000Z',
+  },
 
 ];
 
@@ -2721,6 +2811,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nvidia: [0.23, 0.23], // Llama 3.3 70B Instruct list prices
     cloudflare: [0.56, 0.56], // Llama 3.3 70B Fast list prices
     nebius: [0.13, 0.40], // Llama 3.3 70B Instruct list prices
+    replicate: [0.90, 0.90], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

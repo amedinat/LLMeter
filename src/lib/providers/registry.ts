@@ -25,6 +25,7 @@ import { inferencenetAdapter } from './inferencenet-adapter';
 import { nvidiaAdapter } from './nvidia-adapter';
 import { cloudflareAdapter } from './cloudflare-adapter';
 import { nebiusAdapter } from './nebius-adapter';
+import { replicateAdapter } from './replicate-adapter';
 
 /**
  * Provider adapter registry.
@@ -58,6 +59,7 @@ adapters.set('inferencenet', inferencenetAdapter);
 adapters.set('nvidia', nvidiaAdapter);
 adapters.set('cloudflare', cloudflareAdapter);
 adapters.set('nebius', nebiusAdapter);
+adapters.set('replicate', replicateAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

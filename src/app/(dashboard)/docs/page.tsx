@@ -585,6 +585,26 @@ const completion = await trackedCF.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Cloudflare
 );`;
 
+const sdkReplicateExample = `import OpenAI from 'openai';
+import LLMeter, { wrapReplicate } from 'llmeter';
+
+// Replicate's OpenAI-compatible endpoint — use the openai package with Replicate's base URL
+const replicate = new OpenAI({
+  apiKey: process.env.REPLICATE_API_TOKEN, // r8_...
+  baseURL: 'https://openai.replicate.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedReplicate = wrapReplicate(replicate, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedReplicate.chat.completions.create(
+  {
+    model: 'meta/llama-3.3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Replicate
+);`;
+
 const sdkNebiusExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNebius } from 'llmeter';
 
@@ -705,6 +725,7 @@ export default function DocsPage() {
                 <TabsTrigger value="nvidia">NVIDIA NIM</TabsTrigger>
                 <TabsTrigger value="cloudflare">Cloudflare Workers AI</TabsTrigger>
                 <TabsTrigger value="nebius">Nebius AI</TabsTrigger>
+                <TabsTrigger value="replicate">Replicate</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -967,6 +988,16 @@ export default function DocsPage() {
                   call is tracked automatically. Supports Llama 3.3 70B, Llama 3.1 70B/8B, DeepSeek R1/V3, Qwen 2.5 72B/7B, Mistral Nemo, Phi-3 Mini, and Gemma 2 9B — European-first cloud infrastructure.
                 </p>
                 <CodeBlock language="typescript" code={sdkNebiusExample} />
+              </TabsContent>
+              <TabsContent value="replicate" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Replicate exposes an OpenAI-compatible endpoint — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with Replicate&apos;s base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Supports Llama 3.3 70B, Llama 3.1 405B/70B/8B, DeepSeek R1/V3, Mixtral 8x7B, Gemma 2 9B, Qwen 2.5 72B, and more.
+                </p>
+                <CodeBlock language="typescript" code={sdkReplicateExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
