@@ -22,6 +22,7 @@ import { leptonAdapter } from './lepton-adapter';
 import { inferencenetAdapter } from './inferencenet-adapter';
 import { nvidiaAdapter } from './nvidia-adapter';
 import { cloudflareAdapter, parseCloudflareCredentials } from './cloudflare-adapter';
+import { nebiusAdapter } from './nebius-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2194,6 +2195,80 @@ describe('Provider Adapters', () => {
 
     it('cloudflareAdapter.type is cloudflare', () => {
       expect(cloudflareAdapter.type).toBe('cloudflare');
+    });
+  });
+
+  describe('nebiusAdapter', () => {
+    it('validates key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+
+      const result = await nebiusAdapter.validateKey('eyJhbGci_test_key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.studio.nebius.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer eyJhbGci_test_key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(nebiusAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Nebius AI API key'
+      );
+    });
+
+    it('throws on non-401 error with status code', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+
+      await expect(nebiusAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws on error with fallback message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(nebiusAdapter.validateKey('test-key')).rejects.toThrow(
+        'Nebius AI API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await nebiusAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('fetchUsage returns empty array for any date range', async () => {
+      const records = await nebiusAdapter.fetchUsage('test-key', new Date('2024-06-01'), new Date('2024-06-30'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await nebiusAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('nebiusAdapter.type is nebius', () => {
+      expect(nebiusAdapter.type).toBe('nebius');
     });
   });
 });

@@ -263,4 +263,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://dash.cloudflare.com/profile/api-tokens',
     color: '#F38020',
   },
+  nebius: {
+    type: 'nebius',
+    name: 'Nebius AI',
+    description: 'Llama 3.3 70B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral Nemo — European-first cloud inference',
+    keyPrefix: '',
+    keyPlaceholder: 'eyJhbGci...',
+    helpUrl: 'https://studio.nebius.ai',
+    color: '#5B4CF5',
+  },
 };
