@@ -59,6 +59,21 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // Canonicalize apex llmeter.org → www.llmeter.org with 308 Permanent
+      // (Google treats 308 like 301 for SEO; consolidates duplicate "alternate" pages in GSC)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'llmeter.org' }],
+        destination: 'https://www.llmeter.org/:path*',
+        permanent: true,
+      },
+      // Common index/home aliases → /
+      { source: '/index', destination: '/', permanent: true },
+      { source: '/home', destination: '/', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
