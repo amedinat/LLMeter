@@ -361,4 +361,12 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.minimaxi.chat/user-center/basic-information/interface-key',
     color: '#0066FF',
   },
+  doubao: {
+    type: 'doubao',
+    name: 'ByteDance (Doubao)',
+    description: 'Doubao-Pro-32k, Doubao-Lite-32k, Doubao-1.5-Pro — OpenAI-compatible, ultra-low cost, TikTok parent company AI',
+    keyPlaceholder: 'your-volcengine-ark-api-key',
+    helpUrl: 'https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey',
+    color: '#E02B2B',
+  },
 };

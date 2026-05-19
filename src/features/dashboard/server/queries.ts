@@ -200,6 +200,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           writer: 0,
           qwen: 0,
           minimax: 0,
+          doubao: 0,
         }
       });
     }
@@ -259,6 +260,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           writer: 0,
           qwen: 0,
           minimax: 0,
+          doubao: 0,
         },
       }
     );

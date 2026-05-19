@@ -3398,6 +3398,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── ByteDance Doubao (Volcengine Ark) ────────────────────────
+  {
+    provider: 'doubao',
+    model_id: 'doubao-lite-4k',
+    display_name: 'ByteDance: Doubao-Lite-4k',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-lite-32k',
+    display_name: 'ByteDance: Doubao-Lite-32k',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-lite-128k',
+    display_name: 'ByteDance: Doubao-Lite-128k',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-pro-4k',
+    display_name: 'ByteDance: Doubao-Pro-4k',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-pro-32k',
+    display_name: 'ByteDance: Doubao-Pro-32k',
+    input_price_per_1m_tokens: 0.17,
+    output_price_per_1m_tokens: 0.17,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-pro-128k',
+    display_name: 'ByteDance: Doubao-Pro-128k',
+    input_price_per_1m_tokens: 0.69,
+    output_price_per_1m_tokens: 1.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-1-5-pro-32k',
+    display_name: 'ByteDance: Doubao-1.5-Pro-32k',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-1-5-lite-32k',
+    display_name: 'ByteDance: Doubao-1.5-Lite-32k',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'doubao',
+    model_id: 'doubao-vision-pro-32k',
+    display_name: 'ByteDance: Doubao-Vision-Pro-32k',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3559,6 +3642,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     writer: [0.80, 3.00], // Palmyra X 004 list prices
     qwen: [0.40, 1.20], // qwen-max list prices
     minimax: [0.20, 1.10], // MiniMax-Text-01 list prices
+    doubao: [0.17, 0.17], // Doubao-Pro-32k list prices
   };
   return defaults[provider];
 }

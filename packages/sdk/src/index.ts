@@ -43,6 +43,7 @@ export { wrapMoonshot } from './moonshot.js';
 export { wrapWriter } from './writer.js';
 export { wrapQwen } from './qwen.js';
 export { wrapMiniMax } from './minimax.js';
+export { wrapDoubao } from './doubao.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

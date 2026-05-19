@@ -83,6 +83,7 @@ const ZERO_PROVIDERS = {
   writer: 0,
   qwen: 0,
   minimax: 0,
+  doubao: 0,
 };
 
 // --- Tests ---

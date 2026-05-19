@@ -705,6 +705,26 @@ const completion = await trackedQwen.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Qwen
 );`;
 
+const sdkDoubaoExample = `import OpenAI from 'openai';
+import LLMeter, { wrapDoubao } from 'llmeter';
+
+// Doubao models (ByteDance/Volcengine) are OpenAI-compatible — use the openai package with the Ark base URL
+const doubao = new OpenAI({
+  apiKey: process.env.DOUBAO_API_KEY,
+  baseURL: 'https://ark.cn-beijing.volces.com/api/v3',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedDoubao = wrapDoubao(doubao, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedDoubao.chat.completions.create(
+  {
+    model: 'doubao-pro-32k',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Doubao
+);`;
+
 const sdkMiniMaxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMiniMax } from 'llmeter';
 
@@ -915,6 +935,7 @@ export default function DocsPage() {
                 <TabsTrigger value="writer">Writer</TabsTrigger>
                 <TabsTrigger value="qwen">Qwen (DashScope)</TabsTrigger>
                 <TabsTrigger value="minimax">MiniMax</TabsTrigger>
+                <TabsTrigger value="doubao">Doubao</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1277,6 +1298,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes MiniMax-Text-01 ($0.20/$1.10 per 1M tokens, 1M context window), MiniMax-01 ($0.20/$1.10), abab6.5s-chat ($0.12/$0.25), abab6.5g-chat, abab6.5t-chat (Turbo), abab6.5-chat ($0.15/$0.30), abab5.5-chat ($0.08/$0.20), and abab5.5s-chat ($0.04/$0.10, ultra-fast).
                 </p>
                 <CodeBlock language="typescript" code={sdkMiniMaxExample} />
+              </TabsContent>
+              <TabsContent value="doubao" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  ByteDance Doubao models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Volcengine Ark base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Doubao-Pro-32k ($0.17/$0.17 per 1M tokens), Doubao-Lite-32k ($0.04/$0.08, ultra-cheap), Doubao-Lite-128k ($0.11/$0.14), Doubao-Pro-4k ($0.11/$0.28), Doubao-Pro-128k ($0.69/$1.25), Doubao-1.5-Pro-32k ($0.11/$0.28), and Doubao-Vision-Pro-32k ($0.28/$0.28, multimodal).
+                </p>
+                <CodeBlock language="typescript" code={sdkDoubaoExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
