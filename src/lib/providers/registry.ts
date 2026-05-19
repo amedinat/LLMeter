@@ -34,6 +34,7 @@ import { upstageAdapter } from './upstage-adapter';
 import { moonshotAdapter } from './moonshot-adapter';
 import { writerAdapter } from './writer-adapter';
 import { qwenAdapter } from './qwen-adapter';
+import { minimaxAdapter } from './minimax-adapter';
 
 /**
  * Provider adapter registry.
@@ -76,6 +77,7 @@ adapters.set('upstage', upstageAdapter);
 adapters.set('moonshot', moonshotAdapter);
 adapters.set('writer', writerAdapter);
 adapters.set('qwen', qwenAdapter);
+adapters.set('minimax', minimaxAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

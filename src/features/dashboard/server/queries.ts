@@ -199,6 +199,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           moonshot: 0,
           writer: 0,
           qwen: 0,
+          minimax: 0,
         }
       });
     }
@@ -257,6 +258,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           moonshot: 0,
           writer: 0,
           qwen: 0,
+          minimax: 0,
         },
       }
     );

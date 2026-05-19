@@ -353,4 +353,12 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://bailian.console.aliyun.com/apiKey',
     color: '#FF6A00',
   },
+  minimax: {
+    type: 'minimax',
+    name: 'MiniMax',
+    description: 'MiniMax-Text-01, abab6.5s-chat, abab5.5s-chat — OpenAI-compatible, 1M context window Chinese AI',
+    keyPlaceholder: 'your-minimax-api-key',
+    helpUrl: 'https://platform.minimaxi.chat/user-center/basic-information/interface-key',
+    color: '#0066FF',
+  },
 };

@@ -3324,6 +3324,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
 
+  // ── MiniMax ──────────────────────────────────────────────────
+  {
+    provider: 'minimax',
+    model_id: 'MiniMax-Text-01',
+    display_name: 'MiniMax: MiniMax-Text-01 (1M context)',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'MiniMax-01',
+    display_name: 'MiniMax: MiniMax-01',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'abab6.5s-chat',
+    display_name: 'MiniMax: abab6.5s-chat',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'abab6.5g-chat',
+    display_name: 'MiniMax: abab6.5g-chat',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'abab6.5t-chat',
+    display_name: 'MiniMax: abab6.5t-chat (Turbo)',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'abab6.5-chat',
+    display_name: 'MiniMax: abab6.5-chat',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'abab5.5-chat',
+    display_name: 'MiniMax: abab5.5-chat',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'minimax',
+    model_id: 'abab5.5s-chat',
+    display_name: 'MiniMax: abab5.5s-chat (Speed)',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3484,6 +3558,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     moonshot: [8.33, 8.33], // moonshot-v1-128k list prices
     writer: [0.80, 3.00], // Palmyra X 004 list prices
     qwen: [0.40, 1.20], // qwen-max list prices
+    minimax: [0.20, 1.10], // MiniMax-Text-01 list prices
   };
   return defaults[provider];
 }
