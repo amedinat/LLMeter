@@ -36,6 +36,7 @@ import { writerAdapter } from './writer-adapter';
 import { qwenAdapter } from './qwen-adapter';
 import { minimaxAdapter } from './minimax-adapter';
 import { doubaoAdapter } from './doubao-adapter';
+import { hunyuanAdapter } from './hunyuan-adapter';
 
 /**
  * Provider adapter registry.
@@ -80,6 +81,7 @@ adapters.set('writer', writerAdapter);
 adapters.set('qwen', qwenAdapter);
 adapters.set('minimax', minimaxAdapter);
 adapters.set('doubao', doubaoAdapter);
+adapters.set('hunyuan', hunyuanAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

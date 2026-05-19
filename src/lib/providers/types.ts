@@ -369,4 +369,12 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey',
     color: '#E02B2B',
   },
+  hunyuan: {
+    type: 'hunyuan',
+    name: 'Tencent Hunyuan',
+    description: 'Hunyuan-Pro, Hunyuan-Turbo, Hunyuan-Standard — OpenAI-compatible, Tencent Cloud AI with 256K context',
+    keyPlaceholder: 'your-hunyuan-api-key',
+    helpUrl: 'https://console.cloud.tencent.com/hunyuan/api-key',
+    color: '#00A3FF',
+  },
 };

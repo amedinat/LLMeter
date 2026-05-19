@@ -3398,6 +3398,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── Tencent Hunyuan ──────────────────────────────────────────
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-pro',
+    display_name: 'Tencent: Hunyuan-Pro',
+    input_price_per_1m_tokens: 0.70,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-pro-256k',
+    display_name: 'Tencent: Hunyuan-Pro-256k',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 5.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-standard',
+    display_name: 'Tencent: Hunyuan-Standard',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-standard-256k',
+    display_name: 'Tencent: Hunyuan-Standard-256k',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-lite',
+    display_name: 'Tencent: Hunyuan-Lite',
+    input_price_per_1m_tokens: 0.00,
+    output_price_per_1m_tokens: 0.00,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-turbo',
+    display_name: 'Tencent: Hunyuan-Turbo',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-turbo-latest',
+    display_name: 'Tencent: Hunyuan-Turbo-Latest',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'hunyuan',
+    model_id: 'hunyuan-vision',
+    display_name: 'Tencent: Hunyuan-Vision',
+    input_price_per_1m_tokens: 0.00,
+    output_price_per_1m_tokens: 0.00,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
   // ── ByteDance Doubao (Volcengine Ark) ────────────────────────
   {
     provider: 'doubao',
@@ -3643,6 +3717,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     qwen: [0.40, 1.20], // qwen-max list prices
     minimax: [0.20, 1.10], // MiniMax-Text-01 list prices
     doubao: [0.17, 0.17], // Doubao-Pro-32k list prices
+    hunyuan: [0.70, 2.00], // Hunyuan-Pro list prices
   };
   return defaults[provider];
 }

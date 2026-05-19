@@ -725,6 +725,26 @@ const completion = await trackedDoubao.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Doubao
 );`;
 
+const sdkHunyuanExample = `import OpenAI from 'openai';
+import LLMeter, { wrapHunyuan } from 'llmeter';
+
+// Tencent Hunyuan models are OpenAI-compatible — use the openai package with the Hunyuan base URL
+const hunyuan = new OpenAI({
+  apiKey: process.env.HUNYUAN_API_KEY,
+  baseURL: 'https://api.hunyuan.cloud.tencent.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedHunyuan = wrapHunyuan(hunyuan, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedHunyuan.chat.completions.create(
+  {
+    model: 'hunyuan-pro',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Hunyuan
+);`;
+
 const sdkMiniMaxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMiniMax } from 'llmeter';
 
@@ -936,6 +956,7 @@ export default function DocsPage() {
                 <TabsTrigger value="qwen">Qwen (DashScope)</TabsTrigger>
                 <TabsTrigger value="minimax">MiniMax</TabsTrigger>
                 <TabsTrigger value="doubao">Doubao</TabsTrigger>
+                <TabsTrigger value="hunyuan">Tencent Hunyuan</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1308,6 +1329,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Doubao-Pro-32k ($0.17/$0.17 per 1M tokens), Doubao-Lite-32k ($0.04/$0.08, ultra-cheap), Doubao-Lite-128k ($0.11/$0.14), Doubao-Pro-4k ($0.11/$0.28), Doubao-Pro-128k ($0.69/$1.25), Doubao-1.5-Pro-32k ($0.11/$0.28), and Doubao-Vision-Pro-32k ($0.28/$0.28, multimodal).
                 </p>
                 <CodeBlock language="typescript" code={sdkDoubaoExample} />
+              </TabsContent>
+              <TabsContent value="hunyuan" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Tencent Hunyuan models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Hunyuan base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Hunyuan-Pro ($0.70/$2.00 per 1M tokens), Hunyuan-Pro-256k ($1.50/$5.00, 256K context), Hunyuan-Standard ($0.15/$0.15), Hunyuan-Standard-256k ($0.50/$0.50), Hunyuan-Lite (free tier), Hunyuan-Turbo ($1.00/$3.00), Hunyuan-Turbo-Latest ($1.00/$3.00), and Hunyuan-Vision (free tier, multimodal).
+                </p>
+                <CodeBlock language="typescript" code={sdkHunyuanExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

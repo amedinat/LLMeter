@@ -34,6 +34,7 @@ import { writerAdapter } from './writer-adapter';
 import { qwenAdapter } from './qwen-adapter';
 import { minimaxAdapter } from './minimax-adapter';
 import { doubaoAdapter } from './doubao-adapter';
+import { hunyuanAdapter } from './hunyuan-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3087,6 +3088,79 @@ describe('Provider Adapters', () => {
 
     it('doubaoAdapter.type is doubao', () => {
       expect(doubaoAdapter.type).toBe('doubao');
+    });
+  });
+
+  describe('hunyuanAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await hunyuanAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Hunyuan models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await hunyuanAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.hunyuan.cloud.tencent.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(hunyuanAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Hunyuan API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(hunyuanAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(hunyuanAdapter.validateKey('test-key')).rejects.toThrow(
+        'Hunyuan API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await hunyuanAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await hunyuanAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('hunyuanAdapter.type is hunyuan', () => {
+      expect(hunyuanAdapter.type).toBe('hunyuan');
     });
   });
 });
