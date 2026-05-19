@@ -3232,6 +3232,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
 
+  // Alibaba Cloud (Qwen / DashScope)
+  {
+    provider: 'qwen',
+    model_id: 'qwen-max',
+    display_name: 'Qwen: qwen-max',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen-plus',
+    display_name: 'Qwen: qwen-plus',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.21,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen-turbo',
+    display_name: 'Qwen: qwen-turbo',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'economy',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen-long',
+    display_name: 'Qwen: qwen-long',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.13,
+    capability_tier: 'economy',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen-vl-max',
+    display_name: 'Qwen: qwen-vl-max',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen-vl-plus',
+    display_name: 'Qwen: qwen-vl-plus',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.21,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Qwen: Qwen2.5-72B-Instruct',
+    input_price_per_1m_tokens: 0.33,
+    output_price_per_1m_tokens: 0.46,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen2.5-7b-instruct',
+    display_name: 'Qwen: Qwen2.5-7B-Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.29,
+    capability_tier: 'economy',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen3-235b-a22b',
+    display_name: 'Qwen: Qwen3-235B-A22B (MoE)',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+  {
+    provider: 'qwen',
+    model_id: 'qwen3-30b-a3b',
+    display_name: 'Qwen: Qwen3-30B-A3B (MoE)',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-18T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3390,6 +3482,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     zhipu: [7.00, 7.00], // GLM-4-Plus list prices
     upstage: [2.00, 2.00], // Solar Pro list prices
     moonshot: [8.33, 8.33], // moonshot-v1-128k list prices
+    writer: [0.80, 3.00], // Palmyra X 004 list prices
+    qwen: [0.40, 1.20], // qwen-max list prices
   };
   return defaults[provider];
 }

@@ -685,6 +685,26 @@ const completion = await trackedWriter.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Writer
 );`;
 
+const sdkQwenExample = `import OpenAI from 'openai';
+import LLMeter, { wrapQwen } from 'llmeter';
+
+// Qwen models are OpenAI-compatible — use the openai package with DashScope's base URL
+const qwen = new OpenAI({
+  apiKey: process.env.DASHSCOPE_API_KEY,
+  baseURL: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedQwen = wrapQwen(qwen, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedQwen.chat.completions.create(
+  {
+    model: 'qwen-max',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Qwen
+);`;
+
 const sdkUpstageExample = `import OpenAI from 'openai';
 import LLMeter, { wrapUpstage } from 'llmeter';
 
@@ -873,6 +893,7 @@ export default function DocsPage() {
                 <TabsTrigger value="upstage">Upstage</TabsTrigger>
                 <TabsTrigger value="moonshot">Moonshot AI</TabsTrigger>
                 <TabsTrigger value="writer">Writer</TabsTrigger>
+                <TabsTrigger value="qwen">Qwen (DashScope)</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1215,6 +1236,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Palmyra X 004 ($0.80/$3.00 per 1M tokens), Palmyra X 004 Turbo ($0.50/$2.00), Palmyra X 005 ($1.50/$6.00), domain-specialized Palmyra Med 70B and Palmyra Fin 70B for healthcare and finance, and Palmyra Vision for multimodal tasks.
                 </p>
                 <CodeBlock language="typescript" code={sdkWriterExample} />
+              </TabsContent>
+              <TabsContent value="qwen" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Qwen (DashScope) models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with DashScope&apos;s international base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes qwen-max ($0.40/$1.20 per 1M), qwen-plus ($0.07/$0.21), qwen-turbo ($0.05/$0.10), qwen-long ($0.05/$0.13), vision variants qwen-vl-max and qwen-vl-plus, Qwen2.5-72B-Instruct ($0.33/$0.46), and Qwen3-235B-A22B MoE ($0.60/$2.40).
+                </p>
+                <CodeBlock language="typescript" code={sdkQwenExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

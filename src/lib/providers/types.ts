@@ -344,4 +344,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.writer.com/aistudio/organization/apps',
     color: '#6C47FF',
   },
+  qwen: {
+    type: 'qwen',
+    name: 'Alibaba Cloud (Qwen)',
+    description: 'Qwen-Max, Qwen-Plus, Qwen-Turbo, Qwen3 — Alibaba Cloud DashScope, OpenAI-compatible, multilingual AI',
+    keyPrefix: 'sk-',
+    keyPlaceholder: 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://bailian.console.aliyun.com/apiKey',
+    color: '#FF6A00',
+  },
 };

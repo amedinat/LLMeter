@@ -33,6 +33,7 @@ import { zhipuAdapter } from './zhipu-adapter';
 import { upstageAdapter } from './upstage-adapter';
 import { moonshotAdapter } from './moonshot-adapter';
 import { writerAdapter } from './writer-adapter';
+import { qwenAdapter } from './qwen-adapter';
 
 /**
  * Provider adapter registry.
@@ -74,6 +75,7 @@ adapters.set('zhipu', zhipuAdapter);
 adapters.set('upstage', upstageAdapter);
 adapters.set('moonshot', moonshotAdapter);
 adapters.set('writer', writerAdapter);
+adapters.set('qwen', qwenAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

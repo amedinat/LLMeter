@@ -1,7 +1,7 @@
 // LLMeter Types
 
 export type Plan = 'free' | 'pro' | 'team' | 'enterprise';
-export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek' | 'openrouter' | 'mistral' | 'azure' | 'xai' | 'cohere' | 'groq' | 'together' | 'fireworks' | 'perplexity' | 'cerebras' | 'ai21' | 'deepinfra' | 'novita' | 'hyperbolic' | 'sambanova' | 'lambdalabs' | 'lepton' | 'inferencenet' | 'nvidia' | 'cloudflare' | 'nebius' | 'replicate' | 'featherless' | 'huggingface' | 'yi' | 'zhipu' | 'upstage' | 'moonshot' | 'writer';
+export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek' | 'openrouter' | 'mistral' | 'azure' | 'xai' | 'cohere' | 'groq' | 'together' | 'fireworks' | 'perplexity' | 'cerebras' | 'ai21' | 'deepinfra' | 'novita' | 'hyperbolic' | 'sambanova' | 'lambdalabs' | 'lepton' | 'inferencenet' | 'nvidia' | 'cloudflare' | 'nebius' | 'replicate' | 'featherless' | 'huggingface' | 'yi' | 'zhipu' | 'upstage' | 'moonshot' | 'writer' | 'qwen';
 export type ProviderStatus = 'active' | 'error' | 'disconnected' | 'syncing';
 export type AlertType = 'budget_limit' | 'anomaly' | 'daily_threshold';
 export type SuggestionStatus = 'pending' | 'applied' | 'dismissed';

@@ -81,6 +81,7 @@ const ZERO_PROVIDERS = {
   upstage: 0,
   moonshot: 0,
   writer: 0,
+  qwen: 0,
 };
 
 // --- Tests ---

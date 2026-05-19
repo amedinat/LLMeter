@@ -31,6 +31,7 @@ import { zhipuAdapter } from './zhipu-adapter';
 import { upstageAdapter } from './upstage-adapter';
 import { moonshotAdapter } from './moonshot-adapter';
 import { writerAdapter } from './writer-adapter';
+import { qwenAdapter } from './qwen-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -2865,6 +2866,79 @@ describe('Provider Adapters', () => {
 
     it('writerAdapter.type is writer', () => {
       expect(writerAdapter.type).toBe('writer');
+    });
+  });
+
+  describe('qwenAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await qwenAdapter.validateKey('sk-test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls DashScope models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await qwenAdapter.validateKey('sk-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer sk-test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(qwenAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Qwen API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(qwenAdapter.validateKey('sk-test')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(qwenAdapter.validateKey('sk-test')).rejects.toThrow(
+        'Qwen API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await qwenAdapter.fetchUsage('sk-test', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await qwenAdapter.fetchUsage('sk-test', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('qwenAdapter.type is qwen', () => {
+      expect(qwenAdapter.type).toBe('qwen');
     });
   });
 });
