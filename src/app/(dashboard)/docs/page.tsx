@@ -745,6 +745,26 @@ const completion = await trackedHunyuan.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Hunyuan
 );`;
 
+const sdkBaichuanExample = `import OpenAI from 'openai';
+import LLMeter, { wrapBaichuan } from 'llmeter';
+
+// Baichuan AI models are OpenAI-compatible — use the openai package with the Baichuan base URL
+const baichuan = new OpenAI({
+  apiKey: process.env.BAICHUAN_API_KEY,
+  baseURL: 'https://api.baichuan-ai.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedBaichuan = wrapBaichuan(baichuan, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedBaichuan.chat.completions.create(
+  {
+    model: 'Baichuan4-Turbo',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Baichuan
+);`;
+
 const sdkMiniMaxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMiniMax } from 'llmeter';
 
@@ -957,6 +977,7 @@ export default function DocsPage() {
                 <TabsTrigger value="minimax">MiniMax</TabsTrigger>
                 <TabsTrigger value="doubao">Doubao</TabsTrigger>
                 <TabsTrigger value="hunyuan">Tencent Hunyuan</TabsTrigger>
+                <TabsTrigger value="baichuan">Baichuan AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1339,6 +1360,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Hunyuan-Pro ($0.70/$2.00 per 1M tokens), Hunyuan-Pro-256k ($1.50/$5.00, 256K context), Hunyuan-Standard ($0.15/$0.15), Hunyuan-Standard-256k ($0.50/$0.50), Hunyuan-Lite (free tier), Hunyuan-Turbo ($1.00/$3.00), Hunyuan-Turbo-Latest ($1.00/$3.00), and Hunyuan-Vision (free tier, multimodal).
                 </p>
                 <CodeBlock language="typescript" code={sdkHunyuanExample} />
+              </TabsContent>
+              <TabsContent value="baichuan" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Baichuan AI models are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Baichuan base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Baichuan4 ($14.00/$14.00 per 1M tokens), Baichuan4-Turbo ($7.00/$7.00), Baichuan4-Air ($0.14/$0.14 — budget tier), Baichuan3-Turbo ($3.31/$3.31), Baichuan3-Turbo-128k ($8.28/$8.28, 128K context), Baichuan2-Turbo ($3.31/$3.31), Baichuan2-Turbo-192k ($8.28/$8.28, 192K context), and Baichuan2-53B ($4.14/$4.14).
+                </p>
+                <CodeBlock language="typescript" code={sdkBaichuanExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

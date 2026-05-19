@@ -85,6 +85,7 @@ const ZERO_PROVIDERS = {
   minimax: 0,
   doubao: 0,
   hunyuan: 0,
+  baichuan: 0,
 };
 
 // --- Tests ---

@@ -45,6 +45,7 @@ export { wrapQwen } from './qwen.js';
 export { wrapMiniMax } from './minimax.js';
 export { wrapDoubao } from './doubao.js';
 export { wrapHunyuan } from './hunyuan.js';
+export { wrapBaichuan } from './baichuan.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

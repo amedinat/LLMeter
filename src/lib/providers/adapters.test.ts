@@ -35,6 +35,7 @@ import { qwenAdapter } from './qwen-adapter';
 import { minimaxAdapter } from './minimax-adapter';
 import { doubaoAdapter } from './doubao-adapter';
 import { hunyuanAdapter } from './hunyuan-adapter';
+import { baichuanAdapter } from './baichuan-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3161,6 +3162,79 @@ describe('Provider Adapters', () => {
 
     it('hunyuanAdapter.type is hunyuan', () => {
       expect(hunyuanAdapter.type).toBe('hunyuan');
+    });
+  });
+
+  describe('baichuanAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await baichuanAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Baichuan models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await baichuanAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.baichuan-ai.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-key' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(baichuanAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Baichuan API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(baichuanAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(baichuanAdapter.validateKey('test-key')).rejects.toThrow(
+        'Baichuan API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await baichuanAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await baichuanAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('baichuanAdapter.type is baichuan', () => {
+      expect(baichuanAdapter.type).toBe('baichuan');
     });
   });
 });

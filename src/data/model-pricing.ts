@@ -3257,7 +3257,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Qwen: qwen-turbo',
     input_price_per_1m_tokens: 0.05,
     output_price_per_1m_tokens: 0.10,
-    capability_tier: 'economy',
+    capability_tier: 'budget',
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
   {
@@ -3266,7 +3266,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Qwen: qwen-long',
     input_price_per_1m_tokens: 0.05,
     output_price_per_1m_tokens: 0.13,
-    capability_tier: 'economy',
+    capability_tier: 'budget',
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
   {
@@ -3302,7 +3302,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Qwen: Qwen2.5-7B-Instruct',
     input_price_per_1m_tokens: 0.10,
     output_price_per_1m_tokens: 0.29,
-    capability_tier: 'economy',
+    capability_tier: 'budget',
     last_verified_at: '2026-05-18T00:00:00.000Z',
   },
   {
@@ -3555,6 +3555,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── Baichuan AI ──────────────────────────────────────────────
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan4',
+    display_name: 'Baichuan: Baichuan4',
+    input_price_per_1m_tokens: 14.00,
+    output_price_per_1m_tokens: 14.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan4-Turbo',
+    display_name: 'Baichuan: Baichuan4-Turbo',
+    input_price_per_1m_tokens: 7.00,
+    output_price_per_1m_tokens: 7.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan4-Air',
+    display_name: 'Baichuan: Baichuan4-Air',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan3-Turbo',
+    display_name: 'Baichuan: Baichuan3-Turbo',
+    input_price_per_1m_tokens: 3.31,
+    output_price_per_1m_tokens: 3.31,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan3-Turbo-128k',
+    display_name: 'Baichuan: Baichuan3-Turbo-128k',
+    input_price_per_1m_tokens: 8.28,
+    output_price_per_1m_tokens: 8.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan2-Turbo',
+    display_name: 'Baichuan: Baichuan2-Turbo',
+    input_price_per_1m_tokens: 3.31,
+    output_price_per_1m_tokens: 3.31,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan2-Turbo-192k',
+    display_name: 'Baichuan: Baichuan2-Turbo-192k',
+    input_price_per_1m_tokens: 8.28,
+    output_price_per_1m_tokens: 8.28,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baichuan',
+    model_id: 'Baichuan2-53B',
+    display_name: 'Baichuan: Baichuan2-53B',
+    input_price_per_1m_tokens: 4.14,
+    output_price_per_1m_tokens: 4.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3718,6 +3792,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     minimax: [0.20, 1.10], // MiniMax-Text-01 list prices
     doubao: [0.17, 0.17], // Doubao-Pro-32k list prices
     hunyuan: [0.70, 2.00], // Hunyuan-Pro list prices
+    baichuan: [7.00, 7.00], // Baichuan4-Turbo list prices
   };
   return defaults[provider];
 }
