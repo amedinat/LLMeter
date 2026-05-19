@@ -70,6 +70,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         doubao: 0,
         hunyuan: 0,
         baichuan: 0,
+        siliconflow: 0,
       },
     };
   });

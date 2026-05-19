@@ -3629,6 +3629,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── SiliconFlow (SiliconCloud) ────────────────────────────────
+  {
+    provider: 'siliconflow',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'SiliconFlow: DeepSeek-V3',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'SiliconFlow: DeepSeek-R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'SiliconFlow: Qwen2.5-72B-Instruct',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'Qwen/Qwen2.5-7B-Instruct',
+    display_name: 'SiliconFlow: Qwen2.5-7B-Instruct',
+    input_price_per_1m_tokens: 0.035,
+    output_price_per_1m_tokens: 0.035,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'SiliconFlow: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'SiliconFlow: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.042,
+    output_price_per_1m_tokens: 0.042,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'SiliconFlow: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.035,
+    output_price_per_1m_tokens: 0.035,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'SiliconFlow: Gemma 2 9B',
+    input_price_per_1m_tokens: 0.070,
+    output_price_per_1m_tokens: 0.070,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'microsoft/Phi-3.5-mini-instruct',
+    display_name: 'SiliconFlow: Phi-3.5 Mini Instruct',
+    input_price_per_1m_tokens: 0.042,
+    output_price_per_1m_tokens: 0.042,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'siliconflow',
+    model_id: 'internlm/internlm2_5-7b-chat',
+    display_name: 'SiliconFlow: InternLM2.5 7B Chat',
+    input_price_per_1m_tokens: 0.014,
+    output_price_per_1m_tokens: 0.014,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3793,6 +3885,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     doubao: [0.17, 0.17], // Doubao-Pro-32k list prices
     hunyuan: [0.70, 2.00], // Hunyuan-Pro list prices
     baichuan: [7.00, 7.00], // Baichuan4-Turbo list prices
+    siliconflow: [0.14, 0.28], // DeepSeek-V3 list prices
   };
   return defaults[provider];
 }

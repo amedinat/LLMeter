@@ -38,6 +38,7 @@ import { minimaxAdapter } from './minimax-adapter';
 import { doubaoAdapter } from './doubao-adapter';
 import { hunyuanAdapter } from './hunyuan-adapter';
 import { baichuanAdapter } from './baichuan-adapter';
+import { siliconflowAdapter } from './siliconflow-adapter';
 
 /**
  * Provider adapter registry.
@@ -84,6 +85,7 @@ adapters.set('minimax', minimaxAdapter);
 adapters.set('doubao', doubaoAdapter);
 adapters.set('hunyuan', hunyuanAdapter);
 adapters.set('baichuan', baichuanAdapter);
+adapters.set('siliconflow', siliconflowAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -765,6 +765,26 @@ const completion = await trackedBaichuan.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Baichuan
 );`;
 
+const sdkSiliconFlowExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSiliconFlow } from 'llmeter';
+
+// SiliconFlow is OpenAI-compatible — use the openai package with the SiliconFlow base URL
+const siliconflow = new OpenAI({
+  apiKey: process.env.SILICONFLOW_API_KEY,
+  baseURL: 'https://api.siliconflow.cn/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedSiliconFlow = wrapSiliconFlow(siliconflow, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedSiliconFlow.chat.completions.create(
+  {
+    model: 'deepseek-ai/DeepSeek-V3',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SiliconFlow
+);`;
+
 const sdkMiniMaxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMiniMax } from 'llmeter';
 
@@ -978,6 +998,7 @@ export default function DocsPage() {
                 <TabsTrigger value="doubao">Doubao</TabsTrigger>
                 <TabsTrigger value="hunyuan">Tencent Hunyuan</TabsTrigger>
                 <TabsTrigger value="baichuan">Baichuan AI</TabsTrigger>
+                <TabsTrigger value="siliconflow">SiliconFlow</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1370,6 +1391,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Baichuan4 ($14.00/$14.00 per 1M tokens), Baichuan4-Turbo ($7.00/$7.00), Baichuan4-Air ($0.14/$0.14 — budget tier), Baichuan3-Turbo ($3.31/$3.31), Baichuan3-Turbo-128k ($8.28/$8.28, 128K context), Baichuan2-Turbo ($3.31/$3.31), Baichuan2-Turbo-192k ($8.28/$8.28, 192K context), and Baichuan2-53B ($4.14/$4.14).
                 </p>
                 <CodeBlock language="typescript" code={sdkBaichuanExample} />
+              </TabsContent>
+              <TabsContent value="siliconflow" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  SiliconFlow (SiliconCloud) is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the SiliconFlow base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes DeepSeek-V3 ($0.14/$0.28 per 1M tokens), DeepSeek-R1 ($0.55/$2.19), Qwen2.5-72B-Instruct ($0.14/$0.14), Qwen2.5-7B-Instruct ($0.035/$0.035), Llama 3.3 70B ($0.14/$0.14), Llama 3.1 8B ($0.042/$0.042), Mistral 7B ($0.035/$0.035), Gemma 2 9B ($0.070/$0.070), Phi-3.5 Mini ($0.042/$0.042), and InternLM2.5 7B ($0.014/$0.014 — ultra-budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkSiliconFlowExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

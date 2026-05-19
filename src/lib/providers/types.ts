@@ -389,4 +389,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.baichuan-ai.com/console/apikey',
     color: '#5B8FF9',
   },
+  siliconflow: {
+    type: 'siliconflow',
+    name: 'SiliconFlow',
+    description: 'SiliconCloud — DeepSeek-V3, Qwen2.5, Llama 3.3 and 300+ open-source models at ultra-low cost',
+    keyPrefix: '',
+    keyPlaceholder: 'your-siliconflow-api-key',
+    helpUrl: 'https://cloud.siliconflow.cn/account/ak',
+    color: '#00B4D8',
+  },
 };
