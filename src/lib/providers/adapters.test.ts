@@ -37,6 +37,7 @@ import { doubaoAdapter } from './doubao-adapter';
 import { hunyuanAdapter } from './hunyuan-adapter';
 import { baichuanAdapter } from './baichuan-adapter';
 import { siliconflowAdapter } from './siliconflow-adapter';
+import { stepfunAdapter } from './stepfun-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3309,6 +3310,85 @@ describe('Provider Adapters', () => {
 
     it('siliconflowAdapter.type is siliconflow', () => {
       expect(siliconflowAdapter.type).toBe('siliconflow');
+    });
+  });
+
+  describe('stepfunAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await stepfunAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Stepfun models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      await stepfunAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.stepfun.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer test-key',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(stepfunAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Stepfun API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(stepfunAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(stepfunAdapter.validateKey('test-key')).rejects.toThrow(
+        'Stepfun API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await stepfunAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await stepfunAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('stepfunAdapter.type is stepfun', () => {
+      expect(stepfunAdapter.type).toBe('stepfun');
     });
   });
 });

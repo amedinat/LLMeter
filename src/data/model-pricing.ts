@@ -3721,6 +3721,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── Stepfun ──────────────────────────────────────────────
+  {
+    provider: 'stepfun',
+    model_id: 'step-2',
+    display_name: 'Stepfun: step-2',
+    input_price_per_1m_tokens: 5.52,
+    output_price_per_1m_tokens: 5.52,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-1-32k',
+    display_name: 'Stepfun: step-1-32k',
+    input_price_per_1m_tokens: 1.66,
+    output_price_per_1m_tokens: 1.66,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-1-128k',
+    display_name: 'Stepfun: step-1-128k',
+    input_price_per_1m_tokens: 5.52,
+    output_price_per_1m_tokens: 5.52,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-1-256k',
+    display_name: 'Stepfun: step-1-256k',
+    input_price_per_1m_tokens: 9.65,
+    output_price_per_1m_tokens: 9.65,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-1v-32k',
+    display_name: 'Stepfun: step-1v-32k',
+    input_price_per_1m_tokens: 1.66,
+    output_price_per_1m_tokens: 1.66,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-1-8k',
+    display_name: 'Stepfun: step-1-8k',
+    input_price_per_1m_tokens: 0.69,
+    output_price_per_1m_tokens: 0.69,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-1-flash',
+    display_name: 'Stepfun: step-1-flash',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'stepfun',
+    model_id: 'step-2-mini',
+    display_name: 'Stepfun: step-2-mini',
+    input_price_per_1m_tokens: 0.96,
+    output_price_per_1m_tokens: 0.96,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3886,6 +3960,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     hunyuan: [0.70, 2.00], // Hunyuan-Pro list prices
     baichuan: [7.00, 7.00], // Baichuan4-Turbo list prices
     siliconflow: [0.14, 0.28], // DeepSeek-V3 list prices
+    stepfun: [1.66, 1.66], // step-1-32k list prices
   };
   return defaults[provider];
 }

@@ -87,6 +87,7 @@ const ZERO_PROVIDERS = {
   hunyuan: 0,
   baichuan: 0,
   siliconflow: 0,
+  stepfun: 0,
 };
 
 // --- Tests ---

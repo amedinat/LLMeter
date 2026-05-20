@@ -398,4 +398,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.siliconflow.cn/account/ak',
     color: '#00B4D8',
   },
+  stepfun: {
+    type: 'stepfun',
+    name: 'Stepfun',
+    description: 'step-2 reasoning, step-1-32k, step-1-flash — Chinese AI with OpenAI-compatible API',
+    keyPrefix: '',
+    keyPlaceholder: 'your-stepfun-api-key',
+    helpUrl: 'https://platform.stepfun.com/apikeys',
+    color: '#FF6F61',
+  },
 };

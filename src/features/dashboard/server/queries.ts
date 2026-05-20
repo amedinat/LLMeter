@@ -204,6 +204,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           hunyuan: 0,
           baichuan: 0,
           siliconflow: 0,
+          stepfun: 0,
         }
       });
     }
@@ -267,6 +268,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           hunyuan: 0,
           baichuan: 0,
           siliconflow: 0,
+          stepfun: 0,
         },
       }
     );

@@ -785,6 +785,26 @@ const completion = await trackedSiliconFlow.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SiliconFlow
 );`;
 
+const sdkStepfunExample = `import OpenAI from 'openai';
+import LLMeter, { wrapStepfun } from 'llmeter';
+
+// Stepfun is OpenAI-compatible — use the openai package with the Stepfun base URL
+const stepfun = new OpenAI({
+  apiKey: process.env.STEPFUN_API_KEY,
+  baseURL: 'https://api.stepfun.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedStepfun = wrapStepfun(stepfun, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedStepfun.chat.completions.create(
+  {
+    model: 'step-2',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Stepfun
+);`;
+
 const sdkMiniMaxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMiniMax } from 'llmeter';
 
@@ -999,6 +1019,7 @@ export default function DocsPage() {
                 <TabsTrigger value="hunyuan">Tencent Hunyuan</TabsTrigger>
                 <TabsTrigger value="baichuan">Baichuan AI</TabsTrigger>
                 <TabsTrigger value="siliconflow">SiliconFlow</TabsTrigger>
+                <TabsTrigger value="stepfun">Stepfun</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1401,6 +1422,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes DeepSeek-V3 ($0.14/$0.28 per 1M tokens), DeepSeek-R1 ($0.55/$2.19), Qwen2.5-72B-Instruct ($0.14/$0.14), Qwen2.5-7B-Instruct ($0.035/$0.035), Llama 3.3 70B ($0.14/$0.14), Llama 3.1 8B ($0.042/$0.042), Mistral 7B ($0.035/$0.035), Gemma 2 9B ($0.070/$0.070), Phi-3.5 Mini ($0.042/$0.042), and InternLM2.5 7B ($0.014/$0.014 — ultra-budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkSiliconFlowExample} />
+              </TabsContent>
+              <TabsContent value="stepfun" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Stepfun is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Stepfun base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes step-2 ($5.52/$5.52 per 1M tokens — flagship reasoning), step-1-32k ($1.66/$1.66), step-1-128k ($5.52/$5.52), step-1-256k ($9.65/$9.65 — ultra-long 256k context), step-1v-32k ($1.66/$1.66 — vision), step-1-8k ($0.69/$0.69), step-1-flash ($0.14/$0.14 — ultra-fast), and step-2-mini ($0.96/$0.96 — compact reasoning).
+                </p>
+                <CodeBlock language="typescript" code={sdkStepfunExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
