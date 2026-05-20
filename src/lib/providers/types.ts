@@ -434,4 +434,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://suite.friendli.ai/user/personal-access-tokens',
     color: '#6366F1',
   },
+  llamaapi: {
+    type: 'llamaapi',
+    name: 'Llama API',
+    description: 'Llama 4 Scout/Maverick, Llama 3.3 70B, Llama 3.1 405B/70B/8B, Llama 3.2 Vision — Meta\'s official inference API, OpenAI-compatible',
+    keyPrefix: '',
+    keyPlaceholder: 'your-llama-api-key',
+    helpUrl: 'https://llama.developer.meta.com/docs/overview',
+    color: '#0866FF',
+  },
 };

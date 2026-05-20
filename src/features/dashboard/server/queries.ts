@@ -208,6 +208,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           baidu: 0,
           kluster: 0,
           friendli: 0,
+          llamaapi: 0,
         }
       });
     }
@@ -275,6 +276,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           baidu: 0,
           kluster: 0,
           friendli: 0,
+          llamaapi: 0,
         },
       }
     );

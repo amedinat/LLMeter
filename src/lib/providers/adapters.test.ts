@@ -41,6 +41,7 @@ import { stepfunAdapter } from './stepfun-adapter';
 import { baiduAdapter } from './baidu-adapter';
 import { klusterAdapter } from './kluster-adapter';
 import { friendliAdapter } from './friendli-adapter';
+import { llamaapiAdapter } from './llamaapi-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3629,6 +3630,85 @@ describe('Provider Adapters', () => {
 
     it('friendliAdapter.type is friendli', () => {
       expect(friendliAdapter.type).toBe('friendli');
+    });
+  });
+
+  describe('llamaapiAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await llamaapiAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Llama API models endpoint with Bearer token', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      await llamaapiAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.llama.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer test-key',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(llamaapiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Llama API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(llamaapiAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(llamaapiAdapter.validateKey('test-key')).rejects.toThrow(
+        'Llama API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await llamaapiAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await llamaapiAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('llamaapiAdapter.type is llamaapi', () => {
+      expect(llamaapiAdapter.type).toBe('llamaapi');
     });
   });
 });

@@ -43,6 +43,7 @@ import { stepfunAdapter } from './stepfun-adapter';
 import { baiduAdapter } from './baidu-adapter';
 import { klusterAdapter } from './kluster-adapter';
 import { friendliAdapter } from './friendli-adapter';
+import { llamaapiAdapter } from './llamaapi-adapter';
 
 /**
  * Provider adapter registry.
@@ -94,6 +95,7 @@ adapters.set('stepfun', stepfunAdapter);
 adapters.set('baidu', baiduAdapter);
 adapters.set('kluster', klusterAdapter);
 adapters.set('friendli', friendliAdapter);
+adapters.set('llamaapi', llamaapiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

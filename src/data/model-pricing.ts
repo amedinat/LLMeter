@@ -4035,6 +4035,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-20T00:00:00.000Z',
   },
 
+  // ── Llama API (Meta) ──────────────────────────────────────────────────────
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-4-Scout-17B-16E-Instruct',
+    display_name: 'Llama API: Llama 4 Scout 17B',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.34,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-4-Maverick-17B-128E-Instruct-FP8',
+    display_name: 'Llama API: Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.19,
+    output_price_per_1m_tokens: 0.49,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-3.3-70B-Instruct',
+    display_name: 'Llama API: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-3.1-405B-Instruct-FP8',
+    display_name: 'Llama API: Llama 3.1 405B',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-3.1-70B-Instruct',
+    display_name: 'Llama API: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-3.1-8B-Instruct',
+    display_name: 'Llama API: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-3.2-11B-Vision-Instruct',
+    display_name: 'Llama API: Llama 3.2 11B Vision',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'llamaapi',
+    model_id: 'Llama-3.2-90B-Vision-Instruct',
+    display_name: 'Llama API: Llama 3.2 90B Vision',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4204,6 +4278,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     baidu: [1.67, 1.67], // ERNIE-3.5-8K list prices
     kluster: [0.20, 0.30], // Llama 3.3 70B Turbo list prices
     friendli: [0.40, 0.40], // Llama 3.3 70B list prices
+    llamaapi: [0.20, 0.20], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

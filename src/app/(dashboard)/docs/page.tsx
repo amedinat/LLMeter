@@ -825,6 +825,26 @@ const completion = await trackedFriendli.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Friendli
 );`;
 
+const sdkLlamaAPIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapLlamaAPI } from 'llmeter';
+
+// Llama API is OpenAI-compatible — use the openai package with the Llama API base URL
+const llama = new OpenAI({
+  apiKey: process.env.LLAMA_API_KEY,
+  baseURL: 'https://api.llama.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedLlama = wrapLlamaAPI(llama, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedLlama.chat.completions.create(
+  {
+    model: 'Llama-4-Scout-17B-16E-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Llama API
+);`;
+
 const sdkBaiduExample = `import OpenAI from 'openai';
 import LLMeter, { wrapBaidu } from 'llmeter';
 
@@ -1083,6 +1103,7 @@ export default function DocsPage() {
                 <TabsTrigger value="baidu">Baidu ERNIE</TabsTrigger>
                 <TabsTrigger value="kluster">Kluster AI</TabsTrigger>
                 <TabsTrigger value="friendli">Friendli AI</TabsTrigger>
+                <TabsTrigger value="llamaapi">Llama API</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1525,6 +1546,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Llama 3.3 70B ($0.40/$0.40 per 1M tokens — flagship), Llama 3.1 405B FP8 ($1.60/$1.60 — ultra-capable), Llama 3.1 70B ($0.30/$0.30), Llama 3.1 8B ($0.10/$0.10 — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.50/$0.50), and Mixtral 8x7B MoE ($0.20/$0.20).
                 </p>
                 <CodeBlock language="typescript" code={sdkFriendliExample} />
+              </TabsContent>
+              <TabsContent value="llamaapi" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Llama API (Meta) is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Llama API base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Llama 4 Scout 17B ($0.11/$0.34 per 1M tokens — cheapest Llama 4), Llama 4 Maverick 17B ($0.19/$0.49), Llama 3.3 70B ($0.20/$0.20 — reliable flagship), Llama 3.1 405B ($3.00/$3.00 — ultra-capable), Llama 3.1 70B ($0.90/$0.90), Llama 3.1 8B ($0.18/$0.18 — cheapest), Llama 3.2 11B Vision ($0.35/$0.35), and Llama 3.2 90B Vision ($2.00/$2.00).
+                </p>
+                <CodeBlock language="typescript" code={sdkLlamaAPIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
