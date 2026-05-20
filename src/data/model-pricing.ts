@@ -3961,6 +3961,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── Friendli AI ──────────────────────────────────────────────────────────────
+  {
+    provider: 'friendli',
+    model_id: 'meta-llama-3.3-70b-instruct',
+    display_name: 'Friendli: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'meta-llama-3.1-405b-instruct-fp8',
+    display_name: 'Friendli: Llama 3.1 405B FP8',
+    input_price_per_1m_tokens: 1.60,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'meta-llama-3.1-70b-instruct',
+    display_name: 'Friendli: Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'meta-llama-3.1-8b-instruct',
+    display_name: 'Friendli: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'deepseek-r1',
+    display_name: 'Friendli: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'deepseek-v3-0324',
+    display_name: 'Friendli: DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Friendli: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'friendli',
+    model_id: 'mixtral-8x7b-instruct-v0-1',
+    display_name: 'Friendli: Mixtral 8x7B MoE',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4129,6 +4203,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     stepfun: [1.66, 1.66], // step-1-32k list prices
     baidu: [1.67, 1.67], // ERNIE-3.5-8K list prices
     kluster: [0.20, 0.30], // Llama 3.3 70B Turbo list prices
+    friendli: [0.40, 0.40], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

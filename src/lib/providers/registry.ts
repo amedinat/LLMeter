@@ -42,6 +42,7 @@ import { siliconflowAdapter } from './siliconflow-adapter';
 import { stepfunAdapter } from './stepfun-adapter';
 import { baiduAdapter } from './baidu-adapter';
 import { klusterAdapter } from './kluster-adapter';
+import { friendliAdapter } from './friendli-adapter';
 
 /**
  * Provider adapter registry.
@@ -92,6 +93,7 @@ adapters.set('siliconflow', siliconflowAdapter);
 adapters.set('stepfun', stepfunAdapter);
 adapters.set('baidu', baiduAdapter);
 adapters.set('kluster', klusterAdapter);
+adapters.set('friendli', friendliAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

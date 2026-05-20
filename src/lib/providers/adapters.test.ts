@@ -40,6 +40,7 @@ import { siliconflowAdapter } from './siliconflow-adapter';
 import { stepfunAdapter } from './stepfun-adapter';
 import { baiduAdapter } from './baidu-adapter';
 import { klusterAdapter } from './kluster-adapter';
+import { friendliAdapter } from './friendli-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3549,6 +3550,85 @@ describe('Provider Adapters', () => {
 
     it('klusterAdapter.type is kluster', () => {
       expect(klusterAdapter.type).toBe('kluster');
+    });
+  });
+
+  describe('friendliAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await friendliAdapter.validateKey('test-token');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Friendli AI models endpoint with Bearer token', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      await friendliAdapter.validateKey('test-token');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://inference.friendli.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer test-token',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(friendliAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid Friendli AI API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(friendliAdapter.validateKey('test-token')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(friendliAdapter.validateKey('test-token')).rejects.toThrow(
+        'Friendli AI returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await friendliAdapter.fetchUsage('test-token', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await friendliAdapter.fetchUsage('test-token', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('friendliAdapter.type is friendli', () => {
+      expect(friendliAdapter.type).toBe('friendli');
     });
   });
 });

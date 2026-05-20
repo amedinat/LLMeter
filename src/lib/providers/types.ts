@@ -425,4 +425,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.kluster.ai/account/api-keys',
     color: '#7C3AED',
   },
+  friendli: {
+    type: 'friendli',
+    name: 'Friendli AI',
+    description: 'Llama 3.3/3.1, DeepSeek R1/V3, Qwen 2.5, Mixtral — Korean serverless inference, OpenAI-compatible',
+    keyPrefix: '',
+    keyPlaceholder: 'your-friendli-personal-access-token',
+    helpUrl: 'https://suite.friendli.ai/user/personal-access-tokens',
+    color: '#6366F1',
+  },
 };

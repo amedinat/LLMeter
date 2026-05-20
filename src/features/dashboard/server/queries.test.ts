@@ -90,6 +90,7 @@ const ZERO_PROVIDERS = {
   stepfun: 0,
   baidu: 0,
   kluster: 0,
+  friendli: 0,
 };
 
 // --- Tests ---

@@ -805,6 +805,26 @@ const completion = await trackedKluster.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Kluster
 );`;
 
+const sdkFriendliExample = `import OpenAI from 'openai';
+import LLMeter, { wrapFriendli } from 'llmeter';
+
+// Friendli AI is OpenAI-compatible — use the openai package with the Friendli base URL
+const friendli = new OpenAI({
+  apiKey: process.env.FRIENDLI_TOKEN,
+  baseURL: 'https://inference.friendli.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedFriendli = wrapFriendli(friendli, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedFriendli.chat.completions.create(
+  {
+    model: 'meta-llama-3.3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Friendli
+);`;
+
 const sdkBaiduExample = `import OpenAI from 'openai';
 import LLMeter, { wrapBaidu } from 'llmeter';
 
@@ -1062,6 +1082,7 @@ export default function DocsPage() {
                 <TabsTrigger value="stepfun">Stepfun</TabsTrigger>
                 <TabsTrigger value="baidu">Baidu ERNIE</TabsTrigger>
                 <TabsTrigger value="kluster">Kluster AI</TabsTrigger>
+                <TabsTrigger value="friendli">Friendli AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1494,6 +1515,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Llama 3.3 70B Turbo ($0.20/$0.30 per 1M tokens — fast flagship), Llama 3.1 405B Turbo ($0.80/$1.20 — ultra-capable), Llama 3.1 8B Turbo ($0.05/$0.07 — cheapest), Llama 4 Scout 17B ($0.10/$0.10), Llama 4 Maverick 17B ($0.30/$0.30), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B Turbo ($0.16/$0.16), Qwen3 235B MoE ($0.40/$1.60 — largest), and Mistral 7B ($0.05/$0.05 — ultra-cheap).
                 </p>
                 <CodeBlock language="typescript" code={sdkKlusterExample} />
+              </TabsContent>
+              <TabsContent value="friendli" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Friendli AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Friendli serverless base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Llama 3.3 70B ($0.40/$0.40 per 1M tokens — flagship), Llama 3.1 405B FP8 ($1.60/$1.60 — ultra-capable), Llama 3.1 70B ($0.30/$0.30), Llama 3.1 8B ($0.10/$0.10 — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.50/$0.50), and Mixtral 8x7B MoE ($0.20/$0.20).
+                </p>
+                <CodeBlock language="typescript" code={sdkFriendliExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
