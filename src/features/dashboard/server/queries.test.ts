@@ -93,6 +93,7 @@ const ZERO_PROVIDERS = {
   friendli: 0,
   llamaapi: 0,
   reka: 0,
+  maritaca: 0,
 };
 
 // --- Tests ---

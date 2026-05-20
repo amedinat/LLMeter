@@ -845,6 +845,26 @@ const completion = await trackedReka.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Reka AI
 );`;
 
+const sdkMaritacaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapMaritaca } from 'llmeter';
+
+// Maritaca AI is OpenAI-compatible — use the openai package with the Maritaca base URL
+const maritaca = new OpenAI({
+  apiKey: process.env.MARITACA_API_KEY,
+  baseURL: 'https://chat.maritaca.ai/api',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedMaritaca = wrapMaritaca(maritaca, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedMaritaca.chat.completions.create(
+  {
+    model: 'sabia-3',
+    messages: [{ role: 'user', content: 'Olá!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Maritaca AI
+);`;
+
 const sdkLlamaAPIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapLlamaAPI } from 'llmeter';
 
@@ -1125,6 +1145,7 @@ export default function DocsPage() {
                 <TabsTrigger value="friendli">Friendli AI</TabsTrigger>
                 <TabsTrigger value="llamaapi">Llama API</TabsTrigger>
                 <TabsTrigger value="reka">Reka AI</TabsTrigger>
+                <TabsTrigger value="maritaca">Maritaca AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1587,6 +1608,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes reka-core ($10.00/$25.00 per 1M — flagship multimodal), reka-flash-3 ($0.80/$2.00 — fast general-purpose), reka-flash-3-5 ($0.80/$2.00), reka-flash-20240226 ($0.80/$2.00), reka-flash-preview-20241204 ($0.80/$2.00), reka-edge-20240208 ($0.40/$1.00 — cheapest, fastest), and reka-edge-20240104 ($0.40/$1.00).
                 </p>
                 <CodeBlock language="typescript" code={sdkRekaExample} />
+              </TabsContent>
+              <TabsContent value="maritaca" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Maritaca AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Maritaca AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Sabiá-3 ($1.00/$4.00 per 1M — flagship), Sabiá-3 Small ($0.30/$0.90 — fast), Sabiá-2 Medium ($0.50/$1.50), and Sabiá-2 Small ($0.20/$0.60 — cheapest, 98% cheaper input than GPT-4o). Brazilian Portuguese LLMs specialized for Portuguese-language tasks.
+                </p>
+                <CodeBlock language="typescript" code={sdkMaritacaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
