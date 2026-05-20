@@ -48,6 +48,7 @@ export { wrapHunyuan } from './hunyuan.js';
 export { wrapBaichuan } from './baichuan.js';
 export { wrapSiliconFlow } from './siliconflow.js';
 export { wrapStepfun } from './stepfun.js';
+export { wrapBaidu } from './baidu.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -785,6 +785,26 @@ const completion = await trackedSiliconFlow.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SiliconFlow
 );`;
 
+const sdkBaiduExample = `import OpenAI from 'openai';
+import LLMeter, { wrapBaidu } from 'llmeter';
+
+// Baidu Qianfan V2 is OpenAI-compatible — use the openai package with the Qianfan base URL
+const baidu = new OpenAI({
+  apiKey: process.env.BAIDU_API_KEY,
+  baseURL: 'https://qianfan.baidubce.com/v2',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedBaidu = wrapBaidu(baidu, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedBaidu.chat.completions.create(
+  {
+    model: 'ernie-4.0-8k',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Baidu
+);`;
+
 const sdkStepfunExample = `import OpenAI from 'openai';
 import LLMeter, { wrapStepfun } from 'llmeter';
 
@@ -1020,6 +1040,7 @@ export default function DocsPage() {
                 <TabsTrigger value="baichuan">Baichuan AI</TabsTrigger>
                 <TabsTrigger value="siliconflow">SiliconFlow</TabsTrigger>
                 <TabsTrigger value="stepfun">Stepfun</TabsTrigger>
+                <TabsTrigger value="baidu">Baidu ERNIE</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1432,6 +1453,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes step-2 ($5.52/$5.52 per 1M tokens — flagship reasoning), step-1-32k ($1.66/$1.66), step-1-128k ($5.52/$5.52), step-1-256k ($9.65/$9.65 — ultra-long 256k context), step-1v-32k ($1.66/$1.66 — vision), step-1-8k ($0.69/$0.69), step-1-flash ($0.14/$0.14 — ultra-fast), and step-2-mini ($0.96/$0.96 — compact reasoning).
                 </p>
                 <CodeBlock language="typescript" code={sdkStepfunExample} />
+              </TabsContent>
+              <TabsContent value="baidu" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Baidu Qianfan V2 is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Qianfan base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes ERNIE-4.0-8K ($16.67/$16.67 per 1M tokens — flagship), ERNIE-4.0-Turbo-8K ($5.56/$5.56), ERNIE-3.5-8K ($1.67/$1.67), ERNIE-3.5-128K ($2.78/$2.78 — long context), ERNIE-Lite-8K ($0.42/$0.83), ERNIE-Speed-8K ($0.14/$0.14 — cheapest), ERNIE-Speed-128K ($0.14/$0.14), and ERNIE-Tiny-8K ($0.14/$0.14).
+                </p>
+                <CodeBlock language="typescript" code={sdkBaiduExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

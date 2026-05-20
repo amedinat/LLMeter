@@ -407,4 +407,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.stepfun.com/apikeys',
     color: '#FF6F61',
   },
+  baidu: {
+    type: 'baidu',
+    name: 'Baidu AI Cloud (ERNIE)',
+    description: 'ERNIE-4.0, ERNIE-3.5, ERNIE-Speed, ERNIE-Lite — Baidu Qianfan, OpenAI-compatible, Chinese AI',
+    keyPrefix: '',
+    keyPlaceholder: 'your-baidu-qianfan-api-key',
+    helpUrl: 'https://console.bce.baidu.com/qianfan/apikey/list',
+    color: '#2932E1',
+  },
 };

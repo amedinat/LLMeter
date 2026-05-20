@@ -40,6 +40,7 @@ import { hunyuanAdapter } from './hunyuan-adapter';
 import { baichuanAdapter } from './baichuan-adapter';
 import { siliconflowAdapter } from './siliconflow-adapter';
 import { stepfunAdapter } from './stepfun-adapter';
+import { baiduAdapter } from './baidu-adapter';
 
 /**
  * Provider adapter registry.
@@ -88,6 +89,7 @@ adapters.set('hunyuan', hunyuanAdapter);
 adapters.set('baichuan', baichuanAdapter);
 adapters.set('siliconflow', siliconflowAdapter);
 adapters.set('stepfun', stepfunAdapter);
+adapters.set('baidu', baiduAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

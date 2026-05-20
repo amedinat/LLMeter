@@ -38,6 +38,7 @@ import { hunyuanAdapter } from './hunyuan-adapter';
 import { baichuanAdapter } from './baichuan-adapter';
 import { siliconflowAdapter } from './siliconflow-adapter';
 import { stepfunAdapter } from './stepfun-adapter';
+import { baiduAdapter } from './baidu-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3389,6 +3390,85 @@ describe('Provider Adapters', () => {
 
     it('stepfunAdapter.type is stepfun', () => {
       expect(stepfunAdapter.type).toBe('stepfun');
+    });
+  });
+
+  describe('baiduAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await baiduAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Baidu Qianfan models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      await baiduAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://qianfan.baidubce.com/v2/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer test-key',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(baiduAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Baidu API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(baiduAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(baiduAdapter.validateKey('test-key')).rejects.toThrow(
+        'Baidu API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await baiduAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await baiduAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('baiduAdapter.type is baidu', () => {
+      expect(baiduAdapter.type).toBe('baidu');
     });
   });
 });

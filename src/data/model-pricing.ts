@@ -3795,6 +3795,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── Baidu AI Cloud (ERNIE / Qianfan) ─────────────────────────
+  {
+    provider: 'baidu',
+    model_id: 'ernie-4.0-8k',
+    display_name: 'Baidu: ERNIE-4.0-8K',
+    input_price_per_1m_tokens: 16.67,
+    output_price_per_1m_tokens: 16.67,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-4.0-turbo-8k',
+    display_name: 'Baidu: ERNIE-4.0-Turbo-8K',
+    input_price_per_1m_tokens: 5.56,
+    output_price_per_1m_tokens: 5.56,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-3.5-8k',
+    display_name: 'Baidu: ERNIE-3.5-8K',
+    input_price_per_1m_tokens: 1.67,
+    output_price_per_1m_tokens: 1.67,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-3.5-128k',
+    display_name: 'Baidu: ERNIE-3.5-128K',
+    input_price_per_1m_tokens: 2.78,
+    output_price_per_1m_tokens: 2.78,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-lite-8k',
+    display_name: 'Baidu: ERNIE-Lite-8K',
+    input_price_per_1m_tokens: 0.42,
+    output_price_per_1m_tokens: 0.83,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-speed-8k',
+    display_name: 'Baidu: ERNIE-Speed-8K',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-speed-128k',
+    display_name: 'Baidu: ERNIE-Speed-128K',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'baidu',
+    model_id: 'ernie-tiny-8k',
+    display_name: 'Baidu: ERNIE-Tiny-8K',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -3961,6 +4035,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     baichuan: [7.00, 7.00], // Baichuan4-Turbo list prices
     siliconflow: [0.14, 0.28], // DeepSeek-V3 list prices
     stepfun: [1.66, 1.66], // step-1-32k list prices
+    baidu: [1.67, 1.67], // ERNIE-3.5-8K list prices
   };
   return defaults[provider];
 }
