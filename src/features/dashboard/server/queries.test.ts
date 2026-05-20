@@ -89,6 +89,7 @@ const ZERO_PROVIDERS = {
   siliconflow: 0,
   stepfun: 0,
   baidu: 0,
+  kluster: 0,
 };
 
 // --- Tests ---

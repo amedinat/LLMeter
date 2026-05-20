@@ -785,6 +785,26 @@ const completion = await trackedSiliconFlow.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SiliconFlow
 );`;
 
+const sdkKlusterExample = `import OpenAI from 'openai';
+import LLMeter, { wrapKluster } from 'llmeter';
+
+// Kluster AI is OpenAI-compatible — use the openai package with the Kluster base URL
+const kluster = new OpenAI({
+  apiKey: process.env.KLUSTER_API_KEY,
+  baseURL: 'https://api.kluster.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedKluster = wrapKluster(kluster, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedKluster.chat.completions.create(
+  {
+    model: 'klusterai/Meta-Llama-3.3-70B-Instruct-Turbo',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Kluster
+);`;
+
 const sdkBaiduExample = `import OpenAI from 'openai';
 import LLMeter, { wrapBaidu } from 'llmeter';
 
@@ -1041,6 +1061,7 @@ export default function DocsPage() {
                 <TabsTrigger value="siliconflow">SiliconFlow</TabsTrigger>
                 <TabsTrigger value="stepfun">Stepfun</TabsTrigger>
                 <TabsTrigger value="baidu">Baidu ERNIE</TabsTrigger>
+                <TabsTrigger value="kluster">Kluster AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1463,6 +1484,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes ERNIE-4.0-8K ($16.67/$16.67 per 1M tokens — flagship), ERNIE-4.0-Turbo-8K ($5.56/$5.56), ERNIE-3.5-8K ($1.67/$1.67), ERNIE-3.5-128K ($2.78/$2.78 — long context), ERNIE-Lite-8K ($0.42/$0.83), ERNIE-Speed-8K ($0.14/$0.14 — cheapest), ERNIE-Speed-128K ($0.14/$0.14), and ERNIE-Tiny-8K ($0.14/$0.14).
                 </p>
                 <CodeBlock language="typescript" code={sdkBaiduExample} />
+              </TabsContent>
+              <TabsContent value="kluster" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Kluster AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Kluster base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Llama 3.3 70B Turbo ($0.20/$0.30 per 1M tokens — fast flagship), Llama 3.1 405B Turbo ($0.80/$1.20 — ultra-capable), Llama 3.1 8B Turbo ($0.05/$0.07 — cheapest), Llama 4 Scout 17B ($0.10/$0.10), Llama 4 Maverick 17B ($0.30/$0.30), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B Turbo ($0.16/$0.16), Qwen3 235B MoE ($0.40/$1.60 — largest), and Mistral 7B ($0.05/$0.05 — ultra-cheap).
+                </p>
+                <CodeBlock language="typescript" code={sdkKlusterExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

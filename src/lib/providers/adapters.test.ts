@@ -39,6 +39,7 @@ import { baichuanAdapter } from './baichuan-adapter';
 import { siliconflowAdapter } from './siliconflow-adapter';
 import { stepfunAdapter } from './stepfun-adapter';
 import { baiduAdapter } from './baidu-adapter';
+import { klusterAdapter } from './kluster-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3469,6 +3470,85 @@ describe('Provider Adapters', () => {
 
     it('baiduAdapter.type is baidu', () => {
       expect(baiduAdapter.type).toBe('baidu');
+    });
+  });
+
+  describe('klusterAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      const result = await klusterAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Kluster AI models endpoint with Bearer token', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+
+      await klusterAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.kluster.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer test-key',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(klusterAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Kluster API key'
+      );
+    });
+
+    it('validateKey throws with error.message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ error: { message: 'Invalid request' } }),
+      });
+
+      await expect(klusterAdapter.validateKey('test-key')).rejects.toThrow(
+        'Invalid request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(klusterAdapter.validateKey('test-key')).rejects.toThrow(
+        'Kluster API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await klusterAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await klusterAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('klusterAdapter.type is kluster', () => {
+      expect(klusterAdapter.type).toBe('kluster');
     });
   });
 });

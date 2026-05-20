@@ -416,4 +416,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.bce.baidu.com/qianfan/apikey/list',
     color: '#2932E1',
   },
+  kluster: {
+    type: 'kluster',
+    name: 'Kluster AI',
+    description: 'Llama 3.3/4, DeepSeek R1/V3, Qwen 2.5/3 — European GPU cloud, OpenAI-compatible',
+    keyPrefix: '',
+    keyPlaceholder: 'your-kluster-api-key',
+    helpUrl: 'https://platform.kluster.ai/account/api-keys',
+    color: '#7C3AED',
+  },
 };

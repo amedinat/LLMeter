@@ -3869,6 +3869,98 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-19T00:00:00.000Z',
   },
 
+  // ── Kluster AI ────────────────────────────────────────────────
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Meta-Llama-3.3-70B-Instruct-Turbo',
+    display_name: 'Kluster: Llama 3.3 70B Turbo',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Meta-Llama-3.1-405B-Instruct-Turbo',
+    display_name: 'Kluster: Llama 3.1 405B Turbo',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Meta-Llama-3.1-8B-Instruct-Turbo',
+    display_name: 'Kluster: Llama 3.1 8B Turbo',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Meta-Llama-4-Scout-17B-16E-Instruct',
+    display_name: 'Kluster: Llama 4 Scout 17B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Meta-Llama-4-Maverick-17B-128E-Instruct-FP8',
+    display_name: 'Kluster: Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/deepseek-r1',
+    display_name: 'Kluster: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/deepseek-v3-0324',
+    display_name: 'Kluster: DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Qwen2.5-72B-Instruct-Turbo',
+    display_name: 'Kluster: Qwen 2.5 72B Turbo',
+    input_price_per_1m_tokens: 0.16,
+    output_price_per_1m_tokens: 0.16,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Qwen3-235B-A22B',
+    display_name: 'Kluster: Qwen3 235B MoE',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+  {
+    provider: 'kluster',
+    model_id: 'klusterai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Kluster: Mistral 7B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-19T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4036,6 +4128,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     siliconflow: [0.14, 0.28], // DeepSeek-V3 list prices
     stepfun: [1.66, 1.66], // step-1-32k list prices
     baidu: [1.67, 1.67], // ERNIE-3.5-8K list prices
+    kluster: [0.20, 0.30], // Llama 3.3 70B Turbo list prices
   };
   return defaults[provider];
 }
