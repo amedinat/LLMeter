@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 /** Provider types that can be connected (have working usage APIs) */
-export const providerTypes = ['openai', 'anthropic', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi'] as const;
+export const providerTypes = ['openai', 'anthropic', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka'] as const;
 
 /** All known provider types including coming-soon ones */
-export const allProviderTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi'] as const;
+export const allProviderTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka'] as const;
 
 /** Providers that are not yet available for connection */
 export const comingSoonProviders = ['google'] as const;

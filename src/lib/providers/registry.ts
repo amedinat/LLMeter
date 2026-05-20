@@ -44,6 +44,7 @@ import { baiduAdapter } from './baidu-adapter';
 import { klusterAdapter } from './kluster-adapter';
 import { friendliAdapter } from './friendli-adapter';
 import { llamaapiAdapter } from './llamaapi-adapter';
+import { rekaAdapter } from './reka-adapter';
 
 /**
  * Provider adapter registry.
@@ -96,6 +97,7 @@ adapters.set('baidu', baiduAdapter);
 adapters.set('kluster', klusterAdapter);
 adapters.set('friendli', friendliAdapter);
 adapters.set('llamaapi', llamaapiAdapter);
+adapters.set('reka', rekaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -825,6 +825,26 @@ const completion = await trackedFriendli.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Friendli
 );`;
 
+const sdkRekaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapReka } from 'llmeter';
+
+// Reka AI is OpenAI-compatible — use the openai package with the Reka API base URL
+const reka = new OpenAI({
+  apiKey: process.env.REKA_API_KEY,
+  baseURL: 'https://api.reka.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedReka = wrapReka(reka, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedReka.chat.completions.create(
+  {
+    model: 'reka-flash-3',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Reka AI
+);`;
+
 const sdkLlamaAPIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapLlamaAPI } from 'llmeter';
 
@@ -1104,6 +1124,7 @@ export default function DocsPage() {
                 <TabsTrigger value="kluster">Kluster AI</TabsTrigger>
                 <TabsTrigger value="friendli">Friendli AI</TabsTrigger>
                 <TabsTrigger value="llamaapi">Llama API</TabsTrigger>
+                <TabsTrigger value="reka">Reka AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1556,6 +1577,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Llama 4 Scout 17B ($0.11/$0.34 per 1M tokens — cheapest Llama 4), Llama 4 Maverick 17B ($0.19/$0.49), Llama 3.3 70B ($0.20/$0.20 — reliable flagship), Llama 3.1 405B ($3.00/$3.00 — ultra-capable), Llama 3.1 70B ($0.90/$0.90), Llama 3.1 8B ($0.18/$0.18 — cheapest), Llama 3.2 11B Vision ($0.35/$0.35), and Llama 3.2 90B Vision ($2.00/$2.00).
                 </p>
                 <CodeBlock language="typescript" code={sdkLlamaAPIExample} />
+              </TabsContent>
+              <TabsContent value="reka" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Reka AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Reka AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes reka-core ($10.00/$25.00 per 1M — flagship multimodal), reka-flash-3 ($0.80/$2.00 — fast general-purpose), reka-flash-3-5 ($0.80/$2.00), reka-flash-20240226 ($0.80/$2.00), reka-flash-preview-20241204 ($0.80/$2.00), reka-edge-20240208 ($0.40/$1.00 — cheapest, fastest), and reka-edge-20240104 ($0.40/$1.00).
+                </p>
+                <CodeBlock language="typescript" code={sdkRekaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

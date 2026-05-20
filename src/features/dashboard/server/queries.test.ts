@@ -92,6 +92,7 @@ const ZERO_PROVIDERS = {
   kluster: 0,
   friendli: 0,
   llamaapi: 0,
+  reka: 0,
 };
 
 // --- Tests ---

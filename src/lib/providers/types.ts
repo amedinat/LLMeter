@@ -443,4 +443,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://llama.developer.meta.com/docs/overview',
     color: '#0866FF',
   },
+  reka: {
+    type: 'reka',
+    name: 'Reka AI',
+    description: 'reka-core, reka-flash, reka-edge — multimodal text+vision models from Reka AI, OpenAI-compatible',
+    keyPrefix: '',
+    keyPlaceholder: 'your-reka-api-key',
+    helpUrl: 'https://platform.reka.ai/settings/api-keys',
+    color: '#7C3AED',
+  },
 };

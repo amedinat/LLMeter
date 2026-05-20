@@ -4108,6 +4108,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'premium',
     last_verified_at: '2026-05-20T00:00:00.000Z',
   },
+  {
+    provider: 'reka',
+    model_id: 'reka-core-20240904',
+    display_name: 'Reka Core (Sep 2024)',
+    input_price_per_1m_tokens: 10.00,
+    output_price_per_1m_tokens: 25.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-core-20240415',
+    display_name: 'Reka Core (Apr 2024)',
+    input_price_per_1m_tokens: 10.00,
+    output_price_per_1m_tokens: 25.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-flash-3',
+    display_name: 'Reka Flash 3',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-flash-3-5',
+    display_name: 'Reka Flash 3.5',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-flash-20240226',
+    display_name: 'Reka Flash (Feb 2024)',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-flash-preview-20241204',
+    display_name: 'Reka Flash Preview (Dec 2024)',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-edge-20240208',
+    display_name: 'Reka Edge (Feb 2024)',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'reka',
+    model_id: 'reka-edge-20240104',
+    display_name: 'Reka Edge (Jan 2024)',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
 
 ];
 
@@ -4279,6 +4351,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     kluster: [0.20, 0.30], // Llama 3.3 70B Turbo list prices
     friendli: [0.40, 0.40], // Llama 3.3 70B list prices
     llamaapi: [0.20, 0.20], // Llama 3.3 70B list prices
+    reka: [0.80, 2.00], // reka-flash-3 list prices
   };
   return defaults[provider];
 }
