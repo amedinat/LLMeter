@@ -46,6 +46,7 @@ import { friendliAdapter } from './friendli-adapter';
 import { llamaapiAdapter } from './llamaapi-adapter';
 import { rekaAdapter } from './reka-adapter';
 import { maritacaAdapter } from './maritaca-adapter';
+import { scalewayAdapter } from './scaleway-adapter';
 
 /**
  * Provider adapter registry.
@@ -100,6 +101,7 @@ adapters.set('friendli', friendliAdapter);
 adapters.set('llamaapi', llamaapiAdapter);
 adapters.set('reka', rekaAdapter);
 adapters.set('maritaca', maritacaAdapter);
+adapters.set('scaleway', scalewayAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

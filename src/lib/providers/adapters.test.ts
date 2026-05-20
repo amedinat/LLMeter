@@ -44,6 +44,7 @@ import { friendliAdapter } from './friendli-adapter';
 import { llamaapiAdapter } from './llamaapi-adapter';
 import { rekaAdapter } from './reka-adapter';
 import { maritacaAdapter } from './maritaca-adapter';
+import { scalewayAdapter } from './scaleway-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3882,6 +3883,97 @@ describe('Provider Adapters', () => {
 
     it('maritacaAdapter.type is maritaca', () => {
       expect(maritacaAdapter.type).toBe('maritaca');
+    });
+  });
+
+  describe('scalewayAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+
+      const result = await scalewayAdapter.validateKey('scw-test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Scaleway models endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+
+      await scalewayAdapter.validateKey('scw-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.scaleway.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer scw-test-key',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(scalewayAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Scaleway API key'
+      );
+    });
+
+    it('validateKey throws on 403 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(scalewayAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Scaleway API key'
+      );
+    });
+
+    it('validateKey throws with message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ message: 'Bad request' }),
+      });
+
+      await expect(scalewayAdapter.validateKey('scw-test-key')).rejects.toThrow(
+        'Bad request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(scalewayAdapter.validateKey('scw-test-key')).rejects.toThrow(
+        'Scaleway returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await scalewayAdapter.fetchUsage('scw-test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await scalewayAdapter.fetchUsage('scw-test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('scalewayAdapter.type is scaleway', () => {
+      expect(scalewayAdapter.type).toBe('scaleway');
     });
   });
 });

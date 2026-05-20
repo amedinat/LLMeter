@@ -94,6 +94,7 @@ const ZERO_PROVIDERS = {
   llamaapi: 0,
   reka: 0,
   maritaca: 0,
+  scaleway: 0,
 };
 
 // --- Tests ---

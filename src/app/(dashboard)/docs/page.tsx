@@ -845,6 +845,26 @@ const completion = await trackedReka.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Reka AI
 );`;
 
+const sdkScalewayExample = `import OpenAI from 'openai';
+import LLMeter, { wrapScaleway } from 'llmeter';
+
+// Scaleway Generative APIs are OpenAI-compatible — use the openai package with the Scaleway base URL
+const scaleway = new OpenAI({
+  apiKey: process.env.SCALEWAY_API_KEY,
+  baseURL: 'https://api.scaleway.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedScaleway = wrapScaleway(scaleway, llmeter);
+
+// All chat.completions.create calls are tracked automatically
+const completion = await trackedScaleway.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Scaleway
+);`;
+
 const sdkMaritacaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMaritaca } from 'llmeter';
 
@@ -1146,6 +1166,7 @@ export default function DocsPage() {
                 <TabsTrigger value="llamaapi">Llama API</TabsTrigger>
                 <TabsTrigger value="reka">Reka AI</TabsTrigger>
                 <TabsTrigger value="maritaca">Maritaca AI</TabsTrigger>
+                <TabsTrigger value="scaleway">Scaleway</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1618,6 +1639,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Sabiá-3 ($1.00/$4.00 per 1M — flagship), Sabiá-3 Small ($0.30/$0.90 — fast), Sabiá-2 Medium ($0.50/$1.50), and Sabiá-2 Small ($0.20/$0.60 — cheapest, 98% cheaper input than GPT-4o). Brazilian Portuguese LLMs specialized for Portuguese-language tasks.
                 </p>
                 <CodeBlock language="typescript" code={sdkMaritacaExample} />
+              </TabsContent>
+              <TabsContent value="scaleway" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Scaleway Generative APIs are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Scaleway base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Includes Llama 3.3 70B Instruct ($0.20/$0.20 per 1M — 92% cheaper input than GPT-4o), Llama 3.1 8B Instruct ($0.04/$0.04 — cheapest), Mistral Nemo 12B ($0.10/$0.10), DeepSeek R1 Distill Llama 70B ($0.20/$0.80 — reasoning), DeepSeek R1 Distill Qwen 32B ($0.10/$0.40), Qwen 2.5 Coder 32B ($0.15/$0.15 — code), and Pixtral 12B ($0.10/$0.10 — vision). All inference runs in French GDPR-native data centers.
+                </p>
+                <CodeBlock language="typescript" code={sdkScalewayExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

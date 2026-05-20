@@ -211,6 +211,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           llamaapi: 0,
           reka: 0,
           maritaca: 0,
+          scaleway: 0,
         }
       });
     }
@@ -281,6 +282,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           llamaapi: 0,
           reka: 0,
           maritaca: 0,
+          scaleway: 0,
         },
       }
     );

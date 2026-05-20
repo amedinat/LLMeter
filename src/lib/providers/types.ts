@@ -461,4 +461,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://plataforma.maritaca.ai/',
     color: '#009C3B',
   },
+  scaleway: {
+    type: 'scaleway',
+    name: 'Scaleway',
+    description: 'Llama 3.3 70B, Mistral Nemo, DeepSeek R1 — open-source LLMs hosted on French GDPR-native infrastructure',
+    keyPrefix: 'scw',
+    keyPlaceholder: 'scw-your-iam-secret-key',
+    helpUrl: 'https://console.scaleway.com/iam/api-keys',
+    color: '#4F0599',
+  },
 };
