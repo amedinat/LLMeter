@@ -45,6 +45,7 @@ import { klusterAdapter } from './kluster-adapter';
 import { friendliAdapter } from './friendli-adapter';
 import { llamaapiAdapter } from './llamaapi-adapter';
 import { rekaAdapter } from './reka-adapter';
+import { maritacaAdapter } from './maritaca-adapter';
 
 /**
  * Provider adapter registry.
@@ -98,6 +99,7 @@ adapters.set('kluster', klusterAdapter);
 adapters.set('friendli', friendliAdapter);
 adapters.set('llamaapi', llamaapiAdapter);
 adapters.set('reka', rekaAdapter);
+adapters.set('maritaca', maritacaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

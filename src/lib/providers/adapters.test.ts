@@ -43,6 +43,7 @@ import { klusterAdapter } from './kluster-adapter';
 import { friendliAdapter } from './friendli-adapter';
 import { llamaapiAdapter } from './llamaapi-adapter';
 import { rekaAdapter } from './reka-adapter';
+import { maritacaAdapter } from './maritaca-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -3789,6 +3790,98 @@ describe('Provider Adapters', () => {
 
     it('rekaAdapter.type is reka', () => {
       expect(rekaAdapter.type).toBe('reka');
+    });
+  });
+
+  describe('maritacaAdapter', () => {
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ choices: [{ message: { content: 'hi' } }] }),
+      });
+
+      const result = await maritacaAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls Maritaca AI chat endpoint with Key auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ choices: [] }),
+      });
+
+      await maritacaAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://chat.maritaca.ai/api/chat/inference',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({
+            Authorization: 'Key test-key',
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 401 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(maritacaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Maritaca AI key'
+      );
+    });
+
+    it('validateKey throws on 403 with descriptive message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(maritacaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Maritaca AI key'
+      );
+    });
+
+    it('validateKey throws with message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ message: 'Bad request' }),
+      });
+
+      await expect(maritacaAdapter.validateKey('test-key')).rejects.toThrow(
+        'Bad request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(maritacaAdapter.validateKey('test-key')).rejects.toThrow(
+        'Maritaca AI returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await maritacaAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await maritacaAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-31'));
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('maritacaAdapter.type is maritaca', () => {
+      expect(maritacaAdapter.type).toBe('maritaca');
     });
   });
 });

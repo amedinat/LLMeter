@@ -452,4 +452,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.reka.ai/settings/api-keys',
     color: '#7C3AED',
   },
+  maritaca: {
+    type: 'maritaca',
+    name: 'Maritaca AI',
+    description: 'Sabiá-3, Sabiá-3 Small — Portuguese-optimized LLMs from Maritaca AI (Brazil)',
+    keyPrefix: '',
+    keyPlaceholder: 'your-maritaca-api-key',
+    helpUrl: 'https://plataforma.maritaca.ai/',
+    color: '#009C3B',
+  },
 };

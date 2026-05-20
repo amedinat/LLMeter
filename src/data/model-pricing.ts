@@ -4180,6 +4180,42 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-20T00:00:00.000Z',
   },
+  {
+    provider: 'maritaca',
+    model_id: 'sabia-3',
+    display_name: 'Sabiá-3',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 4.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'maritaca',
+    model_id: 'sabia-3-small',
+    display_name: 'Sabiá-3 Small',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'maritaca',
+    model_id: 'sabia-2-medium',
+    display_name: 'Sabiá-2 Medium',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'maritaca',
+    model_id: 'sabia-2-small',
+    display_name: 'Sabiá-2 Small',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
 
 ];
 
@@ -4352,6 +4388,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     friendli: [0.40, 0.40], // Llama 3.3 70B list prices
     llamaapi: [0.20, 0.20], // Llama 3.3 70B list prices
     reka: [0.80, 2.00], // reka-flash-3 list prices
+    maritaca: [1.00, 4.00], // sabia-3 list prices
   };
   return defaults[provider];
 }
