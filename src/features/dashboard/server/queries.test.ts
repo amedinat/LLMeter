@@ -99,6 +99,7 @@ const ZERO_PROVIDERS = {
   aimlapi: 0,
   bedrock: 0,
   alephalpha: 0,
+  sarvam: 0,
 };
 
 // --- Tests ---

@@ -216,6 +216,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           aimlapi: 0,
           bedrock: 0,
           alephalpha: 0,
+          sarvam: 0,
         }
       });
     }
@@ -291,6 +292,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           aimlapi: 0,
           bedrock: 0,
           alephalpha: 0,
+          sarvam: 0,
         },
       }
     );

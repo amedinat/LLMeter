@@ -506,4 +506,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.aleph-alpha.com/profile',
     color: '#1A1A2E',
   },
+  sarvam: {
+    type: 'sarvam',
+    name: 'Sarvam AI',
+    description: 'Sarvam-M, Sarvam-1, Sarvam-2B — Indian multilingual LLMs with native support for Hindi, Bengali, Tamil, Telugu, and 6 more Indic languages',
+    keyPrefix: '',
+    keyPlaceholder: 'your-sarvam-api-key',
+    helpUrl: 'https://dashboard.sarvam.ai',
+    color: '#FF6B2B',
+  },
 };

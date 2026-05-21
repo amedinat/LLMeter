@@ -925,6 +925,26 @@ const completion = await trackedAlephAlpha.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Aleph Alpha
 );`;
 
+const sdkSarvamExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSarvam } from 'llmeter';
+
+// Sarvam AI is OpenAI-compatible — use the openai package with the Sarvam AI base URL
+const sarvam = new OpenAI({
+  apiKey: process.env.SARVAM_API_KEY,
+  baseURL: 'https://api.sarvam.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedSarvam = wrapSarvam(sarvam, llmeter);
+
+// All calls are automatically tracked — 10 Indic languages, India-native inference
+const completion = await trackedSarvam.chat.completions.create(
+  {
+    model: 'sarvam-m',
+    messages: [{ role: 'user', content: 'नमस्ते!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Sarvam AI
+);`;
+
 const sdkMaritacaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMaritaca } from 'llmeter';
 
@@ -1230,6 +1250,7 @@ export default function DocsPage() {
                 <TabsTrigger value="nscale">Nscale</TabsTrigger>
                 <TabsTrigger value="aimlapi">AI/ML API</TabsTrigger>
                 <TabsTrigger value="alephalpha">Aleph Alpha</TabsTrigger>
+                <TabsTrigger value="sarvam">Sarvam AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1742,6 +1763,16 @@ export default function DocsPage() {
                   call is tracked automatically. European sovereign AI (Cologne, Germany) — zero US cloud dependency, GDPR-native infrastructure. 8 models: Pharia-1 LLM 4x4B CC ($3.24/1M — cheapest, MoE), Pharia-1 LLM 7B CC ($5.40/1M), Luminous Base ($6.48/1M), Luminous Base Control ($8.10/1M), Luminous Extended ($8.64/1M), Luminous Extended Control ($10.80/1M), Luminous Supreme ($30.78/1M), Luminous Supreme Control ($45.36/1M). All models use symmetric pricing (input == output).
                 </p>
                 <CodeBlock language="typescript" code={sdkAlephAlphaExample} />
+              </TabsContent>
+              <TabsContent value="sarvam" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Sarvam AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Sarvam AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. India-native multilingual inference with native support for 10 Indic languages (Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Gujarati, Marathi, Punjabi, Odia). 3 models: Sarvam-M ($0.30/$0.60 per 1M — flagship multilingual), Sarvam-1 ($0.20/$0.40 — balanced), Sarvam-2B ($0.10/$0.20 — budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkSarvamExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

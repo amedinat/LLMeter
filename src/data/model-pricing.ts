@@ -4641,6 +4641,35 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-21T00:00:00.000Z',
   },
 
+  // ── Sarvam AI ─────────────────────────────────────────────
+  {
+    provider: 'sarvam',
+    model_id: 'sarvam-m',
+    display_name: 'Sarvam-M',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'sarvam',
+    model_id: 'sarvam-2b-v0.5',
+    display_name: 'Sarvam-2B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'sarvam',
+    model_id: 'sarvam-1',
+    display_name: 'Sarvam-1',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4818,6 +4847,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     aimlapi: [0.40, 0.40], // Llama 3.3 70B Instruct list prices
     bedrock: [0.80, 3.20], // Amazon Nova Pro list prices
     alephalpha: [6.48, 6.48], // Luminous Base list prices (symmetric pricing)
+    sarvam: [0.30, 0.60], // Sarvam-M list prices
   };
   return defaults[provider];
 }

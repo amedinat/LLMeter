@@ -51,6 +51,7 @@ import { nscaleAdapter } from './nscale-adapter';
 import { aimlapiAdapter } from './aimlapi-adapter';
 import { bedrockAdapter } from './bedrock-adapter';
 import { alephAlphaAdapter } from './alephalpha-adapter';
+import { sarvamAdapter } from './sarvam-adapter';
 
 /**
  * Provider adapter registry.
@@ -110,6 +111,7 @@ adapters.set('nscale', nscaleAdapter);
 adapters.set('aimlapi', aimlapiAdapter);
 adapters.set('bedrock', bedrockAdapter);
 adapters.set('alephalpha', alephAlphaAdapter);
+adapters.set('sarvam', sarvamAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
