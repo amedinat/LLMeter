@@ -4490,6 +4490,33 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'premium',
     last_verified_at: '2026-05-21T00:00:00.000Z',
   },
+  {
+    provider: 'mistral',
+    model_id: 'mistral-medium-latest',
+    display_name: 'Mistral Medium 3',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'mistral',
+    model_id: 'magistral-small-latest',
+    display_name: 'Magistral Small',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'mistral',
+    model_id: 'magistral-medium-latest',
+    display_name: 'Magistral Medium',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 8.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
 
   // AWS Bedrock
   {

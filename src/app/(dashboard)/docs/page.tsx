@@ -1389,7 +1389,7 @@ export default function DocsPage() {
                   <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
                   with Mistral&apos;s base URL. Wrap it once and every{' '}
                   <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
-                  call is tracked automatically. Supports Mistral Large, Mistral Small, Codestral, Pixtral, and Ministral.
+                  call is tracked automatically. Supports Mistral Large, Mistral Small, Codestral, Pixtral, Ministral, Mistral Medium 3, Magistral Small, and Magistral Medium.
                 </p>
                 <CodeBlock language="typescript" code={sdkMistralExample} />
               </TabsContent>
