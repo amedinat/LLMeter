@@ -497,4 +497,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html',
     color: '#FF9900',
   },
+  alephalpha: {
+    type: 'alephalpha',
+    name: 'Aleph Alpha',
+    description: 'Luminous Base, Extended, Supreme, Pharia — European sovereign AI from Germany',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://app.aleph-alpha.com/profile',
+    color: '#1A1A2E',
+  },
 };

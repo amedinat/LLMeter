@@ -50,6 +50,7 @@ import { scalewayAdapter } from './scaleway-adapter';
 import { nscaleAdapter } from './nscale-adapter';
 import { aimlapiAdapter } from './aimlapi-adapter';
 import { bedrockAdapter } from './bedrock-adapter';
+import { alephAlphaAdapter } from './alephalpha-adapter';
 
 /**
  * Provider adapter registry.
@@ -108,6 +109,7 @@ adapters.set('scaleway', scalewayAdapter);
 adapters.set('nscale', nscaleAdapter);
 adapters.set('aimlapi', aimlapiAdapter);
 adapters.set('bedrock', bedrockAdapter);
+adapters.set('alephalpha', alephAlphaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

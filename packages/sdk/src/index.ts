@@ -57,6 +57,7 @@ export { wrapMaritaca } from './maritaca.js';
 export { wrapScaleway } from './scaleway.js';
 export { wrapNscale } from './nscale.js';
 export { wrapAIMLAPI } from './aimlapi.js';
+export { wrapAlephAlpha } from './alephalpha.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

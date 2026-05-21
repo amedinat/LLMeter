@@ -905,6 +905,26 @@ const completion = await trackedAIMLAPI.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI/ML API
 );`;
 
+const sdkAlephAlphaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapAlephAlpha } from 'llmeter';
+
+// Aleph Alpha is OpenAI-compatible — use the openai package with the Aleph Alpha base URL
+const alephalpha = new OpenAI({
+  apiKey: process.env.ALEPH_ALPHA_API_KEY,
+  baseURL: 'https://api.aleph-alpha.com/openai',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAlephAlpha = wrapAlephAlpha(alephalpha, llmeter);
+
+// All calls are automatically tracked — European sovereign AI, zero US cloud dependency
+const completion = await trackedAlephAlpha.chat.completions.create(
+  {
+    model: 'pharia-1-llm-7b-cc',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Aleph Alpha
+);`;
+
 const sdkMaritacaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMaritaca } from 'llmeter';
 
@@ -1209,6 +1229,7 @@ export default function DocsPage() {
                 <TabsTrigger value="scaleway">Scaleway</TabsTrigger>
                 <TabsTrigger value="nscale">Nscale</TabsTrigger>
                 <TabsTrigger value="aimlapi">AI/ML API</TabsTrigger>
+                <TabsTrigger value="alephalpha">Aleph Alpha</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1711,6 +1732,16 @@ export default function DocsPage() {
                   call is tracked automatically. Access 200+ models with a single API key: Llama 4 Scout 17B ($0.18/$0.59 per 1M), Llama 4 Maverick 17B ($0.20/$0.68), Llama 3.3 70B Instruct ($0.40/$0.40), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.35/$0.40), Mistral 7B ($0.10/$0.10 — budget), and Gemma 2 9B ($0.10/$0.10 — budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkAIMLAPIExample} />
+              </TabsContent>
+              <TabsContent value="alephalpha" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Aleph Alpha is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Aleph Alpha base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. European sovereign AI (Cologne, Germany) — zero US cloud dependency, GDPR-native infrastructure. 8 models: Pharia-1 LLM 4x4B CC ($3.24/1M — cheapest, MoE), Pharia-1 LLM 7B CC ($5.40/1M), Luminous Base ($6.48/1M), Luminous Base Control ($8.10/1M), Luminous Extended ($8.64/1M), Luminous Extended Control ($10.80/1M), Luminous Supreme ($30.78/1M), Luminous Supreme Control ($45.36/1M). All models use symmetric pricing (input == output).
+                </p>
+                <CodeBlock language="typescript" code={sdkAlephAlphaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

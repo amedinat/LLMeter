@@ -48,6 +48,7 @@ import { scalewayAdapter } from './scaleway-adapter';
 import { nscaleAdapter } from './nscale-adapter';
 import { aimlapiAdapter } from './aimlapi-adapter';
 import { bedrockAdapter, parseBedrockCredentials } from './bedrock-adapter';
+import { alephAlphaAdapter } from './alephalpha-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4304,6 +4305,88 @@ describe('Provider Adapters', () => {
       it('throws if accessKeyId is empty', () => {
         expect(() => parseBedrockCredentials('us-east-1::::SECRET')).toThrow('Access Key ID is missing');
       });
+    });
+  });
+
+  describe('alephAlphaAdapter', () => {
+    beforeEach(() => {
+      fetchMock.mockReset();
+    });
+
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ id: 'user123', email: 'user@example.com' }),
+      });
+
+      const result = await alephAlphaAdapter.validateKey('test-token');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls correct endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      });
+
+      await alephAlphaAdapter.validateKey('my-aleph-token');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.aleph-alpha.com/users/me',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer my-aleph-token' },
+        })
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ detail: 'Unauthorized' }),
+      });
+
+      await expect(alephAlphaAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid Aleph Alpha API key'
+      );
+    });
+
+    it('validateKey throws on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(alephAlphaAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid Aleph Alpha API key'
+      );
+    });
+
+    it('validateKey throws on other errors with server message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ detail: 'Internal server error' }),
+      });
+
+      await expect(alephAlphaAdapter.validateKey('token')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await alephAlphaAdapter.fetchUsage(
+        'test-token',
+        new Date('2026-05-01'),
+        new Date('2026-05-21')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('alephAlphaAdapter.type is alephalpha', () => {
+      expect(alephAlphaAdapter.type).toBe('alephalpha');
     });
   });
 });

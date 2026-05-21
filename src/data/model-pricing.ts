@@ -4565,6 +4565,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-21T00:00:00.000Z',
   },
 
+  // Aleph Alpha — European sovereign AI lab (Cologne, Germany)
+  // Pricing in EUR converted to USD at 1.08 EUR/USD
+  // All models use symmetric pricing (input == output) — unusual in the industry
+  {
+    provider: 'alephalpha',
+    model_id: 'pharia-1-llm-4x4b-cc',
+    display_name: 'Pharia-1 LLM 4x4B CC',
+    input_price_per_1m_tokens: 3.24,
+    output_price_per_1m_tokens: 3.24,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'pharia-1-llm-7b-cc',
+    display_name: 'Pharia-1 LLM 7B CC',
+    input_price_per_1m_tokens: 5.40,
+    output_price_per_1m_tokens: 5.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'luminous-base',
+    display_name: 'Luminous Base',
+    input_price_per_1m_tokens: 6.48,
+    output_price_per_1m_tokens: 6.48,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'luminous-base-control',
+    display_name: 'Luminous Base Control',
+    input_price_per_1m_tokens: 8.10,
+    output_price_per_1m_tokens: 8.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'luminous-extended',
+    display_name: 'Luminous Extended',
+    input_price_per_1m_tokens: 8.64,
+    output_price_per_1m_tokens: 8.64,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'luminous-extended-control',
+    display_name: 'Luminous Extended Control',
+    input_price_per_1m_tokens: 10.80,
+    output_price_per_1m_tokens: 10.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'luminous-supreme',
+    display_name: 'Luminous Supreme',
+    input_price_per_1m_tokens: 30.78,
+    output_price_per_1m_tokens: 30.78,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'alephalpha',
+    model_id: 'luminous-supreme-control',
+    display_name: 'Luminous Supreme Control',
+    input_price_per_1m_tokens: 45.36,
+    output_price_per_1m_tokens: 45.36,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4741,6 +4817,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nscale: [0.23, 0.30], // Llama 3.3 70B Instruct list prices
     aimlapi: [0.40, 0.40], // Llama 3.3 70B Instruct list prices
     bedrock: [0.80, 3.20], // Amazon Nova Pro list prices
+    alephalpha: [6.48, 6.48], // Luminous Base list prices (symmetric pricing)
   };
   return defaults[provider];
 }
