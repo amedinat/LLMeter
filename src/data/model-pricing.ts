@@ -4343,6 +4343,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-20T00:00:00.000Z',
   },
 
+  // AI/ML API
+  {
+    provider: 'aimlapi',
+    model_id: 'meta-llama/Llama-4-Scout-17B-16E-Instruct',
+    display_name: 'Llama 4 Scout 17B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.59,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8',
+    display_name: 'Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.68,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct-Turbo',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.2',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'aimlapi',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4517,6 +4591,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     maritaca: [1.00, 4.00], // sabia-3 list prices
     scaleway: [0.20, 0.20], // Llama 3.3 70B Instruct list prices
     nscale: [0.23, 0.30], // Llama 3.3 70B Instruct list prices
+    aimlapi: [0.40, 0.40], // Llama 3.3 70B Instruct list prices
   };
   return defaults[provider];
 }

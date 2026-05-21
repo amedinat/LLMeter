@@ -46,6 +46,7 @@ import { rekaAdapter } from './reka-adapter';
 import { maritacaAdapter } from './maritaca-adapter';
 import { scalewayAdapter } from './scaleway-adapter';
 import { nscaleAdapter } from './nscale-adapter';
+import { aimlapiAdapter } from './aimlapi-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4058,6 +4059,92 @@ describe('Provider Adapters', () => {
 
     it('nscaleAdapter.type is nscale', () => {
       expect(nscaleAdapter.type).toBe('nscale');
+    });
+  });
+
+  describe('aimlapiAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+
+      const result = await aimlapiAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls correct endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+
+      await aimlapiAdapter.validateKey('aimlapi-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.aimlapi.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer aimlapi-test-key' }),
+        })
+      );
+    });
+
+    it('validateKey throws with message on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(aimlapiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI/ML API key'
+      );
+    });
+
+    it('validateKey throws with message on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(aimlapiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI/ML API key'
+      );
+    });
+
+    it('validateKey throws with message on API errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ message: 'Bad request' }),
+      });
+
+      await expect(aimlapiAdapter.validateKey('test-key')).rejects.toThrow(
+        'Bad request'
+      );
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(aimlapiAdapter.validateKey('test-key')).rejects.toThrow(
+        'AI/ML API returned 503'
+      );
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await aimlapiAdapter.fetchUsage('test-key', new Date('2024-01-01'), new Date('2024-01-07'));
+      expect(records).toEqual([]);
+    });
+
+    it('aimlapiAdapter.type is aimlapi', () => {
+      expect(aimlapiAdapter.type).toBe('aimlapi');
     });
   });
 });

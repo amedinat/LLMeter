@@ -885,6 +885,26 @@ const completion = await trackedNscale.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nscale
 );`;
 
+const sdkAIMLAPIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapAIMLAPI } from 'llmeter';
+
+// AI/ML API is OpenAI-compatible — use the openai package with the AI/ML API base URL
+const aimlapi = new OpenAI({
+  apiKey: process.env.AIMLAPI_API_KEY,
+  baseURL: 'https://api.aimlapi.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAIMLAPI = wrapAIMLAPI(aimlapi, llmeter);
+
+// All calls are automatically tracked — 200+ models, one API key
+const completion = await trackedAIMLAPI.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-4-Scout-17B-16E-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI/ML API
+);`;
+
 const sdkMaritacaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMaritaca } from 'llmeter';
 
@@ -1188,6 +1208,7 @@ export default function DocsPage() {
                 <TabsTrigger value="maritaca">Maritaca AI</TabsTrigger>
                 <TabsTrigger value="scaleway">Scaleway</TabsTrigger>
                 <TabsTrigger value="nscale">Nscale</TabsTrigger>
+                <TabsTrigger value="aimlapi">AI/ML API</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1680,6 +1701,16 @@ export default function DocsPage() {
                   call is tracked automatically. Includes Llama 3.3 70B Instruct ($0.23/$0.30 per 1M), Llama 3.1 70B Instruct ($0.23/$0.30), Llama 3.1 8B Instruct ($0.06/$0.10 — budget), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek R1 Distill Llama 70B ($0.20/$0.80), Mistral 7B Instruct ($0.04/$0.04 — cheapest), and Qwen 2.5 72B Instruct ($0.23/$0.30). All inference runs on UK AI infrastructure.
                 </p>
                 <CodeBlock language="typescript" code={sdkNscaleExample} />
+              </TabsContent>
+              <TabsContent value="aimlapi" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  AI/ML API is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the AI/ML API base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Access 200+ models with a single API key: Llama 4 Scout 17B ($0.18/$0.59 per 1M), Llama 4 Maverick 17B ($0.20/$0.68), Llama 3.3 70B Instruct ($0.40/$0.40), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.35/$0.40), Mistral 7B ($0.10/$0.10 — budget), and Gemma 2 9B ($0.10/$0.10 — budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkAIMLAPIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

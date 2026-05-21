@@ -48,6 +48,7 @@ import { rekaAdapter } from './reka-adapter';
 import { maritacaAdapter } from './maritaca-adapter';
 import { scalewayAdapter } from './scaleway-adapter';
 import { nscaleAdapter } from './nscale-adapter';
+import { aimlapiAdapter } from './aimlapi-adapter';
 
 /**
  * Provider adapter registry.
@@ -104,6 +105,7 @@ adapters.set('reka', rekaAdapter);
 adapters.set('maritaca', maritacaAdapter);
 adapters.set('scaleway', scalewayAdapter);
 adapters.set('nscale', nscaleAdapter);
+adapters.set('aimlapi', aimlapiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

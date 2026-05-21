@@ -479,4 +479,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.nscale.com/settings',
     color: '#1E3A5F',
   },
+  aimlapi: {
+    type: 'aimlapi',
+    name: 'AI/ML API',
+    description: 'Llama 4 Scout/Maverick, DeepSeek R1/V3, Qwen 2.5 72B — 200+ models via a single OpenAI-compatible API key',
+    keyPrefix: '',
+    keyPlaceholder: 'your-aimlapi-key',
+    helpUrl: 'https://aimlapi.com/app/keys',
+    color: '#6366F1',
+  },
 };

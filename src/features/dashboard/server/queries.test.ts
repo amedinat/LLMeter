@@ -96,6 +96,7 @@ const ZERO_PROVIDERS = {
   maritaca: 0,
   scaleway: 0,
   nscale: 0,
+  aimlapi: 0,
 };
 
 // --- Tests ---

@@ -213,6 +213,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           maritaca: 0,
           scaleway: 0,
           nscale: 0,
+          aimlapi: 0,
         }
       });
     }
@@ -285,6 +286,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           maritaca: 0,
           scaleway: 0,
           nscale: 0,
+          aimlapi: 0,
         },
       }
     );
