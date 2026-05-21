@@ -4491,6 +4491,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-21T00:00:00.000Z',
   },
 
+  // AWS Bedrock
+  {
+    provider: 'bedrock',
+    model_id: 'amazon.nova-micro-v1:0',
+    display_name: 'Amazon Nova Micro',
+    input_price_per_1m_tokens: 0.035,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'amazon.nova-lite-v1:0',
+    display_name: 'Amazon Nova Lite',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'amazon.nova-pro-v1:0',
+    display_name: 'Amazon Nova Pro',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 3.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'amazon.titan-text-express-v1',
+    display_name: 'Amazon Titan Text Express',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'amazon.titan-text-lite-v1',
+    display_name: 'Amazon Titan Text Lite',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'meta.llama3-3-70b-instruct-v1:0',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.72,
+    output_price_per_1m_tokens: 0.72,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'meta.llama3-1-8b-instruct-v1:0',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'bedrock',
+    model_id: 'mistral.mistral-large-2402-v1:0',
+    display_name: 'Mistral Large',
+    input_price_per_1m_tokens: 4.00,
+    output_price_per_1m_tokens: 12.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4666,6 +4740,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     scaleway: [0.20, 0.20], // Llama 3.3 70B Instruct list prices
     nscale: [0.23, 0.30], // Llama 3.3 70B Instruct list prices
     aimlapi: [0.40, 0.40], // Llama 3.3 70B Instruct list prices
+    bedrock: [0.80, 3.20], // Amazon Nova Pro list prices
   };
   return defaults[provider];
 }

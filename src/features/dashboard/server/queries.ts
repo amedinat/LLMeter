@@ -214,6 +214,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           scaleway: 0,
           nscale: 0,
           aimlapi: 0,
+          bedrock: 0,
         }
       });
     }
@@ -287,6 +288,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           scaleway: 0,
           nscale: 0,
           aimlapi: 0,
+          bedrock: 0,
         },
       }
     );

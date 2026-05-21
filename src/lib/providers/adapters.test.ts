@@ -47,6 +47,7 @@ import { maritacaAdapter } from './maritaca-adapter';
 import { scalewayAdapter } from './scaleway-adapter';
 import { nscaleAdapter } from './nscale-adapter';
 import { aimlapiAdapter } from './aimlapi-adapter';
+import { bedrockAdapter, parseBedrockCredentials } from './bedrock-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4145,6 +4146,164 @@ describe('Provider Adapters', () => {
 
     it('aimlapiAdapter.type is aimlapi', () => {
       expect(aimlapiAdapter.type).toBe('aimlapi');
+    });
+  });
+
+  describe('bedrockAdapter', () => {
+    beforeEach(() => {
+      fetchMock.mockReset();
+    });
+
+    it('validateKey returns true on 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ modelSummaries: [] }),
+      });
+
+      const result = await bedrockAdapter.validateKey(
+        'us-east-1::AKIAIOSFODNN7EXAMPLE::wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
+      );
+      expect(result).toBe(true);
+    });
+
+    it('validateKey calls correct endpoint for the given region', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ modelSummaries: [] }),
+      });
+
+      await bedrockAdapter.validateKey(
+        'eu-west-1::AKIAIOSFODNN7EXAMPLE::wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
+      );
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://bedrock.eu-west-1.amazonaws.com/foundation-models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: expect.stringContaining('AWS4-HMAC-SHA256'),
+          }),
+        })
+      );
+    });
+
+    it('validateKey includes x-amz-date header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ modelSummaries: [] }),
+      });
+
+      await bedrockAdapter.validateKey(
+        'us-east-1::AKIAIOSFODNN7EXAMPLE::wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
+      );
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            'x-amz-date': expect.stringMatching(/^\d{8}T\d{6}Z$/),
+          }),
+        })
+      );
+    });
+
+    it('validateKey throws on 403 invalid credentials', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({ message: 'Access denied' }),
+      });
+
+      await expect(
+        bedrockAdapter.validateKey('us-east-1::BADKEY::BADSECRET')
+      ).rejects.toThrow('Access denied');
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(
+        bedrockAdapter.validateKey('us-east-1::BADKEY::BADSECRET')
+      ).rejects.toThrow('AWS authentication failed');
+    });
+
+    it('validateKey throws on 404 (region not available)', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 404,
+        json: async () => ({}),
+      });
+
+      await expect(
+        bedrockAdapter.validateKey('ap-southeast-99::AKID::SECRET')
+      ).rejects.toThrow('not available in region');
+    });
+
+    it('validateKey throws with status code on unknown errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        json: async () => ({}),
+      });
+
+      await expect(
+        bedrockAdapter.validateKey('us-east-1::AKID::SECRET')
+      ).rejects.toThrow('AWS Bedrock returned 503');
+    });
+
+    it('fetchUsage returns empty array (no usage API)', async () => {
+      const records = await bedrockAdapter.fetchUsage(
+        'us-east-1::AKID::SECRET',
+        new Date('2024-01-01'),
+        new Date('2024-01-07')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch (no usage API endpoint)', async () => {
+      await bedrockAdapter.fetchUsage(
+        'us-east-1::AKID::SECRET',
+        new Date('2024-01-01'),
+        new Date('2024-01-31')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('bedrockAdapter.type is bedrock', () => {
+      expect(bedrockAdapter.type).toBe('bedrock');
+    });
+
+    describe('parseBedrockCredentials', () => {
+      it('parses valid credentials', () => {
+        const result = parseBedrockCredentials(
+          'us-east-1::AKIAIOSFODNN7EXAMPLE::wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
+        );
+        expect(result).toEqual({
+          region: 'us-east-1',
+          accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+          secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+        });
+      });
+
+      it('throws if only 2 parts', () => {
+        expect(() => parseBedrockCredentials('us-east-1::AKID')).toThrow(
+          'must be in the format'
+        );
+      });
+
+      it('throws if region is empty', () => {
+        expect(() => parseBedrockCredentials('::AKID::SECRET')).toThrow('region is missing');
+      });
+
+      it('throws if accessKeyId is empty', () => {
+        expect(() => parseBedrockCredentials('us-east-1::::SECRET')).toThrow('Access Key ID is missing');
+      });
     });
   });
 });

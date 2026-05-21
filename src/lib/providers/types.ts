@@ -488,4 +488,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://aimlapi.com/app/keys',
     color: '#6366F1',
   },
+  bedrock: {
+    type: 'bedrock',
+    name: 'AWS Bedrock',
+    description: 'Amazon Nova, Titan, Claude, Llama 3.3, Mistral — foundation models in your AWS account',
+    keyPrefix: '',
+    keyPlaceholder: 'us-east-1::AKIAIOSFODNN7EXAMPLE::wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    helpUrl: 'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html',
+    color: '#FF9900',
+  },
 };

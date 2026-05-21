@@ -97,6 +97,7 @@ const ZERO_PROVIDERS = {
   scaleway: 0,
   nscale: 0,
   aimlapi: 0,
+  bedrock: 0,
 };
 
 // --- Tests ---
