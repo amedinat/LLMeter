@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-/** Provider types that can be connected (have working usage APIs) */
-export const providerTypes = ['openai', 'anthropic', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka', 'maritaca', 'scaleway', 'nscale', 'aimlapi'] as const;
+/** Provider types that can be connected (have working adapters) */
+export const providerTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka', 'maritaca', 'scaleway', 'nscale', 'aimlapi'] as const;
 
-/** All known provider types including coming-soon ones */
-export const allProviderTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka', 'maritaca', 'scaleway', 'nscale', 'aimlapi'] as const;
+/** All known provider types (same as providerTypes — no more coming-soon) */
+export const allProviderTypes = providerTypes;
 
 /** Providers that are not yet available for connection */
-export const comingSoonProviders = ['google'] as const;
+export const comingSoonProviders: readonly string[] = [];
 
 /** Providers that require a Pro (or higher) plan */
 export const premiumProviders = ['openrouter'] as const;

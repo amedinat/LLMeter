@@ -39,7 +39,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Which providers are supported?',
-    answer: 'OpenAI, Anthropic, DeepSeek, OpenRouter, Mistral, and Azure OpenAI today. Google AI (Gemini) coming soon.',
+    answer: 'OpenAI, Anthropic, Google AI (Gemini), DeepSeek, OpenRouter, Mistral, Azure OpenAI, xAI (Grok), Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, and 35+ more — 49 providers total.',
   },
   {
     question: 'How long does setup take?',
