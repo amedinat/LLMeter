@@ -470,4 +470,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.scaleway.com/iam/api-keys',
     color: '#4F0599',
   },
+  nscale: {
+    type: 'nscale',
+    name: 'Nscale',
+    description: 'Llama 3.3 70B, DeepSeek R1, Mistral 7B — open-source LLMs on UK AI infrastructure with competitive European pricing',
+    keyPrefix: '',
+    keyPlaceholder: 'your-nscale-api-key',
+    helpUrl: 'https://console.nscale.com/settings',
+    color: '#1E3A5F',
+  },
 };

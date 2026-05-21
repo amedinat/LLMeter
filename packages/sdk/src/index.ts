@@ -55,6 +55,7 @@ export { wrapLlamaAPI } from './llamaapi.js';
 export { wrapReka } from './reka.js';
 export { wrapMaritaca } from './maritaca.js';
 export { wrapScaleway } from './scaleway.js';
+export { wrapNscale } from './nscale.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -212,6 +212,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           reka: 0,
           maritaca: 0,
           scaleway: 0,
+          nscale: 0,
         }
       });
     }
@@ -283,6 +284,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           reka: 0,
           maritaca: 0,
           scaleway: 0,
+          nscale: 0,
         },
       }
     );

@@ -4279,6 +4279,69 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-20T00:00:00.000Z',
   },
+  {
+    provider: 'nscale',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'nscale',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.23,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'nscale',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.23,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'nscale',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'nscale',
+    model_id: 'deepseek-r1-distill-llama-70b',
+    display_name: 'DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'nscale',
+    model_id: 'mistral-7b-instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
+  {
+    provider: 'nscale',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.23,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-20T00:00:00.000Z',
+  },
 
 ];
 
@@ -4452,6 +4515,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     llamaapi: [0.20, 0.20], // Llama 3.3 70B list prices
     reka: [0.80, 2.00], // reka-flash-3 list prices
     maritaca: [1.00, 4.00], // sabia-3 list prices
+    scaleway: [0.20, 0.20], // Llama 3.3 70B Instruct list prices
+    nscale: [0.23, 0.30], // Llama 3.3 70B Instruct list prices
   };
   return defaults[provider];
 }
