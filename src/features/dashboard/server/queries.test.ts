@@ -104,6 +104,7 @@ const ZERO_PROVIDERS = {
   krutrim: 0,
   digitalocean: 0,
   ovhcloud: 0,
+  telnyx: 0,
 };
 
 // --- Tests ---

@@ -4956,6 +4956,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
 
+  // Telnyx AI — carrier-grade LLM inference
+  {
+    provider: 'telnyx',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'Gemma 2 9B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'telnyx',
+    model_id: 'microsoft/Phi-3-medium-128k-instruct',
+    display_name: 'Phi-3 Medium 128K',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -5138,6 +5212,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     krutrim: [0.25, 0.75], // Krutrim-2 list prices
     digitalocean: [0.25, 0.87], // Llama 4 Maverick 17B list prices
     ovhcloud: [0.20, 0.20], // Llama 3.3 70B list prices
+    telnyx: [0.35, 0.35], // Llama 3.3 70B list prices (symmetric)
   };
   return defaults[provider];
 }

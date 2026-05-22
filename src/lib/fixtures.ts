@@ -88,6 +88,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         krutrim: 0,
         digitalocean: 0,
         ovhcloud: 0,
+        telnyx: 0,
       },
     };
   });

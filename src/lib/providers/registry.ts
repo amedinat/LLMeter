@@ -56,6 +56,7 @@ import { chutesAdapter } from './chutes-adapter';
 import { krutrimAdapter } from './krutrim-adapter';
 import { digitaloceanAdapter } from './digitalocean-adapter';
 import { ovhcloudAdapter } from './ovhcloud-adapter';
+import { telnyxAdapter } from './telnyx-adapter';
 
 /**
  * Provider adapter registry.
@@ -120,6 +121,7 @@ adapters.set('chutes', chutesAdapter);
 adapters.set('krutrim', krutrimAdapter);
 adapters.set('digitalocean', digitaloceanAdapter);
 adapters.set('ovhcloud', ovhcloudAdapter);
+adapters.set('telnyx', telnyxAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

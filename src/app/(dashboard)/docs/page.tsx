@@ -1005,6 +1005,26 @@ const completion = await trackedOVHcloud.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OVHcloud
 );`;
 
+const sdkTelnyxExample = `import OpenAI from 'openai';
+import LLMeter, { wrapTelnyx } from 'llmeter';
+
+// Telnyx AI is OpenAI-compatible — use the openai package with the Telnyx AI base URL
+const telnyx = new OpenAI({
+  apiKey: process.env.TELNYX_API_KEY,
+  baseURL: 'https://api.telnyx.com/v2/ai',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedTelnyx = wrapTelnyx(telnyx, llmeter);
+
+// All calls are automatically tracked — carrier-grade reliability, competitive pricing
+const completion = await trackedTelnyx.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello from Telnyx AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Telnyx
+);`;
+
 const sdkKrutrimExample = `import OpenAI from 'openai';
 import LLMeter, { wrapKrutrim } from 'llmeter';
 
@@ -1335,6 +1355,7 @@ export default function DocsPage() {
                 <TabsTrigger value="krutrim">Krutrim</TabsTrigger>
                 <TabsTrigger value="digitalocean">DigitalOcean</TabsTrigger>
                 <TabsTrigger value="ovhcloud">OVHcloud AI</TabsTrigger>
+                <TabsTrigger value="telnyx">Telnyx AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1897,6 +1918,16 @@ export default function DocsPage() {
                   call is tracked automatically. Europe&apos;s largest cloud provider with GDPR-native French data centers — zero US cloud dependency. 8 open-source models: Llama 3.3 70B ($0.20/$0.20 per 1M — symmetric), Llama 3.1 70B ($0.20/$0.20), Llama 3.1 8B ($0.05/$0.05 — budget), Mistral 7B ($0.04/$0.04 — cheapest EU), Mixtral 8x7B ($0.11/$0.11), Qwen 2.5 72B ($0.20/$0.20), DeepSeek R1 Distill Llama 70B ($0.20/$0.80 — reasoning), Qwen 2.5 Coder 32B ($0.15/$0.15 — code).
                 </p>
                 <CodeBlock language="typescript" code={sdkOVHcloudExample} />
+              </TabsContent>
+              <TabsContent value="telnyx" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Telnyx AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Telnyx AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Carrier-grade global infrastructure from Telnyx — telecom reliability meets LLM inference. 8 models: Llama 3.3 70B ($0.35/$0.35 per 1M — symmetric), Llama 3.1 70B ($0.35/$0.35), Llama 3.1 8B ($0.03/$0.03 — ultra-budget), Llama 3.1 405B ($3.00/$3.00 — flagship), Mistral 7B ($0.06/$0.06 — budget), Mixtral 8x7B ($0.20/$0.20 — MoE), Gemma 2 9B ($0.06/$0.06), Phi-3 Medium ($0.15/$0.15).
+                </p>
+                <CodeBlock language="typescript" code={sdkTelnyxExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -551,4 +551,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://endpoints.ai.cloud.ovh.net',
     color: '#00B4E6',
   },
+  telnyx: {
+    type: 'telnyx',
+    name: 'Telnyx AI',
+    description: 'Llama 3.3 70B, Llama 3.1 405B, Mistral 7B, Mixtral 8x7B — LLM inference on carrier-grade global infrastructure from Telnyx, telecom-grade reliability with competitive pricing',
+    keyPrefix: 'KEY_',
+    keyPlaceholder: 'KEY_your-telnyx-api-key',
+    helpUrl: 'https://portal.telnyx.com',
+    color: '#00C4B4',
+  },
 };

@@ -221,6 +221,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           krutrim: 0,
           digitalocean: 0,
           ovhcloud: 0,
+          telnyx: 0,
         }
       });
     }
@@ -301,6 +302,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           krutrim: 0,
           digitalocean: 0,
           ovhcloud: 0,
+          telnyx: 0,
         },
       }
     );
