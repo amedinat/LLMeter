@@ -4773,6 +4773,37 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-21T00:00:00.000Z',
   },
 
+  // ── Krutrim Cloud ───────────────────────────────────────────────────────────
+  // India's first AI unicorn — OpenAI-compatible API
+  // https://cloud.olakrutrim.com
+  {
+    provider: 'krutrim',
+    model_id: 'krutrim-spectre-v2',
+    display_name: 'Krutrim Spectre v2',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'krutrim',
+    model_id: 'krutrim-2',
+    display_name: 'Krutrim-2',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'krutrim',
+    model_id: 'krutrim-2-instruct',
+    display_name: 'Krutrim-2 Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4952,6 +4983,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     alephalpha: [6.48, 6.48], // Luminous Base list prices (symmetric pricing)
     sarvam: [0.30, 0.60], // Sarvam-M list prices
     chutes: [0.10, 0.30], // Llama 3.3 70B list prices
+    krutrim: [0.25, 0.75], // Krutrim-2 list prices
   };
   return defaults[provider];
 }

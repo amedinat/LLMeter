@@ -965,6 +965,26 @@ const completion = await trackedChutes.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Chutes AI
 );`;
 
+const sdkKrutrimExample = `import OpenAI from 'openai';
+import LLMeter, { wrapKrutrim } from 'llmeter';
+
+// Krutrim is OpenAI-compatible — use the openai package with the Krutrim base URL
+const krutrim = new OpenAI({
+  apiKey: process.env.KRUTRIM_API_KEY,
+  baseURL: 'https://cloud.olakrutrim.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedKrutrim = wrapKrutrim(krutrim, llmeter);
+
+// All calls are automatically tracked — India's first AI unicorn, bilingual Hindi/English
+const completion = await trackedKrutrim.chat.completions.create(
+  {
+    model: 'krutrim-2',
+    messages: [{ role: 'user', content: 'Hello in Hindi and English!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Krutrim
+);`;
+
 const sdkMaritacaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMaritaca } from 'llmeter';
 
@@ -1272,6 +1292,7 @@ export default function DocsPage() {
                 <TabsTrigger value="alephalpha">Aleph Alpha</TabsTrigger>
                 <TabsTrigger value="sarvam">Sarvam AI</TabsTrigger>
                 <TabsTrigger value="chutes">Chutes AI</TabsTrigger>
+                <TabsTrigger value="krutrim">Krutrim</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1804,6 +1825,16 @@ export default function DocsPage() {
                   call is tracked automatically. Permissionless community inference network — anyone can deploy and serve models. 8 models: Llama 4 Scout 17B ($0.06/$0.30 per 1M), Llama 4 Maverick 17B ($0.12/$0.48), Llama 3.3 70B ($0.10/$0.30), Llama 3.1 8B ($0.04/$0.04 — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.10/$0.30), Mistral 7B ($0.04/$0.04 — cheapest).
                 </p>
                 <CodeBlock language="typescript" code={sdkChutesExample} />
+              </TabsContent>
+              <TabsContent value="krutrim" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Krutrim is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Krutrim base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. India&apos;s first AI unicorn by Ola founder Bhavish Aggarwal — bilingual Hindi/English. 3 models: Krutrim-Spectre-v2 ($0.60/$1.80 per 1M — flagship), Krutrim-2 ($0.25/$0.75 — general purpose, 98% cheaper input than GPT-4o), Krutrim-2 Instruct ($0.25/$0.75).
+                </p>
+                <CodeBlock language="typescript" code={sdkKrutrimExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

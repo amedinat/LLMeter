@@ -53,6 +53,7 @@ import { bedrockAdapter } from './bedrock-adapter';
 import { alephAlphaAdapter } from './alephalpha-adapter';
 import { sarvamAdapter } from './sarvam-adapter';
 import { chutesAdapter } from './chutes-adapter';
+import { krutrimAdapter } from './krutrim-adapter';
 
 /**
  * Provider adapter registry.
@@ -114,6 +115,7 @@ adapters.set('bedrock', bedrockAdapter);
 adapters.set('alephalpha', alephAlphaAdapter);
 adapters.set('sarvam', sarvamAdapter);
 adapters.set('chutes', chutesAdapter);
+adapters.set('krutrim', krutrimAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

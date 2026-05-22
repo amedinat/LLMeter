@@ -84,6 +84,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         bedrock: 0,
         alephalpha: 0,
         sarvam: 0,
+        chutes: 0,
+        krutrim: 0,
       },
     };
   });

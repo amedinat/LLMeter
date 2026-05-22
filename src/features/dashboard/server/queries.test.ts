@@ -101,6 +101,7 @@ const ZERO_PROVIDERS = {
   alephalpha: 0,
   sarvam: 0,
   chutes: 0,
+  krutrim: 0,
 };
 
 // --- Tests ---

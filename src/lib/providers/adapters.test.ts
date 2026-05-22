@@ -51,6 +51,7 @@ import { bedrockAdapter, parseBedrockCredentials } from './bedrock-adapter';
 import { alephAlphaAdapter } from './alephalpha-adapter';
 import { sarvamAdapter } from './sarvam-adapter';
 import { chutesAdapter } from './chutes-adapter';
+import { krutrimAdapter } from './krutrim-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4529,6 +4530,76 @@ describe('Provider Adapters', () => {
 
     it('chutesAdapter.type is chutes', () => {
       expect(chutesAdapter.type).toBe('chutes');
+    });
+  });
+
+  describe('krutrimAdapter', () => {
+    it('returns true for valid key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await krutrimAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('calls the correct endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      await krutrimAdapter.validateKey('krutrim-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://cloud.olakrutrim.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer krutrim-test-key' }),
+        })
+      );
+    });
+
+    it('throws descriptive error on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(krutrimAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Krutrim API key'
+      );
+    });
+
+    it('throws descriptive error on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(krutrimAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Krutrim API key'
+      );
+    });
+
+    it('throws provider error with message on other status', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal error' }),
+      });
+
+      await expect(krutrimAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await krutrimAdapter.fetchUsage(
+        'key',
+        new Date('2026-05-01'),
+        new Date('2026-05-22')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('krutrimAdapter.type is krutrim', () => {
+      expect(krutrimAdapter.type).toBe('krutrim');
     });
   });
 });

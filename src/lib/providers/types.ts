@@ -524,4 +524,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://chutes.ai/settings',
     color: '#6366F1',
   },
+  krutrim: {
+    type: 'krutrim',
+    name: 'Krutrim',
+    description: 'Krutrim-2, Krutrim-Spectre-v2 — India\'s first AI unicorn LLM platform by Ola founder Bhavish Aggarwal, bilingual Hindi/English with competitive pricing',
+    keyPrefix: '',
+    keyPlaceholder: 'your-krutrim-api-key',
+    helpUrl: 'https://cloud.olakrutrim.com/console',
+    color: '#FF6600',
+  },
 };
