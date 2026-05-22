@@ -100,6 +100,7 @@ const ZERO_PROVIDERS = {
   bedrock: 0,
   alephalpha: 0,
   sarvam: 0,
+  chutes: 0,
 };
 
 // --- Tests ---

@@ -515,4 +515,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://dashboard.sarvam.ai',
     color: '#FF6B2B',
   },
+  chutes: {
+    type: 'chutes',
+    name: 'Chutes AI',
+    description: 'Llama 4 Scout, Llama 3.3 70B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral 7B — permissionless community inference network, Llama 3.1 8B and Mistral 7B from $0.04/1M tokens',
+    keyPrefix: '',
+    keyPlaceholder: 'your-chutes-api-key',
+    helpUrl: 'https://chutes.ai/settings',
+    color: '#6366F1',
+  },
 };

@@ -4697,6 +4697,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-21T00:00:00.000Z',
   },
 
+  // ── Chutes AI ───────────────────────────────────────────────────────────────
+  // Permissionless community inference network — anyone can host and serve models.
+  // OpenAI-compatible endpoint: https://llm.chutes.ai/v1
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/Llama-4-Scout-17B-16E-Instruct',
+    display_name: 'Chutes: Llama 4 Scout 17B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/Llama-4-Maverick-17B-128E-Instruct-FP8',
+    display_name: 'Chutes: Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.48,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Chutes: Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Chutes: Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/DeepSeek-R1',
+    display_name: 'Chutes: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/DeepSeek-V3-0324',
+    display_name: 'Chutes: DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/Qwen2.5-72B-Instruct',
+    display_name: 'Chutes: Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+  {
+    provider: 'chutes',
+    model_id: 'chutesai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Chutes: Mistral 7B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-21T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4875,6 +4951,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     bedrock: [0.80, 3.20], // Amazon Nova Pro list prices
     alephalpha: [6.48, 6.48], // Luminous Base list prices (symmetric pricing)
     sarvam: [0.30, 0.60], // Sarvam-M list prices
+    chutes: [0.10, 0.30], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

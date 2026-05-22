@@ -945,6 +945,26 @@ const completion = await trackedSarvam.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Sarvam AI
 );`;
 
+const sdkChutesExample = `import OpenAI from 'openai';
+import LLMeter, { wrapChutes } from 'llmeter';
+
+// Chutes AI is OpenAI-compatible — use the openai package with the Chutes AI base URL
+const chutes = new OpenAI({
+  apiKey: process.env.CHUTES_API_KEY,
+  baseURL: 'https://llm.chutes.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedChutes = wrapChutes(chutes, llmeter);
+
+// All calls are automatically tracked — permissionless community inference
+const completion = await trackedChutes.chat.completions.create(
+  {
+    model: 'chutesai/Meta-Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Chutes AI
+);`;
+
 const sdkMaritacaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMaritaca } from 'llmeter';
 
@@ -1251,6 +1271,7 @@ export default function DocsPage() {
                 <TabsTrigger value="aimlapi">AI/ML API</TabsTrigger>
                 <TabsTrigger value="alephalpha">Aleph Alpha</TabsTrigger>
                 <TabsTrigger value="sarvam">Sarvam AI</TabsTrigger>
+                <TabsTrigger value="chutes">Chutes AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1773,6 +1794,16 @@ export default function DocsPage() {
                   call is tracked automatically. India-native multilingual inference with native support for 10 Indic languages (Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Gujarati, Marathi, Punjabi, Odia). 3 models: Sarvam-M ($0.30/$0.60 per 1M — flagship multilingual), Sarvam-1 ($0.20/$0.40 — balanced), Sarvam-2B ($0.10/$0.20 — budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkSarvamExample} />
+              </TabsContent>
+              <TabsContent value="chutes" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Chutes AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Chutes AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Permissionless community inference network — anyone can deploy and serve models. 8 models: Llama 4 Scout 17B ($0.06/$0.30 per 1M), Llama 4 Maverick 17B ($0.12/$0.48), Llama 3.3 70B ($0.10/$0.30), Llama 3.1 8B ($0.04/$0.04 — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.10/$0.30), Mistral 7B ($0.04/$0.04 — cheapest).
+                </p>
+                <CodeBlock language="typescript" code={sdkChutesExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

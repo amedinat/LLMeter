@@ -59,6 +59,7 @@ export { wrapNscale } from './nscale.js';
 export { wrapAIMLAPI } from './aimlapi.js';
 export { wrapAlephAlpha } from './alephalpha.js';
 export { wrapSarvam } from './sarvam.js';
+export { wrapChutes } from './chutes.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

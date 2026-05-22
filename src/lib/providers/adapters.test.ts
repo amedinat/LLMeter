@@ -50,6 +50,7 @@ import { aimlapiAdapter } from './aimlapi-adapter';
 import { bedrockAdapter, parseBedrockCredentials } from './bedrock-adapter';
 import { alephAlphaAdapter } from './alephalpha-adapter';
 import { sarvamAdapter } from './sarvam-adapter';
+import { chutesAdapter } from './chutes-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4458,6 +4459,76 @@ describe('Provider Adapters', () => {
 
     it('sarvamAdapter.type is sarvam', () => {
       expect(sarvamAdapter.type).toBe('sarvam');
+    });
+  });
+
+  describe('chutesAdapter', () => {
+    it('returns true for valid key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await chutesAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('calls the correct endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      await chutesAdapter.validateKey('chutes-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://llm.chutes.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer chutes-test-key' }),
+        })
+      );
+    });
+
+    it('throws descriptive error on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(chutesAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Chutes AI API key'
+      );
+    });
+
+    it('throws descriptive error on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(chutesAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Chutes AI API key'
+      );
+    });
+
+    it('throws provider error with message on other status', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal error' }),
+      });
+
+      await expect(chutesAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await chutesAdapter.fetchUsage(
+        'key',
+        new Date('2026-05-01'),
+        new Date('2026-05-21')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('chutesAdapter.type is chutes', () => {
+      expect(chutesAdapter.type).toBe('chutes');
     });
   });
 });
