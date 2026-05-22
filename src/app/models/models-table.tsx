@@ -6,6 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import type { ModelPricing, CapabilityTier } from '@/data/model-pricing';
 
+const EU_PROVIDERS = new Set([
+  'mistral',
+  'nebius',
+  'scaleway',
+  'alephalpha',
+  'ovhcloud',
+]);
+
 const TIER_LABELS: Record<CapabilityTier, string> = {
   budget: 'Budget',
   standard: 'Standard',
@@ -36,14 +44,16 @@ function formatPrice(price: number): string {
 
 interface Props {
   models: readonly ModelPricing[];
+  initialEuFilter?: boolean;
 }
 
 const ALL_PROVIDERS = 'all';
 
-export function ModelsTable({ models }: Props) {
+export function ModelsTable({ models, initialEuFilter = false }: Props) {
   const [query, setQuery] = useState('');
   const [selectedProvider, setSelectedProvider] = useState<string>(ALL_PROVIDERS);
   const [selectedTier, setSelectedTier] = useState<CapabilityTier | typeof ALL_PROVIDERS>(ALL_PROVIDERS);
+  const [euOnly, setEuOnly] = useState(initialEuFilter);
 
   const providers = useMemo(() => {
     const seen = new Set<string>();
@@ -60,12 +70,13 @@ export function ModelsTable({ models }: Props) {
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
     return models.filter((m) => {
+      if (euOnly && !EU_PROVIDERS.has(m.provider)) return false;
       if (selectedProvider !== ALL_PROVIDERS && m.provider !== selectedProvider) return false;
       if (selectedTier !== ALL_PROVIDERS && m.capability_tier !== selectedTier) return false;
       if (q && !m.display_name.toLowerCase().includes(q) && !m.model_id.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [models, query, selectedProvider, selectedTier]);
+  }, [models, query, selectedProvider, selectedTier, euOnly]);
 
   // Group by provider for display
   const grouped = useMemo(() => {
@@ -130,6 +141,16 @@ export function ModelsTable({ models }: Props) {
               {TIER_LABELS[tier]}
             </button>
           ))}
+          <button
+            onClick={() => setEuOnly((v) => !v)}
+            className={`rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${
+              euOnly
+                ? 'border-blue-400 bg-blue-500/10 text-blue-400'
+                : 'border-border bg-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            🇪🇺 EU Only
+          </button>
         </div>
       </div>
 

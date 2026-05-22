@@ -29,8 +29,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ModelsPage() {
+export default async function ModelsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ filter?: string }>;
+}) {
+  const params = await searchParams;
   const models = getAllModels();
+  const initialEuFilter = params.filter === 'eu';
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -149,7 +155,7 @@ export default function ModelsPage() {
             </div>
 
             {/* Table */}
-            <ModelsTable models={models} />
+            <ModelsTable models={models} initialEuFilter={initialEuFilter} />
 
             {/* CTA */}
             <div className="mt-16 rounded-xl border border-border bg-gradient-to-br from-cyan-500/5 to-violet-500/5 p-8 text-center">
