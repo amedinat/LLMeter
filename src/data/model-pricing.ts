@@ -4804,6 +4804,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
 
+  // ── DigitalOcean AI Inference ─────────────────────────────────────────────
+  // OpenAI-compatible hosted open-source models — developer-friendly cloud
+  // https://inference.do-ai.run/v1
+  {
+    provider: 'digitalocean',
+    model_id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct',
+    display_name: 'Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.87,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.65,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'deepseek-ai/DeepSeek-V3.2',
+    display_name: 'DeepSeek V3.2',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B',
+    display_name: 'DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.99,
+    output_price_per_1m_tokens: 0.99,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'Qwen/Qwen3-32B',
+    display_name: 'Qwen3-32B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'Qwen/Qwen3-Coder-30B-A3B-Instruct',
+    display_name: 'Qwen3 Coder 30B',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 1.70,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'Qwen/Qwen3.5-397B-A17B',
+    display_name: 'Qwen3.5 397B A17B',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 3.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'digitalocean',
+    model_id: 'mistralai/Ministral-3-14B-Instruct-2512',
+    display_name: 'Ministral 3 14B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -4984,6 +5060,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     sarvam: [0.30, 0.60], // Sarvam-M list prices
     chutes: [0.10, 0.30], // Llama 3.3 70B list prices
     krutrim: [0.25, 0.75], // Krutrim-2 list prices
+    digitalocean: [0.25, 0.87], // Llama 4 Maverick 17B list prices
   };
   return defaults[provider];
 }

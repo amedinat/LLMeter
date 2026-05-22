@@ -533,4 +533,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.olakrutrim.com/console',
     color: '#FF6600',
   },
+  digitalocean: {
+    type: 'digitalocean',
+    name: 'DigitalOcean',
+    description: 'Llama 4 Maverick, Llama 3.3 70B, DeepSeek V3.2, Qwen3-32B — hosted open-source models on DigitalOcean AI Inference, developer-friendly cloud with 32 global data centers',
+    keyPrefix: '',
+    keyPlaceholder: 'your-digitalocean-model-access-key',
+    helpUrl: 'https://cloud.digitalocean.com/account/api/tokens',
+    color: '#0080FF',
+  },
 };

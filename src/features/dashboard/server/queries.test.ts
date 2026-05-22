@@ -102,6 +102,7 @@ const ZERO_PROVIDERS = {
   sarvam: 0,
   chutes: 0,
   krutrim: 0,
+  digitalocean: 0,
 };
 
 // --- Tests ---

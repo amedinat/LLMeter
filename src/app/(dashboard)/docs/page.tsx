@@ -965,6 +965,26 @@ const completion = await trackedChutes.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Chutes AI
 );`;
 
+const sdkDigitalOceanExample = `import OpenAI from 'openai';
+import LLMeter, { wrapDigitalOcean } from 'llmeter';
+
+// DigitalOcean AI Inference is OpenAI-compatible — use the openai package with the DigitalOcean base URL
+const digitalocean = new OpenAI({
+  apiKey: process.env.DIGITALOCEAN_API_KEY,
+  baseURL: 'https://inference.do-ai.run/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedDigitalOcean = wrapDigitalOcean(digitalocean, llmeter);
+
+// All calls are automatically tracked — developer-friendly cloud with 32 global data centers
+const completion = await trackedDigitalOcean.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DigitalOcean
+);`;
+
 const sdkKrutrimExample = `import OpenAI from 'openai';
 import LLMeter, { wrapKrutrim } from 'llmeter';
 
@@ -1293,6 +1313,7 @@ export default function DocsPage() {
                 <TabsTrigger value="sarvam">Sarvam AI</TabsTrigger>
                 <TabsTrigger value="chutes">Chutes AI</TabsTrigger>
                 <TabsTrigger value="krutrim">Krutrim</TabsTrigger>
+                <TabsTrigger value="digitalocean">DigitalOcean</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1835,6 +1856,16 @@ export default function DocsPage() {
                   call is tracked automatically. India&apos;s first AI unicorn by Ola founder Bhavish Aggarwal — bilingual Hindi/English. 3 models: Krutrim-Spectre-v2 ($0.60/$1.80 per 1M — flagship), Krutrim-2 ($0.25/$0.75 — general purpose, 98% cheaper input than GPT-4o), Krutrim-2 Instruct ($0.25/$0.75).
                 </p>
                 <CodeBlock language="typescript" code={sdkKrutrimExample} />
+              </TabsContent>
+              <TabsContent value="digitalocean" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  DigitalOcean AI Inference is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the DigitalOcean base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Developer-friendly cloud with 32 global data centers. 8 hosted open-source models: Llama 4 Maverick 17B ($0.25/$0.87 per 1M — MoE), Llama 3.3 70B ($0.65/$0.65 — symmetric), DeepSeek V3.2 ($0.50/$1.60), Ministral 3 14B ($0.20/$0.20 — symmetric budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkDigitalOceanExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -219,6 +219,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           sarvam: 0,
           chutes: 0,
           krutrim: 0,
+          digitalocean: 0,
         }
       });
     }
@@ -297,6 +298,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           sarvam: 0,
           chutes: 0,
           krutrim: 0,
+          digitalocean: 0,
         },
       }
     );

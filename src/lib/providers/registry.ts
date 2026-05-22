@@ -54,6 +54,7 @@ import { alephAlphaAdapter } from './alephalpha-adapter';
 import { sarvamAdapter } from './sarvam-adapter';
 import { chutesAdapter } from './chutes-adapter';
 import { krutrimAdapter } from './krutrim-adapter';
+import { digitaloceanAdapter } from './digitalocean-adapter';
 
 /**
  * Provider adapter registry.
@@ -116,6 +117,7 @@ adapters.set('alephalpha', alephAlphaAdapter);
 adapters.set('sarvam', sarvamAdapter);
 adapters.set('chutes', chutesAdapter);
 adapters.set('krutrim', krutrimAdapter);
+adapters.set('digitalocean', digitaloceanAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
