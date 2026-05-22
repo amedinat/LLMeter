@@ -73,6 +73,17 @@ export function generateDailySpend(days = 30): DailySpend[] {
         siliconflow: 0,
         stepfun: 0,
         baidu: 0,
+        kluster: 0,
+        friendli: 0,
+        llamaapi: 0,
+        reka: 0,
+        maritaca: 0,
+        scaleway: 0,
+        nscale: 0,
+        aimlapi: 0,
+        bedrock: 0,
+        alephalpha: 0,
+        sarvam: 0,
       },
     };
   });
