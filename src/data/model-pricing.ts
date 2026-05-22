@@ -4880,6 +4880,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
 
+  // ── OVHcloud AI Endpoints ─────────────────────────────────────────────────
+  // Europe's largest cloud — GDPR-native French data centers, open-source LLMs
+  // https://endpoints.ai.cloud.ovh.net
+  {
+    provider: 'ovhcloud',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B',
+    display_name: 'DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ovhcloud',
+    model_id: 'Qwen/Qwen2.5-Coder-32B-Instruct',
+    display_name: 'Qwen 2.5 Coder 32B',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -5061,6 +5137,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     chutes: [0.10, 0.30], // Llama 3.3 70B list prices
     krutrim: [0.25, 0.75], // Krutrim-2 list prices
     digitalocean: [0.25, 0.87], // Llama 4 Maverick 17B list prices
+    ovhcloud: [0.20, 0.20], // Llama 3.3 70B list prices
   };
   return defaults[provider];
 }

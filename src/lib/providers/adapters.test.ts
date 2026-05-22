@@ -52,6 +52,7 @@ import { alephAlphaAdapter } from './alephalpha-adapter';
 import { sarvamAdapter } from './sarvam-adapter';
 import { chutesAdapter } from './chutes-adapter';
 import { krutrimAdapter } from './krutrim-adapter';
+import { ovhcloudAdapter } from './ovhcloud-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4600,6 +4601,76 @@ describe('Provider Adapters', () => {
 
     it('krutrimAdapter.type is krutrim', () => {
       expect(krutrimAdapter.type).toBe('krutrim');
+    });
+  });
+
+  describe('ovhcloudAdapter', () => {
+    it('returns true for valid key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await ovhcloudAdapter.validateKey('test-token');
+      expect(result).toBe(true);
+    });
+
+    it('calls the correct endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      await ovhcloudAdapter.validateKey('ovh-test-token');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer ovh-test-token' }),
+        })
+      );
+    });
+
+    it('throws descriptive error on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(ovhcloudAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid OVHcloud AI token'
+      );
+    });
+
+    it('throws descriptive error on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(ovhcloudAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid OVHcloud AI token'
+      );
+    });
+
+    it('throws provider error with message on other status', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal error' }),
+      });
+
+      await expect(ovhcloudAdapter.validateKey('test-token')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ovhcloudAdapter.fetchUsage(
+        'token',
+        new Date('2026-05-01'),
+        new Date('2026-05-22')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('ovhcloudAdapter.type is ovhcloud', () => {
+      expect(ovhcloudAdapter.type).toBe('ovhcloud');
     });
   });
 });

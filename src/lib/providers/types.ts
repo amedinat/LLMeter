@@ -542,4 +542,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.digitalocean.com/account/api/tokens',
     color: '#0080FF',
   },
+  ovhcloud: {
+    type: 'ovhcloud',
+    name: 'OVHcloud AI',
+    description: 'Llama 3.3 70B, Mistral 7B, Mixtral 8x7B, Qwen 2.5 72B — open-source LLM inference on Europe\'s largest cloud, GDPR-native French data centers, Mistral 7B from $0.04/1M tokens',
+    keyPrefix: '',
+    keyPlaceholder: 'your-ovhcloud-ai-endpoints-token',
+    helpUrl: 'https://endpoints.ai.cloud.ovh.net',
+    color: '#00B4E6',
+  },
 };

@@ -87,6 +87,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         chutes: 0,
         krutrim: 0,
         digitalocean: 0,
+        ovhcloud: 0,
       },
     };
   });

@@ -985,6 +985,26 @@ const completion = await trackedDigitalOcean.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DigitalOcean
 );`;
 
+const sdkOVHcloudExample = `import OpenAI from 'openai';
+import LLMeter, { wrapOVHcloud } from 'llmeter';
+
+// OVHcloud AI Endpoints is OpenAI-compatible — use the openai package with the OVHcloud base URL
+const ovhcloud = new OpenAI({
+  apiKey: process.env.OVH_AI_ENDPOINTS_ACCESS_TOKEN,
+  baseURL: 'https://oai.endpoints.kepler.ai.cloud.ovh.net/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedOVHcloud = wrapOVHcloud(ovhcloud, llmeter);
+
+// All calls are automatically tracked — Europe's largest cloud, GDPR-native French data centers
+const completion = await trackedOVHcloud.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    messages: [{ role: 'user', content: 'Bonjour depuis l\'Europe!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OVHcloud
+);`;
+
 const sdkKrutrimExample = `import OpenAI from 'openai';
 import LLMeter, { wrapKrutrim } from 'llmeter';
 
@@ -1314,6 +1334,7 @@ export default function DocsPage() {
                 <TabsTrigger value="chutes">Chutes AI</TabsTrigger>
                 <TabsTrigger value="krutrim">Krutrim</TabsTrigger>
                 <TabsTrigger value="digitalocean">DigitalOcean</TabsTrigger>
+                <TabsTrigger value="ovhcloud">OVHcloud AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1866,6 +1887,16 @@ export default function DocsPage() {
                   call is tracked automatically. Developer-friendly cloud with 32 global data centers. 8 hosted open-source models: Llama 4 Maverick 17B ($0.25/$0.87 per 1M — MoE), Llama 3.3 70B ($0.65/$0.65 — symmetric), DeepSeek V3.2 ($0.50/$1.60), Ministral 3 14B ($0.20/$0.20 — symmetric budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkDigitalOceanExample} />
+              </TabsContent>
+              <TabsContent value="ovhcloud" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  OVHcloud AI Endpoints is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the OVHcloud base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Europe&apos;s largest cloud provider with GDPR-native French data centers — zero US cloud dependency. 8 open-source models: Llama 3.3 70B ($0.20/$0.20 per 1M — symmetric), Llama 3.1 70B ($0.20/$0.20), Llama 3.1 8B ($0.05/$0.05 — budget), Mistral 7B ($0.04/$0.04 — cheapest EU), Mixtral 8x7B ($0.11/$0.11), Qwen 2.5 72B ($0.20/$0.20), DeepSeek R1 Distill Llama 70B ($0.20/$0.80 — reasoning), Qwen 2.5 Coder 32B ($0.15/$0.15 — code).
+                </p>
+                <CodeBlock language="typescript" code={sdkOVHcloudExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

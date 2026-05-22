@@ -103,6 +103,7 @@ const ZERO_PROVIDERS = {
   chutes: 0,
   krutrim: 0,
   digitalocean: 0,
+  ovhcloud: 0,
 };
 
 // --- Tests ---

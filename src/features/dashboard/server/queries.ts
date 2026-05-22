@@ -220,6 +220,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           chutes: 0,
           krutrim: 0,
           digitalocean: 0,
+          ovhcloud: 0,
         }
       });
     }
@@ -299,6 +300,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           chutes: 0,
           krutrim: 0,
           digitalocean: 0,
+          ovhcloud: 0,
         },
       }
     );

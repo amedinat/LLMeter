@@ -55,6 +55,7 @@ import { sarvamAdapter } from './sarvam-adapter';
 import { chutesAdapter } from './chutes-adapter';
 import { krutrimAdapter } from './krutrim-adapter';
 import { digitaloceanAdapter } from './digitalocean-adapter';
+import { ovhcloudAdapter } from './ovhcloud-adapter';
 
 /**
  * Provider adapter registry.
@@ -118,6 +119,7 @@ adapters.set('sarvam', sarvamAdapter);
 adapters.set('chutes', chutesAdapter);
 adapters.set('krutrim', krutrimAdapter);
 adapters.set('digitalocean', digitaloceanAdapter);
+adapters.set('ovhcloud', ovhcloudAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
