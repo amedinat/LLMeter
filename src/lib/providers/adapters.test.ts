@@ -57,6 +57,7 @@ import { telnyxAdapter } from './telnyx-adapter';
 import { vultrAdapter } from './vultr-adapter';
 import { ai71Adapter } from './ai71-adapter';
 import { gcoreAdapter } from './gcore-adapter';
+import { crusoeAdapter } from './crusoe-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4955,6 +4956,71 @@ describe('Provider Adapters', () => {
 
     it('gcoreAdapter.type is gcore', () => {
       expect(gcoreAdapter.type).toBe('gcore');
+    });
+  });
+
+  describe('crusoeAdapter', () => {
+    it('returns true for a valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await crusoeAdapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends Bearer token to the Crusoe models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await crusoeAdapter.validateKey('crusoe-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.crusoe.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer crusoe-test-key' }),
+        })
+      );
+    });
+
+    it('throws a friendly error for 401 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(crusoeAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Crusoe API key'
+      );
+    });
+
+    it('throws a friendly error for 403 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(crusoeAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Crusoe API key'
+      );
+    });
+
+    it('throws the provider error message for non-auth errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(crusoeAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await crusoeAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('crusoeAdapter.type is crusoe', () => {
+      expect(crusoeAdapter.type).toBe('crusoe');
     });
   });
 });

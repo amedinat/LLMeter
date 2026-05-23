@@ -587,4 +587,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://gcore.com/inference',
     color: '#FF6600',
   },
+  crusoe: {
+    type: 'crusoe',
+    name: 'Crusoe Cloud',
+    description: 'Llama 3.3 70B, Llama 3.1 405B/70B/8B, DeepSeek R1, Qwen 2.5 72B, Mistral 7B — sustainable AI cloud running on stranded natural gas, cutting carbon emissions by ~63% vs traditional cloud. OpenAI-compatible inference API.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-crusoe-api-key',
+    helpUrl: 'https://docs.crusoe.ai/llm-inference',
+    color: '#00B050',
+  },
 };

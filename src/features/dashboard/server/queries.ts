@@ -225,6 +225,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           vultr: 0,
           ai71: 0,
           gcore: 0,
+          crusoe: 0,
         }
       });
     }
@@ -309,6 +310,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           vultr: 0,
           ai71: 0,
           gcore: 0,
+          crusoe: 0,
         },
       }
     );

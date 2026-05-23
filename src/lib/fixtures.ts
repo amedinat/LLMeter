@@ -92,6 +92,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         vultr: 0,
         ai71: 0,
         gcore: 0,
+        crusoe: 0,
       },
     };
   });
