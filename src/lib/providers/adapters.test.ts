@@ -54,6 +54,7 @@ import { chutesAdapter } from './chutes-adapter';
 import { krutrimAdapter } from './krutrim-adapter';
 import { ovhcloudAdapter } from './ovhcloud-adapter';
 import { telnyxAdapter } from './telnyx-adapter';
+import { vultrAdapter } from './vultr-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4742,6 +4743,76 @@ describe('Provider Adapters', () => {
 
     it('telnyxAdapter.type is telnyx', () => {
       expect(telnyxAdapter.type).toBe('telnyx');
+    });
+  });
+
+  describe('vultrAdapter', () => {
+    it('returns true for valid key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await vultrAdapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('calls the correct endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      await vultrAdapter.validateKey('vultr-test-api-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.vultrinference.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer vultr-test-api-key' }),
+        })
+      );
+    });
+
+    it('throws descriptive error on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(vultrAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Vultr API key'
+      );
+    });
+
+    it('throws descriptive error on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(vultrAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Vultr API key'
+      );
+    });
+
+    it('throws provider error with message on other status', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+
+      await expect(vultrAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await vultrAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-22')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('vultrAdapter.type is vultr', () => {
+      expect(vultrAdapter.type).toBe('vultr');
     });
   });
 });

@@ -222,6 +222,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           digitalocean: 0,
           ovhcloud: 0,
           telnyx: 0,
+          vultr: 0,
         }
       });
     }
@@ -303,6 +304,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           digitalocean: 0,
           ovhcloud: 0,
           telnyx: 0,
+          vultr: 0,
         },
       }
     );

@@ -560,4 +560,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://portal.telnyx.com',
     color: '#00C4B4',
   },
+  vultr: {
+    type: 'vultr',
+    name: 'Vultr Cloud Inference',
+    description: 'Llama 3.3 70B, Llama 3.1 70B, Llama 3.1 8B, Mistral 7B, Mixtral 8x7B — cost-competitive LLM inference across 33 global data centers from Vultr, developer-friendly infrastructure cloud',
+    keyPrefix: '',
+    keyPlaceholder: 'your-vultr-api-key',
+    helpUrl: 'https://my.vultr.com/settings/#api',
+    color: '#009BDE',
+  },
 };

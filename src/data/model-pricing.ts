@@ -4956,6 +4956,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
 
+  // Vultr Cloud Inference — 33 global data centers, developer-friendly infrastructure cloud
+  {
+    provider: 'vultr',
+    model_id: 'llama-3.1-8b-instruct-fp8',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'llama-3.1-70b-instruct-fp8',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.56,
+    output_price_per_1m_tokens: 0.56,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'llama-3.3-70b-instruct-fp8',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.56,
+    output_price_per_1m_tokens: 0.56,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'mistral-7b-instruct-v0.2',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'mixtral-8x7b-instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'llama-3.2-11b-vision-instruct',
+    display_name: 'Llama 3.2 11B Vision',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'llama-3.2-90b-vision-instruct',
+    display_name: 'Llama 3.2 90B Vision',
+    input_price_per_1m_tokens: 1.20,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'vultr',
+    model_id: 'zephyr-7b-beta',
+    display_name: 'Zephyr 7B Beta',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
   // Telnyx AI — carrier-grade LLM inference
   {
     provider: 'telnyx',
@@ -5213,6 +5287,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     digitalocean: [0.25, 0.87], // Llama 4 Maverick 17B list prices
     ovhcloud: [0.20, 0.20], // Llama 3.3 70B list prices
     telnyx: [0.35, 0.35], // Llama 3.3 70B list prices (symmetric)
+    vultr: [0.56, 0.56], // Llama 3.3 70B Instruct list prices (symmetric)
   };
   return defaults[provider];
 }

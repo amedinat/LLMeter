@@ -1005,6 +1005,26 @@ const completion = await trackedOVHcloud.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OVHcloud
 );`;
 
+const sdkVultrExample = `import OpenAI from 'openai';
+import LLMeter, { wrapVultr } from 'llmeter';
+
+// Vultr Cloud Inference is OpenAI-compatible — use the openai package with the Vultr base URL
+const vultr = new OpenAI({
+  apiKey: process.env.VULTR_API_KEY,
+  baseURL: 'https://api.vultrinference.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedVultr = wrapVultr(vultr, llmeter);
+
+// All calls are automatically tracked — 33 global DCs, symmetric pricing
+const completion = await trackedVultr.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct-fp8',
+    messages: [{ role: 'user', content: 'Hello from Vultr Cloud Inference!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Vultr
+);`;
+
 const sdkTelnyxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapTelnyx } from 'llmeter';
 
@@ -1356,6 +1376,7 @@ export default function DocsPage() {
                 <TabsTrigger value="digitalocean">DigitalOcean</TabsTrigger>
                 <TabsTrigger value="ovhcloud">OVHcloud AI</TabsTrigger>
                 <TabsTrigger value="telnyx">Telnyx AI</TabsTrigger>
+                <TabsTrigger value="vultr">Vultr</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1918,6 +1939,16 @@ export default function DocsPage() {
                   call is tracked automatically. Europe&apos;s largest cloud provider with GDPR-native French data centers — zero US cloud dependency. 8 open-source models: Llama 3.3 70B ($0.20/$0.20 per 1M — symmetric), Llama 3.1 70B ($0.20/$0.20), Llama 3.1 8B ($0.05/$0.05 — budget), Mistral 7B ($0.04/$0.04 — cheapest EU), Mixtral 8x7B ($0.11/$0.11), Qwen 2.5 72B ($0.20/$0.20), DeepSeek R1 Distill Llama 70B ($0.20/$0.80 — reasoning), Qwen 2.5 Coder 32B ($0.15/$0.15 — code).
                 </p>
                 <CodeBlock language="typescript" code={sdkOVHcloudExample} />
+              </TabsContent>
+              <TabsContent value="vultr" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Vultr Cloud Inference is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Vultr base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Developer-friendly infrastructure cloud with 33 global data centers — competitive symmetric pricing. 8 models: Llama 3.3 70B ($0.56/$0.56 per 1M — symmetric), Llama 3.1 70B ($0.56/$0.56), Llama 3.1 8B ($0.10/$0.10 — budget), Mistral 7B ($0.10/$0.10 — budget), Mixtral 8x7B ($0.24/$0.24 — MoE), Llama 3.2 11B Vision ($0.18/$0.18 — multimodal), Llama 3.2 90B Vision ($1.20/$1.20 — vision premium), Zephyr 7B ($0.10/$0.10).
+                </p>
+                <CodeBlock language="typescript" code={sdkVultrExample} />
               </TabsContent>
               <TabsContent value="telnyx" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

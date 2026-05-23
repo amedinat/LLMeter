@@ -105,6 +105,7 @@ const ZERO_PROVIDERS = {
   digitalocean: 0,
   ovhcloud: 0,
   telnyx: 0,
+  vultr: 0,
 };
 
 // --- Tests ---
