@@ -56,6 +56,7 @@ import { ovhcloudAdapter } from './ovhcloud-adapter';
 import { telnyxAdapter } from './telnyx-adapter';
 import { vultrAdapter } from './vultr-adapter';
 import { ai71Adapter } from './ai71-adapter';
+import { gcoreAdapter } from './gcore-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4884,6 +4885,76 @@ describe('Provider Adapters', () => {
 
     it('ai71Adapter.type is ai71', () => {
       expect(ai71Adapter.type).toBe('ai71');
+    });
+  });
+
+  describe('gcoreAdapter', () => {
+    it('returns true for valid key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await gcoreAdapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('calls the correct endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      await gcoreAdapter.validateKey('gcore-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://inference.gcore.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer gcore-test-key' }),
+        })
+      );
+    });
+
+    it('throws descriptive error on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(gcoreAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Gcore API key'
+      );
+    });
+
+    it('throws descriptive error on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(gcoreAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Gcore API key'
+      );
+    });
+
+    it('throws provider error with message on other status', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+
+      await expect(gcoreAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await gcoreAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-22')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('gcoreAdapter.type is gcore', () => {
+      expect(gcoreAdapter.type).toBe('gcore');
     });
   });
 });

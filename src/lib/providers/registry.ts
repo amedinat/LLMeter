@@ -59,6 +59,7 @@ import { ovhcloudAdapter } from './ovhcloud-adapter';
 import { telnyxAdapter } from './telnyx-adapter';
 import { vultrAdapter } from './vultr-adapter';
 import { ai71Adapter } from './ai71-adapter';
+import { gcoreAdapter } from './gcore-adapter';
 
 /**
  * Provider adapter registry.
@@ -126,6 +127,7 @@ adapters.set('ovhcloud', ovhcloudAdapter);
 adapters.set('telnyx', telnyxAdapter);
 adapters.set('vultr', vultrAdapter);
 adapters.set('ai71', ai71Adapter);
+adapters.set('gcore', gcoreAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

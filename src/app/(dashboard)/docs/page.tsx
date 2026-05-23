@@ -1045,6 +1045,26 @@ const completion = await trackedAI71.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI71
 );`;
 
+const sdkGcoreExample = `import OpenAI from 'openai';
+import LLMeter, { wrapGcore } from 'llmeter';
+
+// Gcore is OpenAI-compatible — use the openai package with the Gcore inference base URL
+const gcore = new OpenAI({
+  apiKey: process.env.GCORE_API_KEY,
+  baseURL: 'https://inference.gcore.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGcore = wrapGcore(gcore, llmeter);
+
+// All calls are automatically tracked — European CDN, 165+ PoPs, EU data residency
+const completion = await trackedGcore.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello from the edge!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Gcore
+);`;
+
 const sdkTelnyxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapTelnyx } from 'llmeter';
 
@@ -1398,6 +1418,7 @@ export default function DocsPage() {
                 <TabsTrigger value="telnyx">Telnyx AI</TabsTrigger>
                 <TabsTrigger value="vultr">Vultr</TabsTrigger>
                 <TabsTrigger value="ai71">AI71 (Falcon)</TabsTrigger>
+                <TabsTrigger value="gcore">Gcore</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1990,6 +2011,16 @@ export default function DocsPage() {
                   call is tracked automatically. UAE sovereign AI from the Technology Innovation Institute — Falcon open-weight models with symmetric pricing. 8 models: Falcon 3 10B ($0.30/$0.30 per 1M — symmetric flagship), Falcon 3 7B ($0.18/$0.18 — symmetric), Falcon 3 3B ($0.09/$0.09 — budget), Falcon 3 1B ($0.06/$0.06 — ultra-budget), Falcon 2 11B ($0.35/$0.35 — symmetric), Falcon H1 7B ($0.20/$0.20 — hybrid), Falcon H1 14B ($0.45/$0.45 — hybrid precision), Falcon H1 34B ($1.00/$1.00 — premium).
                 </p>
                 <CodeBlock language="typescript" code={sdkAI71Example} />
+              </TabsContent>
+              <TabsContent value="gcore" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Gcore is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Gcore inference base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. European CDN and cloud provider (Luxembourg HQ, 165+ global PoPs) — EU data residency, low-latency edge inference. 8 models: Llama 3.3 70B ($0.59/$0.79 per 1M — flagship), Llama 3.1 70B ($0.59/$0.79 — stable), Llama 3.1 8B ($0.10/$0.15 — budget), Mistral 7B ($0.07/$0.10 — cheapest), Mixtral 8x7B ($0.24/$0.24 — symmetric MoE), DeepSeek R1 Distill 70B ($0.55/$0.55 — symmetric reasoning), Qwen 2.5 72B ($0.35/$0.40), Llama 3.2 11B Vision ($0.18/$0.25 — multimodal).
+                </p>
+                <CodeBlock language="typescript" code={sdkGcoreExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

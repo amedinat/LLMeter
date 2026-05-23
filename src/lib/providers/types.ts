@@ -578,4 +578,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.ai71.ai',
     color: '#00A651',
   },
+  gcore: {
+    type: 'gcore',
+    name: 'Gcore',
+    description: 'Llama 3.3 70B, Llama 3.1 8B, Mistral 7B, Mixtral 8x7B, DeepSeek R1 — European CDN and cloud provider (Luxembourg) with 165+ global PoPs, OpenAI-compatible LLM inference with EU data residency',
+    keyPrefix: '',
+    keyPlaceholder: 'your-gcore-api-key',
+    helpUrl: 'https://gcore.com/inference',
+    color: '#FF6600',
+  },
 };

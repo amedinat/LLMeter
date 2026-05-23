@@ -5178,6 +5178,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
 
+  // Gcore — European CDN (Luxembourg, 165+ global PoPs) with OpenAI-compatible LLM inference
+  {
+    provider: 'gcore',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.59,
+    output_price_per_1m_tokens: 0.79,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.59,
+    output_price_per_1m_tokens: 0.79,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B',
+    display_name: 'DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'gcore',
+    model_id: 'meta-llama/Llama-3.2-11B-Vision-Instruct',
+    display_name: 'Llama 3.2 11B Vision Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -5363,6 +5437,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     telnyx: [0.35, 0.35], // Llama 3.3 70B list prices (symmetric)
     vultr: [0.56, 0.56], // Llama 3.3 70B Instruct list prices (symmetric)
     ai71: [0.30, 0.30], // Falcon 3 10B Instruct list prices (symmetric)
+    gcore: [0.59, 0.79], // Llama 3.3 70B Instruct list prices
   };
   return defaults[provider];
 }

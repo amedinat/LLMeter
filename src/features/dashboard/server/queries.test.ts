@@ -107,6 +107,7 @@ const ZERO_PROVIDERS = {
   telnyx: 0,
   vultr: 0,
   ai71: 0,
+  gcore: 0,
 };
 
 // --- Tests ---
