@@ -62,6 +62,7 @@ import { ai71Adapter } from './ai71-adapter';
 import { gcoreAdapter } from './gcore-adapter';
 import { crusoeAdapter } from './crusoe-adapter';
 import { databricksAdapter } from './databricks-adapter';
+import { gradientAdapter } from './gradient-adapter';
 
 /**
  * Provider adapter registry.
@@ -132,6 +133,7 @@ adapters.set('ai71', ai71Adapter);
 adapters.set('gcore', gcoreAdapter);
 adapters.set('crusoe', crusoeAdapter);
 adapters.set('databricks', databricksAdapter);
+adapters.set('gradient', gradientAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

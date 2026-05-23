@@ -5395,6 +5395,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-23T00:00:00.000Z',
   },
+  {
+    provider: 'gradient',
+    model_id: 'llama3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'llama3-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'llama3-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'codellama-34b-instruct',
+    display_name: 'CodeLlama 34B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'nous-hermes2-mistral-dpo',
+    display_name: 'Nous Hermes 2 Mistral DPO',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'llama2-70b-chat',
+    display_name: 'Llama 2 70B Chat',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'gradient',
+    model_id: 'llama3-70b-instruct-fine-tuned',
+    display_name: 'Llama 3.3 70B Fine-tuned (custom)',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
 
 ];
 
@@ -5584,6 +5656,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     gcore: [0.59, 0.79], // Llama 3.3 70B Instruct list prices
     crusoe: [0.60, 0.80], // Llama 3.3 70B Instruct list prices
     databricks: [0.75, 0.75], // DBRX Instruct list prices (symmetric)
+    gradient: [0.40, 0.40], // Llama 3.3 70B Instruct list prices (symmetric)
   };
   return defaults[provider];
 }

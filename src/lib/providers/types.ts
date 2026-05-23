@@ -605,4 +605,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.databricks.com/aws/en/machine-learning/foundation-models/',
     color: '#FF3621',
   },
+  gradient: {
+    type: 'gradient',
+    name: 'Gradient AI',
+    description: 'Llama 3.3 70B, Llama 3.1 405B/70B/8B, Mistral 7B, CodeLlama 34B, Nous Hermes 2 — the only inference platform where you can fine-tune private models and serve them instantly. OpenAI-compatible serverless inference with built-in LoRA fine-tuning.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-gradient-api-key',
+    helpUrl: 'https://docs.gradient.ai',
+    color: '#6B2BD6',
+  },
 };

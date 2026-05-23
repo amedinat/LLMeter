@@ -59,6 +59,7 @@ import { ai71Adapter } from './ai71-adapter';
 import { gcoreAdapter } from './gcore-adapter';
 import { crusoeAdapter } from './crusoe-adapter';
 import { databricksAdapter } from './databricks-adapter';
+import { gradientAdapter } from './gradient-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5087,6 +5088,71 @@ describe('Provider Adapters', () => {
 
     it('databricksAdapter.type is databricks', () => {
       expect(databricksAdapter.type).toBe('databricks');
+    });
+  });
+
+  describe('gradientAdapter', () => {
+    it('returns true for a valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await gradientAdapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends Bearer token to the Gradient AI models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await gradientAdapter.validateKey('gradient-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.gradient.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer gradient-test-key' }),
+        })
+      );
+    });
+
+    it('throws a friendly error for 401 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(gradientAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Gradient AI API key'
+      );
+    });
+
+    it('throws a friendly error for 403 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(gradientAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Gradient AI API key'
+      );
+    });
+
+    it('throws the provider error message for non-auth errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(gradientAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await gradientAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('gradientAdapter.type is gradient', () => {
+      expect(gradientAdapter.type).toBe('gradient');
     });
   });
 });

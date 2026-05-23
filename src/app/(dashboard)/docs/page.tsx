@@ -1085,6 +1085,26 @@ const completion = await trackedDatabricks.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Databricks
 );`;
 
+const sdkGradientExample = `import OpenAI from 'openai';
+import LLMeter, { wrapGradient } from 'llmeter';
+
+// Gradient AI is OpenAI-compatible — use the openai package with the Gradient AI base URL
+const gradient = new OpenAI({
+  apiKey: process.env.GRADIENT_API_KEY,
+  baseURL: 'https://api.gradient.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGradient = wrapGradient(gradient, llmeter);
+
+// All calls are automatically tracked — fine-tune and serve your own models
+const completion = await trackedGradient.chat.completions.create(
+  {
+    model: 'llama3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello from Gradient AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Gradient AI
+);`;
+
 const sdkCrusoeExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCrusoe } from 'llmeter';
 
@@ -1461,6 +1481,7 @@ export default function DocsPage() {
                 <TabsTrigger value="gcore">Gcore</TabsTrigger>
                 <TabsTrigger value="crusoe">Crusoe</TabsTrigger>
                 <TabsTrigger value="databricks">Databricks</TabsTrigger>
+                <TabsTrigger value="gradient">Gradient AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2083,6 +2104,16 @@ export default function DocsPage() {
                   call is tracked automatically. Databricks ($43B valuation, 10,000+ enterprise customers) built DBRX — one of the best open-weight MoE models (132B parameters, Apache 2.0). 8 models: DBRX Instruct ($0.75/$0.75 per 1M — symmetric flagship), Llama 3.3 70B ($0.54/$1.62 — latest Llama), Llama 3.1 70B ($0.54/$1.62 — stable), Llama 3.1 8B ($0.20/$0.20 — symmetric budget), Llama 3.1 405B ($5.00/$15.00 — enterprise), Mixtral 8x7B ($0.60/$0.60 — symmetric MoE), Mistral 7B ($0.20/$0.20 — symmetric budget), Llama 2 70B ($0.90/$0.90 — legacy).
                 </p>
                 <CodeBlock language="typescript" code={sdkDatabricksExample} />
+              </TabsContent>
+              <TabsContent value="gradient" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Gradient AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Gradient AI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. The only inference platform that combines serverless inference with built-in LoRA fine-tuning — deploy a custom model in minutes. 8 models: Llama 3.3 70B ($0.40/$0.40 per 1M — symmetric flagship), Llama 3.1 8B ($0.06/$0.06 — budget), Llama 3.1 405B ($2.00/$2.00 — enterprise), Mistral 7B ($0.05/$0.05 — cheapest), CodeLlama 34B ($0.18/$0.18 — code), Nous Hermes 2 DPO ($0.06/$0.06 — community fine-tuned), Llama 2 70B ($0.90/$0.90 — legacy), Llama 3.3 70B Fine-tuned ($0.60/$0.60 — custom endpoint).
+                </p>
+                <CodeBlock language="typescript" code={sdkGradientExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
