@@ -58,6 +58,7 @@ import { digitaloceanAdapter } from './digitalocean-adapter';
 import { ovhcloudAdapter } from './ovhcloud-adapter';
 import { telnyxAdapter } from './telnyx-adapter';
 import { vultrAdapter } from './vultr-adapter';
+import { ai71Adapter } from './ai71-adapter';
 
 /**
  * Provider adapter registry.
@@ -124,6 +125,7 @@ adapters.set('digitalocean', digitaloceanAdapter);
 adapters.set('ovhcloud', ovhcloudAdapter);
 adapters.set('telnyx', telnyxAdapter);
 adapters.set('vultr', vultrAdapter);
+adapters.set('ai71', ai71Adapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

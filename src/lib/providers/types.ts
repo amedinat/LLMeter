@@ -569,4 +569,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://my.vultr.com/settings/#api',
     color: '#009BDE',
   },
+  ai71: {
+    type: 'ai71',
+    name: 'AI71',
+    description: 'Falcon 3 10B, Falcon 3 7B, Falcon 3 3B, Falcon 3 1B, Falcon 2 11B — sovereign AI inference from the UAE by AI71 (Technology Innovation Institute), open-weight Falcon models with symmetric pricing',
+    keyPrefix: 'api71-',
+    keyPlaceholder: 'api71-your-ai71-api-key',
+    helpUrl: 'https://platform.ai71.ai',
+    color: '#00A651',
+  },
 };

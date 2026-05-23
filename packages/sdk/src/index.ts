@@ -65,6 +65,7 @@ export { wrapDigitalOcean } from './digitalocean.js';
 export { wrapOVHcloud } from './ovhcloud.js';
 export { wrapTelnyx } from './telnyx.js';
 export { wrapVultr } from './vultr.js';
+export { wrapAI71 } from './ai71.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -1025,6 +1025,26 @@ const completion = await trackedVultr.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Vultr
 );`;
 
+const sdkAI71Example = `import OpenAI from 'openai';
+import LLMeter, { wrapAI71 } from 'llmeter';
+
+// AI71 is OpenAI-compatible — use the openai package with the AI71 base URL
+const ai71 = new OpenAI({
+  apiKey: process.env.AI71_API_KEY,
+  baseURL: 'https://api.ai71.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAI71 = wrapAI71(ai71, llmeter);
+
+// All calls are automatically tracked — UAE sovereign AI, Falcon models, symmetric pricing
+const completion = await trackedAI71.chat.completions.create(
+  {
+    model: 'tiiuae/falcon3-10b-instruct',
+    messages: [{ role: 'user', content: 'Hello from the UAE!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI71
+);`;
+
 const sdkTelnyxExample = `import OpenAI from 'openai';
 import LLMeter, { wrapTelnyx } from 'llmeter';
 
@@ -1377,6 +1397,7 @@ export default function DocsPage() {
                 <TabsTrigger value="ovhcloud">OVHcloud AI</TabsTrigger>
                 <TabsTrigger value="telnyx">Telnyx AI</TabsTrigger>
                 <TabsTrigger value="vultr">Vultr</TabsTrigger>
+                <TabsTrigger value="ai71">AI71 (Falcon)</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -1959,6 +1980,16 @@ export default function DocsPage() {
                   call is tracked automatically. Carrier-grade global infrastructure from Telnyx — telecom reliability meets LLM inference. 8 models: Llama 3.3 70B ($0.35/$0.35 per 1M — symmetric), Llama 3.1 70B ($0.35/$0.35), Llama 3.1 8B ($0.03/$0.03 — ultra-budget), Llama 3.1 405B ($3.00/$3.00 — flagship), Mistral 7B ($0.06/$0.06 — budget), Mixtral 8x7B ($0.20/$0.20 — MoE), Gemma 2 9B ($0.06/$0.06), Phi-3 Medium ($0.15/$0.15).
                 </p>
                 <CodeBlock language="typescript" code={sdkTelnyxExample} />
+              </TabsContent>
+              <TabsContent value="ai71" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  AI71 is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the AI71 base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. UAE sovereign AI from the Technology Innovation Institute — Falcon open-weight models with symmetric pricing. 8 models: Falcon 3 10B ($0.30/$0.30 per 1M — symmetric flagship), Falcon 3 7B ($0.18/$0.18 — symmetric), Falcon 3 3B ($0.09/$0.09 — budget), Falcon 3 1B ($0.06/$0.06 — ultra-budget), Falcon 2 11B ($0.35/$0.35 — symmetric), Falcon H1 7B ($0.20/$0.20 — hybrid), Falcon H1 14B ($0.45/$0.45 — hybrid precision), Falcon H1 34B ($1.00/$1.00 — premium).
+                </p>
+                <CodeBlock language="typescript" code={sdkAI71Example} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

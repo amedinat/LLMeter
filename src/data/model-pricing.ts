@@ -5104,6 +5104,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
 
+  // AI71 — UAE sovereign AI, Falcon model family (Technology Innovation Institute)
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon3-10b-instruct',
+    display_name: 'Falcon 3 10B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon3-7b-instruct',
+    display_name: 'Falcon 3 7B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon3-3b-instruct',
+    display_name: 'Falcon 3 3B Instruct',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon3-1b-instruct',
+    display_name: 'Falcon 3 1B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon-2-11b',
+    display_name: 'Falcon 2 11B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon-h1-7b-instruct',
+    display_name: 'Falcon H1 7B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon-h1-14b-instruct',
+    display_name: 'Falcon H1 14B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+  {
+    provider: 'ai71',
+    model_id: 'tiiuae/falcon-h1-34b-instruct',
+    display_name: 'Falcon H1 34B Instruct',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-22T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -5288,6 +5362,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ovhcloud: [0.20, 0.20], // Llama 3.3 70B list prices
     telnyx: [0.35, 0.35], // Llama 3.3 70B list prices (symmetric)
     vultr: [0.56, 0.56], // Llama 3.3 70B Instruct list prices (symmetric)
+    ai71: [0.30, 0.30], // Falcon 3 10B Instruct list prices (symmetric)
   };
   return defaults[provider];
 }

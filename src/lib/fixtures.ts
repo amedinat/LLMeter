@@ -90,6 +90,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         ovhcloud: 0,
         telnyx: 0,
         vultr: 0,
+        ai71: 0,
       },
     };
   });

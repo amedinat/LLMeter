@@ -55,6 +55,7 @@ import { krutrimAdapter } from './krutrim-adapter';
 import { ovhcloudAdapter } from './ovhcloud-adapter';
 import { telnyxAdapter } from './telnyx-adapter';
 import { vultrAdapter } from './vultr-adapter';
+import { ai71Adapter } from './ai71-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -4813,6 +4814,76 @@ describe('Provider Adapters', () => {
 
     it('vultrAdapter.type is vultr', () => {
       expect(vultrAdapter.type).toBe('vultr');
+    });
+  });
+
+  describe('ai71Adapter', () => {
+    it('returns true for valid key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await ai71Adapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('calls the correct endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      await ai71Adapter.validateKey('api71-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.ai71.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer api71-test-key' }),
+        })
+      );
+    });
+
+    it('throws descriptive error on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(ai71Adapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI71 API key'
+      );
+    });
+
+    it('throws descriptive error on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(ai71Adapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI71 API key'
+      );
+    });
+
+    it('throws provider error with message on other status', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+
+      await expect(ai71Adapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ai71Adapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-22')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('ai71Adapter.type is ai71', () => {
+      expect(ai71Adapter.type).toBe('ai71');
     });
   });
 });

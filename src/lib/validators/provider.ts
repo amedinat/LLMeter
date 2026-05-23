@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /** Provider types that can be connected (have working adapters) */
-export const providerTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka', 'maritaca', 'scaleway', 'nscale', 'aimlapi', 'bedrock', 'alephalpha', 'sarvam', 'chutes', 'krutrim', 'digitalocean', 'ovhcloud', 'telnyx', 'vultr'] as const;
+export const providerTypes = ['openai', 'anthropic', 'google', 'deepseek', 'openrouter', 'mistral', 'azure', 'xai', 'cohere', 'groq', 'together', 'fireworks', 'perplexity', 'cerebras', 'ai21', 'deepinfra', 'novita', 'hyperbolic', 'sambanova', 'lambdalabs', 'lepton', 'inferencenet', 'nvidia', 'cloudflare', 'nebius', 'replicate', 'featherless', 'huggingface', 'yi', 'zhipu', 'upstage', 'moonshot', 'writer', 'qwen', 'minimax', 'doubao', 'hunyuan', 'baichuan', 'siliconflow', 'stepfun', 'baidu', 'kluster', 'friendli', 'llamaapi', 'reka', 'maritaca', 'scaleway', 'nscale', 'aimlapi', 'bedrock', 'alephalpha', 'sarvam', 'chutes', 'krutrim', 'digitalocean', 'ovhcloud', 'telnyx', 'vultr', 'ai71'] as const;
 
 /** All known provider types (same as providerTypes — no more coming-soon) */
 export const allProviderTypes = providerTypes;
