@@ -58,6 +58,7 @@ import { vultrAdapter } from './vultr-adapter';
 import { ai71Adapter } from './ai71-adapter';
 import { gcoreAdapter } from './gcore-adapter';
 import { crusoeAdapter } from './crusoe-adapter';
+import { databricksAdapter } from './databricks-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5021,6 +5022,71 @@ describe('Provider Adapters', () => {
 
     it('crusoeAdapter.type is crusoe', () => {
       expect(crusoeAdapter.type).toBe('crusoe');
+    });
+  });
+
+  describe('databricksAdapter', () => {
+    it('returns true for a valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ serving_endpoints: [] }) });
+      const result = await databricksAdapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends Bearer token to the Databricks serving-endpoints endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await databricksAdapter.validateKey('dapi_test_key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.databricks.com/api/2.0/serving-endpoints',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer dapi_test_key' }),
+        })
+      );
+    });
+
+    it('throws a friendly error for 401 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(databricksAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Databricks API key'
+      );
+    });
+
+    it('throws a friendly error for 403 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(databricksAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Databricks API key'
+      );
+    });
+
+    it('throws the provider error message for non-auth errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(databricksAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await databricksAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('databricksAdapter.type is databricks', () => {
+      expect(databricksAdapter.type).toBe('databricks');
     });
   });
 });

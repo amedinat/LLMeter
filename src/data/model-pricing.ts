@@ -5252,6 +5252,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-22T00:00:00.000Z',
   },
   {
+    provider: 'databricks',
+    model_id: 'databricks-dbrx-instruct',
+    display_name: 'DBRX Instruct',
+    input_price_per_1m_tokens: 0.75,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-meta-llama-3-3-70b-instruct',
+    display_name: 'Meta Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.54,
+    output_price_per_1m_tokens: 1.62,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-meta-llama-3-1-70b-instruct',
+    display_name: 'Meta Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.54,
+    output_price_per_1m_tokens: 1.62,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-meta-llama-3-1-8b-instruct',
+    display_name: 'Meta Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-meta-llama-3-1-405b-instruct',
+    display_name: 'Meta Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 5.00,
+    output_price_per_1m_tokens: 15.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'databricks',
+    model_id: 'databricks-llama-2-70b-chat',
+    display_name: 'Llama 2 70B Chat',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
     provider: 'crusoe',
     model_id: 'meta-llama/Llama-3.3-70B-Instruct',
     display_name: 'Llama 3.3 70B Instruct',
@@ -5511,6 +5583,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ai71: [0.30, 0.30], // Falcon 3 10B Instruct list prices (symmetric)
     gcore: [0.59, 0.79], // Llama 3.3 70B Instruct list prices
     crusoe: [0.60, 0.80], // Llama 3.3 70B Instruct list prices
+    databricks: [0.75, 0.75], // DBRX Instruct list prices (symmetric)
   };
   return defaults[provider];
 }

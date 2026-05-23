@@ -596,4 +596,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.crusoe.ai/llm-inference',
     color: '#00B050',
   },
+  databricks: {
+    type: 'databricks',
+    name: 'Databricks',
+    description: 'DBRX Instruct (132B MoE), Llama 3.3 70B, Llama 3.1 405B/70B/8B, Mixtral 8x7B, Mistral 7B, Llama 2 70B — Foundation Model APIs from the data lakehouse leader. OpenAI-compatible pay-per-token inference with no workspace required.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-databricks-personal-access-token',
+    helpUrl: 'https://docs.databricks.com/aws/en/machine-learning/foundation-models/',
+    color: '#FF3621',
+  },
 };

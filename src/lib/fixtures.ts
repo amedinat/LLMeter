@@ -93,6 +93,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         ai71: 0,
         gcore: 0,
         crusoe: 0,
+        databricks: 0,
       },
     };
   });

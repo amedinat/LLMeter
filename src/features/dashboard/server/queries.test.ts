@@ -109,6 +109,7 @@ const ZERO_PROVIDERS = {
   ai71: 0,
   gcore: 0,
   crusoe: 0,
+  databricks: 0,
 };
 
 // --- Tests ---

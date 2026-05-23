@@ -61,6 +61,7 @@ import { vultrAdapter } from './vultr-adapter';
 import { ai71Adapter } from './ai71-adapter';
 import { gcoreAdapter } from './gcore-adapter';
 import { crusoeAdapter } from './crusoe-adapter';
+import { databricksAdapter } from './databricks-adapter';
 
 /**
  * Provider adapter registry.
@@ -130,6 +131,7 @@ adapters.set('vultr', vultrAdapter);
 adapters.set('ai71', ai71Adapter);
 adapters.set('gcore', gcoreAdapter);
 adapters.set('crusoe', crusoeAdapter);
+adapters.set('databricks', databricksAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

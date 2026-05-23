@@ -1065,6 +1065,26 @@ const completion = await trackedGcore.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Gcore
 );`;
 
+const sdkDatabricksExample = `import OpenAI from 'openai';
+import LLMeter, { wrapDatabricks } from 'llmeter';
+
+// Databricks Foundation Model APIs are OpenAI-compatible — use the openai package
+const databricks = new OpenAI({
+  apiKey: process.env.DATABRICKS_TOKEN,
+  baseURL: 'https://api.databricks.com/serving-endpoints',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedDatabricks = wrapDatabricks(databricks, llmeter);
+
+// All calls are automatically tracked — DBRX and Llama from the data lakehouse
+const completion = await trackedDatabricks.chat.completions.create(
+  {
+    model: 'databricks-dbrx-instruct',
+    messages: [{ role: 'user', content: 'Hello from the data lakehouse!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Databricks
+);`;
+
 const sdkCrusoeExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCrusoe } from 'llmeter';
 
@@ -1440,6 +1460,7 @@ export default function DocsPage() {
                 <TabsTrigger value="ai71">AI71 (Falcon)</TabsTrigger>
                 <TabsTrigger value="gcore">Gcore</TabsTrigger>
                 <TabsTrigger value="crusoe">Crusoe</TabsTrigger>
+                <TabsTrigger value="databricks">Databricks</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2052,6 +2073,16 @@ export default function DocsPage() {
                   call is tracked automatically. Sustainable AI cloud running on stranded natural gas (H200/H100 GPU clusters) — cuts carbon emissions ~63% vs traditional cloud. 8 models: Llama 3.3 70B ($0.60/$0.80 per 1M — flagship), Llama 3.1 70B ($0.60/$0.80 — stable), Llama 3.1 8B ($0.08/$0.10 — budget), Llama 3.1 405B ($3.50/$4.50 — enterprise), Llama 3.2 11B Vision ($0.18/$0.25 — multimodal), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.35/$0.45), Mistral 7B ($0.07/$0.10 — cheapest).
                 </p>
                 <CodeBlock language="typescript" code={sdkCrusoeExample} />
+              </TabsContent>
+              <TabsContent value="databricks" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Databricks Foundation Model APIs are OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Databricks serving endpoint base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Databricks ($43B valuation, 10,000+ enterprise customers) built DBRX — one of the best open-weight MoE models (132B parameters, Apache 2.0). 8 models: DBRX Instruct ($0.75/$0.75 per 1M — symmetric flagship), Llama 3.3 70B ($0.54/$1.62 — latest Llama), Llama 3.1 70B ($0.54/$1.62 — stable), Llama 3.1 8B ($0.20/$0.20 — symmetric budget), Llama 3.1 405B ($5.00/$15.00 — enterprise), Mixtral 8x7B ($0.60/$0.60 — symmetric MoE), Mistral 7B ($0.20/$0.20 — symmetric budget), Llama 2 70B ($0.90/$0.90 — legacy).
+                </p>
+                <CodeBlock language="typescript" code={sdkDatabricksExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

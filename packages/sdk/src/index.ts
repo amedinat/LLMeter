@@ -68,6 +68,7 @@ export { wrapVultr } from './vultr.js';
 export { wrapAI71 } from './ai71.js';
 export { wrapGcore } from './gcore.js';
 export { wrapCrusoe } from './crusoe.js';
+export { wrapDatabricks } from './databricks.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
