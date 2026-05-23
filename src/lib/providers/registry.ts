@@ -64,6 +64,7 @@ import { crusoeAdapter } from './crusoe-adapter';
 import { databricksAdapter } from './databricks-adapter';
 import { gradientAdapter } from './gradient-adapter';
 import { basetenAdapter } from './baseten-adapter';
+import { watsonxAdapter } from './watsonx-adapter';
 
 /**
  * Provider adapter registry.
@@ -136,6 +137,7 @@ adapters.set('crusoe', crusoeAdapter);
 adapters.set('databricks', databricksAdapter);
 adapters.set('gradient', gradientAdapter);
 adapters.set('baseten', basetenAdapter);
+adapters.set('watsonx', watsonxAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

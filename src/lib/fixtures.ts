@@ -95,6 +95,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         crusoe: 0,
         databricks: 0,
         gradient: 0,
+        baseten: 0,
+        watsonx: 0,
       },
     };
   });

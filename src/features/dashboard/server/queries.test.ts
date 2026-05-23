@@ -112,6 +112,7 @@ const ZERO_PROVIDERS = {
   databricks: 0,
   gradient: 0,
   baseten: 0,
+  watsonx: 0,
 };
 
 // --- Tests ---

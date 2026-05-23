@@ -5539,6 +5539,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-23T00:00:00.000Z',
   },
+  {
+    provider: 'watsonx',
+    model_id: 'ibm/granite-3-2-8b-instruct',
+    display_name: 'Granite 3.2 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'ibm/granite-3-2-2b-instruct',
+    display_name: 'Granite 3.2 2B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'ibm/granite-13b-instruct-v2',
+    display_name: 'Granite 13B Instruct v2',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'ibm/granite-20b-multilingual',
+    display_name: 'Granite 20B Multilingual',
+    input_price_per_1m_tokens: 0.70,
+    output_price_per_1m_tokens: 2.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'meta-llama/llama-3-3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'meta-llama/llama-3-1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'mistralai/mistral-large',
+    display_name: 'Mistral Large',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 9.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'watsonx',
+    model_id: 'mistralai/mistral-7b-instruct-v0-2',
+    display_name: 'Mistral 7B Instruct v0.2',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
 
 ];
 
@@ -5730,6 +5802,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     databricks: [0.75, 0.75], // DBRX Instruct list prices (symmetric)
     gradient: [0.40, 0.40], // Llama 3.3 70B Instruct list prices (symmetric)
     baseten: [1.10, 1.10], // Llama 3.3 70B Instruct list prices (symmetric)
+    watsonx: [0.90, 0.90], // Llama 3.3 70B Instruct list prices (symmetric on WatsonX)
   };
   return defaults[provider];
 }

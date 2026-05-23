@@ -623,4 +623,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.baseten.co',
     color: '#5046E5',
   },
+  watsonx: {
+    type: 'watsonx',
+    name: 'IBM WatsonX',
+    description: 'Granite 3.2 8B/2B, Granite 13B/20B, Llama 3.3 70B, Llama 3.1 8B, Mistral Large, Mistral 7B — IBM\'s enterprise AI platform. Includes IBM\'s own Granite models (Apache 2.0, FIPS 140-2 certified infrastructure) and hosted open-weight models on IBM Cloud.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-ibm-cloud-api-key::your-watsonx-project-id',
+    helpUrl: 'https://cloud.ibm.com/apidocs/watsonx-ai',
+    color: '#0062FF',
+  },
 };

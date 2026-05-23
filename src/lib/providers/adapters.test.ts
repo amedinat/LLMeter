@@ -61,6 +61,7 @@ import { crusoeAdapter } from './crusoe-adapter';
 import { databricksAdapter } from './databricks-adapter';
 import { gradientAdapter } from './gradient-adapter';
 import { basetenAdapter } from './baseten-adapter';
+import { watsonxAdapter, parseWatsonXCredentials } from './watsonx-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5219,6 +5220,110 @@ describe('Provider Adapters', () => {
 
     it('basetenAdapter.type is baseten', () => {
       expect(basetenAdapter.type).toBe('baseten');
+    });
+  });
+
+  describe('watsonxAdapter', () => {
+    it('returns true for valid credentials after IAM token exchange', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ access_token: 'eyJhbGciOiJSUzI1NiJ9.test', token_type: 'Bearer' }),
+      });
+      const result = await watsonxAdapter.validateKey('ibm-api-key-12345::project-id-12345');
+      expect(result).toBe(true);
+    });
+
+    it('sends API key to IBM IAM token endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ access_token: 'test-token' }),
+      });
+      await watsonxAdapter.validateKey('my-ibm-api-key::my-project-id');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://iam.cloud.ibm.com/identity/token',
+        expect.objectContaining({ method: 'POST' })
+      );
+    });
+
+    it('throws a friendly error for 401 IAM responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(watsonxAdapter.validateKey('bad-key::project-id')).rejects.toThrow(
+        'Invalid IBM Cloud API key'
+      );
+    });
+
+    it('throws a friendly error for 400 IAM responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: async () => ({ errorMessage: 'BXNIM0415E' }),
+      });
+      await expect(watsonxAdapter.validateKey('bad-key::project-id')).rejects.toThrow(
+        'Invalid IBM Cloud API key'
+      );
+    });
+
+    it('throws if credentials are missing ::', async () => {
+      await expect(watsonxAdapter.validateKey('just-an-api-key')).rejects.toThrow(
+        'WatsonX credentials must be in the format'
+      );
+    });
+
+    it('throws if access_token is missing from IAM response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ error: 'no token' }),
+      });
+      await expect(watsonxAdapter.validateKey('api-key::project-id')).rejects.toThrow(
+        'IBM IAM did not return an access token'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await watsonxAdapter.fetchUsage(
+        'api-key::project-id',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('watsonxAdapter.type is watsonx', () => {
+      expect(watsonxAdapter.type).toBe('watsonx');
+    });
+  });
+
+  describe('parseWatsonXCredentials', () => {
+    it('parses valid apiKey::projectId', () => {
+      const result = parseWatsonXCredentials('my-api-key::my-project-id');
+      expect(result).toEqual({ apiKey: 'my-api-key', projectId: 'my-project-id' });
+    });
+
+    it('trims whitespace from both parts', () => {
+      const result = parseWatsonXCredentials('  api-key  ::  project-id  ');
+      expect(result).toEqual({ apiKey: 'api-key', projectId: 'project-id' });
+    });
+
+    it('throws if :: separator is missing', () => {
+      expect(() => parseWatsonXCredentials('no-separator')).toThrow(
+        'WatsonX credentials must be in the format'
+      );
+    });
+
+    it('throws if projectId is empty', () => {
+      expect(() => parseWatsonXCredentials('api-key::')).toThrow(
+        'WatsonX project ID is missing'
+      );
+    });
+
+    it('throws if apiKey is empty', () => {
+      expect(() => parseWatsonXCredentials('::project-id')).toThrow(
+        'IBM Cloud API key is missing'
+      );
     });
   });
 });

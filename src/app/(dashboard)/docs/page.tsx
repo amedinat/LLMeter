@@ -1105,6 +1105,31 @@ const completion = await trackedBaseten.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Baseten
 );`;
 
+const sdkWatsonXExample = `import OpenAI from 'openai';
+import LLMeter, { wrapWatsonX } from 'llmeter';
+
+// IBM WatsonX uses IAM token auth — exchange your API key for an access token first:
+// POST https://iam.cloud.ibm.com/identity/token
+//   grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=YOUR_IBM_API_KEY
+const watsonx = new OpenAI({
+  apiKey: process.env.IBM_IAM_TOKEN,      // short-lived IAM access token
+  baseURL: 'https://us-south.ml.cloud.ibm.com/ml/v4/openai/v1',
+  defaultHeaders: {
+    'IBM-Watson-AI-ProjectId': process.env.WATSONX_PROJECT_ID,
+  },
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedWatsonX = wrapWatsonX(watsonx, llmeter);
+
+// All calls are automatically tracked — IBM Granite, Llama, and Mistral models
+const completion = await trackedWatsonX.chat.completions.create(
+  {
+    model: 'ibm/granite-3-2-8b-instruct',
+    messages: [{ role: 'user', content: 'Hello from IBM WatsonX!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to WatsonX
+);`;
+
 const sdkGradientExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGradient } from 'llmeter';
 
@@ -1503,6 +1528,7 @@ export default function DocsPage() {
                 <TabsTrigger value="databricks">Databricks</TabsTrigger>
                 <TabsTrigger value="gradient">Gradient AI</TabsTrigger>
                 <TabsTrigger value="baseten">Baseten</TabsTrigger>
+                <TabsTrigger value="watsonx">IBM WatsonX</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2145,6 +2171,16 @@ export default function DocsPage() {
                   call is tracked automatically. Production ML inference platform (a16z-backed) trusted by Tesla, Box, and Calendly — serve public models and private fine-tuned models on the same OpenAI-compatible endpoint. 8 models: Llama 3.3 70B ($1.10/$1.10 per 1M — symmetric flagship), Llama 3.1 8B ($0.17/$0.17 — symmetric budget), Llama 3.1 405B ($3.50/$3.50 — symmetric enterprise), Mistral 7B ($0.15/$0.15 — cheapest), Mistral Nemo 12B ($0.25/$0.25 — symmetric), Qwen 2.5 72B ($1.10/$1.10 — symmetric), DeepSeek R1 ($0.55/$2.19 — reasoning), Phi-3 Medium 128K ($0.30/$0.30 — long context).
                 </p>
                 <CodeBlock language="typescript" code={sdkBasetenExample} />
+              </TabsContent>
+              <TabsContent value="watsonx" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  IBM WatsonX uses the OpenAI-compatible endpoint with IBM Cloud IAM token auth — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the WatsonX base URL and an IAM access token. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Enterprise AI platform from IBM ($60B+ revenue) with IBM&apos;s own Granite models (Apache 2.0, FIPS 140-2 certified). 8 models: Granite 3.2 8B ($0.10/$0.20 per 1M — IBM flagship), Granite 3.2 2B ($0.05/$0.10 — cheapest IBM model, 98% cheaper input than GPT-4o), Granite 13B ($0.40/$1.20), Granite 20B Multilingual ($0.70/$2.10), Llama 3.3 70B ($0.90/$0.90 — symmetric on WatsonX), Llama 3.1 8B ($0.12/$0.12 — symmetric budget), Mistral Large ($3.00/$9.00 — flagship), Mistral 7B v0.2 ($0.15/$0.45 — budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkWatsonXExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

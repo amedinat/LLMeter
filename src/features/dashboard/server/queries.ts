@@ -229,6 +229,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           databricks: 0,
           gradient: 0,
           baseten: 0,
+          watsonx: 0,
         }
       });
     }
@@ -317,6 +318,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           databricks: 0,
           gradient: 0,
           baseten: 0,
+          watsonx: 0,
         },
       }
     );
