@@ -62,6 +62,7 @@ import { databricksAdapter } from './databricks-adapter';
 import { gradientAdapter } from './gradient-adapter';
 import { basetenAdapter } from './baseten-adapter';
 import { watsonxAdapter, parseWatsonXCredentials } from './watsonx-adapter';
+import { snowflakeAdapter, parseSnowflakeCredentials } from './snowflake-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5323,6 +5324,100 @@ describe('Provider Adapters', () => {
     it('throws if apiKey is empty', () => {
       expect(() => parseWatsonXCredentials('::project-id')).toThrow(
         'IBM Cloud API key is missing'
+      );
+    });
+  });
+
+  describe('snowflakeAdapter', () => {
+    it('returns true for valid credentials (200 ok)', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ choices: [{ message: { content: 'hi' } }], usage: { prompt_tokens: 1, completion_tokens: 1 } }),
+      });
+      const result = await snowflakeAdapter.validateKey('myorg-myaccount.us-east-1::eyJhbGciOiJSUzI1NiJ9.test');
+      expect(result).toBe(true);
+    });
+
+    it('sends POST to Snowflake Cortex inference endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ choices: [] }),
+      });
+      await snowflakeAdapter.validateKey('myaccount.us-west-2::my-token');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://myaccount.us-west-2.snowflakecomputing.com/api/v2/cortex/inference:complete',
+        expect.objectContaining({ method: 'POST' })
+      );
+    });
+
+    it('throws a friendly error for 401 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(snowflakeAdapter.validateKey('myaccount.us-east-1::bad-token')).rejects.toThrow(
+        'Invalid Snowflake credentials'
+      );
+    });
+
+    it('throws a friendly error for 403 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(snowflakeAdapter.validateKey('myaccount.us-east-1::expired-token')).rejects.toThrow(
+        'Invalid Snowflake credentials'
+      );
+    });
+
+    it('throws if credentials are missing ::', async () => {
+      await expect(snowflakeAdapter.validateKey('just-a-token')).rejects.toThrow(
+        'Snowflake credentials must be in the format'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await snowflakeAdapter.fetchUsage(
+        'myaccount.us-east-1::my-token',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('snowflakeAdapter.type is snowflake', () => {
+      expect(snowflakeAdapter.type).toBe('snowflake');
+    });
+  });
+
+  describe('parseSnowflakeCredentials', () => {
+    it('parses valid account::token', () => {
+      const result = parseSnowflakeCredentials('myorg-myaccount.us-east-1::eyJhbGci.token');
+      expect(result).toEqual({ account: 'myorg-myaccount.us-east-1', token: 'eyJhbGci.token' });
+    });
+
+    it('trims whitespace from both parts', () => {
+      const result = parseSnowflakeCredentials('  myaccount  ::  my-token  ');
+      expect(result).toEqual({ account: 'myaccount', token: 'my-token' });
+    });
+
+    it('throws if :: separator is missing', () => {
+      expect(() => parseSnowflakeCredentials('no-separator')).toThrow(
+        'Snowflake credentials must be in the format'
+      );
+    });
+
+    it('throws if token is empty', () => {
+      expect(() => parseSnowflakeCredentials('myaccount::')).toThrow(
+        'Snowflake token is missing after ::'
+      );
+    });
+
+    it('throws if account is empty', () => {
+      expect(() => parseSnowflakeCredentials('::my-token')).toThrow(
+        'Snowflake account identifier is missing before ::'
       );
     });
   });

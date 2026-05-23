@@ -5611,6 +5611,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'budget',
     last_verified_at: '2026-05-23T00:00:00.000Z',
   },
+  {
+    provider: 'snowflake',
+    model_id: 'snowflake-arctic',
+    display_name: 'Snowflake Arctic',
+    input_price_per_1m_tokens: 10.00,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'llama3.3-70b',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'llama3.1-70b',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'llama3.1-8b',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'llama3.1-405b',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 9.00,
+    output_price_per_1m_tokens: 9.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'mistral-large',
+    display_name: 'Mistral Large 2',
+    input_price_per_1m_tokens: 3.20,
+    output_price_per_1m_tokens: 3.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'mistral-7b',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'snowflake',
+    model_id: 'mixtral-8x7b',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
 
 ];
 
@@ -5803,6 +5875,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     gradient: [0.40, 0.40], // Llama 3.3 70B Instruct list prices (symmetric)
     baseten: [1.10, 1.10], // Llama 3.3 70B Instruct list prices (symmetric)
     watsonx: [0.90, 0.90], // Llama 3.3 70B Instruct list prices (symmetric on WatsonX)
+    snowflake: [1.00, 1.00], // Llama 3.3 70B Instruct list prices (symmetric on Snowflake Cortex)
   };
   return defaults[provider];
 }

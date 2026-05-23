@@ -113,6 +113,7 @@ const ZERO_PROVIDERS = {
   gradient: 0,
   baseten: 0,
   watsonx: 0,
+  snowflake: 0,
 };
 
 // --- Tests ---

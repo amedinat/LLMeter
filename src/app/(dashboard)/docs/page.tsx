@@ -1105,6 +1105,27 @@ const completion = await trackedBaseten.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Baseten
 );`;
 
+const sdkSnowflakeExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSnowflake } from 'llmeter';
+
+// Snowflake Cortex uses an OpenAI-compatible REST API.
+// Auth: JWT or Personal Access Token (PAT) from your Snowflake account settings.
+const cortex = new OpenAI({
+  apiKey: process.env.SNOWFLAKE_TOKEN,      // JWT or PAT
+  baseURL: \`https://\${process.env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/api/v2/cortex/inference:complete\`,
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCortex = wrapSnowflake(cortex, llmeter);
+
+// All calls are automatically tracked — Snowflake Arctic, Llama, and Mistral models
+const completion = await trackedCortex.chat.completions.create(
+  {
+    model: 'llama3.3-70b',
+    messages: [{ role: 'user', content: 'Hello from Snowflake Cortex!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Snowflake
+);`;
+
 const sdkWatsonXExample = `import OpenAI from 'openai';
 import LLMeter, { wrapWatsonX } from 'llmeter';
 
@@ -1529,6 +1550,7 @@ export default function DocsPage() {
                 <TabsTrigger value="gradient">Gradient AI</TabsTrigger>
                 <TabsTrigger value="baseten">Baseten</TabsTrigger>
                 <TabsTrigger value="watsonx">IBM WatsonX</TabsTrigger>
+                <TabsTrigger value="snowflake">Snowflake Cortex</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2181,6 +2203,16 @@ export default function DocsPage() {
                   call is tracked automatically. Enterprise AI platform from IBM ($60B+ revenue) with IBM&apos;s own Granite models (Apache 2.0, FIPS 140-2 certified). 8 models: Granite 3.2 8B ($0.10/$0.20 per 1M — IBM flagship), Granite 3.2 2B ($0.05/$0.10 — cheapest IBM model, 98% cheaper input than GPT-4o), Granite 13B ($0.40/$1.20), Granite 20B Multilingual ($0.70/$2.10), Llama 3.3 70B ($0.90/$0.90 — symmetric on WatsonX), Llama 3.1 8B ($0.12/$0.12 — symmetric budget), Mistral Large ($3.00/$9.00 — flagship), Mistral 7B v0.2 ($0.15/$0.45 — budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkWatsonXExample} />
+              </TabsContent>
+              <TabsContent value="snowflake" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Snowflake Cortex uses an OpenAI-compatible REST API — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Cortex base URL and a JWT or Personal Access Token. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Data cloud from Snowflake ($60B+ valuation, 10,000+ enterprise customers) with Snowflake&apos;s own Arctic model (480B MoE, Apache 2.0) and hosted open-weight models. All 8 models use symmetric pricing (input = output). 8 models: Snowflake Arctic ($10.00/$10.00 per 1M — 480B MoE flagship, Apache 2.0), Llama 3.3 70B ($1.00/$1.00 — symmetric), Llama 3.1 70B ($1.00/$1.00 — symmetric), Llama 3.1 8B ($0.10/$0.10 — budget), Llama 3.1 405B ($9.00/$9.00 — enterprise), Mistral Large ($3.20/$3.20 — symmetric), Mistral 7B ($0.10/$0.10 — budget), Mixtral 8x7B ($0.90/$0.90 — MoE symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkSnowflakeExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

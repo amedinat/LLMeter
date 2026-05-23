@@ -72,6 +72,7 @@ export { wrapDatabricks } from './databricks.js';
 export { wrapGradient } from './gradient.js';
 export { wrapBaseten } from './baseten.js';
 export { wrapWatsonX } from './watsonx.js';
+export { wrapSnowflake } from './snowflake.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

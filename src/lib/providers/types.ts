@@ -632,4 +632,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.ibm.com/apidocs/watsonx-ai',
     color: '#0062FF',
   },
+  snowflake: {
+    type: 'snowflake',
+    name: 'Snowflake Cortex AI',
+    description: 'Snowflake Arctic 480B MoE (Apache 2.0), Llama 3.3 70B, Llama 3.1 405B/70B/8B, Mistral Large, Mistral 7B, Mixtral 8x7B — Snowflake\'s managed LLM inference service. Includes Snowflake\'s own Arctic model (enterprise-focused MoE, Apache 2.0) and hosted open-weight models. All models use symmetric pricing. Data cloud from Snowflake ($60B+ valuation, 10,000+ enterprise customers).',
+    keyPrefix: '',
+    keyPlaceholder: 'your-account-identifier::your-jwt-or-pat-token',
+    helpUrl: 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-llm-rest-api',
+    color: '#29B5E8',
+  },
 };
