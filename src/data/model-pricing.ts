@@ -5467,6 +5467,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-05-23T00:00:00.000Z',
   },
+  {
+    provider: 'baseten',
+    model_id: 'llama-3-3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 1.10,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'llama-3-1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.17,
+    output_price_per_1m_tokens: 0.17,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'llama-3-1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 3.50,
+    output_price_per_1m_tokens: 3.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'mistral-nemo-12b-instruct',
+    display_name: 'Mistral Nemo 12B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'qwen-2-5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 1.10,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'baseten',
+    model_id: 'phi-3-medium-128k-instruct',
+    display_name: 'Phi-3 Medium 128K Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
 
 ];
 
@@ -5657,6 +5729,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     crusoe: [0.60, 0.80], // Llama 3.3 70B Instruct list prices
     databricks: [0.75, 0.75], // DBRX Instruct list prices (symmetric)
     gradient: [0.40, 0.40], // Llama 3.3 70B Instruct list prices (symmetric)
+    baseten: [1.10, 1.10], // Llama 3.3 70B Instruct list prices (symmetric)
   };
   return defaults[provider];
 }

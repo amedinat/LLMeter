@@ -614,4 +614,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.gradient.ai',
     color: '#6B2BD6',
   },
+  baseten: {
+    type: 'baseten',
+    name: 'Baseten',
+    description: 'Llama 3.3 70B, Llama 3.1 405B/8B, Mistral 7B/Nemo 12B, Qwen 2.5 72B, DeepSeek R1, Phi-3 Medium 128K — production ML inference platform (a16z-backed) trusted by Tesla, Box, and Calendly. Serve public models and private fine-tuned models on the same OpenAI-compatible endpoint. Symmetric pricing across most models.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-baseten-api-key',
+    helpUrl: 'https://docs.baseten.co',
+    color: '#5046E5',
+  },
 };

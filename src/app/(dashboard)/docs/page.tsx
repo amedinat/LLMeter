@@ -1085,6 +1085,26 @@ const completion = await trackedDatabricks.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Databricks
 );`;
 
+const sdkBasetenExample = `import OpenAI from 'openai';
+import LLMeter, { wrapBaseten } from 'llmeter';
+
+// Baseten is OpenAI-compatible — use the openai package with the Baseten base URL
+const baseten = new OpenAI({
+  apiKey: process.env.BASETEN_API_KEY,
+  baseURL: 'https://api.baseten.co/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedBaseten = wrapBaseten(baseten, llmeter);
+
+// All calls are automatically tracked — public models and your own fine-tuned models
+const completion = await trackedBaseten.chat.completions.create(
+  {
+    model: 'llama-3-3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello from Baseten!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Baseten
+);`;
+
 const sdkGradientExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGradient } from 'llmeter';
 
@@ -1482,6 +1502,7 @@ export default function DocsPage() {
                 <TabsTrigger value="crusoe">Crusoe</TabsTrigger>
                 <TabsTrigger value="databricks">Databricks</TabsTrigger>
                 <TabsTrigger value="gradient">Gradient AI</TabsTrigger>
+                <TabsTrigger value="baseten">Baseten</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2114,6 +2135,16 @@ export default function DocsPage() {
                   call is tracked automatically. The only inference platform that combines serverless inference with built-in LoRA fine-tuning — deploy a custom model in minutes. 8 models: Llama 3.3 70B ($0.40/$0.40 per 1M — symmetric flagship), Llama 3.1 8B ($0.06/$0.06 — budget), Llama 3.1 405B ($2.00/$2.00 — enterprise), Mistral 7B ($0.05/$0.05 — cheapest), CodeLlama 34B ($0.18/$0.18 — code), Nous Hermes 2 DPO ($0.06/$0.06 — community fine-tuned), Llama 2 70B ($0.90/$0.90 — legacy), Llama 3.3 70B Fine-tuned ($0.60/$0.60 — custom endpoint).
                 </p>
                 <CodeBlock language="typescript" code={sdkGradientExample} />
+              </TabsContent>
+              <TabsContent value="baseten" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Baseten is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Baseten base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Production ML inference platform (a16z-backed) trusted by Tesla, Box, and Calendly — serve public models and private fine-tuned models on the same OpenAI-compatible endpoint. 8 models: Llama 3.3 70B ($1.10/$1.10 per 1M — symmetric flagship), Llama 3.1 8B ($0.17/$0.17 — symmetric budget), Llama 3.1 405B ($3.50/$3.50 — symmetric enterprise), Mistral 7B ($0.15/$0.15 — cheapest), Mistral Nemo 12B ($0.25/$0.25 — symmetric), Qwen 2.5 72B ($1.10/$1.10 — symmetric), DeepSeek R1 ($0.55/$2.19 — reasoning), Phi-3 Medium 128K ($0.30/$0.30 — long context).
+                </p>
+                <CodeBlock language="typescript" code={sdkBasetenExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

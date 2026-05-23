@@ -60,6 +60,7 @@ import { gcoreAdapter } from './gcore-adapter';
 import { crusoeAdapter } from './crusoe-adapter';
 import { databricksAdapter } from './databricks-adapter';
 import { gradientAdapter } from './gradient-adapter';
+import { basetenAdapter } from './baseten-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5153,6 +5154,71 @@ describe('Provider Adapters', () => {
 
     it('gradientAdapter.type is gradient', () => {
       expect(gradientAdapter.type).toBe('gradient');
+    });
+  });
+
+  describe('basetenAdapter', () => {
+    it('returns true for a valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await basetenAdapter.validateKey('test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends Bearer token to the Baseten models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await basetenAdapter.validateKey('baseten-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.baseten.co/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer baseten-test-key' }),
+        })
+      );
+    });
+
+    it('throws a friendly error for 401 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(basetenAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Baseten API key'
+      );
+    });
+
+    it('throws a friendly error for 403 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(basetenAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Baseten API key'
+      );
+    });
+
+    it('throws the provider error message for non-auth errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(basetenAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await basetenAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('basetenAdapter.type is baseten', () => {
+      expect(basetenAdapter.type).toBe('baseten');
     });
   });
 });

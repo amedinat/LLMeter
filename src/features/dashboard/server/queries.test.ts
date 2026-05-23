@@ -111,6 +111,7 @@ const ZERO_PROVIDERS = {
   crusoe: 0,
   databricks: 0,
   gradient: 0,
+  baseten: 0,
 };
 
 // --- Tests ---
