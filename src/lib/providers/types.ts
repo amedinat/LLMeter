@@ -695,4 +695,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.io.net/docs/inference-api',
     color: '#6366F1',
   },
+  oci: {
+    type: 'oci',
+    name: 'Oracle Cloud (OCI)',
+    description: 'Cohere Command R+, Command R, Meta Llama 3.3 70B, Llama 3.1 405B/70B/8B, Mistral Large 2, Mistral 7B — Oracle Cloud Infrastructure Generative AI. The 4th enterprise hyperscaler. SOC2/HIPAA/FedRAMP/ISO 27001. 95% of Fortune 500 are Oracle customers. Credentials: compartmentId::authToken.',
+    keyPrefix: 'ocid1.',
+    keyPlaceholder: 'ocid1.compartment.oc1..aaa...::eyJhbGci...',
+    helpUrl: 'https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai-inference/20231130/',
+    color: '#C74634',
+  },
 };

@@ -69,6 +69,7 @@ import { predibaseAdapter } from './predibase-adapter';
 import { vertexaiAdapter, parseVertexAICredentials } from './vertexai-adapter';
 import { sparkAdapter } from './spark-adapter';
 import { ionetAdapter } from './ionet-adapter';
+import { ociAdapter, parseOCICredentials } from './oci-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5833,6 +5834,118 @@ describe('Provider Adapters', () => {
 
     it('ionetAdapter.type is ionet', () => {
       expect(ionetAdapter.type).toBe('ionet');
+    });
+  });
+
+  describe('ociAdapter', () => {
+    const validCreds = 'ocid1.compartment.oc1..aaaaaa::eyJhbGciOiJSUzI1NiJ9.test';
+
+    it('validateKey posts to OCI inference endpoint with correct headers', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true });
+      await ociAdapter.validateKey(validCreds);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/chat',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({ Authorization: 'Bearer eyJhbGciOiJSUzI1NiJ9.test' }),
+        })
+      );
+    });
+
+    it('returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true });
+      const result = await ociAdapter.validateKey(validCreds);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(ociAdapter.validateKey(validCreds)).rejects.toThrow(
+        'Invalid OCI credentials'
+      );
+    });
+
+    it('throws on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(ociAdapter.validateKey(validCreds)).rejects.toThrow(
+        'Invalid OCI credentials'
+      );
+    });
+
+    it('throws on non-401 HTTP errors with body message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(ociAdapter.validateKey(validCreds)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ociAdapter.fetchUsage(
+        validCreds,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await ociAdapter.fetchUsage(
+        validCreds,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('ociAdapter.type is oci', () => {
+      expect(ociAdapter.type).toBe('oci');
+    });
+  });
+
+  describe('parseOCICredentials', () => {
+    it('parses valid compartmentId::token format', () => {
+      const result = parseOCICredentials('ocid1.compartment.oc1..aaa::eyJhbGci');
+      expect(result).toEqual({
+        compartmentId: 'ocid1.compartment.oc1..aaa',
+        authToken: 'eyJhbGci',
+      });
+    });
+
+    it('throws if :: separator is missing', () => {
+      expect(() => parseOCICredentials('just-a-token')).toThrow(
+        'OCI credentials must be in the format'
+      );
+    });
+
+    it('throws if compartmentId is empty', () => {
+      expect(() => parseOCICredentials('::token')).toThrow(
+        'compartmentId is missing'
+      );
+    });
+
+    it('throws if authToken is empty', () => {
+      expect(() => parseOCICredentials('ocid1.compartment.oc1..aaa::')).toThrow(
+        'authToken is missing'
+      );
+    });
+
+    it('handles tokens that contain :: (takes first occurrence)', () => {
+      const result = parseOCICredentials('ocid1.comp.oc1..aaa::token::extra');
+      expect(result.compartmentId).toBe('ocid1.comp.oc1..aaa');
+      expect(result.authToken).toBe('token::extra');
     });
   });
 });

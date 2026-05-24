@@ -6121,6 +6121,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'flagship',
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
+  {
+    provider: 'oci',
+    model_id: 'cohere.command-r-plus-08-2024',
+    display_name: 'Cohere Command R+',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'cohere.command-r-08-2024',
+    display_name: 'Cohere Command R',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'meta.llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.72,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'meta.llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'meta.llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'meta.llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 3.70,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'mistralai.mistral-large-2407',
+    display_name: 'Mistral Large 2',
+    input_price_per_1m_tokens: 3.20,
+    output_price_per_1m_tokens: 3.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'oci',
+    model_id: 'mistralai.mistral-7b-instruct-v0.1',
+    display_name: 'Mistral 7B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
 
 ];
 
@@ -6320,6 +6392,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     vertexai: [1.25, 10.00], // Gemini 2.5 Pro list prices on Vertex AI
     spark: [0.67, 0.67], // Spark 4.0 Ultra list prices (symmetric)
     ionet: [0.30, 0.30], // Llama 3.3 70B symmetric pricing on io.net
+    oci: [0.72, 0.90], // Llama 3.3 70B Instruct list prices on OCI Generative AI
   };
   return defaults[provider];
 }

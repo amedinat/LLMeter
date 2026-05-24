@@ -78,6 +78,7 @@ export { wrapRunPod } from './runpod.js';
 export { wrapPredibase } from './predibase.js';
 export { wrapSpark } from './spark.js';
 export { wrapIoNet } from './ionet.js';
+export { wrapOCI } from './oci.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

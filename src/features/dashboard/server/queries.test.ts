@@ -120,6 +120,7 @@ const ZERO_PROVIDERS = {
   vertexai: 0,
   spark: 0,
   ionet: 0,
+  oci: 0,
 };
 
 // --- Tests ---

@@ -1231,6 +1231,26 @@ const completion = await trackedNeets.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Neets.ai
 );`;
 
+const sdkOCIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapOCI } from 'llmeter';
+
+// OCI Generative AI is OpenAI-compatible — use the openai package with the OCI base URL
+const oci = new OpenAI({
+  apiKey: process.env.OCI_AUTH_TOKEN,
+  baseURL: 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/chat/openai',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedOCI = wrapOCI(oci, llmeter);
+
+// All calls are automatically tracked — Oracle Cloud, the 4th enterprise hyperscaler
+const completion = await trackedOCI.chat.completions.create(
+  {
+    model: 'meta.llama-3.3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello from Oracle Cloud!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OCI
+);`;
+
 const sdkIoNetExample = `# Use the openai npm package with the io.net base URL
 import OpenAI from 'openai';
 import LLMeter, { wrapIoNet } from 'llmeter';
@@ -1678,6 +1698,7 @@ export default function DocsPage() {
                 <TabsTrigger value="vertexai">Google Vertex AI</TabsTrigger>
                 <TabsTrigger value="spark">iFlyTek Spark</TabsTrigger>
                 <TabsTrigger value="ionet">io.net</TabsTrigger>
+                <TabsTrigger value="oci">Oracle OCI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2400,6 +2421,16 @@ export default function DocsPage() {
                   call is tracked automatically. Community-owned decentralized GPU cloud aggregating idle compute from 100+ countries, validated via Solana blockchain. 8 models including Llama 3.3 70B ($0.30/$0.30), DeepSeek R1 ($0.55/$2.19), Qwen 2.5 72B ($0.35/$0.35), Mistral 7B ($0.05/$0.05 — 98% cheaper than GPT-4o input).
                 </p>
                 <CodeBlock language="typescript" code={sdkIoNetExample} />
+              </TabsContent>
+              <TabsContent value="oci" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  OCI Generative AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the OCI base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Oracle Cloud — the 4th enterprise hyperscaler (95% of Fortune 500 are Oracle customers). SOC2/HIPAA/FedRAMP/ISO 27001 certified. 8 models: Cohere Command R+ ($2.50/$10.00 per 1M — enterprise RAG flagship), Cohere Command R ($0.30/$0.60), Llama 3.3 70B ($0.72/$0.90), Llama 3.1 405B ($3.00/$3.70), Llama 3.1 70B ($0.60/$0.80), Llama 3.1 8B ($0.10/$0.12), Mistral Large 2 ($3.20/$3.20 — symmetric), Mistral 7B ($0.12/$0.12 — symmetric budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkOCIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
