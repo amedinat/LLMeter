@@ -5976,6 +5976,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+  // ── iFlyTek Spark ────────────────────────────────────────────
+  {
+    provider: 'spark',
+    model_id: 'spark-lite',
+    display_name: 'Spark Lite',
+    input_price_per_1m_tokens: 0.028,
+    output_price_per_1m_tokens: 0.028,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-lite-128k',
+    display_name: 'Spark Lite 128K',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-pro',
+    display_name: 'Spark Pro',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-pro-128k',
+    display_name: 'Spark Pro 128K',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-max',
+    display_name: 'Spark Max',
+    input_price_per_1m_tokens: 0.21,
+    output_price_per_1m_tokens: 0.21,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-max-32k',
+    display_name: 'Spark Max 32K',
+    input_price_per_1m_tokens: 0.42,
+    output_price_per_1m_tokens: 0.42,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-4.0-ultra',
+    display_name: 'Spark 4.0 Ultra',
+    input_price_per_1m_tokens: 0.67,
+    output_price_per_1m_tokens: 0.67,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'spark',
+    model_id: 'spark-x1',
+    display_name: 'Spark X1',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6172,6 +6246,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     runpod: [0.60, 0.80], // Llama 3.3 70B Instruct list prices on RunPod H100
     predibase: [0.59, 0.79], // Llama 3.3 70B Instruct list prices on Predibase
     vertexai: [1.25, 10.00], // Gemini 2.5 Pro list prices on Vertex AI
+    spark: [0.67, 0.67], // Spark 4.0 Ultra list prices (symmetric)
   };
   return defaults[provider];
 }

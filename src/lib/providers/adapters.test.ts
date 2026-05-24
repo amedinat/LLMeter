@@ -67,6 +67,7 @@ import { neetsAdapter } from './neets-adapter';
 import { runpodAdapter } from './runpod-adapter';
 import { predibaseAdapter } from './predibase-adapter';
 import { vertexaiAdapter, parseVertexAICredentials } from './vertexai-adapter';
+import { sparkAdapter } from './spark-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5705,6 +5706,68 @@ describe('Provider Adapters', () => {
       it('throws on missing access token', () => {
         expect(() => parseVertexAICredentials('proj::us-central1::')).toThrow();
       });
+    });
+  });
+
+  describe('sparkAdapter', () => {
+    it('returns true for valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await sparkAdapter.validateKey('spark-test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends GET request to the iFlyTek Spark /v1/models endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await sparkAdapter.validateKey('my-spark-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://spark-api-open.xf-yun.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer my-spark-key' }),
+        })
+      );
+    });
+
+    it('throws on HTTP-level errors', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 401 });
+      await expect(sparkAdapter.validateKey('bad-key')).rejects.toThrow(
+        'iFlyTek Spark API returned 401'
+      );
+    });
+
+    it('throws on 403 HTTP errors', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 403 });
+      await expect(sparkAdapter.validateKey('bad-key')).rejects.toThrow(
+        'iFlyTek Spark API returned 403'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await sparkAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await sparkAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('sparkAdapter.type is spark', () => {
+      expect(sparkAdapter.type).toBe('spark');
     });
   });
 });

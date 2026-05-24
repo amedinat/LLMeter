@@ -70,6 +70,7 @@ import { neetsAdapter } from './neets-adapter';
 import { runpodAdapter } from './runpod-adapter';
 import { predibaseAdapter } from './predibase-adapter';
 import { vertexaiAdapter } from './vertexai-adapter';
+import { sparkAdapter } from './spark-adapter';
 
 /**
  * Provider adapter registry.
@@ -148,6 +149,7 @@ adapters.set('neets', neetsAdapter);
 adapters.set('runpod', runpodAdapter);
 adapters.set('predibase', predibaseAdapter);
 adapters.set('vertexai', vertexaiAdapter);
+adapters.set('spark', sparkAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

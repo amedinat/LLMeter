@@ -1231,6 +1231,26 @@ const completion = await trackedNeets.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Neets.ai
 );`;
 
+const sdkSparkExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSpark } from 'llmeter';
+
+// iFlyTek Spark is OpenAI-compatible — use the openai package with the Spark base URL
+const spark = new OpenAI({
+  apiKey: process.env.SPARK_API_KEY,
+  baseURL: 'https://spark-api-open.xf-yun.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedSpark = wrapSpark(spark, llmeter);
+
+// All calls are automatically tracked — 100% symmetric pricing across all 8 models
+const completion = await trackedSpark.chat.completions.create(
+  {
+    model: 'spark-lite',
+    messages: [{ role: 'user', content: 'Hello from iFlyTek Spark!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Spark
+);`;
+
 const sdkGradientExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGradient } from 'llmeter';
 
@@ -1635,6 +1655,7 @@ export default function DocsPage() {
                 <TabsTrigger value="runpod">RunPod</TabsTrigger>
                 <TabsTrigger value="predibase">Predibase</TabsTrigger>
                 <TabsTrigger value="vertexai">Google Vertex AI</TabsTrigger>
+                <TabsTrigger value="spark">iFlyTek Spark</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2337,6 +2358,16 @@ export default function DocsPage() {
                   call is tracked automatically. Google Cloud&apos;s enterprise-grade AI platform with SOC2/HIPAA/FedRAMP compliance — completes the Big 3 hyperscaler set (AWS Bedrock + Azure OpenAI + Google Vertex AI). 8 models: Gemini 2.5 Pro ($1.25/$10.00 per 1M), Gemini 2.5 Flash ($0.15/$0.60), Gemini 2.0 Flash ($0.10/$0.40), Gemini 2.0 Flash Lite ($0.075/$0.30), Gemini 1.5 Pro ($1.25/$5.00), Gemini 1.5 Flash ($0.075/$0.30), Gemini 1.5 Flash 8B ($0.0375/$0.15 — cheapest Gemini), Gemini 1.0 Pro ($0.50/$1.50).
                 </p>
                 <CodeBlock language="typescript" code={sdkVertexAIExample} />
+              </TabsContent>
+              <TabsContent value="spark" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  iFlyTek Spark is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Spark base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. China&apos;s speech AI giant now in LLMs — all 8 models use symmetric pricing. 8 models: Spark Lite ($0.028/$0.028 per 1M — 98.6% cheaper input than GPT-4o), Spark Lite 128K ($0.14/$0.14), Spark Pro ($0.14/$0.14), Spark Pro 128K ($0.28/$0.28), Spark Max ($0.21/$0.21), Spark Max 32K ($0.42/$0.42), Spark 4.0 Ultra ($0.67/$0.67 — flagship), Spark X1 ($0.90/$0.90 — reasoning).
+                </p>
+                <CodeBlock language="typescript" code={sdkSparkExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

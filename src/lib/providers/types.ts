@@ -677,4 +677,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.google.com/vertex-ai/generative-ai/docs/start/quickstarts',
     color: '#4285F4',
   },
+  spark: {
+    type: 'spark',
+    name: 'iFlyTek Spark',
+    description: 'Spark Lite, Spark Pro, Spark Pro 128K, Spark Max, Spark Max 32K, Spark 4.0 Ultra, Spark X1 — China\'s speech AI giant enters the LLM race. All 8 models use symmetric pricing (input = output). Spark Lite $0.028/1M is 98.6% cheaper than GPT-4o input.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-iflytek-spark-api-key',
+    helpUrl: 'https://www.xfyun.cn/doc/spark/API.html',
+    color: '#0066CC',
+  },
 };
