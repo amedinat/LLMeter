@@ -686,4 +686,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://www.xfyun.cn/doc/spark/API.html',
     color: '#0066CC',
   },
+  ionet: {
+    type: 'ionet',
+    name: 'io.net',
+    description: 'Llama 3.3 70B, DeepSeek R1, Qwen 2.5 72B, Mistral 7B and more — community-owned decentralized GPU cloud from 100+ countries. Symmetric pricing on most models. Llama 3.1 8B $0.05/1M is 98% cheaper than GPT-4o input.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-ionet-api-key',
+    helpUrl: 'https://docs.io.net/docs/inference-api',
+    color: '#6366F1',
+  },
 };

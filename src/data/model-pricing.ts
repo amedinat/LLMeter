@@ -6041,6 +6041,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
   {
+    provider: 'ionet',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'ionet',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
     provider: 'spark',
     model_id: 'spark-x1',
     display_name: 'Spark X1',
@@ -6247,6 +6319,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     predibase: [0.59, 0.79], // Llama 3.3 70B Instruct list prices on Predibase
     vertexai: [1.25, 10.00], // Gemini 2.5 Pro list prices on Vertex AI
     spark: [0.67, 0.67], // Spark 4.0 Ultra list prices (symmetric)
+    ionet: [0.30, 0.30], // Llama 3.3 70B symmetric pricing on io.net
   };
   return defaults[provider];
 }

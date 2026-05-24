@@ -103,6 +103,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         predibase: 0,
         vertexai: 0,
         spark: 0,
+        ionet: 0,
       },
     };
   });

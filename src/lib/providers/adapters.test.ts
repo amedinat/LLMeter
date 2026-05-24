@@ -68,6 +68,7 @@ import { runpodAdapter } from './runpod-adapter';
 import { predibaseAdapter } from './predibase-adapter';
 import { vertexaiAdapter, parseVertexAICredentials } from './vertexai-adapter';
 import { sparkAdapter } from './spark-adapter';
+import { ionetAdapter } from './ionet-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5768,6 +5769,70 @@ describe('Provider Adapters', () => {
 
     it('sparkAdapter.type is spark', () => {
       expect(sparkAdapter.type).toBe('spark');
+    });
+  });
+
+  describe('ionetAdapter', () => {
+    it('validateKey calls io.net API with correct headers', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true });
+      await ionetAdapter.validateKey('test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.io.net/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer test-key' }),
+        })
+      );
+    });
+
+    it('returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true });
+      const result = await ionetAdapter.validateKey('test-key');
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(ionetAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid io.net API key. Get your key from cloud.io.net.'
+      );
+    });
+
+    it('throws on non-401 HTTP errors with body message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+      await expect(ionetAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ionetAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await ionetAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('ionetAdapter.type is ionet', () => {
+      expect(ionetAdapter.type).toBe('ionet');
     });
   });
 });

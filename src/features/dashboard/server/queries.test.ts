@@ -119,6 +119,7 @@ const ZERO_PROVIDERS = {
   predibase: 0,
   vertexai: 0,
   spark: 0,
+  ionet: 0,
 };
 
 // --- Tests ---

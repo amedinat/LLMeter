@@ -71,6 +71,7 @@ import { runpodAdapter } from './runpod-adapter';
 import { predibaseAdapter } from './predibase-adapter';
 import { vertexaiAdapter } from './vertexai-adapter';
 import { sparkAdapter } from './spark-adapter';
+import { ionetAdapter } from './ionet-adapter';
 
 /**
  * Provider adapter registry.
@@ -150,6 +151,7 @@ adapters.set('runpod', runpodAdapter);
 adapters.set('predibase', predibaseAdapter);
 adapters.set('vertexai', vertexaiAdapter);
 adapters.set('spark', sparkAdapter);
+adapters.set('ionet', ionetAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

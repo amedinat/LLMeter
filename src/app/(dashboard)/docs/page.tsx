@@ -1231,6 +1231,27 @@ const completion = await trackedNeets.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Neets.ai
 );`;
 
+const sdkIoNetExample = `# Use the openai npm package with the io.net base URL
+import OpenAI from 'openai';
+import LLMeter, { wrapIoNet } from 'llmeter';
+
+// io.net is OpenAI-compatible — use the openai package with the io.net base URL
+const ionet = new OpenAI({
+  apiKey: process.env.IONET_API_KEY,
+  baseURL: 'https://api.io.net/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedIoNet = wrapIoNet(ionet, llmeter);
+
+// All calls are automatically tracked — decentralized GPU cloud from 100+ countries
+const completion = await trackedIoNet.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello from io.net!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to io.net
+);`;
+
 const sdkSparkExample = `import OpenAI from 'openai';
 import LLMeter, { wrapSpark } from 'llmeter';
 
@@ -1656,6 +1677,7 @@ export default function DocsPage() {
                 <TabsTrigger value="predibase">Predibase</TabsTrigger>
                 <TabsTrigger value="vertexai">Google Vertex AI</TabsTrigger>
                 <TabsTrigger value="spark">iFlyTek Spark</TabsTrigger>
+                <TabsTrigger value="ionet">io.net</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2368,6 +2390,16 @@ export default function DocsPage() {
                   call is tracked automatically. China&apos;s speech AI giant now in LLMs — all 8 models use symmetric pricing. 8 models: Spark Lite ($0.028/$0.028 per 1M — 98.6% cheaper input than GPT-4o), Spark Lite 128K ($0.14/$0.14), Spark Pro ($0.14/$0.14), Spark Pro 128K ($0.28/$0.28), Spark Max ($0.21/$0.21), Spark Max 32K ($0.42/$0.42), Spark 4.0 Ultra ($0.67/$0.67 — flagship), Spark X1 ($0.90/$0.90 — reasoning).
                 </p>
                 <CodeBlock language="typescript" code={sdkSparkExample} />
+              </TabsContent>
+              <TabsContent value="ionet" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  io.net is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the io.net base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Community-owned decentralized GPU cloud aggregating idle compute from 100+ countries, validated via Solana blockchain. 8 models including Llama 3.3 70B ($0.30/$0.30), DeepSeek R1 ($0.55/$2.19), Qwen 2.5 72B ($0.35/$0.35), Mistral 7B ($0.05/$0.05 — 98% cheaper than GPT-4o input).
+                </p>
+                <CodeBlock language="typescript" code={sdkIoNetExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
