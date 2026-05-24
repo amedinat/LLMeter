@@ -1151,6 +1151,26 @@ const completion = await trackedWatsonX.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to WatsonX
 );`;
 
+const sdkNeetsExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNeets } from 'llmeter';
+
+// Neets.ai is OpenAI-compatible — use the openai package with the Neets.ai base URL
+const neets = new OpenAI({
+  apiKey: process.env.NEETS_API_KEY,
+  baseURL: 'https://api.neets.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNeets = wrapNeets(neets, llmeter);
+
+// All calls are automatically tracked — 100% symmetric pricing across all models
+const completion = await trackedNeets.chat.completions.create(
+  {
+    model: 'llama-3-3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello from Neets.ai!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Neets.ai
+);`;
+
 const sdkGradientExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGradient } from 'llmeter';
 
@@ -1551,6 +1571,7 @@ export default function DocsPage() {
                 <TabsTrigger value="baseten">Baseten</TabsTrigger>
                 <TabsTrigger value="watsonx">IBM WatsonX</TabsTrigger>
                 <TabsTrigger value="snowflake">Snowflake Cortex</TabsTrigger>
+                <TabsTrigger value="neets">Neets.ai</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2213,6 +2234,16 @@ export default function DocsPage() {
                   call is tracked automatically. Data cloud from Snowflake ($60B+ valuation, 10,000+ enterprise customers) with Snowflake&apos;s own Arctic model (480B MoE, Apache 2.0) and hosted open-weight models. All 8 models use symmetric pricing (input = output). 8 models: Snowflake Arctic ($10.00/$10.00 per 1M — 480B MoE flagship, Apache 2.0), Llama 3.3 70B ($1.00/$1.00 — symmetric), Llama 3.1 70B ($1.00/$1.00 — symmetric), Llama 3.1 8B ($0.10/$0.10 — budget), Llama 3.1 405B ($9.00/$9.00 — enterprise), Mistral Large ($3.20/$3.20 — symmetric), Mistral 7B ($0.10/$0.10 — budget), Mixtral 8x7B ($0.90/$0.90 — MoE symmetric).
                 </p>
                 <CodeBlock language="typescript" code={sdkSnowflakeExample} />
+              </TabsContent>
+              <TabsContent value="neets" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Neets.ai is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Neets.ai base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Serverless LLM inference with 100% symmetric pricing across all 8 models (input = output) — no output token surprise. 8 models: Llama 3.3 70B ($0.12/$0.12 per 1M — symmetric flagship), Llama 3.1 70B ($0.12/$0.12 — symmetric), Llama 3.1 8B ($0.06/$0.06 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($2.50/$2.50 — enterprise), Mixtral 8x7B ($0.27/$0.27 — symmetric MoE), Mixtral 8x22B ($0.90/$0.90 — large MoE), Mistral 7B ($0.05/$0.05 — cheapest), Hermes 3 Llama 3.1 8B ($0.06/$0.06 — community).
+                </p>
+                <CodeBlock language="typescript" code={sdkNeetsExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

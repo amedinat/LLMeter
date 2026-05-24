@@ -5683,6 +5683,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-05-23T00:00:00.000Z',
   },
+  {
+    provider: 'neets',
+    model_id: 'llama-3-3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'llama-3-1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'llama-3-1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'llama-3-1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 2.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'mixtral-8x7b-instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 0.27,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'mixtral-8x22b-instruct-v0.1',
+    display_name: 'Mixtral 8x22B Instruct',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'mistral-7b-instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
+  {
+    provider: 'neets',
+    model_id: 'hermes-3-llama-3.1-8b',
+    display_name: 'Hermes 3 Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-23T00:00:00.000Z',
+  },
 
 ];
 
@@ -5876,6 +5948,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     baseten: [1.10, 1.10], // Llama 3.3 70B Instruct list prices (symmetric)
     watsonx: [0.90, 0.90], // Llama 3.3 70B Instruct list prices (symmetric on WatsonX)
     snowflake: [1.00, 1.00], // Llama 3.3 70B Instruct list prices (symmetric on Snowflake Cortex)
+    neets: [0.12, 0.12], // Llama 3.3 70B Instruct list prices (symmetric on Neets.ai)
   };
   return defaults[provider];
 }

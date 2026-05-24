@@ -98,6 +98,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         baseten: 0,
         watsonx: 0,
         snowflake: 0,
+        neets: 0,
       },
     };
   });

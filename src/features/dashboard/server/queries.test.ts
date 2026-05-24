@@ -114,6 +114,7 @@ const ZERO_PROVIDERS = {
   baseten: 0,
   watsonx: 0,
   snowflake: 0,
+  neets: 0,
 };
 
 // --- Tests ---

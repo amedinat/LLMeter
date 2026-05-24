@@ -66,6 +66,7 @@ import { gradientAdapter } from './gradient-adapter';
 import { basetenAdapter } from './baseten-adapter';
 import { watsonxAdapter } from './watsonx-adapter';
 import { snowflakeAdapter } from './snowflake-adapter';
+import { neetsAdapter } from './neets-adapter';
 
 /**
  * Provider adapter registry.
@@ -140,6 +141,7 @@ adapters.set('gradient', gradientAdapter);
 adapters.set('baseten', basetenAdapter);
 adapters.set('watsonx', watsonxAdapter);
 adapters.set('snowflake', snowflakeAdapter);
+adapters.set('neets', neetsAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

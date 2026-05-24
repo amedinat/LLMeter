@@ -63,6 +63,7 @@ import { gradientAdapter } from './gradient-adapter';
 import { basetenAdapter } from './baseten-adapter';
 import { watsonxAdapter, parseWatsonXCredentials } from './watsonx-adapter';
 import { snowflakeAdapter, parseSnowflakeCredentials } from './snowflake-adapter';
+import { neetsAdapter } from './neets-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5419,6 +5420,71 @@ describe('Provider Adapters', () => {
       expect(() => parseSnowflakeCredentials('::my-token')).toThrow(
         'Snowflake account identifier is missing before ::'
       );
+    });
+  });
+
+  describe('neetsAdapter', () => {
+    it('returns true for valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await neetsAdapter.validateKey('neets-test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends Bearer token to the Neets.ai models endpoint', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      await neetsAdapter.validateKey('neets-test-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.neets.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer neets-test-key' }),
+        })
+      );
+    });
+
+    it('throws a friendly error for 401 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(neetsAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Neets.ai API key'
+      );
+    });
+
+    it('throws a friendly error for 403 responses', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(neetsAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Neets.ai API key'
+      );
+    });
+
+    it('throws the provider error message for non-auth errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(neetsAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await neetsAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('neetsAdapter.type is neets', () => {
+      expect(neetsAdapter.type).toBe('neets');
     });
   });
 });

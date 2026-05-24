@@ -641,4 +641,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-llm-rest-api',
     color: '#29B5E8',
   },
+  neets: {
+    type: 'neets',
+    name: 'Neets.ai',
+    description: 'Llama 3.3 70B, Llama 3.1 405B/70B/8B, Mixtral 8x22B/8x7B, Mistral 7B, Hermes 3 Llama 3.1 8B — serverless LLM inference with 100% symmetric pricing across all models (input = output). Cheapest Mistral 7B inference at $0.05/1M tokens.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-neets-api-key',
+    helpUrl: 'https://neets.ai/docs',
+    color: '#6366F1',
+  },
 };
