@@ -1251,6 +1251,32 @@ const completion = await trackedOCI.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OCI
 );`;
 
+const sdkGigaChatExample = `import OpenAI from 'openai';
+import LLMeter, { wrapGigaChat } from 'llmeter';
+
+// Step 1: Exchange your Authorization Key for a JWT access token
+// POST https://ngw.devices.sberbank.ru:9443/api/v2/oauth
+// Headers: Authorization: Basic <your-auth-key>, RqUID: <uuid4>
+// Body: scope=GIGACHAT_API_PERS
+// Returns: { access_token: "eyJ...", expires_at: 1234567890 }
+
+// Step 2: Use the JWT token with the OpenAI-compatible GigaChat endpoint
+const gigachat = new OpenAI({
+  apiKey: process.env.GIGACHAT_ACCESS_TOKEN, // JWT from OAuth step above
+  baseURL: 'https://gigachat.devices.sberbank.ru/api/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGigaChat = wrapGigaChat(gigachat, llmeter);
+
+// All calls are automatically tracked — Russia's sovereign AI, 100M+ users
+const completion = await trackedGigaChat.chat.completions.create(
+  {
+    model: 'GigaChat-Max',
+    messages: [{ role: 'user', content: 'Привет! Как дела?' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to GigaChat
+);`;
+
 const sdkIoNetExample = `# Use the openai npm package with the io.net base URL
 import OpenAI from 'openai';
 import LLMeter, { wrapIoNet } from 'llmeter';
@@ -1699,6 +1725,7 @@ export default function DocsPage() {
                 <TabsTrigger value="spark">iFlyTek Spark</TabsTrigger>
                 <TabsTrigger value="ionet">io.net</TabsTrigger>
                 <TabsTrigger value="oci">Oracle OCI</TabsTrigger>
+                <TabsTrigger value="gigachat">GigaChat</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2431,6 +2458,16 @@ export default function DocsPage() {
                   call is tracked automatically. Oracle Cloud — the 4th enterprise hyperscaler (95% of Fortune 500 are Oracle customers). SOC2/HIPAA/FedRAMP/ISO 27001 certified. 8 models: Cohere Command R+ ($2.50/$10.00 per 1M — enterprise RAG flagship), Cohere Command R ($0.30/$0.60), Llama 3.3 70B ($0.72/$0.90), Llama 3.1 405B ($3.00/$3.70), Llama 3.1 70B ($0.60/$0.80), Llama 3.1 8B ($0.10/$0.12), Mistral Large 2 ($3.20/$3.20 — symmetric), Mistral 7B ($0.12/$0.12 — symmetric budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkOCIExample} />
+              </TabsContent>
+              <TabsContent value="gigachat" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  GigaChat is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the GigaChat base URL and your JWT access token. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Russia&apos;s sovereign AI by Sberbank — 100M+ users, 30+ languages, 100% symmetric pricing. 8 models: GigaChat Lite ($0.10/$0.10 per 1M — budget symmetric), GigaChat Lite Long ($0.10/$0.10), GigaChat ($0.15/$0.15 — standard), GigaChat Pro ($0.50/$0.50 — professional), GigaChat Pro Long ($0.50/$0.50), GigaChat Max ($1.50/$1.50 — flagship), GigaChat Max Long ($1.50/$1.50), GigaChat 2 Max ($2.00/$2.00 — gen 2 flagship).
+                </p>
+                <CodeBlock language="typescript" code={sdkGigaChatExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

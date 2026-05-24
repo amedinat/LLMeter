@@ -70,6 +70,7 @@ import { vertexaiAdapter, parseVertexAICredentials } from './vertexai-adapter';
 import { sparkAdapter } from './spark-adapter';
 import { ionetAdapter } from './ionet-adapter';
 import { ociAdapter, parseOCICredentials } from './oci-adapter';
+import { gigachatAdapter } from './gigachat-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5946,6 +5947,102 @@ describe('Provider Adapters', () => {
       const result = parseOCICredentials('ocid1.comp.oc1..aaa::token::extra');
       expect(result.compartmentId).toBe('ocid1.comp.oc1..aaa');
       expect(result.authToken).toBe('token::extra');
+    });
+  });
+
+  describe('gigachatAdapter', () => {
+    const validKey = 'OGYzNDI4ZWEtM2IxNi00YWU1LTliNWUtZTY0MzljMjRiY2Vh';
+
+    it('validateKey posts to Sberbank OAuth endpoint with correct headers', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ access_token: 'eyJ.test.token' }),
+      });
+      await gigachatAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://ngw.devices.sberbank.ru:9443/api/v2/oauth',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({
+            Authorization: `Basic ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when OAuth returns access_token', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ access_token: 'eyJ.test.token' }),
+      });
+      const result = await gigachatAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(gigachatAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid GigaChat Authorization Key'
+      );
+    });
+
+    it('throws on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(gigachatAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid GigaChat Authorization Key'
+      );
+    });
+
+    it('throws when access_token is missing in 200 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      });
+      await expect(gigachatAdapter.validateKey(validKey)).rejects.toThrow(
+        'did not return an access token'
+      );
+    });
+
+    it('throws on non-401 HTTP errors with error_description', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error_description: 'Internal Server Error' }),
+      });
+      await expect(gigachatAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await gigachatAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await gigachatAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('gigachatAdapter.type is gigachat', () => {
+      expect(gigachatAdapter.type).toBe('gigachat');
     });
   });
 });

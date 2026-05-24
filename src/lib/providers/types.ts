@@ -704,4 +704,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai-inference/20231130/',
     color: '#C74634',
   },
+  gigachat: {
+    type: 'gigachat',
+    name: 'GigaChat (Sberbank)',
+    description: 'GigaChat Lite, GigaChat Pro, GigaChat Max, GigaChat 2 — Sberbank\'s sovereign Russian AI. 100M+ users. 100% symmetric pricing across all models. The LLM powering Russia\'s largest bank ecosystem. Supports Russian and 30+ languages. Provide your Authorization Key from developers.sber.ru.',
+    keyPrefix: '',
+    keyPlaceholder: 'OGYzNDI4ZWEtM2I...',
+    helpUrl: 'https://developers.sber.ru/docs/ru/gigachat/api/reference/rest/post-token',
+    color: '#21A038',
+  },
 };

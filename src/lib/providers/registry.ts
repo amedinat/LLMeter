@@ -73,6 +73,7 @@ import { vertexaiAdapter } from './vertexai-adapter';
 import { sparkAdapter } from './spark-adapter';
 import { ionetAdapter } from './ionet-adapter';
 import { ociAdapter } from './oci-adapter';
+import { gigachatAdapter } from './gigachat-adapter';
 
 /**
  * Provider adapter registry.
@@ -154,6 +155,7 @@ adapters.set('vertexai', vertexaiAdapter);
 adapters.set('spark', sparkAdapter);
 adapters.set('ionet', ionetAdapter);
 adapters.set('oci', ociAdapter);
+adapters.set('gigachat', gigachatAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -6194,6 +6194,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+  // ── GigaChat (Sberbank) ─────────────────────────────────────
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat',
+    display_name: 'GigaChat',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-Lite',
+    display_name: 'GigaChat Lite',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-Lite-Long',
+    display_name: 'GigaChat Lite Long',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-Pro',
+    display_name: 'GigaChat Pro',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-Pro-Long',
+    display_name: 'GigaChat Pro Long',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-Max',
+    display_name: 'GigaChat Max',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-Max-Long',
+    display_name: 'GigaChat Max Long',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'gigachat',
+    model_id: 'GigaChat-2-Max',
+    display_name: 'GigaChat 2 Max',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6393,6 +6467,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     spark: [0.67, 0.67], // Spark 4.0 Ultra list prices (symmetric)
     ionet: [0.30, 0.30], // Llama 3.3 70B symmetric pricing on io.net
     oci: [0.72, 0.90], // Llama 3.3 70B Instruct list prices on OCI Generative AI
+    gigachat: [1.50, 1.50], // GigaChat Max symmetric pricing
   };
   return defaults[provider];
 }
