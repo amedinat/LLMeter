@@ -1151,6 +1151,26 @@ const completion = await trackedWatsonX.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to WatsonX
 );`;
 
+const sdkPredibaseExample = `import OpenAI from 'openai';
+import LLMeter, { wrapPredibase } from 'llmeter';
+
+// Predibase is OpenAI-compatible — use the openai package with the Predibase base URL
+const predibase = new OpenAI({
+  apiKey: process.env.PREDIBASE_API_KEY,
+  baseURL: 'https://serving.app.predibase.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedPredibase = wrapPredibase(predibase, llmeter);
+
+// All calls are automatically tracked — fine-tuned LLM inference at scale
+const completion = await trackedPredibase.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3-3-70b-instruct',
+    messages: [{ role: 'user', content: 'Hello from Predibase!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Predibase
+);`;
+
 const sdkRunPodExample = `import OpenAI from 'openai';
 import LLMeter, { wrapRunPod } from 'llmeter';
 
@@ -1593,6 +1613,7 @@ export default function DocsPage() {
                 <TabsTrigger value="snowflake">Snowflake Cortex</TabsTrigger>
                 <TabsTrigger value="neets">Neets.ai</TabsTrigger>
                 <TabsTrigger value="runpod">RunPod</TabsTrigger>
+                <TabsTrigger value="predibase">Predibase</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2275,6 +2296,16 @@ export default function DocsPage() {
                   call is tracked automatically. GPU cloud inference on H100/A100/L40S clusters — deploy any open-weight model and track per-customer costs. 8 models: Llama 3.3 70B ($0.60/$0.80 per 1M — flagship H100), Llama 3.1 70B ($0.55/$0.70 — stable), Llama 3.1 8B ($0.08/$0.08 — symmetric budget), Llama 3.1 405B ($2.20/$3.00 — enterprise), Mistral 7B ($0.06/$0.06 — symmetric cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.40/$0.50), Mixtral 8x7B ($0.22/$0.22 — symmetric MoE).
                 </p>
                 <CodeBlock language="typescript" code={sdkRunPodExample} />
+              </TabsContent>
+              <TabsContent value="predibase" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Predibase is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Predibase base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. The only inference platform purpose-built for fine-tuned LLMs (LoRA adapters) — serve base and custom fine-tuned models on the same endpoint. 8 models: Llama 3.3 70B ($0.59/$0.79 per 1M), Llama 3.1 8B ($0.20/$0.20 — symmetric budget), Llama 3.1 70B ($0.50/$0.67), Mistral 7B ($0.20/$0.20 — symmetric), Mixtral 8x7B ($0.30/$0.30 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Phi-3 Medium 128K ($0.25/$0.25 — symmetric), Qwen 2.5 72B ($0.40/$0.40 — symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkPredibaseExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

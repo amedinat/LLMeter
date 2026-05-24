@@ -65,6 +65,7 @@ import { watsonxAdapter, parseWatsonXCredentials } from './watsonx-adapter';
 import { snowflakeAdapter, parseSnowflakeCredentials } from './snowflake-adapter';
 import { neetsAdapter } from './neets-adapter';
 import { runpodAdapter } from './runpod-adapter';
+import { predibaseAdapter } from './predibase-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5562,6 +5563,68 @@ describe('Provider Adapters', () => {
 
     it('runpodAdapter.type is runpod', () => {
       expect(runpodAdapter.type).toBe('runpod');
+    });
+  });
+
+  describe('predibaseAdapter', () => {
+    it('returns true for valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await predibaseAdapter.validateKey('predibase-test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends GET request to the Predibase /v1/models endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await predibaseAdapter.validateKey('my-predibase-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.predibase.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer my-predibase-key' }),
+        })
+      );
+    });
+
+    it('throws on HTTP-level errors', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 401 });
+      await expect(predibaseAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Predibase API returned 401'
+      );
+    });
+
+    it('throws on 403 HTTP errors', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 403 });
+      await expect(predibaseAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Predibase API returned 403'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await predibaseAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await predibaseAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('predibaseAdapter.type is predibase', () => {
+      expect(predibaseAdapter.type).toBe('predibase');
     });
   });
 });

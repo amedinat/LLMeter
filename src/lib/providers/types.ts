@@ -659,4 +659,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.runpod.io/serverless/references/openai-compatibility',
     color: '#6D28D9',
   },
+  predibase: {
+    type: 'predibase',
+    name: 'Predibase',
+    description: 'Llama 3.3 70B, Llama 3.1 70B/8B, Mistral 7B, Mixtral 8x7B, DeepSeek R1, Phi-3 Medium 128K, Qwen 2.5 72B — the only inference platform purpose-built for fine-tuned LLMs (LoRA adapters). Symmetric pricing across 6 of 8 models. Cheapest Llama 3.1 8B at $0.20/1M (symmetric).',
+    keyPrefix: '',
+    keyPlaceholder: 'your-predibase-api-key',
+    helpUrl: 'https://docs.predibase.com/api-reference',
+    color: '#8B5CF6',
+  },
 };
