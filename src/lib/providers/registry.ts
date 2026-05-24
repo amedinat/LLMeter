@@ -67,6 +67,7 @@ import { basetenAdapter } from './baseten-adapter';
 import { watsonxAdapter } from './watsonx-adapter';
 import { snowflakeAdapter } from './snowflake-adapter';
 import { neetsAdapter } from './neets-adapter';
+import { runpodAdapter } from './runpod-adapter';
 
 /**
  * Provider adapter registry.
@@ -142,6 +143,7 @@ adapters.set('baseten', basetenAdapter);
 adapters.set('watsonx', watsonxAdapter);
 adapters.set('snowflake', snowflakeAdapter);
 adapters.set('neets', neetsAdapter);
+adapters.set('runpod', runpodAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

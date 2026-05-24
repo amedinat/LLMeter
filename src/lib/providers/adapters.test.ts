@@ -64,6 +64,7 @@ import { basetenAdapter } from './baseten-adapter';
 import { watsonxAdapter, parseWatsonXCredentials } from './watsonx-adapter';
 import { snowflakeAdapter, parseSnowflakeCredentials } from './snowflake-adapter';
 import { neetsAdapter } from './neets-adapter';
+import { runpodAdapter } from './runpod-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5485,6 +5486,82 @@ describe('Provider Adapters', () => {
 
     it('neetsAdapter.type is neets', () => {
       expect(neetsAdapter.type).toBe('neets');
+    });
+  });
+
+  describe('runpodAdapter', () => {
+    it('returns true for valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: { myself: { id: 'user_abc123' } } }),
+      });
+      const result = await runpodAdapter.validateKey('runpod-test-api-key');
+      expect(result).toBe(true);
+    });
+
+    it('sends request to the RunPod GraphQL endpoint with api_key query param', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: { myself: { id: 'user_123' } } }),
+      });
+      await runpodAdapter.validateKey('my-runpod-key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringContaining('api.runpod.io/graphql'),
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+        })
+      );
+    });
+
+    it('throws a friendly error for auth errors in GraphQL response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ errors: [{ message: 'Not authorized' }] }),
+      });
+      await expect(runpodAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid RunPod API key'
+      );
+    });
+
+    it('throws a friendly error when GraphQL returns unauthorized message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ errors: [{ message: 'unauthorized access' }] }),
+      });
+      await expect(runpodAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid RunPod API key'
+      );
+    });
+
+    it('throws the GraphQL error message for non-auth errors', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ errors: [{ message: 'Internal server error' }] }),
+      });
+      await expect(runpodAdapter.validateKey('test-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws on HTTP-level errors', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 502 });
+      await expect(runpodAdapter.validateKey('test-key')).rejects.toThrow(
+        'RunPod API returned 502'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await runpodAdapter.fetchUsage(
+        'test-api-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-23')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('runpodAdapter.type is runpod', () => {
+      expect(runpodAdapter.type).toBe('runpod');
     });
   });
 });

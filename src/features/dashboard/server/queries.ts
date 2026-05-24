@@ -232,6 +232,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           watsonx: 0,
           snowflake: 0,
           neets: 0,
+          runpod: 0,
         }
       });
     }
@@ -323,6 +324,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           watsonx: 0,
           snowflake: 0,
           neets: 0,
+          runpod: 0,
         },
       }
     );

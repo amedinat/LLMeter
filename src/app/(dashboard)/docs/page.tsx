@@ -1151,6 +1151,26 @@ const completion = await trackedWatsonX.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to WatsonX
 );`;
 
+const sdkRunPodExample = `import OpenAI from 'openai';
+import LLMeter, { wrapRunPod } from 'llmeter';
+
+// RunPod Serverless is OpenAI-compatible — use the openai package with your endpoint URL
+const runpod = new OpenAI({
+  apiKey: process.env.RUNPOD_API_KEY,
+  baseURL: \`https://api.runpod.ai/v2/\${process.env.RUNPOD_ENDPOINT_ID}/openai/v1\`,
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedRunPod = wrapRunPod(runpod, llmeter);
+
+// All calls are automatically tracked — GPU cloud inference at scale
+const completion = await trackedRunPod.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct',
+    messages: [{ role: 'user', content: 'Hello from RunPod!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to RunPod
+);`;
+
 const sdkNeetsExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNeets } from 'llmeter';
 
@@ -1572,6 +1592,7 @@ export default function DocsPage() {
                 <TabsTrigger value="watsonx">IBM WatsonX</TabsTrigger>
                 <TabsTrigger value="snowflake">Snowflake Cortex</TabsTrigger>
                 <TabsTrigger value="neets">Neets.ai</TabsTrigger>
+                <TabsTrigger value="runpod">RunPod</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2244,6 +2265,16 @@ export default function DocsPage() {
                   call is tracked automatically. Serverless LLM inference with 100% symmetric pricing across all 8 models (input = output) — no output token surprise. 8 models: Llama 3.3 70B ($0.12/$0.12 per 1M — symmetric flagship), Llama 3.1 70B ($0.12/$0.12 — symmetric), Llama 3.1 8B ($0.06/$0.06 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($2.50/$2.50 — enterprise), Mixtral 8x7B ($0.27/$0.27 — symmetric MoE), Mixtral 8x22B ($0.90/$0.90 — large MoE), Mistral 7B ($0.05/$0.05 — cheapest), Hermes 3 Llama 3.1 8B ($0.06/$0.06 — community).
                 </p>
                 <CodeBlock language="typescript" code={sdkNeetsExample} />
+              </TabsContent>
+              <TabsContent value="runpod" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  RunPod Serverless is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with your endpoint base URL. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. GPU cloud inference on H100/A100/L40S clusters — deploy any open-weight model and track per-customer costs. 8 models: Llama 3.3 70B ($0.60/$0.80 per 1M — flagship H100), Llama 3.1 70B ($0.55/$0.70 — stable), Llama 3.1 8B ($0.08/$0.08 — symmetric budget), Llama 3.1 405B ($2.20/$3.00 — enterprise), Mistral 7B ($0.06/$0.06 — symmetric cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.40/$0.50), Mixtral 8x7B ($0.22/$0.22 — symmetric MoE).
+                </p>
+                <CodeBlock language="typescript" code={sdkRunPodExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

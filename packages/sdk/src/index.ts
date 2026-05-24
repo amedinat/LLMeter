@@ -74,6 +74,7 @@ export { wrapBaseten } from './baseten.js';
 export { wrapWatsonX } from './watsonx.js';
 export { wrapSnowflake } from './snowflake.js';
 export { wrapNeets } from './neets.js';
+export { wrapRunPod } from './runpod.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

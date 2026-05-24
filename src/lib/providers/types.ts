@@ -650,4 +650,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://neets.ai/docs',
     color: '#6366F1',
   },
+  runpod: {
+    type: 'runpod',
+    name: 'RunPod',
+    description: 'Llama 3.3 70B, Llama 3.1 405B/70B/8B, Mistral 7B, DeepSeek R1, Qwen 2.5 72B, Mixtral 8x7B — GPU cloud serverless inference with pay-per-second billing on H100/A100/L40S clusters. Deploy any open-weight model on bare-metal GPU infrastructure from $0.50/GPU-hour.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-runpod-api-key',
+    helpUrl: 'https://docs.runpod.io/serverless/references/openai-compatibility',
+    color: '#6D28D9',
+  },
 };
