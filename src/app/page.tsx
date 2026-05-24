@@ -39,7 +39,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Which providers are supported?',
-    answer: 'OpenAI, Anthropic, Google AI (Gemini), DeepSeek, OpenRouter, Mistral, Azure OpenAI, AWS Bedrock, xAI (Grok), Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Aleph Alpha, Sarvam AI, Chutes AI, Krutrim, DigitalOcean, OVHcloud AI, Telnyx AI, Vultr Cloud Inference, AI71 (Falcon), Gcore, Crusoe Cloud, Databricks, Gradient AI, Baseten, IBM WatsonX, Snowflake Cortex AI, Neets.ai, RunPod, Predibase, and 35+ more — 69 providers total.',
+    answer: 'OpenAI, Anthropic, Google AI (Gemini), DeepSeek, OpenRouter, Mistral, Azure OpenAI, AWS Bedrock, Google Vertex AI, xAI (Grok), Cohere, Groq, Together AI, Fireworks AI, Perplexity AI, Aleph Alpha, Sarvam AI, Chutes AI, Krutrim, DigitalOcean, OVHcloud AI, Telnyx AI, Vultr Cloud Inference, AI71 (Falcon), Gcore, Crusoe Cloud, Databricks, Gradient AI, Baseten, IBM WatsonX, Snowflake Cortex AI, Neets.ai, RunPod, Predibase, and 35+ more — 70 providers total.',
   },
   {
     question: 'How long does setup take?',

@@ -234,6 +234,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           neets: 0,
           runpod: 0,
           predibase: 0,
+          vertexai: 0,
         }
       });
     }
@@ -327,6 +328,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           neets: 0,
           runpod: 0,
           predibase: 0,
+          vertexai: 0,
         },
       }
     );

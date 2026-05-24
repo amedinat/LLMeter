@@ -66,6 +66,7 @@ import { snowflakeAdapter, parseSnowflakeCredentials } from './snowflake-adapter
 import { neetsAdapter } from './neets-adapter';
 import { runpodAdapter } from './runpod-adapter';
 import { predibaseAdapter } from './predibase-adapter';
+import { vertexaiAdapter, parseVertexAICredentials } from './vertexai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -5625,6 +5626,85 @@ describe('Provider Adapters', () => {
 
     it('predibaseAdapter.type is predibase', () => {
       expect(predibaseAdapter.type).toBe('predibase');
+    });
+  });
+
+  describe('vertexaiAdapter', () => {
+    const validCreds = 'my-gcp-project::us-central1::ya29.a0AfH6SMCtest';
+
+    it('returns true for valid credentials', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ models: [] }),
+      });
+      const result = await vertexaiAdapter.validateKey(validCreds);
+      expect(result).toBe(true);
+    });
+
+    it('sends GET to the correct Vertex AI endpoint with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ models: [] }),
+      });
+      await vertexaiAdapter.validateKey(validCreds);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://us-central1-aiplatform.googleapis.com/v1/projects/my-gcp-project/locations/us-central1/publishers/google/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: 'Bearer ya29.a0AfH6SMCtest' }),
+        })
+      );
+    });
+
+    it('throws on 401 with descriptive message about token refresh', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 401 });
+      await expect(vertexaiAdapter.validateKey(validCreds)).rejects.toThrow(
+        /expired/i
+      );
+    });
+
+    it('throws on 403 with descriptive message about permissions', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 403 });
+      await expect(vertexaiAdapter.validateKey(validCreds)).rejects.toThrow(
+        /Access denied/i
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await vertexaiAdapter.fetchUsage(
+        validCreds,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await vertexaiAdapter.fetchUsage(
+        validCreds,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('vertexaiAdapter.type is vertexai', () => {
+      expect(vertexaiAdapter.type).toBe('vertexai');
+    });
+
+    describe('parseVertexAICredentials', () => {
+      it('parses valid credentials correctly', () => {
+        const result = parseVertexAICredentials('proj::us-central1::ya29.token');
+        expect(result).toEqual({ projectId: 'proj', location: 'us-central1', accessToken: 'ya29.token' });
+      });
+
+      it('throws on missing location', () => {
+        expect(() => parseVertexAICredentials('proj::ya29.token')).toThrow();
+      });
+
+      it('throws on missing access token', () => {
+        expect(() => parseVertexAICredentials('proj::us-central1::')).toThrow();
+      });
     });
   });
 });

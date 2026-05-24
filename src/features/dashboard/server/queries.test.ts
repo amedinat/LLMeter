@@ -117,6 +117,7 @@ const ZERO_PROVIDERS = {
   neets: 0,
   runpod: 0,
   predibase: 0,
+  vertexai: 0,
 };
 
 // --- Tests ---

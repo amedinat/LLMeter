@@ -101,6 +101,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         neets: 0,
         runpod: 0,
         predibase: 0,
+        vertexai: 0,
       },
     };
   });

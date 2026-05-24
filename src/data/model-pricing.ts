@@ -5902,6 +5902,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+  // ── Google Vertex AI ─────────────────────────────────────────
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-2.5-pro',
+    display_name: 'Gemini 2.5 Pro',
+    input_price_per_1m_tokens: 1.25,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-2.5-flash',
+    display_name: 'Gemini 2.5 Flash',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-2.0-flash',
+    display_name: 'Gemini 2.0 Flash',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-2.0-flash-lite',
+    display_name: 'Gemini 2.0 Flash Lite',
+    input_price_per_1m_tokens: 0.075,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-1.5-pro',
+    display_name: 'Gemini 1.5 Pro',
+    input_price_per_1m_tokens: 1.25,
+    output_price_per_1m_tokens: 5.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-1.5-flash',
+    display_name: 'Gemini 1.5 Flash',
+    input_price_per_1m_tokens: 0.075,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-1.5-flash-8b',
+    display_name: 'Gemini 1.5 Flash 8B',
+    input_price_per_1m_tokens: 0.0375,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'vertexai',
+    model_id: 'google/gemini-1.0-pro',
+    display_name: 'Gemini 1.0 Pro',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6096,6 +6170,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     snowflake: [1.00, 1.00], // Llama 3.3 70B Instruct list prices (symmetric on Snowflake Cortex)
     neets: [0.12, 0.12], // Llama 3.3 70B Instruct list prices (symmetric on Neets.ai)
     runpod: [0.60, 0.80], // Llama 3.3 70B Instruct list prices on RunPod H100
+    predibase: [0.59, 0.79], // Llama 3.3 70B Instruct list prices on Predibase
+    vertexai: [1.25, 10.00], // Gemini 2.5 Pro list prices on Vertex AI
   };
   return defaults[provider];
 }

@@ -668,4 +668,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.predibase.com/api-reference',
     color: '#8B5CF6',
   },
+  vertexai: {
+    type: 'vertexai',
+    name: 'Google Vertex AI',
+    description: 'Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.0 Flash, Gemini 1.5 Pro/Flash — Google Cloud\'s enterprise-grade AI platform. SOC2/HIPAA/FedRAMP compliant. Credentials: project_id::location::access_token (generate token with: gcloud auth print-access-token).',
+    keyPrefix: '',
+    keyPlaceholder: 'my-gcp-project::us-central1::ya29.a0AfH6SMC...',
+    helpUrl: 'https://cloud.google.com/vertex-ai/generative-ai/docs/start/quickstarts',
+    color: '#4285F4',
+  },
 };

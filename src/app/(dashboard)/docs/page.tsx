@@ -1171,6 +1171,26 @@ const completion = await trackedPredibase.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Predibase
 );`;
 
+const sdkVertexAIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapVertexAI } from 'llmeter';
+
+// Google Vertex AI is OpenAI-compatible — use the openai package with the Vertex AI endpoint
+const vertexai = new OpenAI({
+  apiKey: process.env.VERTEX_AI_ACCESS_TOKEN, // gcloud auth print-access-token
+  baseURL: \`https://\${process.env.VERTEX_AI_LOCATION}-aiplatform.googleapis.com/v1/projects/\${process.env.VERTEX_AI_PROJECT_ID}/locations/\${process.env.VERTEX_AI_LOCATION}/endpoints/openapi\`,
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedVertexAI = wrapVertexAI(vertexai, llmeter);
+
+// All calls are automatically tracked — Google Cloud enterprise AI with SOC2/HIPAA/FedRAMP
+const completion = await trackedVertexAI.chat.completions.create(
+  {
+    model: 'google/gemini-2.5-flash',
+    messages: [{ role: 'user', content: 'Hello from Vertex AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Vertex AI
+);`;
+
 const sdkRunPodExample = `import OpenAI from 'openai';
 import LLMeter, { wrapRunPod } from 'llmeter';
 
@@ -1614,6 +1634,7 @@ export default function DocsPage() {
                 <TabsTrigger value="neets">Neets.ai</TabsTrigger>
                 <TabsTrigger value="runpod">RunPod</TabsTrigger>
                 <TabsTrigger value="predibase">Predibase</TabsTrigger>
+                <TabsTrigger value="vertexai">Google Vertex AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2306,6 +2327,16 @@ export default function DocsPage() {
                   call is tracked automatically. The only inference platform purpose-built for fine-tuned LLMs (LoRA adapters) — serve base and custom fine-tuned models on the same endpoint. 8 models: Llama 3.3 70B ($0.59/$0.79 per 1M), Llama 3.1 8B ($0.20/$0.20 — symmetric budget), Llama 3.1 70B ($0.50/$0.67), Mistral 7B ($0.20/$0.20 — symmetric), Mixtral 8x7B ($0.30/$0.30 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Phi-3 Medium 128K ($0.25/$0.25 — symmetric), Qwen 2.5 72B ($0.40/$0.40 — symmetric).
                 </p>
                 <CodeBlock language="typescript" code={sdkPredibaseExample} />
+              </TabsContent>
+              <TabsContent value="vertexai" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Google Vertex AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code> package
+                  with the Vertex AI endpoint. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  call is tracked automatically. Google Cloud&apos;s enterprise-grade AI platform with SOC2/HIPAA/FedRAMP compliance — completes the Big 3 hyperscaler set (AWS Bedrock + Azure OpenAI + Google Vertex AI). 8 models: Gemini 2.5 Pro ($1.25/$10.00 per 1M), Gemini 2.5 Flash ($0.15/$0.60), Gemini 2.0 Flash ($0.10/$0.40), Gemini 2.0 Flash Lite ($0.075/$0.30), Gemini 1.5 Pro ($1.25/$5.00), Gemini 1.5 Flash ($0.075/$0.30), Gemini 1.5 Flash 8B ($0.0375/$0.15 — cheapest Gemini), Gemini 1.0 Pro ($0.50/$1.50).
+                </p>
+                <CodeBlock language="typescript" code={sdkVertexAIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
