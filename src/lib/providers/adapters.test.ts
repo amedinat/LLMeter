@@ -74,6 +74,7 @@ import { gigachatAdapter } from './gigachat-adapter';
 import { githubAdapter } from './github-adapter';
 import { parasailAdapter } from './parasail-adapter';
 import { openpipeAdapter } from './openpipe-adapter';
+import { corcelAdapter } from './corcel-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6271,6 +6272,81 @@ describe('Provider Adapters', () => {
 
     it('openpipeAdapter.type is openpipe', () => {
       expect(openpipeAdapter.type).toBe('openpipe');
+    });
+  });
+
+  describe('corcelAdapter', () => {
+    const validKey = 'corcel_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await corcelAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.corcel.io/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await corcelAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Corcel API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(corcelAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Corcel API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(corcelAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await corcelAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await corcelAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('corcelAdapter.type is corcel', () => {
+      expect(corcelAdapter.type).toBe('corcel');
     });
   });
 });

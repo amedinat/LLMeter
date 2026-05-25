@@ -125,6 +125,7 @@ const ZERO_PROVIDERS = {
   github: 0,
   parasail: 0,
   openpipe: 0,
+  corcel: 0,
 };
 
 // --- Tests ---

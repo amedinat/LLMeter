@@ -1291,6 +1291,26 @@ const completion = await trackedOpenPipe.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OpenPipe
 );`;
 
+const sdkCorcelExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCorcel } from 'llmeter';
+
+// Corcel is OpenAI-compatible — use your Corcel API key as the Bearer token
+const corcel = new OpenAI({
+  apiKey: process.env.CORCEL_API_KEY,
+  baseURL: 'https://api.corcel.io/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCorcel = wrapCorcel(corcel, llmeter);
+
+// All calls are automatically tracked — Bittensor-powered decentralized AI, symmetric pricing
+const completion = await trackedCorcel.chat.completions.create(
+  {
+    model: 'corcel/llama-3-3-70b', // or 'corcel/mistral-7b', 'corcel/deepseek-r1', etc.
+    messages: [{ role: 'user', content: 'Hello from Corcel!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Corcel
+);`;
+
 const sdkGitHubModelsExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGitHub } from 'llmeter';
 
@@ -1789,6 +1809,7 @@ export default function DocsPage() {
                 <TabsTrigger value="github">GitHub Models</TabsTrigger>
                 <TabsTrigger value="parasail">Parasail</TabsTrigger>
                 <TabsTrigger value="openpipe">OpenPipe</TabsTrigger>
+                <TabsTrigger value="corcel">Corcel</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2551,6 +2572,16 @@ export default function DocsPage() {
                   call is tracked automatically. Fine-tuned model serving platform — train Llama/Mistral/Phi on your data, serve via OpenAI-compatible API. 100% symmetric pricing across all 8 models. 8 models: Llama-3.2-1B fine-tune ($0.12/$0.12 per 1M — cheapest), Llama-3.2-3B ($0.18/$0.18), Phi-3.5-mini ($0.24/$0.24), Mistral-7B ($0.36/$0.36), Llama-3.1-8B ($0.36/$0.36), Llama-3.3-70B ($0.72/$0.72 — flagship), Llama-3.1-70B ($0.72/$0.72), Llama-3.1-405B ($3.60/$3.60 — enterprise).
                 </p>
                 <CodeBlock language="typescript" code={sdkOpenPipeExample} />
+              </TabsContent>
+              <TabsContent value="corcel" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Corcel is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Corcel base URL and your Corcel API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Bittensor subnet 18 decentralized AI inference — 2nd blockchain AI network on LLMeter (after io.net/Solana). 8 models: Mistral 7B ($0.02/$0.02 per 1M — cheapest tracked on LLMeter), Llama 3.1 8B ($0.03/$0.03 — ~99% cheaper than GPT-4o), Mixtral 8x7B MoE ($0.10/$0.10), Llama 3.1 70B ($0.12/$0.12), Qwen 2.5 72B ($0.14/$0.14), Llama 3.3 70B ($0.15/$0.15 — flagship), DeepSeek V3 ($0.20/$0.80), DeepSeek R1 ($0.40/$1.60 — reasoning).
+                </p>
+                <CodeBlock language="typescript" code={sdkCorcelExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

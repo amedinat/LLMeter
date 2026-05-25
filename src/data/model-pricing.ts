@@ -6417,6 +6417,79 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
 
+  // ── Corcel ───────────────────────────────────────────────────
+  {
+    provider: 'corcel',
+    model_id: 'corcel/llama-3-3-70b',
+    display_name: 'Corcel / Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/llama-3-1-70b',
+    display_name: 'Corcel / Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/llama-3-1-8b',
+    display_name: 'Corcel / Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/deepseek-r1',
+    display_name: 'Corcel / DeepSeek R1',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/deepseek-v3',
+    display_name: 'Corcel / DeepSeek V3',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/mistral-7b',
+    display_name: 'Corcel / Mistral 7B',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.02,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/qwen-2-5-72b',
+    display_name: 'Corcel / Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'corcel',
+    model_id: 'corcel/mixtral-8x7b',
+    display_name: 'Corcel / Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
 
   // ── Parasail ─────────────────────────────────────────────────
   {
@@ -6695,6 +6768,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     github: [0.80, 0.80], // Meta-Llama-3.1-70B-Instruct symmetric as default
     parasail: [0.22, 0.40], // Llama 3.3 70B Instruct on Parasail
     openpipe: [0.72, 0.72], // Meta-Llama-3.3-70B-Instruct fine-tune on OpenPipe (symmetric)
+    corcel: [0.15, 0.15], // Llama 3.3 70B on Corcel (symmetric flagship)
   };
   return defaults[provider];
 }

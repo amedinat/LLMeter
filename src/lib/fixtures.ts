@@ -109,6 +109,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         github: 0,
         parasail: 0,
         openpipe: 0,
+        corcel: 0,
       },
     };
   });

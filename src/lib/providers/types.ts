@@ -740,4 +740,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://openpipe.ai',
     color: '#8B5CF6',
   },
+  corcel: {
+    type: 'corcel',
+    name: 'Corcel',
+    description: 'Llama 3.3 70B, Llama 3.1 70B/8B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral 7B — Bittensor-powered decentralized AI inference. Llama 3.1 8B $0.03/1M — ~99% cheaper than GPT-4o. Mistral 7B $0.02/1M — cheapest tracked on LLMeter.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-corcel-api-key',
+    helpUrl: 'https://app.corcel.io/dashboard',
+    color: '#5B4CF5',
+  },
 };
