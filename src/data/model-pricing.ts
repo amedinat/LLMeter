@@ -6639,6 +6639,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
 
+  // ── Zyphra ────────────────────────────────────────────────────
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-7b',
+    display_name: 'Zamba2-7B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-7b-instruct',
+    display_name: 'Zamba2-7B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-2.7b',
+    display_name: 'Zamba2-2.7B',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-1.2b',
+    display_name: 'Zamba2-1.2B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-mini',
+    display_name: 'Zamba2 Mini',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba-7b-v0.1',
+    display_name: 'Zamba-7B v0.1',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-7b-chat',
+    display_name: 'Zamba2-7B Chat',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'zyphra',
+    model_id: 'zamba2-7b-long',
+    display_name: 'Zamba2-7B Long',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
   // ── Inception AI ─────────────────────────────────────────────
   {
     provider: 'inception',
@@ -6919,6 +6993,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     corcel: [0.15, 0.15], // Llama 3.3 70B on Corcel (symmetric flagship)
     inception: [0.50, 0.50], // Mercury Coder Large on Inception AI (symmetric flagship)
     liquid: [0.60, 0.60], // LFM-40B on Liquid AI (symmetric flagship)
+    zyphra: [0.18, 0.18], // Zamba2-7B on Zyphra (symmetric flagship)
   };
   return defaults[provider];
 }

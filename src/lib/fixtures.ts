@@ -112,6 +112,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         corcel: 0,
         inception: 0,
         liquid: 0,
+        zyphra: 0,
       },
     };
   });

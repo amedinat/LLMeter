@@ -128,6 +128,7 @@ const ZERO_PROVIDERS = {
   corcel: 0,
   inception: 0,
   liquid: 0,
+  zyphra: 0,
 };
 
 // --- Tests ---

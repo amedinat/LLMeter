@@ -767,4 +767,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://liquid.ai/dashboard',
     color: '#0EA5E9',
   },
+  zyphra: {
+    type: 'zyphra',
+    name: 'Zyphra',
+    description: 'Zamba2-7B, Zamba2-2.7B, Zamba2-1.2B — Mamba SSM (State Space Model) hybrid architecture. Third non-transformer architecture on LLMeter. 6× faster inference than same-sized Transformers, 3× lower memory footprint. Zamba2-7B rivals Llama 3.1 8B at a smaller size. 100% symmetric pricing across all 8 models.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-zyphra-api-key',
+    helpUrl: 'https://www.zyphra.com/api',
+    color: '#7C3AED',
+  },
 };

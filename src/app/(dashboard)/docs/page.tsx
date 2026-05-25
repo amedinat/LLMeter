@@ -1331,6 +1331,26 @@ const completion = await trackedLiquid.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Liquid AI
 );`;
 
+const sdkZyphraExample = `import OpenAI from 'openai';
+import LLMeter, { wrapZyphra } from 'llmeter';
+
+// Zyphra is OpenAI-compatible — use your Zyphra API key as the Bearer token
+const zyphra = new OpenAI({
+  apiKey: process.env.ZYPHRA_API_KEY,
+  baseURL: 'https://api.zyphra.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedZyphra = wrapZyphra(zyphra, llmeter);
+
+// All calls are automatically tracked — Mamba SSM models, 100% symmetric pricing
+const completion = await trackedZyphra.chat.completions.create(
+  {
+    model: 'zamba2-7b-instruct', // or 'zamba2-2.7b', 'zamba2-1.2b', 'zamba2-mini', etc.
+    messages: [{ role: 'user', content: 'Hello from Zyphra!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Zyphra
+);`;
+
 const sdkCorcelExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCorcel } from 'llmeter';
 
@@ -1852,6 +1872,7 @@ export default function DocsPage() {
                 <TabsTrigger value="corcel">Corcel</TabsTrigger>
                 <TabsTrigger value="inception">Inception AI</TabsTrigger>
                 <TabsTrigger value="liquid">Liquid AI</TabsTrigger>
+                <TabsTrigger value="zyphra">Zyphra</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2644,6 +2665,16 @@ export default function DocsPage() {
                   call is tracked automatically. Liquid Foundation Models (LFMs) — MIT spin-off using liquid neural networks (non-transformer architecture). LFM-40B rivals models 6× larger. 8 models: LFM-3B ($0.10/$0.10 per 1M — budget, 96% cheaper input than GPT-4o, symmetric), LFM-7B ($0.25/$0.25 — standard symmetric), LFM-13B ($0.35/$0.35 — midrange symmetric), LFM-40B MoE ($0.40/$0.40 — MoE flagship symmetric), LFM-40B ($0.60/$0.60 — flagship symmetric), LFM-3B Instruct ($0.10/$0.10), LFM-7B Instruct ($0.25/$0.25), LFM-40B Instruct ($0.60/$0.60). 100% symmetric pricing — all models input = output.
                 </p>
                 <CodeBlock language="typescript" code={sdkLiquidExample} />
+              </TabsContent>
+              <TabsContent value="zyphra" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Zyphra is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Zyphra base URL and your Zyphra API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Zyphra builds Zamba models using Mamba SSM (State Space Model) hybrid architecture — the third non-transformer architecture on LLMeter after Inception AI (diffusion) and Liquid AI (LNN). 6× faster inference than same-sized Transformers, 3× lower memory footprint. 8 models: Zamba2-1.2B ($0.04/$0.04 per 1M — ultra-budget symmetric), Zamba2-2.7B ($0.07/$0.07 — budget symmetric), Zamba2 Mini ($0.07/$0.07 — compact symmetric), Zamba-7B v0.1 ($0.20/$0.20 — gen 1 symmetric), Zamba2-7B ($0.18/$0.18 — flagship symmetric), Zamba2-7B Instruct ($0.18/$0.18 — instruction-tuned symmetric), Zamba2-7B Chat ($0.18/$0.18 — chat-optimized symmetric), Zamba2-7B Long ($0.22/$0.22 — extended context symmetric). 100% symmetric pricing — all models input = output.
+                </p>
+                <CodeBlock language="typescript" code={sdkZyphraExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

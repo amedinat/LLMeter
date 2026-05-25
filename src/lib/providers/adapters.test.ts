@@ -77,6 +77,7 @@ import { openpipeAdapter } from './openpipe-adapter';
 import { corcelAdapter } from './corcel-adapter';
 import { inceptionAdapter } from './inception-adapter';
 import { liquidAdapter } from './liquid-adapter';
+import { zyphraAdapter } from './zyphra-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6499,6 +6500,81 @@ describe('Provider Adapters', () => {
 
     it('liquidAdapter.type is liquid', () => {
       expect(liquidAdapter.type).toBe('liquid');
+    });
+  });
+
+  describe('zyphraAdapter', () => {
+    const validKey = 'zyphra_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await zyphraAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.zyphra.com/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await zyphraAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Zyphra API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(zyphraAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Zyphra API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(zyphraAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await zyphraAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await zyphraAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('zyphraAdapter.type is zyphra', () => {
+      expect(zyphraAdapter.type).toBe('zyphra');
     });
   });
 });
