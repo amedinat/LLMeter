@@ -1251,6 +1251,26 @@ const completion = await trackedOCI.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OCI
 );`;
 
+const sdkParasailExample = `import OpenAI from 'openai';
+import LLMeter, { wrapParasail } from 'llmeter';
+
+// Parasail is OpenAI-compatible — use your Parasail API key as the Bearer token
+const parasail = new OpenAI({
+  apiKey: process.env.PARASAIL_API_KEY,
+  baseURL: 'https://api.parasail.io/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedParasail = wrapParasail(parasail, llmeter);
+
+// All calls are automatically tracked — 30× cheaper, no quotas, Day 0 frontier models
+const completion = await trackedParasail.chat.completions.create(
+  {
+    model: 'deepseek-ai/DeepSeek-V3-0324', // or 'meta-llama/Meta-Llama-3.3-70B-Instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from Parasail!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Parasail
+);`;
+
 const sdkGitHubModelsExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGitHub } from 'llmeter';
 
@@ -1747,6 +1767,7 @@ export default function DocsPage() {
                 <TabsTrigger value="oci">Oracle OCI</TabsTrigger>
                 <TabsTrigger value="gigachat">GigaChat</TabsTrigger>
                 <TabsTrigger value="github">GitHub Models</TabsTrigger>
+                <TabsTrigger value="parasail">Parasail</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2489,6 +2510,16 @@ export default function DocsPage() {
                   call is tracked automatically. Microsoft &amp; GitHub AI inference for 100M+ developers — GPT-4o, Llama 3.1, Phi-4, Mistral Nemo, and 30+ models. Free tier: 150 req/day for GPT-4o, 2000/day for Llama models. Production pricing via Azure AI Foundry. 8 models: GPT-4o ($2.50/$10.00 per 1M), GPT-4o mini ($0.15/$0.60), Meta-Llama-3.1-8B ($0.10/$0.10 — symmetric, cheapest), Meta-Llama-3.1-70B ($0.80/$0.80 — symmetric), Meta-Llama-3.1-405B ($5.32/$16.00), Phi-3.5-mini ($0.12/$0.47), Phi-4 ($0.12/$0.47), Mistral Nemo ($0.13/$0.13 — symmetric).
                 </p>
                 <CodeBlock language="typescript" code={sdkGitHubModelsExample} />
+              </TabsContent>
+              <TabsContent value="parasail" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Parasail is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Parasail base URL and your Parasail API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Global distributed AI inference network — up to 30× cheaper than legacy cloud, 500B+ tokens/day, 15+ countries, no quotas or lock-ins. 8 models: Gemma 4 27B ($0.13/$0.40 per 1M — cheapest), DeepSeek V4 Flash ($0.14/$0.28), Qwen3 30B A3B ($0.15/$0.60), Llama 4 Maverick 17B ($0.20/$0.65), Llama 3.3 70B ($0.22/$0.40), DeepSeek R1 ($0.55/$2.19 — reasoning), Kimi K2 ($0.75/$3.50 — agentic), GLM-4 32B ($1.40/$4.40 — enterprise).
+                </p>
+                <CodeBlock language="typescript" code={sdkParasailExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

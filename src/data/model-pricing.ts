@@ -6342,6 +6342,81 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+
+  // ── Parasail ─────────────────────────────────────────────────
+  {
+    provider: 'parasail',
+    model_id: 'google/gemma-4-27b-it',
+    display_name: 'Gemma 4 27B',
+    input_price_per_1m_tokens: 0.13,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'deepseek-ai/DeepSeek-V3-0324',
+    display_name: 'DeepSeek V4 Flash',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'Qwen/Qwen3-30B-A3B',
+    display_name: 'Qwen3 30B A3B',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct',
+    display_name: 'Llama 4 Maverick 17B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'moonshotai/Kimi-K2-Instruct',
+    display_name: 'Kimi K2',
+    input_price_per_1m_tokens: 0.75,
+    output_price_per_1m_tokens: 3.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'THUDM/GLM-4-32B-0414',
+    display_name: 'GLM-4 32B',
+    input_price_per_1m_tokens: 1.40,
+    output_price_per_1m_tokens: 4.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'parasail',
+    model_id: 'deepseek-ai/DeepSeek-R1-0528',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6543,6 +6618,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     oci: [0.72, 0.90], // Llama 3.3 70B Instruct list prices on OCI Generative AI
     gigachat: [1.50, 1.50], // GigaChat Max symmetric pricing
     github: [0.80, 0.80], // Meta-Llama-3.1-70B-Instruct symmetric as default
+    parasail: [0.22, 0.40], // Llama 3.3 70B Instruct on Parasail
   };
   return defaults[provider];
 }

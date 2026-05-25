@@ -722,4 +722,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://github.com/marketplace/models',
     color: '#24292F',
   },
+  parasail: {
+    type: 'parasail',
+    name: 'Parasail',
+    description: 'Global distributed AI inference network — up to 30× cheaper than legacy cloud, no quotas, no lock-ins, Day 0 frontier models',
+    keyPrefix: '',
+    keyPlaceholder: 'ps-...',
+    helpUrl: 'https://docs.parasail.io',
+    color: '#6C47FF',
+  },
 };

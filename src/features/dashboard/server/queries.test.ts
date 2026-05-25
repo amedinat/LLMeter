@@ -123,6 +123,7 @@ const ZERO_PROVIDERS = {
   oci: 0,
   gigachat: 0,
   github: 0,
+  parasail: 0,
 };
 
 // --- Tests ---

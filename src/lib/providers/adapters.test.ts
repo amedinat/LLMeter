@@ -72,6 +72,7 @@ import { ionetAdapter } from './ionet-adapter';
 import { ociAdapter, parseOCICredentials } from './oci-adapter';
 import { gigachatAdapter } from './gigachat-adapter';
 import { githubAdapter } from './github-adapter';
+import { parasailAdapter } from './parasail-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6119,6 +6120,81 @@ describe('Provider Adapters', () => {
 
     it('githubAdapter.type is github', () => {
       expect(githubAdapter.type).toBe('github');
+    });
+  });
+
+  describe('parasailAdapter', () => {
+    const validKey = 'ps-validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await parasailAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.parasail.io/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await parasailAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Parasail API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(parasailAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Parasail API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(parasailAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await parasailAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await parasailAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-24')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('parasailAdapter.type is parasail', () => {
+      expect(parasailAdapter.type).toBe('parasail');
     });
   });
 });
