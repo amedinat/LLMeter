@@ -6268,6 +6268,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+  // ── GitHub Models ────────────────────────────────────────────
+  {
+    provider: 'github',
+    model_id: 'gpt-4o',
+    display_name: 'GPT-4o',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 10.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'gpt-4o-mini',
+    display_name: 'GPT-4o mini',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Meta-Llama-3.1-8B-Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Meta-Llama-3.1-70B-Instruct',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Meta-Llama-3.1-405B-Instruct',
+    input_price_per_1m_tokens: 5.32,
+    output_price_per_1m_tokens: 16.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'Phi-3.5-mini-instruct',
+    display_name: 'Phi-3.5-mini-instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.47,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'Phi-4',
+    display_name: 'Phi-4',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.47,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+  {
+    provider: 'github',
+    model_id: 'Mistral-Nemo',
+    display_name: 'Mistral Nemo',
+    input_price_per_1m_tokens: 0.13,
+    output_price_per_1m_tokens: 0.13,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-24T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6468,6 +6542,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ionet: [0.30, 0.30], // Llama 3.3 70B symmetric pricing on io.net
     oci: [0.72, 0.90], // Llama 3.3 70B Instruct list prices on OCI Generative AI
     gigachat: [1.50, 1.50], // GigaChat Max symmetric pricing
+    github: [0.80, 0.80], // Meta-Llama-3.1-70B-Instruct symmetric as default
   };
   return defaults[provider];
 }

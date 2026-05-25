@@ -713,4 +713,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developers.sber.ru/docs/ru/gigachat/api/reference/rest/post-token',
     color: '#21A038',
   },
+  github: {
+    type: 'github',
+    name: 'GitHub Models',
+    description: 'Microsoft & GitHub AI model inference: GPT-4o, Llama 3.1, Phi-4, Mistral — 100M+ developers, OpenAI-compatible API',
+    keyPrefix: '',
+    keyPlaceholder: 'github_pat_11A...',
+    helpUrl: 'https://github.com/marketplace/models',
+    color: '#24292F',
+  },
 };

@@ -105,6 +105,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         spark: 0,
         ionet: 0,
         oci: 0,
+        gigachat: 0,
+        github: 0,
       },
     };
   });

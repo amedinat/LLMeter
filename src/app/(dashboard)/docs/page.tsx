@@ -1251,6 +1251,26 @@ const completion = await trackedOCI.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OCI
 );`;
 
+const sdkGitHubModelsExample = `import OpenAI from 'openai';
+import LLMeter, { wrapGitHub } from 'llmeter';
+
+// GitHub Models is OpenAI-compatible — use your GitHub PAT as the API key
+const github = new OpenAI({
+  apiKey: process.env.GITHUB_TOKEN, // GitHub Personal Access Token (classic or fine-grained)
+  baseURL: 'https://models.inference.ai.azure.com',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGitHub = wrapGitHub(github, llmeter);
+
+// All calls are automatically tracked — 100M+ GitHub developers, 30+ models
+const completion = await trackedGitHub.chat.completions.create(
+  {
+    model: 'gpt-4o', // or 'Meta-Llama-3.1-8B-Instruct', 'Phi-4', 'Mistral-Nemo', etc.
+    messages: [{ role: 'user', content: 'Hello from GitHub Models!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to GitHub Models
+);`;
+
 const sdkGigaChatExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGigaChat } from 'llmeter';
 
@@ -1726,6 +1746,7 @@ export default function DocsPage() {
                 <TabsTrigger value="ionet">io.net</TabsTrigger>
                 <TabsTrigger value="oci">Oracle OCI</TabsTrigger>
                 <TabsTrigger value="gigachat">GigaChat</TabsTrigger>
+                <TabsTrigger value="github">GitHub Models</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2458,6 +2479,16 @@ export default function DocsPage() {
                   call is tracked automatically. Oracle Cloud — the 4th enterprise hyperscaler (95% of Fortune 500 are Oracle customers). SOC2/HIPAA/FedRAMP/ISO 27001 certified. 8 models: Cohere Command R+ ($2.50/$10.00 per 1M — enterprise RAG flagship), Cohere Command R ($0.30/$0.60), Llama 3.3 70B ($0.72/$0.90), Llama 3.1 405B ($3.00/$3.70), Llama 3.1 70B ($0.60/$0.80), Llama 3.1 8B ($0.10/$0.12), Mistral Large 2 ($3.20/$3.20 — symmetric), Mistral 7B ($0.12/$0.12 — symmetric budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkOCIExample} />
+              </TabsContent>
+              <TabsContent value="github" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  GitHub Models is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the GitHub Models base URL and your GitHub Personal Access Token. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Microsoft &amp; GitHub AI inference for 100M+ developers — GPT-4o, Llama 3.1, Phi-4, Mistral Nemo, and 30+ models. Free tier: 150 req/day for GPT-4o, 2000/day for Llama models. Production pricing via Azure AI Foundry. 8 models: GPT-4o ($2.50/$10.00 per 1M), GPT-4o mini ($0.15/$0.60), Meta-Llama-3.1-8B ($0.10/$0.10 — symmetric, cheapest), Meta-Llama-3.1-70B ($0.80/$0.80 — symmetric), Meta-Llama-3.1-405B ($5.32/$16.00), Phi-3.5-mini ($0.12/$0.47), Phi-4 ($0.12/$0.47), Mistral Nemo ($0.13/$0.13 — symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkGitHubModelsExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

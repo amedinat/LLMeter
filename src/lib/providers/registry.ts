@@ -74,6 +74,7 @@ import { sparkAdapter } from './spark-adapter';
 import { ionetAdapter } from './ionet-adapter';
 import { ociAdapter } from './oci-adapter';
 import { gigachatAdapter } from './gigachat-adapter';
+import { githubAdapter } from './github-adapter';
 
 /**
  * Provider adapter registry.
@@ -156,6 +157,7 @@ adapters.set('spark', sparkAdapter);
 adapters.set('ionet', ionetAdapter);
 adapters.set('oci', ociAdapter);
 adapters.set('gigachat', gigachatAdapter);
+adapters.set('github', githubAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

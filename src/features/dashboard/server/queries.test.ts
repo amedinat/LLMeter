@@ -122,6 +122,7 @@ const ZERO_PROVIDERS = {
   ionet: 0,
   oci: 0,
   gigachat: 0,
+  github: 0,
 };
 
 // --- Tests ---
