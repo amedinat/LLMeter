@@ -76,6 +76,7 @@ import { ociAdapter } from './oci-adapter';
 import { gigachatAdapter } from './gigachat-adapter';
 import { githubAdapter } from './github-adapter';
 import { parasailAdapter } from './parasail-adapter';
+import { openpipeAdapter } from './openpipe-adapter';
 
 /**
  * Provider adapter registry.
@@ -160,6 +161,7 @@ adapters.set('oci', ociAdapter);
 adapters.set('gigachat', gigachatAdapter);
 adapters.set('github', githubAdapter);
 adapters.set('parasail', parasailAdapter);
+adapters.set('openpipe', openpipeAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -1271,6 +1271,26 @@ const completion = await trackedParasail.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Parasail
 );`;
 
+const sdkOpenPipeExample = `import OpenAI from 'openai';
+import LLMeter, { wrapOpenPipe } from 'llmeter';
+
+// OpenPipe is OpenAI-compatible — use your OpenPipe API key (opk_...) as the Bearer token
+const openpipe = new OpenAI({
+  apiKey: process.env.OPENPIPE_API_KEY,
+  baseURL: 'https://api.openpipe.ai/api/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedOpenPipe = wrapOpenPipe(openpipe, llmeter);
+
+// All calls are automatically tracked — fine-tuned models, 100% symmetric pricing
+const completion = await trackedOpenPipe.chat.completions.create(
+  {
+    model: 'openpipe/meta-llama/Meta-Llama-3.3-70B-Instruct', // or any fine-tuned model
+    messages: [{ role: 'user', content: 'Hello from OpenPipe!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OpenPipe
+);`;
+
 const sdkGitHubModelsExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGitHub } from 'llmeter';
 
@@ -1768,6 +1788,7 @@ export default function DocsPage() {
                 <TabsTrigger value="gigachat">GigaChat</TabsTrigger>
                 <TabsTrigger value="github">GitHub Models</TabsTrigger>
                 <TabsTrigger value="parasail">Parasail</TabsTrigger>
+                <TabsTrigger value="openpipe">OpenPipe</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2520,6 +2541,16 @@ export default function DocsPage() {
                   call is tracked automatically. Global distributed AI inference network — up to 30× cheaper than legacy cloud, 500B+ tokens/day, 15+ countries, no quotas or lock-ins. 8 models: Gemma 4 27B ($0.13/$0.40 per 1M — cheapest), DeepSeek V4 Flash ($0.14/$0.28), Qwen3 30B A3B ($0.15/$0.60), Llama 4 Maverick 17B ($0.20/$0.65), Llama 3.3 70B ($0.22/$0.40), DeepSeek R1 ($0.55/$2.19 — reasoning), Kimi K2 ($0.75/$3.50 — agentic), GLM-4 32B ($1.40/$4.40 — enterprise).
                 </p>
                 <CodeBlock language="typescript" code={sdkParasailExample} />
+              </TabsContent>
+              <TabsContent value="openpipe" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  OpenPipe is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the OpenPipe base URL and your OpenPipe API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Fine-tuned model serving platform — train Llama/Mistral/Phi on your data, serve via OpenAI-compatible API. 100% symmetric pricing across all 8 models. 8 models: Llama-3.2-1B fine-tune ($0.12/$0.12 per 1M — cheapest), Llama-3.2-3B ($0.18/$0.18), Phi-3.5-mini ($0.24/$0.24), Mistral-7B ($0.36/$0.36), Llama-3.1-8B ($0.36/$0.36), Llama-3.3-70B ($0.72/$0.72 — flagship), Llama-3.1-70B ($0.72/$0.72), Llama-3.1-405B ($3.60/$3.60 — enterprise).
+                </p>
+                <CodeBlock language="typescript" code={sdkOpenPipeExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

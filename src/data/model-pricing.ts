@@ -6343,6 +6343,81 @@ const MODEL_CATALOG: ModelPricing[] = [
   },
 
 
+  // ── OpenPipe ─────────────────────────────────────────────────
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Meta-Llama-3.3-70B-Instruct (fine-tune)',
+    input_price_per_1m_tokens: 0.72,
+    output_price_per_1m_tokens: 0.72,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Meta-Llama-3.1-70B-Instruct (fine-tune)',
+    input_price_per_1m_tokens: 0.72,
+    output_price_per_1m_tokens: 0.72,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Meta-Llama-3.1-8B-Instruct (fine-tune)',
+    input_price_per_1m_tokens: 0.36,
+    output_price_per_1m_tokens: 0.36,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Meta-Llama-3.1-405B-Instruct (fine-tune)',
+    input_price_per_1m_tokens: 3.60,
+    output_price_per_1m_tokens: 3.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral-7B-Instruct-v0.3 (fine-tune)',
+    input_price_per_1m_tokens: 0.36,
+    output_price_per_1m_tokens: 0.36,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/microsoft/Phi-3.5-mini-instruct',
+    display_name: 'Phi-3.5-mini-instruct (fine-tune)',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/meta-llama/Llama-3.2-3B-Instruct',
+    display_name: 'Llama-3.2-3B-Instruct (fine-tune)',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'openpipe',
+    model_id: 'openpipe/meta-llama/Llama-3.2-1B-Instruct',
+    display_name: 'Llama-3.2-1B-Instruct (fine-tune)',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
+
   // ── Parasail ─────────────────────────────────────────────────
   {
     provider: 'parasail',
@@ -6619,6 +6694,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     gigachat: [1.50, 1.50], // GigaChat Max symmetric pricing
     github: [0.80, 0.80], // Meta-Llama-3.1-70B-Instruct symmetric as default
     parasail: [0.22, 0.40], // Llama 3.3 70B Instruct on Parasail
+    openpipe: [0.72, 0.72], // Meta-Llama-3.3-70B-Instruct fine-tune on OpenPipe (symmetric)
   };
   return defaults[provider];
 }

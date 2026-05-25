@@ -73,6 +73,7 @@ import { ociAdapter, parseOCICredentials } from './oci-adapter';
 import { gigachatAdapter } from './gigachat-adapter';
 import { githubAdapter } from './github-adapter';
 import { parasailAdapter } from './parasail-adapter';
+import { openpipeAdapter } from './openpipe-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6195,6 +6196,81 @@ describe('Provider Adapters', () => {
 
     it('parasailAdapter.type is parasail', () => {
       expect(parasailAdapter.type).toBe('parasail');
+    });
+  });
+
+  describe('openpipeAdapter', () => {
+    const validKey = 'opk_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /api/v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await openpipeAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.openpipe.ai/api/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /api/v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await openpipeAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about OpenPipe API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(openpipeAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid OpenPipe API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(openpipeAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await openpipeAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await openpipeAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('openpipeAdapter.type is openpipe', () => {
+      expect(openpipeAdapter.type).toBe('openpipe');
     });
   });
 });

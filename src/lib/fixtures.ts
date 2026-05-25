@@ -108,6 +108,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         gigachat: 0,
         github: 0,
         parasail: 0,
+        openpipe: 0,
       },
     };
   });

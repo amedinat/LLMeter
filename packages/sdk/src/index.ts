@@ -82,6 +82,7 @@ export { wrapOCI } from './oci.js';
 export { wrapGigaChat } from './gigachat.js';
 export { wrapGitHub } from './github.js';
 export { wrapParasail } from './parasail.js';
+export { wrapOpenPipe } from './openpipe.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

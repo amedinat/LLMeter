@@ -241,6 +241,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           gigachat: 0,
           github: 0,
           parasail: 0,
+          openpipe: 0,
         }
       });
     }
@@ -341,6 +342,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           gigachat: 0,
           github: 0,
           parasail: 0,
+          openpipe: 0,
         },
       }
     );

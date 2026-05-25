@@ -731,4 +731,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.parasail.io',
     color: '#6C47FF',
   },
+  openpipe: {
+    type: 'openpipe',
+    name: 'OpenPipe',
+    description: 'Fine-tuned model serving platform',
+    keyPrefix: 'opk_',
+    keyPlaceholder: 'opk_...',
+    helpUrl: 'https://openpipe.ai',
+    color: '#8B5CF6',
+  },
 };
