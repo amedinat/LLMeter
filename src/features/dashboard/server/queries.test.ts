@@ -127,6 +127,7 @@ const ZERO_PROVIDERS = {
   openpipe: 0,
   corcel: 0,
   inception: 0,
+  liquid: 0,
 };
 
 // --- Tests ---

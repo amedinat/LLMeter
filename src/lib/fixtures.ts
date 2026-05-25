@@ -111,6 +111,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         openpipe: 0,
         corcel: 0,
         inception: 0,
+        liquid: 0,
       },
     };
   });

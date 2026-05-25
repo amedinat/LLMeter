@@ -244,6 +244,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           openpipe: 0,
           corcel: 0,
           inception: 0,
+          liquid: 0,
         }
       });
     }
@@ -347,6 +348,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           openpipe: 0,
           corcel: 0,
           inception: 0,
+          liquid: 0,
         },
       }
     );

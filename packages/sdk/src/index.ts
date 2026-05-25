@@ -85,6 +85,7 @@ export { wrapParasail } from './parasail.js';
 export { wrapOpenPipe } from './openpipe.js';
 export { wrapCorcel } from './corcel.js';
 export { wrapInception } from './inception.js';
+export { wrapLiquid } from './liquid.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

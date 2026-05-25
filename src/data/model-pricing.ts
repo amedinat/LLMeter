@@ -6565,6 +6565,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+  // ── Liquid AI ─────────────────────────────────────────────────
+  {
+    provider: 'liquid',
+    model_id: 'lfm-3b',
+    display_name: 'LFM-3B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-7b',
+    display_name: 'LFM-7B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-13b',
+    display_name: 'LFM-13B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-40b',
+    display_name: 'LFM-40B',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-40b-moe',
+    display_name: 'LFM-40B MoE',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-7b-instruct',
+    display_name: 'LFM-7B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-3b-instruct',
+    display_name: 'LFM-3B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'liquid',
+    model_id: 'lfm-40b-instruct',
+    display_name: 'LFM-40B Instruct',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
   // ── Inception AI ─────────────────────────────────────────────
   {
     provider: 'inception',
@@ -6844,6 +6918,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     openpipe: [0.72, 0.72], // Meta-Llama-3.3-70B-Instruct fine-tune on OpenPipe (symmetric)
     corcel: [0.15, 0.15], // Llama 3.3 70B on Corcel (symmetric flagship)
     inception: [0.50, 0.50], // Mercury Coder Large on Inception AI (symmetric flagship)
+    liquid: [0.60, 0.60], // LFM-40B on Liquid AI (symmetric flagship)
   };
   return defaults[provider];
 }

@@ -758,4 +758,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://inceptionlabs.ai/dashboard',
     color: '#6366F1',
   },
+  liquid: {
+    type: 'liquid',
+    name: 'Liquid AI',
+    description: 'LFM-40B, LFM-7B, LFM-3B, LFM-1B — Liquid Foundation Models (LFMs) based on liquid neural networks (non-transformer). MIT spin-off, $37M raised. LFM-40B rivals models 6× larger. LFM-3B $0.10/$0.10 per 1M — 96% cheaper input than GPT-4o. All 8 models symmetric pricing.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-liquid-api-key',
+    helpUrl: 'https://liquid.ai/dashboard',
+    color: '#0EA5E9',
+  },
 };

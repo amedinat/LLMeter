@@ -76,6 +76,7 @@ import { parasailAdapter } from './parasail-adapter';
 import { openpipeAdapter } from './openpipe-adapter';
 import { corcelAdapter } from './corcel-adapter';
 import { inceptionAdapter } from './inception-adapter';
+import { liquidAdapter } from './liquid-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6423,6 +6424,81 @@ describe('Provider Adapters', () => {
 
     it('inceptionAdapter.type is inception', () => {
       expect(inceptionAdapter.type).toBe('inception');
+    });
+  });
+
+  describe('liquidAdapter', () => {
+    const validKey = 'liquid_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await liquidAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.liquid.ai/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await liquidAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Liquid AI API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(liquidAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Liquid AI API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(liquidAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await liquidAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await liquidAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('liquidAdapter.type is liquid', () => {
+      expect(liquidAdapter.type).toBe('liquid');
     });
   });
 });

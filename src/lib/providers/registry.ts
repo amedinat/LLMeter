@@ -79,6 +79,7 @@ import { parasailAdapter } from './parasail-adapter';
 import { openpipeAdapter } from './openpipe-adapter';
 import { corcelAdapter } from './corcel-adapter';
 import { inceptionAdapter } from './inception-adapter';
+import { liquidAdapter } from './liquid-adapter';
 
 /**
  * Provider adapter registry.
@@ -166,6 +167,7 @@ adapters.set('parasail', parasailAdapter);
 adapters.set('openpipe', openpipeAdapter);
 adapters.set('corcel', corcelAdapter);
 adapters.set('inception', inceptionAdapter);
+adapters.set('liquid', liquidAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
