@@ -749,4 +749,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.corcel.io/dashboard',
     color: '#5B4CF5',
   },
+  inception: {
+    type: 'inception',
+    name: 'Inception AI',
+    description: 'Mercury Coder Small, Mercury Coder Large, Mercury Mini, Mercury 20B — diffusion-based LLMs (non-transformer). First diffusion LLM provider on LLMeter. Mercury Mini $0.04/1M — ultra-fast inference. 100% symmetric pricing on all coding models.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-inception-api-key',
+    helpUrl: 'https://inceptionlabs.ai/dashboard',
+    color: '#6366F1',
+  },
 };

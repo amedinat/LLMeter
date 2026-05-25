@@ -6565,6 +6565,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
 
+  // ── Inception AI ─────────────────────────────────────────────
+  {
+    provider: 'inception',
+    model_id: 'mercury-mini',
+    display_name: 'Mercury Mini',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-coder-small',
+    display_name: 'Mercury Coder Small',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-7b',
+    display_name: 'Mercury 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-coder-small-20b',
+    display_name: 'Mercury Coder Small 20B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-20b',
+    display_name: 'Mercury 20B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-coder-medium',
+    display_name: 'Mercury Coder Medium',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-coder-large',
+    display_name: 'Mercury Coder Large',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'inception',
+    model_id: 'mercury-large',
+    display_name: 'Mercury Large',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6769,6 +6843,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     parasail: [0.22, 0.40], // Llama 3.3 70B Instruct on Parasail
     openpipe: [0.72, 0.72], // Meta-Llama-3.3-70B-Instruct fine-tune on OpenPipe (symmetric)
     corcel: [0.15, 0.15], // Llama 3.3 70B on Corcel (symmetric flagship)
+    inception: [0.50, 0.50], // Mercury Coder Large on Inception AI (symmetric flagship)
   };
   return defaults[provider];
 }

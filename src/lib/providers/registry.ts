@@ -78,6 +78,7 @@ import { githubAdapter } from './github-adapter';
 import { parasailAdapter } from './parasail-adapter';
 import { openpipeAdapter } from './openpipe-adapter';
 import { corcelAdapter } from './corcel-adapter';
+import { inceptionAdapter } from './inception-adapter';
 
 /**
  * Provider adapter registry.
@@ -164,6 +165,7 @@ adapters.set('github', githubAdapter);
 adapters.set('parasail', parasailAdapter);
 adapters.set('openpipe', openpipeAdapter);
 adapters.set('corcel', corcelAdapter);
+adapters.set('inception', inceptionAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

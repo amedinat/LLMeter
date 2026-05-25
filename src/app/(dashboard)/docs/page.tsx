@@ -1291,6 +1291,26 @@ const completion = await trackedOpenPipe.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OpenPipe
 );`;
 
+const sdkInceptionExample = `import OpenAI from 'openai';
+import LLMeter, { wrapInception } from 'llmeter';
+
+// Inception AI is OpenAI-compatible — use your Inception API key as the Bearer token
+const inception = new OpenAI({
+  apiKey: process.env.INCEPTION_API_KEY,
+  baseURL: 'https://api.inceptionlabs.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedInception = wrapInception(inception, llmeter);
+
+// All calls are automatically tracked — diffusion LLMs, 100% symmetric coding model pricing
+const completion = await trackedInception.chat.completions.create(
+  {
+    model: 'mercury-coder-small-20b', // or 'mercury-mini', 'mercury-large', etc.
+    messages: [{ role: 'user', content: 'Hello from Inception AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Inception AI
+);`;
+
 const sdkCorcelExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCorcel } from 'llmeter';
 
@@ -1810,6 +1830,7 @@ export default function DocsPage() {
                 <TabsTrigger value="parasail">Parasail</TabsTrigger>
                 <TabsTrigger value="openpipe">OpenPipe</TabsTrigger>
                 <TabsTrigger value="corcel">Corcel</TabsTrigger>
+                <TabsTrigger value="inception">Inception AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2582,6 +2603,16 @@ export default function DocsPage() {
                   call is tracked automatically. Bittensor subnet 18 decentralized AI inference — 2nd blockchain AI network on LLMeter (after io.net/Solana). 8 models: Mistral 7B ($0.02/$0.02 per 1M — cheapest tracked on LLMeter), Llama 3.1 8B ($0.03/$0.03 — ~99% cheaper than GPT-4o), Mixtral 8x7B MoE ($0.10/$0.10), Llama 3.1 70B ($0.12/$0.12), Qwen 2.5 72B ($0.14/$0.14), Llama 3.3 70B ($0.15/$0.15 — flagship), DeepSeek V3 ($0.20/$0.80), DeepSeek R1 ($0.40/$1.60 — reasoning).
                 </p>
                 <CodeBlock language="typescript" code={sdkCorcelExample} />
+              </TabsContent>
+              <TabsContent value="inception" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Inception AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Inception AI base URL and your Inception API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. First diffusion-based LLM provider on LLMeter — Mercury models use non-transformer architecture for ultra-fast inference. 8 models: Mercury Mini ($0.04/$0.04 per 1M — cheapest, ultra-fast), Mercury Coder Small ($0.07/$0.07 — coding budget), Mercury 7B ($0.09/$0.09 — general budget), Mercury Coder Small 20B ($0.12/$0.12 — coding standard), Mercury 20B ($0.20/$0.80 — general standard), Mercury Coder Medium ($0.25/$0.25 — coding flagship), Mercury Coder Large ($0.50/$0.50 — premium coding), Mercury Large ($0.60/$2.40 — premium general). 100% symmetric pricing on all coding models.
+                </p>
+                <CodeBlock language="typescript" code={sdkInceptionExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
