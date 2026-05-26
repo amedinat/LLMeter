@@ -1351,6 +1351,26 @@ const completion = await trackedZyphra.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Zyphra
 );`;
 
+const sdkCentMLExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCentML } from 'llmeter';
+
+// CentML is OpenAI-compatible — use your CentML API key as the Bearer token
+const centml = new OpenAI({
+  apiKey: process.env.CENTML_API_KEY,
+  baseURL: 'https://api.centml.com/openai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCentML = wrapCentML(centml, llmeter);
+
+// All calls are automatically tracked — Canadian GPU efficiency inference
+const completion = await trackedCentML.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'deepseek-ai/DeepSeek-R1', 'mistralai/Mistral-7B-Instruct-v0.3', etc.
+    messages: [{ role: 'user', content: 'Hello from CentML!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to CentML
+);`;
+
 const sdkArceeExample = `import OpenAI from 'openai';
 import LLMeter, { wrapArcee } from 'llmeter';
 
@@ -1915,6 +1935,7 @@ export default function DocsPage() {
                 <TabsTrigger value="zyphra">Zyphra</TabsTrigger>
                 <TabsTrigger value="akash">Akash</TabsTrigger>
                 <TabsTrigger value="arcee">Arcee AI</TabsTrigger>
+                <TabsTrigger value="centml">CentML</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2737,6 +2758,16 @@ export default function DocsPage() {
                   call is tracked automatically. Arcee AI is a San Francisco AI startup (2023) pioneering model merging with MergeKit (6,000+ GitHub stars). SuperMerging™ combines the best of multiple fine-tuned models — Arcee models outperform models 10x their size. 8 models: arcee-maestro ($1.50/$4.50 per 1M — flagship reasoning SuperMerged MoE), arcee-nova ($0.80/$2.40 — balanced general), arcee-agent ($1.00/$3.00 — agentic function calling), arcee-lite ($0.20/$0.60 — efficient 7B class), arcee-blitz ($0.14/$0.42 — fast budget), arcee-scribe ($0.25/$0.75 — writing specialized), arcee-spark ($0.09/$0.09 — ultra-budget symmetric), arcee-cli ($0.07/$0.07 — coding budget symmetric).
                 </p>
                 <CodeBlock language="typescript" code={sdkArceeExample} />
+              </TabsContent>
+              <TabsContent value="centml" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  CentML is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the CentML base URL and your CentML API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. CentML is a Canadian GPU efficiency pioneer — proprietary kernel optimization delivers 2-4x cost efficiency vs standard NVIDIA cloud. 8 models: meta-llama/Meta-Llama-3.3-70B-Instruct ($0.30/$0.30 per 1M — symmetric flagship), meta-llama/Meta-Llama-3.1-70B-Instruct ($0.25/$0.25 — symmetric), meta-llama/Meta-Llama-3.1-8B-Instruct ($0.05/$0.05 — symmetric budget), meta-llama/Meta-Llama-3.1-405B-Instruct ($1.40/$1.40 — symmetric enterprise), deepseek-ai/DeepSeek-R1 ($0.50/$2.00 — reasoning), deepseek-ai/DeepSeek-V3 ($0.25/$1.00), mistralai/Mistral-7B-Instruct-v0.3 ($0.06/$0.06 — symmetric cheapest), Qwen/Qwen2.5-72B-Instruct ($0.30/$0.30 — symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkCentMLExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

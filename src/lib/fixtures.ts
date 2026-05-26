@@ -115,6 +115,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         zyphra: 0,
         akash: 0,
         arcee: 0,
+        centml: 0,
       },
     };
   });

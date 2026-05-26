@@ -6935,6 +6935,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
 
+  // ── CentML ────────────────────────────────────────────────────────────────
+  {
+    provider: 'centml',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'CentML / Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'CentML / Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'CentML / Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'CentML / Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.40,
+    output_price_per_1m_tokens: 1.40,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'CentML / DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'CentML / DeepSeek V3',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'CentML / Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'centml',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'CentML / Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7144,6 +7218,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     zyphra: [0.18, 0.18], // Zamba2-7B on Zyphra (symmetric flagship)
     akash: [0.25, 0.25], // Llama 3.3 70B Instruct on Akash Network (symmetric)
     arcee: [0.80, 0.80], // Arcee Nova as symmetric default
+    centml: [0.30, 0.30], // Llama 3.3 70B Instruct symmetric on CentML
   };
   return defaults[provider];
 }
