@@ -87,6 +87,7 @@ import { centmlAdapter } from './centml-adapter';
 import { veniceAdapter } from './venice-adapter';
 import { inferlessAdapter } from './inferless-adapter';
 import { codestralAdapter } from './codestral-adapter';
+import { monsterapiAdapter } from './monsterapi-adapter';
 
 /**
  * Provider adapter registry.
@@ -182,6 +183,7 @@ adapters.set('centml', centmlAdapter);
 adapters.set('venice', veniceAdapter);
 adapters.set('inferless', inferlessAdapter);
 adapters.set('codestral', codestralAdapter);
+adapters.set('monsterapi', monsterapiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

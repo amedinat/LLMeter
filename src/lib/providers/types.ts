@@ -830,4 +830,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.mistral.ai/capabilities/code_generation/',
     color: '#FF7000',
   },
+  monsterapi: {
+    type: 'monsterapi',
+    name: 'Monster API',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B, DeepSeek R1, Mistral 7B, Gemma 2 9B, Phi-3.5 Mini, Qwen 2.5 72B — Indian GPU marketplace connecting idle GPU capacity worldwide. OpenAI-compatible API. Mistral 7B $0.04/1M symmetric — 98% cheaper than GPT-4o input. 6 of 8 models use symmetric pricing.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-monsterapi-key',
+    helpUrl: 'https://monsterapi.ai/dashboard',
+    color: '#F97316',
+  },
 };
