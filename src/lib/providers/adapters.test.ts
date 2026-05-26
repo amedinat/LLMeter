@@ -78,6 +78,7 @@ import { corcelAdapter } from './corcel-adapter';
 import { inceptionAdapter } from './inception-adapter';
 import { liquidAdapter } from './liquid-adapter';
 import { zyphraAdapter } from './zyphra-adapter';
+import { akashAdapter } from './akash-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6575,6 +6576,81 @@ describe('Provider Adapters', () => {
 
     it('zyphraAdapter.type is zyphra', () => {
       expect(zyphraAdapter.type).toBe('zyphra');
+    });
+  });
+
+  describe('akashAdapter', () => {
+    const validKey = 'akash_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /api/v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await akashAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://chatapi.akash.network/api/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /api/v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await akashAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Akash API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(akashAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Akash API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(akashAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await akashAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await akashAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-25')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('akashAdapter.type is akash', () => {
+      expect(akashAdapter.type).toBe('akash');
     });
   });
 });

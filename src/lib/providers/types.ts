@@ -776,4 +776,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://www.zyphra.com/api',
     color: '#7C3AED',
   },
+  akash: {
+    type: 'akash',
+    name: 'Akash Network',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/405B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral 7B — Cosmos blockchain decentralized GPU marketplace. Llama 3.1 8B $0.04/1M — ~98% cheaper than GPT-4o. Marketplace dynamics drive prices down: no single company owns the infrastructure.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-akash-api-key',
+    helpUrl: 'https://chatapi.akash.network',
+    color: '#FF414D',
+  },
 };

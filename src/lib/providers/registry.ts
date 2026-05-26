@@ -81,6 +81,7 @@ import { corcelAdapter } from './corcel-adapter';
 import { inceptionAdapter } from './inception-adapter';
 import { liquidAdapter } from './liquid-adapter';
 import { zyphraAdapter } from './zyphra-adapter';
+import { akashAdapter } from './akash-adapter';
 
 /**
  * Provider adapter registry.
@@ -170,6 +171,7 @@ adapters.set('corcel', corcelAdapter);
 adapters.set('inception', inceptionAdapter);
 adapters.set('liquid', liquidAdapter);
 adapters.set('zyphra', zyphraAdapter);
+adapters.set('akash', akashAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

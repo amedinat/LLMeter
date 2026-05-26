@@ -129,6 +129,7 @@ const ZERO_PROVIDERS = {
   inception: 0,
   liquid: 0,
   zyphra: 0,
+  akash: 0,
 };
 
 // --- Tests ---

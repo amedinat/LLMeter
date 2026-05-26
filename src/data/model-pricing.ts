@@ -6787,6 +6787,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
 
+  // ── Akash Network ─────────────────────────────────────────────
+  {
+    provider: 'akash',
+    model_id: 'Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Akash / Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Akash / Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'Meta-Llama-3.1-405B-Instruct-FP8',
+    display_name: 'Akash / Llama 3.1 405B Instruct FP8',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'DeepSeek-R1',
+    display_name: 'Akash / DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'DeepSeek-V3-0324',
+    display_name: 'Akash / DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'Qwen2.5-72B-Instruct',
+    display_name: 'Akash / Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'Mistral-7B-Instruct-v0.3',
+    display_name: 'Akash / Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'akash',
+    model_id: 'Meta-Llama-3.2-3B-Instruct',
+    display_name: 'Akash / Llama 3.2 3B Instruct',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.02,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -6994,6 +7068,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     inception: [0.50, 0.50], // Mercury Coder Large on Inception AI (symmetric flagship)
     liquid: [0.60, 0.60], // LFM-40B on Liquid AI (symmetric flagship)
     zyphra: [0.18, 0.18], // Zamba2-7B on Zyphra (symmetric flagship)
+    akash: [0.25, 0.25], // Llama 3.3 70B Instruct on Akash Network (symmetric)
   };
   return defaults[provider];
 }
