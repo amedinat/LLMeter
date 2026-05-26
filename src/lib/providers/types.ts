@@ -812,4 +812,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://venice.ai/settings/api',
     color: '#8B5CF6',
   },
+  inferless: {
+    type: 'inferless',
+    name: 'Inferless',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B, DeepSeek R1, Mistral 7B, Qwen 2.5 72B, Phi-3 Medium, Mixtral 8x7B — serverless GPU inference. YC W23-backed platform: deploy any HuggingFace model in under 60 seconds. Mistral 7B $0.10/1M symmetric — 96% cheaper than GPT-4o input. OpenAI-compatible API.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-inferless-api-key',
+    helpUrl: 'https://docs.inferless.com/getting-started/api-key',
+    color: '#E91E8C',
+  },
 };

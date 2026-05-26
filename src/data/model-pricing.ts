@@ -7083,6 +7083,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-26T00:00:00.000Z',
   },
 
+  // ── Inferless ────────────────────────────────────────────────────────────────
+  {
+    provider: 'inferless',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Inferless / Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Inferless / Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Inferless / Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'Inferless / DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Inferless / Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Inferless / Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'microsoft/Phi-3-medium-128k-instruct',
+    display_name: 'Inferless / Phi-3 Medium 128K',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'inferless',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Inferless / Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7294,6 +7368,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     arcee: [0.80, 0.80], // Arcee Nova as symmetric default
     centml: [0.30, 0.30], // Llama 3.3 70B Instruct symmetric on CentML
     venice: [0.28, 0.28], // Llama 3.3 70B symmetric on Venice AI (privacy-first)
+    inferless: [0.45, 0.45], // Llama 3.3 70B Instruct symmetric on Inferless (serverless GPU)
   };
   return defaults[provider];
 }
