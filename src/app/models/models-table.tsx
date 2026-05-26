@@ -14,6 +14,19 @@ const EU_PROVIDERS = new Set([
   'ovhcloud',
 ]);
 
+const DECENTRALIZED_PROVIDERS = new Set([
+  'corcel',
+  'ionet',
+  'akash',
+]);
+
+const HYPERSCALER_PROVIDERS = new Set([
+  'bedrock',
+  'azure',
+  'vertexai',
+  'oci',
+]);
+
 const TIER_LABELS: Record<CapabilityTier, string> = {
   budget: 'Budget',
   standard: 'Standard',
@@ -42,18 +55,24 @@ function formatPrice(price: number): string {
   return `$${price.toFixed(2)}`;
 }
 
+type ActiveFilter = 'none' | 'eu' | 'decentralized' | 'hyperscaler';
+
 interface Props {
   models: readonly ModelPricing[];
-  initialEuFilter?: boolean;
+  initialFilter?: ActiveFilter;
 }
 
 const ALL_PROVIDERS = 'all';
 
-export function ModelsTable({ models, initialEuFilter = false }: Props) {
+export function ModelsTable({ models, initialFilter = 'none' }: Props) {
   const [query, setQuery] = useState('');
   const [selectedProvider, setSelectedProvider] = useState<string>(ALL_PROVIDERS);
   const [selectedTier, setSelectedTier] = useState<CapabilityTier | typeof ALL_PROVIDERS>(ALL_PROVIDERS);
-  const [euOnly, setEuOnly] = useState(initialEuFilter);
+  const [activeFilter, setActiveFilter] = useState<ActiveFilter>(initialFilter);
+
+  const euOnly = activeFilter === 'eu';
+  const decentralizedOnly = activeFilter === 'decentralized';
+  const hyperscalerOnly = activeFilter === 'hyperscaler';
 
   const providers = useMemo(() => {
     const seen = new Set<string>();
@@ -71,12 +90,14 @@ export function ModelsTable({ models, initialEuFilter = false }: Props) {
     const q = query.toLowerCase();
     return models.filter((m) => {
       if (euOnly && !EU_PROVIDERS.has(m.provider)) return false;
+      if (decentralizedOnly && !DECENTRALIZED_PROVIDERS.has(m.provider)) return false;
+      if (hyperscalerOnly && !HYPERSCALER_PROVIDERS.has(m.provider)) return false;
       if (selectedProvider !== ALL_PROVIDERS && m.provider !== selectedProvider) return false;
       if (selectedTier !== ALL_PROVIDERS && m.capability_tier !== selectedTier) return false;
       if (q && !m.display_name.toLowerCase().includes(q) && !m.model_id.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [models, query, selectedProvider, selectedTier, euOnly]);
+  }, [models, query, selectedProvider, selectedTier, euOnly, decentralizedOnly, hyperscalerOnly]);
 
   // Group by provider for display
   const grouped = useMemo(() => {
@@ -142,14 +163,34 @@ export function ModelsTable({ models, initialEuFilter = false }: Props) {
             </button>
           ))}
           <button
-            onClick={() => setEuOnly((v) => !v)}
+            onClick={() => setActiveFilter(activeFilter === 'eu' ? 'none' : 'eu')}
             className={`rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${
-              euOnly
+              activeFilter === 'eu'
                 ? 'border-blue-400 bg-blue-500/10 text-blue-400'
                 : 'border-border bg-transparent text-muted-foreground hover:text-foreground'
             }`}
           >
             🇪🇺 EU Only
+          </button>
+          <button
+            onClick={() => setActiveFilter(activeFilter === 'decentralized' ? 'none' : 'decentralized')}
+            className={`rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${
+              activeFilter === 'decentralized'
+                ? 'border-violet-400 bg-violet-500/10 text-violet-400'
+                : 'border-border bg-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            ⛓️ Decentralized
+          </button>
+          <button
+            onClick={() => setActiveFilter(activeFilter === 'hyperscaler' ? 'none' : 'hyperscaler')}
+            className={`rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${
+              activeFilter === 'hyperscaler'
+                ? 'border-orange-400 bg-orange-500/10 text-orange-400'
+                : 'border-border bg-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            ☁️ Hyperscalers
           </button>
         </div>
       </div>

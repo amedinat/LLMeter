@@ -36,7 +36,12 @@ export default async function ModelsPage({
 }) {
   const params = await searchParams;
   const models = getAllModels();
-  const initialEuFilter = params.filter === 'eu';
+  const validFilters = ['eu', 'decentralized', 'hyperscaler'] as const;
+  type FilterValue = typeof validFilters[number] | 'none';
+  const initialFilter: FilterValue =
+    validFilters.includes(params.filter as typeof validFilters[number])
+      ? (params.filter as typeof validFilters[number])
+      : 'none';
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -163,7 +168,7 @@ export default async function ModelsPage({
             </div>
 
             {/* Table */}
-            <ModelsTable models={models} initialEuFilter={initialEuFilter} />
+            <ModelsTable models={models} initialFilter={initialFilter} />
 
             {/* CTA */}
             <div className="mt-16 rounded-xl border border-border bg-gradient-to-br from-cyan-500/5 to-violet-500/5 p-8 text-center">
