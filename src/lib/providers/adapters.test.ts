@@ -81,6 +81,7 @@ import { zyphraAdapter } from './zyphra-adapter';
 import { akashAdapter } from './akash-adapter';
 import { arceeAdapter } from './arcee-adapter';
 import { centmlAdapter } from './centml-adapter';
+import { veniceAdapter } from './venice-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6803,6 +6804,81 @@ describe('Provider Adapters', () => {
 
     it('centmlAdapter.type is centml', () => {
       expect(centmlAdapter.type).toBe('centml');
+    });
+  });
+
+  describe('veniceAdapter', () => {
+    const validKey = 'venice_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /api/v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await veniceAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.venice.ai/api/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /api/v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await veniceAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Venice AI API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(veniceAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Venice AI API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(veniceAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await veniceAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-26')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await veniceAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-26')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('veniceAdapter.type is venice', () => {
+      expect(veniceAdapter.type).toBe('venice');
     });
   });
 });

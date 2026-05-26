@@ -803,4 +803,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.centml.com',
     color: '#059669',
   },
+  venice: {
+    type: 'venice',
+    name: 'Venice AI',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B, DeepSeek R1/V3, Qwen 2.5 72B, Mistral 7B — privacy-first inference. No conversation logging, no model training on your data. Founded by Erik Voorhees (ShapeShift). Llama 3.2 3B $0.02/1M — ultra-budget. OpenAI-compatible API.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-venice-ai-api-key',
+    helpUrl: 'https://venice.ai/settings/api',
+    color: '#8B5CF6',
+  },
 };

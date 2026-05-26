@@ -84,6 +84,7 @@ import { zyphraAdapter } from './zyphra-adapter';
 import { akashAdapter } from './akash-adapter';
 import { arceeAdapter } from './arcee-adapter';
 import { centmlAdapter } from './centml-adapter';
+import { veniceAdapter } from './venice-adapter';
 
 /**
  * Provider adapter registry.
@@ -176,6 +177,7 @@ adapters.set('zyphra', zyphraAdapter);
 adapters.set('akash', akashAdapter);
 adapters.set('arcee', arceeAdapter);
 adapters.set('centml', centmlAdapter);
+adapters.set('venice', veniceAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

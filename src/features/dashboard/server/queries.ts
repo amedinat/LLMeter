@@ -249,6 +249,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           akash: 0,
           arcee: 0,
           centml: 0,
+          venice: 0,
         }
       });
     }
@@ -357,6 +358,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           akash: 0,
           arcee: 0,
           centml: 0,
+          venice: 0,
         },
       }
     );
