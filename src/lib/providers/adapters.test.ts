@@ -83,6 +83,7 @@ import { arceeAdapter } from './arcee-adapter';
 import { centmlAdapter } from './centml-adapter';
 import { veniceAdapter } from './venice-adapter';
 import { inferlessAdapter } from './inferless-adapter';
+import { codestralAdapter } from './codestral-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -6955,6 +6956,81 @@ describe('Provider Adapters', () => {
 
     it('inferlessAdapter.type is inferless', () => {
       expect(inferlessAdapter.type).toBe('inferless');
+    });
+  });
+
+  describe('codestralAdapter', () => {
+    const validKey = 'codestral_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await codestralAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://codestral.mistral.ai/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await codestralAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Codestral API key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(codestralAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Codestral API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(codestralAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await codestralAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-26')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await codestralAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-26')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('codestralAdapter.type is codestral', () => {
+      expect(codestralAdapter.type).toBe('codestral');
     });
   });
 });
