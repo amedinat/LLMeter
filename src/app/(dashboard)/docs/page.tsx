@@ -1371,6 +1371,27 @@ const completion = await trackedCentML.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to CentML
 );`;
 
+const sdkInferlessExample = `import OpenAI from 'openai';
+import LLMeter, { wrapInferless } from 'llmeter';
+
+// Inferless is OpenAI-compatible — use your Inferless API key as the Bearer token
+// YC W23-backed serverless GPU inference: deploy any HuggingFace model in under 60 seconds
+const inferless = new OpenAI({
+  apiKey: process.env.INFERLESS_API_KEY,
+  baseURL: 'https://api.inferless.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedInferless = wrapInferless(inferless, llmeter);
+
+// All calls are automatically tracked — serverless GPU inference
+const completion = await trackedInferless.chat.completions.create(
+  {
+    model: 'mistralai/Mistral-7B-Instruct-v0.3', // or 'meta-llama/Llama-3.3-70B-Instruct', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from Inferless!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Inferless
+);`;
+
 const sdkVeniceExample = `import OpenAI from 'openai';
 import LLMeter, { wrapVenice } from 'llmeter';
 
@@ -1958,6 +1979,7 @@ export default function DocsPage() {
                 <TabsTrigger value="arcee">Arcee AI</TabsTrigger>
                 <TabsTrigger value="centml">CentML</TabsTrigger>
                 <TabsTrigger value="venice">Venice AI</TabsTrigger>
+                <TabsTrigger value="inferless">Inferless</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2790,6 +2812,16 @@ export default function DocsPage() {
                   call is tracked automatically. CentML is a Canadian GPU efficiency pioneer — proprietary kernel optimization delivers 2-4x cost efficiency vs standard NVIDIA cloud. 8 models: meta-llama/Meta-Llama-3.3-70B-Instruct ($0.30/$0.30 per 1M — symmetric flagship), meta-llama/Meta-Llama-3.1-70B-Instruct ($0.25/$0.25 — symmetric), meta-llama/Meta-Llama-3.1-8B-Instruct ($0.05/$0.05 — symmetric budget), meta-llama/Meta-Llama-3.1-405B-Instruct ($1.40/$1.40 — symmetric enterprise), deepseek-ai/DeepSeek-R1 ($0.50/$2.00 — reasoning), deepseek-ai/DeepSeek-V3 ($0.25/$1.00), mistralai/Mistral-7B-Instruct-v0.3 ($0.06/$0.06 — symmetric cheapest), Qwen/Qwen2.5-72B-Instruct ($0.30/$0.30 — symmetric).
                 </p>
                 <CodeBlock language="typescript" code={sdkCentMLExample} />
+              </TabsContent>
+              <TabsContent value="inferless" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Inferless is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Inferless base URL and your Inferless API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. YC W23-backed serverless GPU inference — deploy any HuggingFace model in under 60 seconds. Mistral 7B at $0.10/1M tokens (symmetric) — 96% cheaper than GPT-4o input. 8 models: meta-llama/Llama-3.3-70B-Instruct ($0.45/$0.45 per 1M — symmetric flagship), meta-llama/Llama-3.1-8B-Instruct ($0.08/$0.08 — budget), meta-llama/Llama-3.1-70B-Instruct ($0.40/$0.40 — symmetric), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning), mistralai/Mistral-7B-Instruct-v0.3 ($0.10/$0.10 — symmetric cheapest), Qwen/Qwen2.5-72B-Instruct ($0.35/$0.35 — symmetric), microsoft/Phi-3-medium-128k-instruct ($0.20/$0.20 — symmetric), mistralai/Mixtral-8x7B-Instruct-v0.1 ($0.25/$0.25 — symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkInferlessExample} />
               </TabsContent>
               <TabsContent value="venice" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

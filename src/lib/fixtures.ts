@@ -117,6 +117,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         arcee: 0,
         centml: 0,
         venice: 0,
+        inferless: 0,
       },
     };
   });

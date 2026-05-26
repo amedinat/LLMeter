@@ -133,6 +133,7 @@ const ZERO_PROVIDERS = {
   arcee: 0,
   centml: 0,
   venice: 0,
+  inferless: 0,
 };
 
 // --- Tests ---
