@@ -1371,6 +1371,27 @@ const completion = await trackedCentML.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to CentML
 );`;
 
+const sdkVeniceExample = `import OpenAI from 'openai';
+import LLMeter, { wrapVenice } from 'llmeter';
+
+// Venice AI is OpenAI-compatible — use your Venice AI API key as the Bearer token
+// Privacy-first: no conversation logging, no model training on your data
+const venice = new OpenAI({
+  apiKey: process.env.VENICE_AI_API_KEY,
+  baseURL: 'https://api.venice.ai/api/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedVenice = wrapVenice(venice, llmeter);
+
+// All calls are automatically tracked — privacy-first inference
+const completion = await trackedVenice.chat.completions.create(
+  {
+    model: 'llama-3.3-70b', // or 'deepseek-r1', 'qwen-2.5-72b', 'mistral-7b-instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from Venice AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Venice AI
+);`;
+
 const sdkArceeExample = `import OpenAI from 'openai';
 import LLMeter, { wrapArcee } from 'llmeter';
 
@@ -1936,6 +1957,7 @@ export default function DocsPage() {
                 <TabsTrigger value="akash">Akash</TabsTrigger>
                 <TabsTrigger value="arcee">Arcee AI</TabsTrigger>
                 <TabsTrigger value="centml">CentML</TabsTrigger>
+                <TabsTrigger value="venice">Venice AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2768,6 +2790,16 @@ export default function DocsPage() {
                   call is tracked automatically. CentML is a Canadian GPU efficiency pioneer — proprietary kernel optimization delivers 2-4x cost efficiency vs standard NVIDIA cloud. 8 models: meta-llama/Meta-Llama-3.3-70B-Instruct ($0.30/$0.30 per 1M — symmetric flagship), meta-llama/Meta-Llama-3.1-70B-Instruct ($0.25/$0.25 — symmetric), meta-llama/Meta-Llama-3.1-8B-Instruct ($0.05/$0.05 — symmetric budget), meta-llama/Meta-Llama-3.1-405B-Instruct ($1.40/$1.40 — symmetric enterprise), deepseek-ai/DeepSeek-R1 ($0.50/$2.00 — reasoning), deepseek-ai/DeepSeek-V3 ($0.25/$1.00), mistralai/Mistral-7B-Instruct-v0.3 ($0.06/$0.06 — symmetric cheapest), Qwen/Qwen2.5-72B-Instruct ($0.30/$0.30 — symmetric).
                 </p>
                 <CodeBlock language="typescript" code={sdkCentMLExample} />
+              </TabsContent>
+              <TabsContent value="venice" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Venice AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Venice AI base URL and your Venice AI API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Venice AI is privacy-first inference — no conversation logging, no model training on your data. Founded by Erik Voorhees (ShapeShift). 8 models: llama-3.3-70b ($0.28/$0.28 per 1M — symmetric flagship), llama-3.1-70b ($0.25/$0.25 — symmetric), llama-3.1-8b ($0.06/$0.06 — budget), deepseek-r1 ($0.55/$2.19 — reasoning), deepseek-v3 ($0.28/$1.10), qwen-2.5-72b ($0.28/$0.28 — symmetric), mistral-7b-instruct ($0.06/$0.06 — budget), llama-3.2-3b ($0.02/$0.02 — ultra-budget).
+                </p>
+                <CodeBlock language="typescript" code={sdkVeniceExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

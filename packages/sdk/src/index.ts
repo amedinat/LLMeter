@@ -90,6 +90,7 @@ export { wrapZyphra } from './zyphra.js';
 export { wrapAkash } from './akash.js';
 export { wrapArcee } from './arcee.js';
 export { wrapCentML } from './centml.js';
+export { wrapVenice } from './venice.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

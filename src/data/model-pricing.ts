@@ -7009,6 +7009,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
 
+  // ── Venice AI ────────────────────────────────────────────────────────────────
+  {
+    provider: 'venice',
+    model_id: 'llama-3.3-70b',
+    display_name: 'Venice AI / Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'llama-3.1-70b',
+    display_name: 'Venice AI / Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'llama-3.1-8b',
+    display_name: 'Venice AI / Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'deepseek-r1',
+    display_name: 'Venice AI / DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'deepseek-v3',
+    display_name: 'Venice AI / DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'qwen-2.5-72b',
+    display_name: 'Venice AI / Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Venice AI / Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'venice',
+    model_id: 'llama-3.2-3b',
+    display_name: 'Venice AI / Llama 3.2 3B',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.02,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7219,6 +7293,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     akash: [0.25, 0.25], // Llama 3.3 70B Instruct on Akash Network (symmetric)
     arcee: [0.80, 0.80], // Arcee Nova as symmetric default
     centml: [0.30, 0.30], // Llama 3.3 70B Instruct symmetric on CentML
+    venice: [0.28, 0.28], // Llama 3.3 70B symmetric on Venice AI (privacy-first)
   };
   return defaults[provider];
 }
