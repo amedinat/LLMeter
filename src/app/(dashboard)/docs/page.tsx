@@ -1433,6 +1433,27 @@ const completion = await trackedArcee.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Arcee
 );`;
 
+const sdkCodestralExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCodestral } from 'llmeter';
+
+// Mistral AI Codestral — dedicated code generation endpoint (separate from Mistral chat)
+// Devstral Small: #1 open-source on SWE-bench | Codestral Mamba: $0.25/1M symmetric
+const codestral = new OpenAI({
+  apiKey: process.env.CODESTRAL_API_KEY, // your Mistral API key
+  baseURL: 'https://codestral.mistral.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCodestral = wrapCodestral(codestral, llmeter);
+
+// All calls are automatically tracked — track code AI spend separately from chat AI
+const completion = await trackedCodestral.chat.completions.create(
+  {
+    model: 'devstral-small-2505', // or 'codestral-2501', 'codestral-mamba-latest', 'open-codestral-mamba', etc.
+    messages: [{ role: 'user', content: 'Write a binary search in Python' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Codestral
+);
+
 const sdkAkashExample = `import OpenAI from 'openai';
 import LLMeter, { wrapAkash } from 'llmeter';
 
@@ -1980,6 +2001,7 @@ export default function DocsPage() {
                 <TabsTrigger value="centml">CentML</TabsTrigger>
                 <TabsTrigger value="venice">Venice AI</TabsTrigger>
                 <TabsTrigger value="inferless">Inferless</TabsTrigger>
+                <TabsTrigger value="codestral">Codestral</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2832,6 +2854,16 @@ export default function DocsPage() {
                   call is tracked automatically. Venice AI is privacy-first inference — no conversation logging, no model training on your data. Founded by Erik Voorhees (ShapeShift). 8 models: llama-3.3-70b ($0.28/$0.28 per 1M — symmetric flagship), llama-3.1-70b ($0.25/$0.25 — symmetric), llama-3.1-8b ($0.06/$0.06 — budget), deepseek-r1 ($0.55/$2.19 — reasoning), deepseek-v3 ($0.28/$1.10), qwen-2.5-72b ($0.28/$0.28 — symmetric), mistral-7b-instruct ($0.06/$0.06 — budget), llama-3.2-3b ($0.02/$0.02 — ultra-budget).
                 </p>
                 <CodeBlock language="typescript" code={sdkVeniceExample} />
+              </TabsContent>
+              <TabsContent value="codestral" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Mistral AI Codestral is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Codestral base URL and your Mistral API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Codestral is Mistral AI&apos;s dedicated code generation endpoint — track code AI spend separately from chat AI spend. Includes Devstral Small (agentic coding, #1 on SWE-bench open-source), Codestral 22B (256K context, 80+ languages), and Codestral Mamba 7B ($0.25/1M symmetric — 90% cheaper than GitHub Copilot API). 6 models: devstral-small-2505 ($0.40/$0.80 per 1M — agentic flagship), codestral-2501 ($0.30/$0.90 — Jan 2025), codestral-2405 ($0.30/$0.90 — original), open-codestral-mamba ($0.25/$0.25 — Apache 2.0), codestral-mamba-latest ($0.25/$0.25 — Mamba SSM), codestral-mamba-2407 ($0.25/$0.25 — Jul 2024 pinned).
+                </p>
+                <CodeBlock language="typescript" code={sdkCodestralExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

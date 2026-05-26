@@ -86,6 +86,7 @@ import { arceeAdapter } from './arcee-adapter';
 import { centmlAdapter } from './centml-adapter';
 import { veniceAdapter } from './venice-adapter';
 import { inferlessAdapter } from './inferless-adapter';
+import { codestralAdapter } from './codestral-adapter';
 
 /**
  * Provider adapter registry.
@@ -180,6 +181,7 @@ adapters.set('arcee', arceeAdapter);
 adapters.set('centml', centmlAdapter);
 adapters.set('venice', veniceAdapter);
 adapters.set('inferless', inferlessAdapter);
+adapters.set('codestral', codestralAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

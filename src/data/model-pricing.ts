@@ -7157,6 +7157,62 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-26T00:00:00.000Z',
   },
 
+  // ── Mistral AI Codestral ─────────────────────────────────────────────────────
+  {
+    provider: 'codestral',
+    model_id: 'devstral-small-2505',
+    display_name: 'Devstral Small',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'codestral',
+    model_id: 'codestral-2501',
+    display_name: 'Codestral 22B (Jan 2025)',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'codestral',
+    model_id: 'codestral-2405',
+    display_name: 'Codestral 22B (May 2024)',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'codestral',
+    model_id: 'open-codestral-mamba',
+    display_name: 'Codestral Mamba (Apache 2.0)',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'codestral',
+    model_id: 'codestral-mamba-latest',
+    display_name: 'Codestral Mamba (Latest)',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'codestral',
+    model_id: 'codestral-mamba-2407',
+    display_name: 'Codestral Mamba (Jul 2024)',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7369,6 +7425,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     centml: [0.30, 0.30], // Llama 3.3 70B Instruct symmetric on CentML
     venice: [0.28, 0.28], // Llama 3.3 70B symmetric on Venice AI (privacy-first)
     inferless: [0.45, 0.45], // Llama 3.3 70B Instruct symmetric on Inferless (serverless GPU)
+    codestral: [0.30, 0.90], // Codestral 22B list prices (Mistral code endpoint)
   };
   return defaults[provider];
 }

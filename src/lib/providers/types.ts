@@ -821,4 +821,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.inferless.com/getting-started/api-key',
     color: '#E91E8C',
   },
+  codestral: {
+    type: 'codestral',
+    name: 'Mistral AI Codestral',
+    description: 'Devstral Small (agentic coding agent), Codestral 22B (256K context, 80+ languages), Codestral Mamba 7B ($0.25/1M symmetric — 90% cheaper than GitHub Copilot API) — Mistral AI\'s dedicated code generation endpoint. Fill-in-the-Middle (FIM) for IDE plugins. Track code AI spend separately from chat AI spend.',
+    keyPrefix: '',
+    keyPlaceholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    helpUrl: 'https://docs.mistral.ai/capabilities/code_generation/',
+    color: '#FF7000',
+  },
 };

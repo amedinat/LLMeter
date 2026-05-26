@@ -134,6 +134,7 @@ const ZERO_PROVIDERS = {
   centml: 0,
   venice: 0,
   inferless: 0,
+  codestral: 0,
 };
 
 // --- Tests ---
