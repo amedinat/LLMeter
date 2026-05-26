@@ -794,4 +794,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.arcee.ai',
     color: '#6B46C1',
   },
+  centml: {
+    type: 'centml',
+    name: 'CentML',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B/405B, DeepSeek R1/V3, Mistral 7B, Qwen 2.5 72B — Canadian GPU efficiency pioneer. Proprietary kernel optimization delivers 2-4x cost efficiency vs standard NVIDIA cloud. Mistral 7B $0.06/1M symmetric — 97% cheaper than GPT-4o.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-centml-api-key',
+    helpUrl: 'https://docs.centml.com',
+    color: '#059669',
+  },
 };
