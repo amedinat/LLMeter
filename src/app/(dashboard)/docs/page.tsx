@@ -1452,7 +1452,7 @@ const completion = await trackedCodestral.chat.completions.create(
     messages: [{ role: 'user', content: 'Write a binary search in Python' }],
   },
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Codestral
-);
+);`;
 
 const sdkAkashExample = `import OpenAI from 'openai';
 import LLMeter, { wrapAkash } from 'llmeter';
