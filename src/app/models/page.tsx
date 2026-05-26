@@ -130,6 +130,14 @@ export default async function ModelsPage({
                 OpenAI, Anthropic, Google AI, Mistral, DeepSeek, and OpenRouter.
                 Prices sourced from provider billing APIs.
               </p>
+              <div className="mt-4">
+                <Link
+                  href="/models/compare"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-cyan-400 underline-offset-4 hover:underline"
+                >
+                  Compare monthly cost across models <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
             </div>
 
             {/* Explanation */}
