@@ -785,4 +785,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://chatapi.akash.network',
     color: '#FF414D',
   },
+  arcee: {
+    type: 'arcee',
+    name: 'Arcee AI',
+    description: 'Arcee Maestro, Nova, Agent, Lite, Blitz, Scribe, Spark, CLI — model merging pioneer. SuperMerging™ combines the best of multiple fine-tuned models. Arcee models outperform models 10x their size. arcee-spark $0.09/1M symmetric — 96% cheaper than GPT-4o.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-arcee-api-key',
+    helpUrl: 'https://docs.arcee.ai',
+    color: '#6B46C1',
+  },
 };

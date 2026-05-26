@@ -247,6 +247,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           liquid: 0,
           zyphra: 0,
           akash: 0,
+          arcee: 0,
         }
       });
     }
@@ -353,6 +354,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           liquid: 0,
           zyphra: 0,
           akash: 0,
+          arcee: 0,
         },
       }
     );

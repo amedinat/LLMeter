@@ -6037,7 +6037,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Spark 4.0 Ultra',
     input_price_per_1m_tokens: 0.67,
     output_price_per_1m_tokens: 0.67,
-    capability_tier: 'flagship',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
   {
@@ -6082,7 +6082,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'DeepSeek R1',
     input_price_per_1m_tokens: 0.55,
     output_price_per_1m_tokens: 2.19,
-    capability_tier: 'flagship',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
   {
@@ -6118,7 +6118,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Spark X1',
     input_price_per_1m_tokens: 0.90,
     output_price_per_1m_tokens: 0.90,
-    capability_tier: 'flagship',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
   {
@@ -6127,7 +6127,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'Cohere Command R+',
     input_price_per_1m_tokens: 2.50,
     output_price_per_1m_tokens: 10.00,
-    capability_tier: 'flagship',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-24T00:00:00.000Z',
   },
   {
@@ -6861,6 +6861,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
 
+  // ── Arcee AI ───────────────────────────────────────────────────
+  {
+    provider: 'arcee',
+    model_id: 'arcee-maestro',
+    display_name: 'Arcee / Maestro',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 4.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-nova',
+    display_name: 'Arcee / Nova',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-agent',
+    display_name: 'Arcee / Agent',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-lite',
+    display_name: 'Arcee / Lite',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-blitz',
+    display_name: 'Arcee / Blitz',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.42,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-scribe',
+    display_name: 'Arcee / Scribe',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-spark',
+    display_name: 'Arcee / Spark',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+  {
+    provider: 'arcee',
+    model_id: 'arcee-cli',
+    display_name: 'Arcee / CLI',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-25T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7069,6 +7143,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     liquid: [0.60, 0.60], // LFM-40B on Liquid AI (symmetric flagship)
     zyphra: [0.18, 0.18], // Zamba2-7B on Zyphra (symmetric flagship)
     akash: [0.25, 0.25], // Llama 3.3 70B Instruct on Akash Network (symmetric)
+    arcee: [0.80, 0.80], // Arcee Nova as symmetric default
   };
   return defaults[provider];
 }

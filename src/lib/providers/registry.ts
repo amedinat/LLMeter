@@ -82,6 +82,7 @@ import { inceptionAdapter } from './inception-adapter';
 import { liquidAdapter } from './liquid-adapter';
 import { zyphraAdapter } from './zyphra-adapter';
 import { akashAdapter } from './akash-adapter';
+import { arceeAdapter } from './arcee-adapter';
 
 /**
  * Provider adapter registry.
@@ -172,6 +173,7 @@ adapters.set('inception', inceptionAdapter);
 adapters.set('liquid', liquidAdapter);
 adapters.set('zyphra', zyphraAdapter);
 adapters.set('akash', akashAdapter);
+adapters.set('arcee', arceeAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -1351,6 +1351,26 @@ const completion = await trackedZyphra.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Zyphra
 );`;
 
+const sdkArceeExample = `import OpenAI from 'openai';
+import LLMeter, { wrapArcee } from 'llmeter';
+
+// Arcee AI is OpenAI-compatible — use your Arcee API key as the Bearer token
+const arcee = new OpenAI({
+  apiKey: process.env.ARCEE_API_KEY,
+  baseURL: 'https://api.arcee.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedArcee = wrapArcee(arcee, llmeter);
+
+// All calls are automatically tracked — SuperMerging™ model merging inference
+const completion = await trackedArcee.chat.completions.create(
+  {
+    model: 'arcee-maestro', // or 'arcee-nova', 'arcee-agent', 'arcee-lite', 'arcee-blitz', etc.
+    messages: [{ role: 'user', content: 'Hello from Arcee AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Arcee
+);`;
+
 const sdkAkashExample = `import OpenAI from 'openai';
 import LLMeter, { wrapAkash } from 'llmeter';
 
@@ -1894,6 +1914,7 @@ export default function DocsPage() {
                 <TabsTrigger value="liquid">Liquid AI</TabsTrigger>
                 <TabsTrigger value="zyphra">Zyphra</TabsTrigger>
                 <TabsTrigger value="akash">Akash</TabsTrigger>
+                <TabsTrigger value="arcee">Arcee AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2706,6 +2727,16 @@ export default function DocsPage() {
                   call is tracked automatically. Akash Network is a decentralized GPU marketplace on the Cosmos blockchain — peer-to-peer compute from data centers and independent providers worldwide. Third blockchain network on LLMeter (Cosmos) after io.net (Solana) and Corcel (Bittensor). Marketplace dynamics drive prices down: Llama 3.1 8B at $0.04/1M, Llama 3.2 3B at $0.02/1M — ultra-cheap. 8 models: Llama 3.3 70B ($0.25/$0.25 per 1M — symmetric flagship), Llama 3.1 8B ($0.04/$0.04 — ultra-budget symmetric), Llama 3.1 405B FP8 ($1.80/$1.80 — enterprise symmetric), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Qwen 2.5 72B ($0.35/$0.35 — symmetric), Mistral 7B ($0.06/$0.06 — budget symmetric), Llama 3.2 3B ($0.02/$0.02 — cheapest). 6 of 8 models symmetric pricing.
                 </p>
                 <CodeBlock language="typescript" code={sdkAkashExample} />
+              </TabsContent>
+              <TabsContent value="arcee" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Arcee AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Arcee AI base URL and your Arcee API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Arcee AI is a San Francisco AI startup (2023) pioneering model merging with MergeKit (6,000+ GitHub stars). SuperMerging™ combines the best of multiple fine-tuned models — Arcee models outperform models 10x their size. 8 models: arcee-maestro ($1.50/$4.50 per 1M — flagship reasoning SuperMerged MoE), arcee-nova ($0.80/$2.40 — balanced general), arcee-agent ($1.00/$3.00 — agentic function calling), arcee-lite ($0.20/$0.60 — efficient 7B class), arcee-blitz ($0.14/$0.42 — fast budget), arcee-scribe ($0.25/$0.75 — writing specialized), arcee-spark ($0.09/$0.09 — ultra-budget symmetric), arcee-cli ($0.07/$0.07 — coding budget symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkArceeExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -130,6 +130,7 @@ const ZERO_PROVIDERS = {
   liquid: 0,
   zyphra: 0,
   akash: 0,
+  arcee: 0,
 };
 
 // --- Tests ---
