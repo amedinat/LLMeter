@@ -252,6 +252,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           venice: 0,
           inferless: 0,
           codestral: 0,
+          monsterapi: 0,
         }
       });
     }
@@ -363,6 +364,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           venice: 0,
           inferless: 0,
           codestral: 0,
+          monsterapi: 0,
         },
       }
     );

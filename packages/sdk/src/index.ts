@@ -92,6 +92,7 @@ export { wrapArcee } from './arcee.js';
 export { wrapCentML } from './centml.js';
 export { wrapVenice } from './venice.js';
 export { wrapInferless } from './inferless.js';
+export { wrapMonsterAPI } from './monsterapi.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -1454,6 +1454,27 @@ const completion = await trackedCodestral.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Codestral
 );`;
 
+const sdkMonsterAPIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapMonsterAPI } from 'llmeter';
+
+// Monster API is OpenAI-compatible — Indian GPU marketplace, OpenAI SDK with Monster base URL
+// Mistral 7B at $0.04/1M symmetric — 98% cheaper than GPT-4o input
+const monster = new OpenAI({
+  apiKey: process.env.MONSTER_API_KEY,
+  baseURL: 'https://api.monsterapi.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedMonster = wrapMonsterAPI(monster, llmeter);
+
+// All calls are automatically tracked — competitive GPU marketplace pricing
+const completion = await trackedMonster.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Monster API
+);`;
+
 const sdkAkashExample = `import OpenAI from 'openai';
 import LLMeter, { wrapAkash } from 'llmeter';
 
@@ -2002,6 +2023,7 @@ export default function DocsPage() {
                 <TabsTrigger value="venice">Venice AI</TabsTrigger>
                 <TabsTrigger value="inferless">Inferless</TabsTrigger>
                 <TabsTrigger value="codestral">Codestral</TabsTrigger>
+                <TabsTrigger value="monsterapi">Monster API</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2864,6 +2886,16 @@ export default function DocsPage() {
                   call is tracked automatically. Codestral is Mistral AI&apos;s dedicated code generation endpoint — track code AI spend separately from chat AI spend. Includes Devstral Small (agentic coding, #1 on SWE-bench open-source), Codestral 22B (256K context, 80+ languages), and Codestral Mamba 7B ($0.25/1M symmetric — 90% cheaper than GitHub Copilot API). 6 models: devstral-small-2505 ($0.40/$0.80 per 1M — agentic flagship), codestral-2501 ($0.30/$0.90 — Jan 2025), codestral-2405 ($0.30/$0.90 — original), open-codestral-mamba ($0.25/$0.25 — Apache 2.0), codestral-mamba-latest ($0.25/$0.25 — Mamba SSM), codestral-mamba-2407 ($0.25/$0.25 — Jul 2024 pinned).
                 </p>
                 <CodeBlock language="typescript" code={sdkCodestralExample} />
+              </TabsContent>
+              <TabsContent value="monsterapi" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Monster API is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Monster API base URL and your Monster API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Monster API is an Indian GPU marketplace connecting idle GPU capacity worldwide — competitive per-token pricing across Llama, Mistral, Gemma, Phi, and Qwen models. 8 models: Meta-Llama-3.3-70B-Instruct ($0.35/$0.35 per 1M — symmetric), Meta-Llama-3.1-70B-Instruct ($0.30/$0.30), Meta-Llama-3.1-8B-Instruct ($0.06/$0.06 — budget symmetric), DeepSeek-R1 ($0.55/$2.19 — asymmetric), Mistral-7B-Instruct-v0.3 ($0.04/$0.04 — cheapest, 98% less than GPT-4o), Gemma-2-9B-it ($0.07/$0.07 — symmetric), Phi-3.5-mini-instruct ($0.05/$0.05), Qwen2.5-72B-Instruct ($0.35/$0.35 — symmetric). 6 of 8 models use symmetric (input = output) pricing.
+                </p>
+                <CodeBlock language="typescript" code={sdkMonsterAPIExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
