@@ -6969,7 +6969,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'CentML / Llama 3.1 405B Instruct',
     input_price_per_1m_tokens: 1.40,
     output_price_per_1m_tokens: 1.40,
-    capability_tier: 'enterprise',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-25T00:00:00.000Z',
   },
   {
