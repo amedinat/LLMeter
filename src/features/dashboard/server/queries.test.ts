@@ -136,6 +136,7 @@ const ZERO_PROVIDERS = {
   inferless: 0,
   codestral: 0,
   monsterapi: 0,
+  coreweave: 0,
 };
 
 // --- Tests ---

@@ -839,4 +839,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://monsterapi.ai/dashboard',
     color: '#F97316',
   },
+  coreweave: {
+    type: 'coreweave',
+    name: 'CoreWeave',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B/405B, DeepSeek R1, Mistral 7B, Mixtral 8x7B, Qwen 2.5 72B, Llama 3.2 11B Vision — largest NVIDIA GPU cloud, IPO\'d 2025 at $35B+. Enterprise SLAs, H100/A100 clusters. OpenAI-compatible API. Llama 3.3 70B $0.48/1M symmetric. Runs production workloads for OpenAI, Meta, Microsoft.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-coreweave-api-key',
+    helpUrl: 'https://cloud.coreweave.com/api-access',
+    color: '#6366F1',
+  },
 };

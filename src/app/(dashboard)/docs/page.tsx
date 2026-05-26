@@ -1454,6 +1454,27 @@ const completion = await trackedCodestral.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Codestral
 );`;
 
+const sdkCoreWeaveExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCoreWeave } from 'llmeter';
+
+// CoreWeave is OpenAI-compatible — enterprise GPU cloud (H100/A100 clusters, $35B IPO)
+// Llama 3.3 70B at $0.48/1M symmetric — enterprise SLAs, runs workloads for OpenAI/Meta/Microsoft
+const cw = new OpenAI({
+  apiKey: process.env.COREWEAVE_API_KEY,
+  baseURL: 'https://inference.coreweave.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedCW = wrapCoreWeave(cw, llmeter);
+
+// All calls are automatically tracked — enterprise-grade inference with guaranteed SLAs
+const completion = await trackedCW.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'deepseek-ai/DeepSeek-R1', 'mistralai/Mixtral-8x7B-Instruct-v0.1', etc.
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to CoreWeave
+);`;
+
 const sdkMonsterAPIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMonsterAPI } from 'llmeter';
 
@@ -2024,6 +2045,7 @@ export default function DocsPage() {
                 <TabsTrigger value="inferless">Inferless</TabsTrigger>
                 <TabsTrigger value="codestral">Codestral</TabsTrigger>
                 <TabsTrigger value="monsterapi">Monster API</TabsTrigger>
+                <TabsTrigger value="coreweave">CoreWeave</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2896,6 +2918,16 @@ export default function DocsPage() {
                   call is tracked automatically. Monster API is an Indian GPU marketplace connecting idle GPU capacity worldwide — competitive per-token pricing across Llama, Mistral, Gemma, Phi, and Qwen models. 8 models: Meta-Llama-3.3-70B-Instruct ($0.35/$0.35 per 1M — symmetric), Meta-Llama-3.1-70B-Instruct ($0.30/$0.30), Meta-Llama-3.1-8B-Instruct ($0.06/$0.06 — budget symmetric), DeepSeek-R1 ($0.55/$2.19 — asymmetric), Mistral-7B-Instruct-v0.3 ($0.04/$0.04 — cheapest, 98% less than GPT-4o), Gemma-2-9B-it ($0.07/$0.07 — symmetric), Phi-3.5-mini-instruct ($0.05/$0.05), Qwen2.5-72B-Instruct ($0.35/$0.35 — symmetric). 6 of 8 models use symmetric (input = output) pricing.
                 </p>
                 <CodeBlock language="typescript" code={sdkMonsterAPIExample} />
+              </TabsContent>
+              <TabsContent value="coreweave" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  CoreWeave is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the CoreWeave inference base URL and your CoreWeave API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. CoreWeave is the largest NVIDIA GPU cloud company — IPO&apos;d March 2025 at $35B+ valuation, runs production inference for OpenAI, Meta, and Microsoft on H100/A100 clusters with enterprise SLAs. 8 models: Llama-3.3-70B-Instruct ($0.48/$0.48 per 1M — symmetric flagship), Llama-3.1-70B-Instruct ($0.45/$0.45 — symmetric standard), Llama-3.1-8B-Instruct ($0.08/$0.08 — budget symmetric), Llama-3.1-405B-Instruct ($2.50/$2.50 — enterprise symmetric), DeepSeek-R1 ($0.55/$2.19 — reasoning), Mistral-7B-Instruct-v0.3 ($0.09/$0.09 — budget symmetric), Mixtral-8x7B-Instruct-v0.1 ($0.30/$0.30 — symmetric MoE), Qwen2.5-72B-Instruct ($0.40/$0.40 — symmetric). 6 of 8 models use symmetric (input = output) pricing.
+                </p>
+                <CodeBlock language="typescript" code={sdkCoreWeaveExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
