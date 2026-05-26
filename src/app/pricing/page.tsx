@@ -146,6 +146,7 @@ const PRO_UNLOCKS = [
   'Anomaly detection — get alerted before a spike hits your card',
   'Slack notifications so your team sees alerts instantly',
   'CSV & PDF exports to justify AI costs to finance',
+  'Model cost comparison — find cheaper alternatives across 300+ models (OpenRouter-powered)',
 ];
 
 export default async function PricingPage({
