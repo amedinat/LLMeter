@@ -7574,6 +7574,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     venice: [0.28, 0.28], // Llama 3.3 70B symmetric on Venice AI (privacy-first)
     inferless: [0.45, 0.45], // Llama 3.3 70B Instruct symmetric on Inferless (serverless GPU)
     codestral: [0.30, 0.90], // Codestral 22B list prices (Mistral code endpoint)
+    monsterapi: [0.35, 0.35], // Llama 3.3 70B Instruct symmetric on Monster API
+    coreweave: [0.48, 0.48], // Llama 3.3 70B Instruct symmetric flagship on CoreWeave
   };
   return defaults[provider];
 }
