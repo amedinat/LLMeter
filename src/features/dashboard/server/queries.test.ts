@@ -139,6 +139,7 @@ const ZERO_PROVIDERS = {
   monsterapi: 0,
   coreweave: 0,
   prem: 0,
+  clarifai: 0,
 };
 
 // --- Tests ---

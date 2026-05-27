@@ -857,4 +857,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.coreweave.com/api-access',
     color: '#6366F1',
   },
+  prem: {
+    type: 'prem',
+    name: 'Prem AI',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B/405B, DeepSeek R1, Mistral 7B, Qwen 2.5 72B, Llama 3.2 3B — European privacy-first inference platform (Paris-based, GDPR-native). No data retention, no model training on user data, sovereign AI for enterprises with strict compliance requirements. OpenAI-compatible API. Llama 3.3 70B $0.48/$0.72 per 1M. premai.io',
+    keyPrefix: '',
+    keyPlaceholder: 'your-prem-api-key',
+    helpUrl: 'https://app.premai.io/api_keys',
+    color: '#10B981',
+  },
+  clarifai: {
+    type: 'clarifai',
+    name: 'Clarifai',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B/405B, Mistral 7B, DeepSeek R1, DeepSeek V3, Qwen 2.5 72B, Mixtral 8x7B — enterprise AI platform founded by ImageNet 2013 winner Matthew Zeiler. Processes 2.5 billion AI predictions/month for 1,000+ enterprise customers. SOC2, HIPAA, FedRAMP-ready. OpenAI-compatible API. Llama 3.3 70B $0.45/$0.67 per 1M. clarifai.com',
+    keyPrefix: '',
+    keyPlaceholder: 'your-clarifai-personal-access-token',
+    helpUrl: 'https://clarifai.com/settings/security',
+    color: '#4F46E5',
+  },
 };

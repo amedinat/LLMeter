@@ -256,6 +256,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           monsterapi: 0,
           coreweave: 0,
           prem: 0,
+          clarifai: 0,
         }
       });
     }
@@ -371,6 +372,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           monsterapi: 0,
           coreweave: 0,
           prem: 0,
+          clarifai: 0,
         },
       }
     );

@@ -91,6 +91,7 @@ import { fluidstackAdapter } from './fluidstack-adapter';
 import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
 import { premAdapter } from './prem-adapter';
+import { clarifaiAdapter } from './clarifai-adapter';
 
 /**
  * Provider adapter registry.
@@ -190,6 +191,7 @@ adapters.set('fluidstack', fluidstackAdapter);
 adapters.set('monsterapi', monsterapiAdapter);
 adapters.set('coreweave', coreweaveAdapter);
 adapters.set('prem', premAdapter);
+adapters.set('clarifai', clarifaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

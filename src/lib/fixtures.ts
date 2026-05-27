@@ -122,6 +122,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         monsterapi: 0,
         coreweave: 0,
         prem: 0,
+        clarifai: 0,
       },
     };
   });

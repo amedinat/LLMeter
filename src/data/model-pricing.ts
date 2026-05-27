@@ -7510,6 +7510,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-26T00:00:00.000Z',
   },
 
+  // ── Clarifai ──────────────────────────────────────────────────────────────
+  {
+    provider: 'clarifai',
+    model_id: 'meta-llama/Llama-3_3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.67,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'meta-llama/Llama-3_1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'meta-llama/Llama-3_1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.80,
+    output_price_per_1m_tokens: 4.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'mistralai/Mistral-7B-Instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'Qwen/Qwen2_5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'clarifai',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0_1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7727,6 +7801,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     monsterapi: [0.35, 0.35], // Llama 3.3 70B Instruct symmetric on Monster API
     coreweave: [0.48, 0.48], // Llama 3.3 70B Instruct symmetric flagship on CoreWeave
     prem: [0.48, 0.72], // Llama 3.3 70B Instruct flagship rates on Prem AI
+    clarifai: [0.45, 0.67], // Llama 3.3 70B Instruct flagship rates on Clarifai
   };
   return defaults[provider];
 }

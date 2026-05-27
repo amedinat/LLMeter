@@ -1476,6 +1476,28 @@ const completion = await trackedFS.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fluidstack
 );`;
 
+const sdkClarifaiExample = `import OpenAI from 'openai';
+import LLMeter, { wrapClarifai } from 'llmeter';
+
+// Clarifai is OpenAI-compatible — enterprise AI platform (2.5B predictions/month, SOC2/HIPAA)
+// Llama 3.3 70B at $0.45/$0.67 per 1M — founded by ImageNet 2013 winner Matthew Zeiler
+const clarifai = new OpenAI({
+  apiKey: process.env.CLARIFAI_PAT,
+  baseURL: 'https://api.clarifai.com/v2/ext/openai/v1',
+  defaultHeaders: { Authorization: \`Key \${process.env.CLARIFAI_PAT}\` },
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedClarifai = wrapClarifai(clarifai, llmeter);
+
+// All calls are automatically tracked — enterprise-grade inference with SOC2 compliance
+const completion = await trackedClarifai.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3_3-70B-Instruct', // or 'deepseek-ai/DeepSeek-R1', 'Qwen/Qwen2_5-72B-Instruct', etc.
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Clarifai
+);`;
+
 const sdkPremExample = `import OpenAI from 'openai';
 import LLMeter, { wrapPrem } from 'llmeter';
 
@@ -2091,6 +2113,7 @@ export default function DocsPage() {
                 <TabsTrigger value="monsterapi">Monster API</TabsTrigger>
                 <TabsTrigger value="coreweave">CoreWeave</TabsTrigger>
                 <TabsTrigger value="prem">Prem AI</TabsTrigger>
+                <TabsTrigger value="clarifai">Clarifai</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3003,6 +3026,16 @@ export default function DocsPage() {
                   call is tracked automatically. Russia&apos;s sovereign AI by Sberbank — 100M+ users, 30+ languages, 100% symmetric pricing. 8 models: GigaChat Lite ($0.10/$0.10 per 1M — budget symmetric), GigaChat Lite Long ($0.10/$0.10), GigaChat ($0.15/$0.15 — standard), GigaChat Pro ($0.50/$0.50 — professional), GigaChat Pro Long ($0.50/$0.50), GigaChat Max ($1.50/$1.50 — flagship), GigaChat Max Long ($1.50/$1.50), GigaChat 2 Max ($2.00/$2.00 — gen 2 flagship).
                 </p>
                 <CodeBlock language="typescript" code={sdkGigaChatExample} />
+              </TabsContent>
+              <TabsContent value="clarifai" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Clarifai is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Clarifai base URL and your Personal Access Token (PAT). Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Clarifai is an enterprise AI platform founded in 2013 by Matthew Zeiler (ImageNet 2013 winner) — processes 2.5 billion AI predictions/month for 1,000+ enterprise customers with SOC2, HIPAA, and FedRAMP-ready compliance. 8 models: Llama-3.3-70B-Instruct ($0.45/$0.67 per 1M — flagship), Llama-3.1-8B-Instruct ($0.10/$0.15 — budget), Llama-3.1-405B-Instruct ($2.80/$4.00 — enterprise), Mistral-7B-Instruct ($0.07/$0.10 — cheapest on Clarifai), DeepSeek-R1 ($0.55/$2.19 — reasoning), DeepSeek-V3 ($0.28/$1.10), Qwen2.5-72B-Instruct ($0.35/$0.50 — multilingual), Mixtral-8x7B-Instruct ($0.24/$0.24 — symmetric MoE).
+                </p>
+                <CodeBlock language="typescript" code={sdkClarifaiExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

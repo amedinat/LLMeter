@@ -88,6 +88,7 @@ import { fluidstackAdapter } from './fluidstack-adapter';
 import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
 import { premAdapter } from './prem-adapter';
+import { clarifaiAdapter } from './clarifai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7335,6 +7336,82 @@ describe('Provider Adapters', () => {
 
     it('premAdapter.type is prem', () => {
       expect(premAdapter.type).toBe('prem');
+    });
+  });
+
+  describe('clarifaiAdapter', () => {
+    const validKey = 'clarifai_validpat1234567890abcdef';
+
+    it('validateKey calls Clarifai models endpoint with Key auth', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200 });
+
+      await clarifaiAdapter.validateKey(validKey);
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.clarifai.com/v2/models?model_type_id=large-language-model&per_page=1',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Key ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('validateKey returns true on 200 OK', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200 });
+
+      const result = await clarifaiAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(clarifaiAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Clarifai PAT'
+      );
+    });
+
+    it('validateKey throws on 403', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+
+      await expect(clarifaiAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Clarifai PAT'
+      );
+    });
+
+    it('validateKey throws on other error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ status: { description: 'Internal Server Error' } }),
+      });
+
+      await expect(clarifaiAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await clarifaiAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('clarifaiAdapter.type is clarifai', () => {
+      expect(clarifaiAdapter.type).toBe('clarifai');
     });
   });
 });
