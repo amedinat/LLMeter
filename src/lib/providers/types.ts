@@ -902,4 +902,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.ncloud.com/ai-application-service/clovaStudio',
     color: '#03C75A',
   },
+  inflection: {
+    type: 'inflection',
+    name: 'Inflection AI',
+    description: 'Inflection-3 Productivity, Inflection-3 Pi, Inflection-2.5 — co-founded by Mustafa Suleyman (DeepMind co-founder, now Microsoft AI CEO) and Reid Hoffman (LinkedIn co-founder). Raised $1.3B from Microsoft, NVIDIA, Bill Gates. Pivoted from consumer Pi assistant to enterprise model API in 2024. OpenAI-compatible API. Inflection-3 Productivity $1.20/$3.60 per 1M.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-inflection-api-key',
+    helpUrl: 'https://developers.inflection.ai',
+    color: '#7C3AED',
+  },
 };

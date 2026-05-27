@@ -7732,6 +7732,53 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── Inflection AI ─────────────────────────────────────────────────────────
+  {
+    provider: 'inflection',
+    model_id: 'inflection-3-productivity',
+    display_name: 'Inflection 3 Productivity',
+    input_price_per_1m_tokens: 1.20,
+    output_price_per_1m_tokens: 3.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'inflection',
+    model_id: 'inflection-3-pi',
+    display_name: 'Inflection 3 Pi',
+    input_price_per_1m_tokens: 1.20,
+    output_price_per_1m_tokens: 3.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'inflection',
+    model_id: 'inflection-2.5',
+    display_name: 'Inflection 2.5',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'inflection',
+    model_id: 'inflection-3-productivity-turbo',
+    display_name: 'Inflection 3 Productivity Turbo',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'inflection',
+    model_id: 'inflection-3-pi-turbo',
+    display_name: 'Inflection 3 Pi Turbo',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
   // ── NAVER HyperCLOVA X ────────────────────────────────────────────────────
   {
     provider: 'naver',
@@ -8009,6 +8056,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     sensenova: [2.00, 6.00], // SenseChat-5 flagship rates on SenseTime SenseNova
     ai360: [0.50, 1.50], // 360GPT2-Pro flagship rates on 360 AI
     naver: [2.00, 6.00], // HyperCLOVA X flagship rates on NAVER CLOVA Studio
+    inflection: [1.20, 3.60], // Inflection-3 Productivity flagship rates on Inflection AI
   };
   return defaults[provider];
 }

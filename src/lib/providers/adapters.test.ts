@@ -92,6 +92,7 @@ import { clarifaiAdapter } from './clarifai-adapter';
 import { sensenovaAdapter } from './sensenova-adapter';
 import { ai360Adapter } from './ai360-adapter';
 import { naverAdapter } from './naver-adapter';
+import { inflectionAdapter } from './inflection-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7639,6 +7640,75 @@ describe('Provider Adapters', () => {
 
     it('naverAdapter.type is naver', () => {
       expect(naverAdapter.type).toBe('naver');
+    });
+  });
+
+  describe('inflectionAdapter', () => {
+    it('validateKey sends GET to /v1/models with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await inflectionAdapter.validateKey('infl_test_key');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.inflection.ai/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: 'Bearer infl_test_key',
+          }),
+        })
+      );
+    });
+
+    it('returns true when Inflection AI returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await inflectionAdapter.validateKey('infl_test_key');
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(inflectionAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Inflection AI API key'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+      await expect(inflectionAdapter.validateKey('infl_key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(inflectionAdapter.validateKey('')).rejects.toThrow(
+        'Inflection AI API key is missing'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await inflectionAdapter.fetchUsage(
+        'infl_test_key',
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('inflectionAdapter.type is inflection', () => {
+      expect(inflectionAdapter.type).toBe('inflection');
     });
   });
 });
