@@ -92,6 +92,7 @@ export { wrapArcee } from './arcee.js';
 export { wrapCentML } from './centml.js';
 export { wrapVenice } from './venice.js';
 export { wrapInferless } from './inferless.js';
+export { wrapFluidStack } from './fluidstack.js';
 export { wrapMonsterAPI } from './monsterapi.js';
 export { wrapCoreWeave } from './coreweave.js';
 

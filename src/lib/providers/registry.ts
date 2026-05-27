@@ -87,6 +87,7 @@ import { centmlAdapter } from './centml-adapter';
 import { veniceAdapter } from './venice-adapter';
 import { inferlessAdapter } from './inferless-adapter';
 import { codestralAdapter } from './codestral-adapter';
+import { fluidstackAdapter } from './fluidstack-adapter';
 import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
 
@@ -184,6 +185,7 @@ adapters.set('centml', centmlAdapter);
 adapters.set('venice', veniceAdapter);
 adapters.set('inferless', inferlessAdapter);
 adapters.set('codestral', codestralAdapter);
+adapters.set('fluidstack', fluidstackAdapter);
 adapters.set('monsterapi', monsterapiAdapter);
 adapters.set('coreweave', coreweaveAdapter);
 

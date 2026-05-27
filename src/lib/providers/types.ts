@@ -830,6 +830,15 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.mistral.ai/capabilities/code_generation/',
     color: '#FF7000',
   },
+  fluidstack: {
+    type: 'fluidstack',
+    name: 'Fluidstack',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B/405B, DeepSeek R1, DeepSeek V3, Mistral 7B, Qwen 2.5 72B — GPU aggregation cloud (H100/H200/A100) that trained Mistral AI, Stability AI, and xAI; now offering serverless LLM inference. Global network from 15+ data centers. OpenAI-compatible API. Mistral 7B $0.09/1M symmetric. fluidstack.io',
+    keyPrefix: '',
+    keyPlaceholder: 'your-fluidstack-api-key',
+    helpUrl: 'https://app.fluidstack.io',
+    color: '#6B21A8',
+  },
   monsterapi: {
     type: 'monsterapi',
     name: 'Monster API',

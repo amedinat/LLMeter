@@ -7288,6 +7288,81 @@ const MODEL_CATALOG: ModelPricing[] = [
   },
 
   // ── CoreWeave ──────────────────────────────────────────────────────────────
+  // ── Fluidstack ────────────────────────────────────────────────────────────
+  {
+    provider: 'fluidstack',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.59,
+    output_price_per_1m_tokens: 0.79,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'fluidstack',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+
+  // ── CoreWeave ──────────────────────────────────────────────────────────────
   {
     provider: 'coreweave',
     model_id: 'meta-llama/Llama-3.3-70B-Instruct',
@@ -7574,6 +7649,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     venice: [0.28, 0.28], // Llama 3.3 70B symmetric on Venice AI (privacy-first)
     inferless: [0.45, 0.45], // Llama 3.3 70B Instruct symmetric on Inferless (serverless GPU)
     codestral: [0.30, 0.90], // Codestral 22B list prices (Mistral code endpoint)
+    fluidstack: [0.59, 0.79], // Llama 3.3 70B Instruct flagship rates on Fluidstack
     monsterapi: [0.35, 0.35], // Llama 3.3 70B Instruct symmetric on Monster API
     coreweave: [0.48, 0.48], // Llama 3.3 70B Instruct symmetric flagship on CoreWeave
   };
