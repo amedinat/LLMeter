@@ -257,6 +257,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           coreweave: 0,
           prem: 0,
           clarifai: 0,
+          sensenova: 0,
         }
       });
     }
@@ -373,6 +374,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           coreweave: 0,
           prem: 0,
           clarifai: 0,
+          sensenova: 0,
         },
       }
     );

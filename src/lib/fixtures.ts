@@ -123,6 +123,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         coreweave: 0,
         prem: 0,
         clarifai: 0,
+        sensenova: 0,
       },
     };
   });

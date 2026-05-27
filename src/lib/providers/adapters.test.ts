@@ -89,6 +89,7 @@ import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
 import { premAdapter } from './prem-adapter';
 import { clarifaiAdapter } from './clarifai-adapter';
+import { sensenovaAdapter } from './sensenova-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7412,6 +7413,82 @@ describe('Provider Adapters', () => {
 
     it('clarifaiAdapter.type is clarifai', () => {
       expect(clarifaiAdapter.type).toBe('clarifai');
+    });
+  });
+
+  describe('sensenovaAdapter', () => {
+    const validKey = 'sensenova-validapikey1234567890abcdef';
+
+    it('validateKey calls GET /compatible-mode/v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await sensenovaAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.sensenova.cn/compatible-mode/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /compatible-mode/v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await sensenovaAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about SenseNova key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(sensenovaAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid SenseNova API key'
+      );
+    });
+
+    it('throws on 403 with helpful message about SenseNova key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(sensenovaAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid SenseNova API key'
+      );
+    });
+
+    it('throws on non-401/403 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+      await expect(sensenovaAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await sensenovaAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sensenovaAdapter.type is sensenova', () => {
+      expect(sensenovaAdapter.type).toBe('sensenova');
     });
   });
 });

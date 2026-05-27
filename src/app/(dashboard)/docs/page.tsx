@@ -1476,6 +1476,27 @@ const completion = await trackedFS.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fluidstack
 );`;
 
+const sdkSenseNovaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSenseNova } from 'llmeter';
+
+// SenseNova is OpenAI-compatible — SenseTime's LLM platform (China's largest AI company at IPO)
+// SenseChat-5 at $2.00/$6.00 per 1M — ImageNet 2015 winner, 100M+ users
+const sensenova = new OpenAI({
+  apiKey: process.env.SENSENOVA_API_KEY,
+  baseURL: 'https://api.sensenova.cn/compatible-mode/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedSenseNova = wrapSenseNova(sensenova, llmeter);
+
+// All calls are automatically tracked — China's largest AI company inference
+const completion = await trackedSenseNova.chat.completions.create(
+  {
+    model: 'SenseChat-5', // or 'SenseChat-5-Turbo', 'SenseChat-Lite-V4', 'SenseReasoner-Pro', etc.
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to SenseNova
+);`;
+
 const sdkClarifaiExample = `import OpenAI from 'openai';
 import LLMeter, { wrapClarifai } from 'llmeter';
 
@@ -2114,6 +2135,7 @@ export default function DocsPage() {
                 <TabsTrigger value="coreweave">CoreWeave</TabsTrigger>
                 <TabsTrigger value="prem">Prem AI</TabsTrigger>
                 <TabsTrigger value="clarifai">Clarifai</TabsTrigger>
+                <TabsTrigger value="sensenova">SenseNova</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3036,6 +3058,16 @@ export default function DocsPage() {
                   call is tracked automatically. Clarifai is an enterprise AI platform founded in 2013 by Matthew Zeiler (ImageNet 2013 winner) — processes 2.5 billion AI predictions/month for 1,000+ enterprise customers with SOC2, HIPAA, and FedRAMP-ready compliance. 8 models: Llama-3.3-70B-Instruct ($0.45/$0.67 per 1M — flagship), Llama-3.1-8B-Instruct ($0.10/$0.15 — budget), Llama-3.1-405B-Instruct ($2.80/$4.00 — enterprise), Mistral-7B-Instruct ($0.07/$0.10 — cheapest on Clarifai), DeepSeek-R1 ($0.55/$2.19 — reasoning), DeepSeek-V3 ($0.28/$1.10), Qwen2.5-72B-Instruct ($0.35/$0.50 — multilingual), Mixtral-8x7B-Instruct ($0.24/$0.24 — symmetric MoE).
                 </p>
                 <CodeBlock language="typescript" code={sdkClarifaiExample} />
+              </TabsContent>
+              <TabsContent value="sensenova" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  SenseNova is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the SenseNova base URL and your API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. SenseTime SenseNova is China's largest AI company by valuation at HKEX IPO (#0020) — won ImageNet 2015 Object Detection challenge (natural pairing with Clarifai/ImageNet 2013), serving 100M+ users. 8 models: SenseChat-5 ($2.00/$6.00 per 1M — flagship), SenseChat-5 Turbo ($0.80/$2.40 — fast flagship), SenseChat-5 Lite ($0.30/$0.90 — budget), SenseChat-Lite V4 ($0.10/$0.30 — ultra-budget, 96% cheaper than GPT-4o input), SenseReasoner-Pro ($0.80/$2.40 — reasoning), SenseCode-V2 ($0.20/$0.60 — code generation), SenseChat-5 32K ($1.00/$3.00 — long context), SenseChat-5 Vision ($1.50/$4.50 — multimodal).
+                </p>
+                <CodeBlock language="typescript" code={sdkSenseNovaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

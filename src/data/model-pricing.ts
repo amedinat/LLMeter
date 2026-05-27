@@ -7584,6 +7584,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── SenseTime SenseNova ───────────────────────────────────────────────────
+  {
+    provider: 'sensenova',
+    model_id: 'sensechat-5',
+    display_name: 'SenseChat-5',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 6.00,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensechat-5-turbo',
+    display_name: 'SenseChat-5 Turbo',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensechat-5-lite',
+    display_name: 'SenseChat-5 Lite',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensechat-lite-v4',
+    display_name: 'SenseChat-Lite V4',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensereasonerpro',
+    display_name: 'SenseReasoner-Pro',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensecode-v2',
+    display_name: 'SenseCode-V2',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensechat-5-32k',
+    display_name: 'SenseChat-5 32K',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'sensenova',
+    model_id: 'sensechat-5-vision',
+    display_name: 'SenseChat-5 Vision',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 4.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7802,6 +7876,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     coreweave: [0.48, 0.48], // Llama 3.3 70B Instruct symmetric flagship on CoreWeave
     prem: [0.48, 0.72], // Llama 3.3 70B Instruct flagship rates on Prem AI
     clarifai: [0.45, 0.67], // Llama 3.3 70B Instruct flagship rates on Clarifai
+    sensenova: [2.00, 6.00], // SenseChat-5 flagship rates on SenseTime SenseNova
   };
   return defaults[provider];
 }

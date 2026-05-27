@@ -875,4 +875,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://clarifai.com/settings/security',
     color: '#4F46E5',
   },
+  sensenova: {
+    type: 'sensenova',
+    name: 'SenseTime SenseNova',
+    description: "SenseChat-5, SenseChat-5 Turbo, SenseChat-5 Lite, SenseReasoner-Pro, SenseCode-V2, SenseChat-Lite — SenseTime's LLM platform (China's largest AI company at IPO, ImageNet 2015 winner). Serving 100M+ users via OpenAI-compatible API. SenseChat-5 Pro $2.00/$6.00 per 1M; SenseChat-Lite V4 $0.10/$0.30 — 96% cheaper than GPT-4o. platform.sensenova.cn",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sensenova-api-key',
+    helpUrl: 'https://platform.sensenova.cn',
+    color: '#E63946',
+  },
 };

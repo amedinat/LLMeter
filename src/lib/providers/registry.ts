@@ -92,6 +92,7 @@ import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
 import { premAdapter } from './prem-adapter';
 import { clarifaiAdapter } from './clarifai-adapter';
+import { sensenovaAdapter } from './sensenova-adapter';
 
 /**
  * Provider adapter registry.
@@ -192,6 +193,7 @@ adapters.set('monsterapi', monsterapiAdapter);
 adapters.set('coreweave', coreweaveAdapter);
 adapters.set('prem', premAdapter);
 adapters.set('clarifai', clarifaiAdapter);
+adapters.set('sensenova', sensenovaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

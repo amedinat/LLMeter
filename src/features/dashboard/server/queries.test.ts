@@ -140,6 +140,7 @@ const ZERO_PROVIDERS = {
   coreweave: 0,
   prem: 0,
   clarifai: 0,
+  sensenova: 0,
 };
 
 // --- Tests ---
