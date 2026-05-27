@@ -911,4 +911,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developers.inflection.ai',
     color: '#7C3AED',
   },
+  yandex: {
+    type: 'yandex',
+    name: 'Yandex Cloud',
+    description: "YandexGPT 4 Pro, YandexGPT 4 Lite, Llama 3.1 70B — Yandex is Russia's #1 internet company (founded 1997, >60% Russian search market share, $15B+ revenue, 20,000+ employees). YandexGPT is built on 27 years of Cyrillic NLP expertise. Second Russian sovereign AI provider on LLMeter after GigaChat (Sberbank). OpenAI-compatible Foundation Models API. YandexGPT 4 Lite $0.02/$0.06 per 1M — 99% cheaper than GPT-4o. cloud.yandex.com",
+    keyPrefix: '',
+    keyPlaceholder: 'your-yandex-iam-token',
+    helpUrl: 'https://cloud.yandex.com/en/docs/foundation-models',
+    color: '#FF0000',
+  },
 };

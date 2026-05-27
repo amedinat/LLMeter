@@ -7835,6 +7835,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── Yandex Cloud Foundation Models ────────────────────────────────────────
+  {
+    provider: 'yandex',
+    model_id: 'yandexgpt',
+    display_name: 'YandexGPT 4 Pro',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'yandexgpt-lite',
+    display_name: 'YandexGPT 4 Lite',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'yandexgpt-32k',
+    display_name: 'YandexGPT 4 Pro 32K',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'yandexgpt-lite-32k',
+    display_name: 'YandexGPT 4 Lite 32K',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'llama',
+    display_name: 'Llama 3.1 70B (Yandex)',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'llama-lite',
+    display_name: 'Llama 3.1 8B (Yandex)',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'yandexgpt-3',
+    display_name: 'YandexGPT 3 Pro',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'yandex',
+    model_id: 'yandexgpt-3-lite',
+    display_name: 'YandexGPT 3 Lite',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8057,6 +8131,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ai360: [0.50, 1.50], // 360GPT2-Pro flagship rates on 360 AI
     naver: [2.00, 6.00], // HyperCLOVA X flagship rates on NAVER CLOVA Studio
     inflection: [1.20, 3.60], // Inflection-3 Productivity flagship rates on Inflection AI
+    yandex: [0.15, 0.45], // YandexGPT 4 Pro flagship rates on Yandex Cloud
   };
   return defaults[provider];
 }

@@ -96,6 +96,7 @@ import { sensenovaAdapter } from './sensenova-adapter';
 import { ai360Adapter } from './ai360-adapter';
 import { naverAdapter } from './naver-adapter';
 import { inflectionAdapter } from './inflection-adapter';
+import { yandexAdapter } from './yandex-adapter';
 
 /**
  * Provider adapter registry.
@@ -200,6 +201,7 @@ adapters.set('sensenova', sensenovaAdapter);
 adapters.set('ai360', ai360Adapter);
 adapters.set('naver', naverAdapter);
 adapters.set('inflection', inflectionAdapter);
+adapters.set('yandex', yandexAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

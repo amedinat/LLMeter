@@ -93,6 +93,7 @@ import { sensenovaAdapter } from './sensenova-adapter';
 import { ai360Adapter } from './ai360-adapter';
 import { naverAdapter } from './naver-adapter';
 import { inflectionAdapter } from './inflection-adapter';
+import { yandexAdapter } from './yandex-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7709,6 +7710,75 @@ describe('Provider Adapters', () => {
 
     it('inflectionAdapter.type is inflection', () => {
       expect(inflectionAdapter.type).toBe('inflection');
+    });
+  });
+
+  describe('yandexAdapter', () => {
+    it('validateKey sends GET to listFoundationModels with Bearer auth', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ models: [] }),
+      });
+      await yandexAdapter.validateKey('yandex-iam-token-test');
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://llm.api.cloud.yandex.net/foundationModels/v1/listFoundationModels',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: 'Bearer yandex-iam-token-test',
+          }),
+        })
+      );
+    });
+
+    it('returns true when Yandex Cloud returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ models: [] }),
+      });
+      const result = await yandexAdapter.validateKey('yandex-iam-token-test');
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about IAM token', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(yandexAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid Yandex Cloud IAM token'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(yandexAdapter.validateKey('iam-token')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when IAM token is empty', async () => {
+      await expect(yandexAdapter.validateKey('')).rejects.toThrow(
+        'Yandex Cloud IAM token is missing'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await yandexAdapter.fetchUsage(
+        'yandex-iam-token-test',
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('yandexAdapter.type is yandex', () => {
+      expect(yandexAdapter.type).toBe('yandex');
     });
   });
 });
