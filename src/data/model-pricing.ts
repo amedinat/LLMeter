@@ -7658,6 +7658,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── 360 AI (Qihoo 360 / 三六零) ──────────────────────────────────────────
+  {
+    provider: 'ai360',
+    model_id: '360gpt2-pro',
+    display_name: '360GPT2-Pro',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt2-pro-128k',
+    display_name: '360GPT2-Pro 128K',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt-turbo',
+    display_name: '360GPT-Turbo',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt-turbo-responsibility',
+    display_name: '360GPT-Turbo Responsibility',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt-pro',
+    display_name: '360GPT-Pro',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt-s2-v9',
+    display_name: '360GPT-S2-V9',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.36,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt-lite',
+    display_name: '360GPT-Lite',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'ai360',
+    model_id: '360gpt-130b',
+    display_name: '360GPT-130B',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 4.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7877,6 +7951,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     prem: [0.48, 0.72], // Llama 3.3 70B Instruct flagship rates on Prem AI
     clarifai: [0.45, 0.67], // Llama 3.3 70B Instruct flagship rates on Clarifai
     sensenova: [2.00, 6.00], // SenseChat-5 flagship rates on SenseTime SenseNova
+    ai360: [0.50, 1.50], // 360GPT2-Pro flagship rates on 360 AI
   };
   return defaults[provider];
 }

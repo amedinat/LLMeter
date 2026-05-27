@@ -98,6 +98,7 @@ export { wrapCoreWeave } from './coreweave.js';
 export { wrapPrem } from './prem.js';
 export { wrapClarifai } from './clarifai.js';
 export { wrapSenseNova } from './sensenova.js';
+export { wrapAI360 } from './ai360.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

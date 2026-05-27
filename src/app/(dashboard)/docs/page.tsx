@@ -1476,6 +1476,28 @@ const completion = await trackedFS.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fluidstack
 );`;
 
+const sdkAI360Example = `import OpenAI from 'openai';
+import LLMeter, { wrapAI360 } from 'llmeter';
+
+// 360 AI is OpenAI-compatible — China's largest cybersecurity company (601360.SZ)
+// 4.5B endpoint protection clients worldwide, founded 2005 by Zhou Hongyi
+// 360GPT-Lite at $0.08/$0.24 per 1M — 97% cheaper than GPT-4o input
+const ai360 = new OpenAI({
+  apiKey: process.env.AI360_API_KEY,
+  baseURL: 'https://ai.360.cn/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAI360 = wrapAI360(ai360, llmeter);
+
+// All calls are automatically tracked — 360 Security Technology inference
+const completion = await trackedAI360.chat.completions.create(
+  {
+    model: '360gpt2-pro', // or '360gpt-turbo', '360gpt-lite', '360gpt-130b', etc.
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to 360 AI
+);`;
+
 const sdkSenseNovaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapSenseNova } from 'llmeter';
 
@@ -2136,6 +2158,7 @@ export default function DocsPage() {
                 <TabsTrigger value="prem">Prem AI</TabsTrigger>
                 <TabsTrigger value="clarifai">Clarifai</TabsTrigger>
                 <TabsTrigger value="sensenova">SenseNova</TabsTrigger>
+                <TabsTrigger value="ai360">360 AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3068,6 +3091,16 @@ export default function DocsPage() {
                   call is tracked automatically. SenseTime SenseNova is China's largest AI company by valuation at HKEX IPO (#0020) — won ImageNet 2015 Object Detection challenge (natural pairing with Clarifai/ImageNet 2013), serving 100M+ users. 8 models: SenseChat-5 ($2.00/$6.00 per 1M — flagship), SenseChat-5 Turbo ($0.80/$2.40 — fast flagship), SenseChat-5 Lite ($0.30/$0.90 — budget), SenseChat-Lite V4 ($0.10/$0.30 — ultra-budget, 96% cheaper than GPT-4o input), SenseReasoner-Pro ($0.80/$2.40 — reasoning), SenseCode-V2 ($0.20/$0.60 — code generation), SenseChat-5 32K ($1.00/$3.00 — long context), SenseChat-5 Vision ($1.50/$4.50 — multimodal).
                 </p>
                 <CodeBlock language="typescript" code={sdkSenseNovaExample} />
+              </TabsContent>
+              <TabsContent value="ai360" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  360 AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the 360 AI base URL and your API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. 360 Security Technology (三六零) is China's largest cybersecurity company — listed on Shenzhen Stock Exchange (601360.SZ), founded 2005 by Zhou Hongyi, with 4.5 billion endpoint protection clients worldwide. 8 models: 360GPT2-Pro ($0.50/$1.50 per 1M — flagship), 360GPT2-Pro 128K ($1.00/$3.00 — long context), 360GPT-Turbo ($0.15/$0.45 — standard), 360GPT-Turbo Responsibility ($0.40/$1.20 — enterprise), 360GPT-Pro ($0.30/$0.90 — standard), 360GPT-S2-V9 ($0.12/$0.36 — budget), 360GPT-Lite ($0.08/$0.24 — 97% cheaper than GPT-4o input), 360GPT-130B ($1.50/$4.50 — premium large model).
+                </p>
+                <CodeBlock language="typescript" code={sdkAI360Example} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

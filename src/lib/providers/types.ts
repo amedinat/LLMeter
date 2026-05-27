@@ -884,4 +884,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.sensenova.cn',
     color: '#E63946',
   },
+  ai360: {
+    type: 'ai360',
+    name: '360 AI',
+    description: '360GPT2-Pro, 360GPT-Turbo, 360GPT-Pro, 360GPT-Lite — 360 Security Technology (三六零), China\'s largest cybersecurity company (601360.SZ, 4.5B endpoint clients). OpenAI-compatible API. 360GPT-Lite $0.08/$0.24 per 1M — 97% cheaper than GPT-4o input. ai.360.cn',
+    keyPrefix: '',
+    keyPlaceholder: 'your-360ai-api-key',
+    helpUrl: 'https://ai.360.cn/open',
+    color: '#FF4500',
+  },
 };

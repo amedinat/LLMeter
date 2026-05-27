@@ -90,6 +90,7 @@ import { coreweaveAdapter } from './coreweave-adapter';
 import { premAdapter } from './prem-adapter';
 import { clarifaiAdapter } from './clarifai-adapter';
 import { sensenovaAdapter } from './sensenova-adapter';
+import { ai360Adapter } from './ai360-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7489,6 +7490,82 @@ describe('Provider Adapters', () => {
 
     it('sensenovaAdapter.type is sensenova', () => {
       expect(sensenovaAdapter.type).toBe('sensenova');
+    });
+  });
+
+  describe('ai360Adapter', () => {
+    const validKey = 'ai360-validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await ai360Adapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://ai.360.cn/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await ai360Adapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about 360 AI key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(ai360Adapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid 360 AI API key'
+      );
+    });
+
+    it('throws on 403 with helpful message about 360 AI key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(ai360Adapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid 360 AI API key'
+      );
+    });
+
+    it('throws on non-401/403 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+      await expect(ai360Adapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ai360Adapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('ai360Adapter.type is ai360', () => {
+      expect(ai360Adapter.type).toBe('ai360');
     });
   });
 });

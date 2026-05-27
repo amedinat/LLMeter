@@ -93,6 +93,7 @@ import { coreweaveAdapter } from './coreweave-adapter';
 import { premAdapter } from './prem-adapter';
 import { clarifaiAdapter } from './clarifai-adapter';
 import { sensenovaAdapter } from './sensenova-adapter';
+import { ai360Adapter } from './ai360-adapter';
 
 /**
  * Provider adapter registry.
@@ -194,6 +195,7 @@ adapters.set('coreweave', coreweaveAdapter);
 adapters.set('prem', premAdapter);
 adapters.set('clarifai', clarifaiAdapter);
 adapters.set('sensenova', sensenovaAdapter);
+adapters.set('ai360', ai360Adapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
