@@ -893,4 +893,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://ai.360.cn/open',
     color: '#FF4500',
   },
+  naver: {
+    type: 'naver',
+    name: 'NAVER HyperCLOVA X',
+    description: 'HCX-003, HCX-DASH-001, HCX-DASH-002, HCX-DASH-003 — NAVER Corporation (KRX: 035420), Korea\'s largest internet company. HyperCLOVA (2021) was the world\'s first non-English large LLM at 82B parameters. HyperCLOVA X is Korea\'s flagship bilingual Korean-English model. Credentials: apiKeyId::serviceKey (both from console.ncloud.com under AI Services > CLOVA Studio > API Keys). HCX-DASH-003 $0.08/$0.24 per 1M — 97% cheaper than GPT-4o input.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-api-key-id::your-service-key',
+    helpUrl: 'https://console.ncloud.com/ai-application-service/clovaStudio',
+    color: '#03C75A',
+  },
 };

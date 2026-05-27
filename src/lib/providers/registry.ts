@@ -94,6 +94,7 @@ import { premAdapter } from './prem-adapter';
 import { clarifaiAdapter } from './clarifai-adapter';
 import { sensenovaAdapter } from './sensenova-adapter';
 import { ai360Adapter } from './ai360-adapter';
+import { naverAdapter } from './naver-adapter';
 
 /**
  * Provider adapter registry.
@@ -196,6 +197,7 @@ adapters.set('prem', premAdapter);
 adapters.set('clarifai', clarifaiAdapter);
 adapters.set('sensenova', sensenovaAdapter);
 adapters.set('ai360', ai360Adapter);
+adapters.set('naver', naverAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

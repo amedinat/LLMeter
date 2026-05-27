@@ -1476,6 +1476,33 @@ const completion = await trackedFS.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fluidstack
 );`;
 
+const sdkNaverExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNaver } from 'llmeter';
+
+// NAVER HyperCLOVA X — Korea's largest internet company (KRX: 035420)
+// HyperCLOVA (2021): world's first non-English LLM at 82B params
+// HCX-DASH-003 at $0.08/$0.24 per 1M — 97% cheaper than GPT-4o input
+// Credentials: apiKeyId::serviceKey (from console.ncloud.com > CLOVA Studio)
+const naver = new OpenAI({
+  apiKey: process.env.NAVER_SERVICE_KEY,
+  baseURL: 'https://clovastudio.stream.naver.com/openai/v1',
+  defaultHeaders: {
+    'X-NCP-APIGW-API-KEY-ID': process.env.NAVER_API_KEY_ID,
+    'X-NCP-APIGW-API-KEY': process.env.NAVER_SERVICE_KEY,
+  },
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNaver = wrapNaver(naver, llmeter);
+
+// All calls are automatically tracked — NAVER CLOVA Studio inference
+const completion = await trackedNaver.chat.completions.create(
+  {
+    model: 'HCX-003', // or 'HCX-DASH-001', 'HCX-DASH-002', 'HCX-DASH-003', etc.
+    messages: [{ role: 'user', content: 'Korea의 수도가 어디야?' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NAVER
+);`;
+
 const sdkAI360Example = `import OpenAI from 'openai';
 import LLMeter, { wrapAI360 } from 'llmeter';
 
@@ -2159,6 +2186,7 @@ export default function DocsPage() {
                 <TabsTrigger value="clarifai">Clarifai</TabsTrigger>
                 <TabsTrigger value="sensenova">SenseNova</TabsTrigger>
                 <TabsTrigger value="ai360">360 AI</TabsTrigger>
+                <TabsTrigger value="naver">NAVER</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3091,6 +3119,18 @@ export default function DocsPage() {
                   call is tracked automatically. SenseTime SenseNova is China's largest AI company by valuation at HKEX IPO (#0020) — won ImageNet 2015 Object Detection challenge (natural pairing with Clarifai/ImageNet 2013), serving 100M+ users. 8 models: SenseChat-5 ($2.00/$6.00 per 1M — flagship), SenseChat-5 Turbo ($0.80/$2.40 — fast flagship), SenseChat-5 Lite ($0.30/$0.90 — budget), SenseChat-Lite V4 ($0.10/$0.30 — ultra-budget, 96% cheaper than GPT-4o input), SenseReasoner-Pro ($0.80/$2.40 — reasoning), SenseCode-V2 ($0.20/$0.60 — code generation), SenseChat-5 32K ($1.00/$3.00 — long context), SenseChat-5 Vision ($1.50/$4.50 — multimodal).
                 </p>
                 <CodeBlock language="typescript" code={sdkSenseNovaExample} />
+              </TabsContent>
+              <TabsContent value="naver" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  NAVER HyperCLOVA X uses a dual-header authentication scheme — set both{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">X-NCP-APIGW-API-KEY-ID</code>{' '}
+                  and{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">X-NCP-APIGW-API-KEY</code>{' '}
+                  from the NAVER Cloud Platform console. Use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the CLOVA Studio OpenAI-compatible base URL. NAVER Corporation (KRX: 035420) is Korea's largest internet company — HyperCLOVA (2021) was the world's first non-English large language model at 82B parameters, and HyperCLOVA X is Korea's flagship bilingual Korean-English LLM. 6 models: HyperCLOVA X ($2.00/$6.00 per 1M — flagship 82B+ bilingual), HyperCLOVA X Turbo ($0.80/$2.40 — speed-optimized), HyperCLOVA X Mini ($0.40/$1.20 — balanced), HyperCLOVA X DASH ($0.12/$0.36 — fast efficient), HyperCLOVA X DASH 2 ($0.10/$0.30 — updated fast), HyperCLOVA X DASH 3 ($0.08/$0.24 — latest, 97% cheaper than GPT-4o input). Credentials format: apiKeyId::serviceKey.
+                </p>
+                <CodeBlock language="typescript" code={sdkNaverExample} />
               </TabsContent>
               <TabsContent value="ai360" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

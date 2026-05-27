@@ -7732,6 +7732,62 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── NAVER HyperCLOVA X ────────────────────────────────────────────────────
+  {
+    provider: 'naver',
+    model_id: 'HCX-003',
+    display_name: 'HyperCLOVA X',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 6.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'naver',
+    model_id: 'HCX-003-turbo',
+    display_name: 'HyperCLOVA X Turbo',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'naver',
+    model_id: 'HCX-003-mini',
+    display_name: 'HyperCLOVA X Mini',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'naver',
+    model_id: 'HCX-DASH-001',
+    display_name: 'HyperCLOVA X DASH',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.36,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'naver',
+    model_id: 'HCX-DASH-002',
+    display_name: 'HyperCLOVA X DASH 2',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'naver',
+    model_id: 'HCX-DASH-003',
+    display_name: 'HyperCLOVA X DASH 3',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7952,6 +8008,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     clarifai: [0.45, 0.67], // Llama 3.3 70B Instruct flagship rates on Clarifai
     sensenova: [2.00, 6.00], // SenseChat-5 flagship rates on SenseTime SenseNova
     ai360: [0.50, 1.50], // 360GPT2-Pro flagship rates on 360 AI
+    naver: [2.00, 6.00], // HyperCLOVA X flagship rates on NAVER CLOVA Studio
   };
   return defaults[provider];
 }

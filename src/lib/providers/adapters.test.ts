@@ -91,6 +91,7 @@ import { premAdapter } from './prem-adapter';
 import { clarifaiAdapter } from './clarifai-adapter';
 import { sensenovaAdapter } from './sensenova-adapter';
 import { ai360Adapter } from './ai360-adapter';
+import { naverAdapter } from './naver-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7566,6 +7567,78 @@ describe('Provider Adapters', () => {
 
     it('ai360Adapter.type is ai360', () => {
       expect(ai360Adapter.type).toBe('ai360');
+    });
+  });
+
+  describe('naverAdapter', () => {
+    const validCredentials = 'ncp_key_id_abc12345::ncp_service_key_xyz78901';
+
+    it('validateKey sends POST to CLOVA Studio chat-completions with correct headers', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ status: { code: '20000', message: 'OK' }, result: {} }),
+      });
+      await naverAdapter.validateKey(validCredentials);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://clovastudio.stream.naver.com/testapp/v1/chat-completions/HCX-DASH-001',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({
+            'X-NCP-APIGW-API-KEY-ID': 'ncp_key_id_abc12345',
+            'X-NCP-APIGW-API-KEY': 'ncp_service_key_xyz78901',
+          }),
+        })
+      );
+    });
+
+    it('returns true when CLOVA Studio returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ status: { code: '20000', message: 'OK' } }),
+      });
+      const result = await naverAdapter.validateKey(validCredentials);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about NAVER credentials', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(naverAdapter.validateKey(validCredentials)).rejects.toThrow(
+        'Invalid NAVER CLOVA Studio credentials'
+      );
+    });
+
+    it('throws on 403 with helpful message about NAVER credentials', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 403,
+        json: async () => ({}),
+      });
+      await expect(naverAdapter.validateKey(validCredentials)).rejects.toThrow(
+        'Invalid NAVER CLOVA Studio credentials'
+      );
+    });
+
+    it('throws descriptive error when credentials format is missing ::', async () => {
+      await expect(naverAdapter.validateKey('badcredentials')).rejects.toThrow(
+        'NAVER CLOVA Studio credentials must be in the format'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await naverAdapter.fetchUsage(
+        validCredentials,
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('naverAdapter.type is naver', () => {
+      expect(naverAdapter.type).toBe('naver');
     });
   });
 });

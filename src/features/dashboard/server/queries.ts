@@ -259,6 +259,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           clarifai: 0,
           sensenova: 0,
           ai360: 0,
+          naver: 0,
         }
       });
     }
@@ -377,6 +378,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           clarifai: 0,
           sensenova: 0,
           ai360: 0,
+          naver: 0,
         },
       }
     );
