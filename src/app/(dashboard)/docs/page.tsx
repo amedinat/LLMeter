@@ -1476,6 +1476,27 @@ const completion = await trackedFS.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Fluidstack
 );`;
 
+const sdkPremExample = `import OpenAI from 'openai';
+import LLMeter, { wrapPrem } from 'llmeter';
+
+// Prem AI is OpenAI-compatible — European privacy-first inference (Paris-based, GDPR-native)
+// Llama 3.3 70B at $0.48/$0.72 per 1M — privacy-preserving inference with no data retention
+const prem = new OpenAI({
+  apiKey: process.env.PREM_API_KEY,
+  baseURL: 'https://api.premai.io/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedPrem = wrapPrem(prem, llmeter);
+
+// All calls are automatically tracked — privacy-first European inference
+const completion = await trackedPrem.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'deepseek-ai/DeepSeek-R1', 'Qwen/Qwen2.5-72B-Instruct', etc.
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Prem AI
+);`;
+
 const sdkCoreWeaveExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCoreWeave } from 'llmeter';
 
@@ -2069,6 +2090,7 @@ export default function DocsPage() {
                 <TabsTrigger value="fluidstack">Fluidstack</TabsTrigger>
                 <TabsTrigger value="monsterapi">Monster API</TabsTrigger>
                 <TabsTrigger value="coreweave">CoreWeave</TabsTrigger>
+                <TabsTrigger value="prem">Prem AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -2961,6 +2983,16 @@ export default function DocsPage() {
                   call is tracked automatically. CoreWeave is the largest NVIDIA GPU cloud company — IPO&apos;d March 2025 at $35B+ valuation, runs production inference for OpenAI, Meta, and Microsoft on H100/A100 clusters with enterprise SLAs. 8 models: Llama-3.3-70B-Instruct ($0.48/$0.48 per 1M — symmetric flagship), Llama-3.1-70B-Instruct ($0.45/$0.45 — symmetric standard), Llama-3.1-8B-Instruct ($0.08/$0.08 — budget symmetric), Llama-3.1-405B-Instruct ($2.50/$2.50 — enterprise symmetric), DeepSeek-R1 ($0.55/$2.19 — reasoning), Mistral-7B-Instruct-v0.3 ($0.09/$0.09 — budget symmetric), Mixtral-8x7B-Instruct-v0.1 ($0.30/$0.30 — symmetric MoE), Qwen2.5-72B-Instruct ($0.40/$0.40 — symmetric). 6 of 8 models use symmetric (input = output) pricing.
                 </p>
                 <CodeBlock language="typescript" code={sdkCoreWeaveExample} />
+              </TabsContent>
+              <TabsContent value="prem" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Prem AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with the Prem AI base URL and your Prem AI API key. Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Prem AI is a European privacy-first inference platform — Paris-based, GDPR-native, no data retention, sovereign AI for enterprises with strict compliance requirements. 8 models: Llama-3.3-70B-Instruct ($0.48/$0.72 per 1M — flagship), Llama-3.1-70B-Instruct ($0.40/$0.60 — standard), Llama-3.1-8B-Instruct ($0.08/$0.12 — budget), Llama-3.1-405B-Instruct ($2.50/$3.50 — premium), DeepSeek-R1 ($0.55/$2.19 — reasoning), Mistral-7B-Instruct-v0.3 ($0.07/$0.09 — cheapest on Prem AI), Qwen2.5-72B-Instruct ($0.40/$0.55 — multilingual), Llama-3.2-3B-Instruct ($0.05/$0.05 — ultra-budget symmetric).
+                </p>
+                <CodeBlock language="typescript" code={sdkPremExample} />
               </TabsContent>
               <TabsContent value="gigachat" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

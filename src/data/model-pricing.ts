@@ -7436,6 +7436,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-26T00:00:00.000Z',
   },
 
+  // ── Prem AI ───────────────────────────────────────────────────────────────
+  {
+    provider: 'prem',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.48,
+    output_price_per_1m_tokens: 0.72,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'meta-llama/Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 3.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+  {
+    provider: 'prem',
+    model_id: 'meta-llama/Llama-3.2-3B-Instruct',
+    display_name: 'Llama 3.2 3B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-26T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -7652,6 +7726,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     fluidstack: [0.59, 0.79], // Llama 3.3 70B Instruct flagship rates on Fluidstack
     monsterapi: [0.35, 0.35], // Llama 3.3 70B Instruct symmetric on Monster API
     coreweave: [0.48, 0.48], // Llama 3.3 70B Instruct symmetric flagship on CoreWeave
+    prem: [0.48, 0.72], // Llama 3.3 70B Instruct flagship rates on Prem AI
   };
   return defaults[provider];
 }

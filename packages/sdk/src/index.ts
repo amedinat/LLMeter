@@ -95,6 +95,7 @@ export { wrapInferless } from './inferless.js';
 export { wrapFluidStack } from './fluidstack.js';
 export { wrapMonsterAPI } from './monsterapi.js';
 export { wrapCoreWeave } from './coreweave.js';
+export { wrapPrem } from './prem.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

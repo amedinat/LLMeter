@@ -90,6 +90,7 @@ import { codestralAdapter } from './codestral-adapter';
 import { fluidstackAdapter } from './fluidstack-adapter';
 import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
+import { premAdapter } from './prem-adapter';
 
 /**
  * Provider adapter registry.
@@ -188,6 +189,7 @@ adapters.set('codestral', codestralAdapter);
 adapters.set('fluidstack', fluidstackAdapter);
 adapters.set('monsterapi', monsterapiAdapter);
 adapters.set('coreweave', coreweaveAdapter);
+adapters.set('prem', premAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -87,6 +87,7 @@ import { codestralAdapter } from './codestral-adapter';
 import { fluidstackAdapter } from './fluidstack-adapter';
 import { monsterapiAdapter } from './monsterapi-adapter';
 import { coreweaveAdapter } from './coreweave-adapter';
+import { premAdapter } from './prem-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7259,6 +7260,81 @@ describe('Provider Adapters', () => {
 
     it('coreweaveAdapter.type is coreweave', () => {
       expect(coreweaveAdapter.type).toBe('coreweave');
+    });
+  });
+
+  describe('premAdapter', () => {
+    const validKey = 'prem_validapikey1234567890abcdef';
+
+    it('validateKey calls GET /v1/models with Bearer token header', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      await premAdapter.validateKey(validKey);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.premai.io/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${validKey}`,
+          }),
+        })
+      );
+    });
+
+    it('returns true when GET /v1/models returns ok', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [] }),
+      });
+      const result = await premAdapter.validateKey(validKey);
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with helpful message about Prem AI key', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(premAdapter.validateKey(validKey)).rejects.toThrow(
+        'Invalid Prem AI API key'
+      );
+    });
+
+    it('throws on non-401 errors with error message from body', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+      await expect(premAdapter.validateKey(validKey)).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await premAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-26')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('fetchUsage does not call fetch', async () => {
+      fetchMock.mockReset();
+      await premAdapter.fetchUsage(
+        validKey,
+        new Date('2026-05-01'),
+        new Date('2026-05-26')
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('premAdapter.type is prem', () => {
+      expect(premAdapter.type).toBe('prem');
     });
   });
 });

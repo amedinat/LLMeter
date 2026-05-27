@@ -138,6 +138,7 @@ const ZERO_PROVIDERS = {
   fluidstack: 0,
   monsterapi: 0,
   coreweave: 0,
+  prem: 0,
 };
 
 // --- Tests ---
