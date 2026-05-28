@@ -133,6 +133,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         anyscale: 0,
         nousresearch: 0,
         meta: 0,
+        glhf: 0,
       },
     };
   });

@@ -8288,6 +8288,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── GLHF Chat ──────────────────────────────────────────────────────────────
+  {
+    provider: 'glhf',
+    model_id: 'hf:meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 0.27,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 0.27,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'glhf',
+    model_id: 'hf:google/gemma-2-9b-it',
+    display_name: 'Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8515,6 +8589,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ionos: [0.25, 0.25], // Meta Llama 3.3 70B Instruct symmetric pricing on IONOS AI
     anyscale: [0.35, 0.55], // Meta Llama 3.3 70B Instruct flagship rates on Anyscale Endpoints
     nousresearch: [0.40, 0.60], // Hermes-3 Llama 3.1 70B flagship rates on Nous Research
+    glhf: [0.27, 0.27], // Llama 3.3 70B Instruct symmetric on GLHF Chat (community GPU inference)
   };
   return defaults[provider];
 }

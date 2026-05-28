@@ -102,6 +102,7 @@ import { ionosAdapter } from './ionos-adapter';
 import { anyscaleAdapter } from './anyscale-adapter';
 import { nousresearchAdapter } from './nousresearch-adapter';
 import { metaAdapter } from './meta-adapter';
+import { glhfAdapter } from './glhf-adapter';
 
 /**
  * Provider adapter registry.
@@ -212,6 +213,7 @@ adapters.set('ionos', ionosAdapter);
 adapters.set('anyscale', anyscaleAdapter);
 adapters.set('nousresearch', nousresearchAdapter);
 adapters.set('meta', metaAdapter);
+adapters.set('glhf', glhfAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

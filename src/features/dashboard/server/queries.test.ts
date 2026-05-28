@@ -150,6 +150,7 @@ const ZERO_PROVIDERS = {
   anyscale: 0,
   nousresearch: 0,
   meta: 0,
+  glhf: 0,
 };
 
 // --- Tests ---

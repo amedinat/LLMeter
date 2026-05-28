@@ -97,6 +97,8 @@ import { yandexAdapter } from './yandex-adapter';
 import { falAdapter } from './fal-adapter';
 import { ionosAdapter } from './ionos-adapter';
 import { nousresearchAdapter } from './nousresearch-adapter';
+import { metaAdapter } from './meta-adapter';
+import { glhfAdapter } from './glhf-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7980,6 +7982,138 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(nousresearchAdapter.validateKey('   ')).rejects.toThrow(
         'Nous Research API key is missing. Get your key from api.nousresearch.com.'
+      );
+    });
+  });
+
+  describe('metaAdapter', () => {
+    it('validates key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+      const result = await metaAdapter.validateKey('meta-test-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.llama.com/compat/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer meta-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message about api console', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(metaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Meta Llama API key. Get your key from api.llama.com.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(metaAdapter.validateKey('meta-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(metaAdapter.validateKey('')).rejects.toThrow(
+        'Meta Llama API key is missing. Get your key from api.llama.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await metaAdapter.fetchUsage(
+        'meta-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-28')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('metaAdapter.type is meta', () => {
+      expect(metaAdapter.type).toBe('meta');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(metaAdapter.validateKey('   ')).rejects.toThrow(
+        'Meta Llama API key is missing. Get your key from api.llama.com.'
+      );
+    });
+  });
+
+  describe('glhfAdapter', () => {
+    it('validates key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+      const result = await glhfAdapter.validateKey('glhf_test-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://glhf.chat/api/openai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer glhf_test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message about settings', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(glhfAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid GLHF API key. Get your key from glhf.chat/settings.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(glhfAdapter.validateKey('glhf-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(glhfAdapter.validateKey('')).rejects.toThrow(
+        'GLHF API key is missing. Get your key from glhf.chat/settings.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await glhfAdapter.fetchUsage(
+        'glhf_test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-28')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('glhfAdapter.type is glhf', () => {
+      expect(glhfAdapter.type).toBe('glhf');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(glhfAdapter.validateKey('   ')).rejects.toThrow(
+        'GLHF API key is missing. Get your key from glhf.chat/settings.'
       );
     });
   });

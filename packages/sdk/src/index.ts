@@ -107,6 +107,7 @@ export { wrapIONOS } from './ionos.js';
 export { wrapAnyscale } from './anyscale.js';
 export { wrapNousResearch } from './nousresearch.js';
 export { wrapMeta } from './meta.js';
+export { wrapGLHF } from './glhf.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
