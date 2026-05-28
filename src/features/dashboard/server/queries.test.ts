@@ -149,6 +149,7 @@ const ZERO_PROVIDERS = {
   ionos: 0,
   anyscale: 0,
   nousresearch: 0,
+  meta: 0,
 };
 
 // --- Tests ---

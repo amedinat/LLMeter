@@ -947,6 +947,15 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.endpoints.anyscale.com',
     color: '#0066FF',
   },
+  meta: {
+    type: 'meta',
+    name: 'Meta Llama API',
+    description: "Meta's official inference endpoint for Llama 4 Scout/Maverick, Llama 3.3 70B, Llama 3.1 405B/70B/8B, Llama 3.2 vision — the world's most downloaded open-source model family (1B+ downloads). Created by FAIR (founded 2013), Llama 2 opened the open-weights era in 2023; Llama 3.1 405B matched GPT-4 on key benchmarks. OpenAI-compatible inference API at api.llama.com. Llama 3.3 70B at $0.28/1M — 85% cheaper than GPT-4o.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-meta-llama-api-key',
+    helpUrl: 'https://api.llama.com',
+    color: '#0082FB',
+  },
   nousresearch: {
     type: 'nousresearch',
     name: 'Nous Research',

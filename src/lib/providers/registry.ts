@@ -101,6 +101,7 @@ import { falAdapter } from './fal-adapter';
 import { ionosAdapter } from './ionos-adapter';
 import { anyscaleAdapter } from './anyscale-adapter';
 import { nousresearchAdapter } from './nousresearch-adapter';
+import { metaAdapter } from './meta-adapter';
 
 /**
  * Provider adapter registry.
@@ -210,6 +211,7 @@ adapters.set('fal', falAdapter);
 adapters.set('ionos', ionosAdapter);
 adapters.set('anyscale', anyscaleAdapter);
 adapters.set('nousresearch', nousresearchAdapter);
+adapters.set('meta', metaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

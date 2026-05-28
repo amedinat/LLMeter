@@ -2018,6 +2018,28 @@ const completion = await trackedNebius.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nebius AI
 );`;
 
+const sdkMetaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapMeta } from 'llmeter';
+
+// Meta Llama API — Meta's official inference endpoint for Llama models (1B+ downloads)
+// Llama 4 Scout/Maverick (MoE), Llama 3.3 70B, Llama 3.1 405B, Llama 3.2 vision
+// Llama 3.3 70B at $0.28/1M — 85% cheaper than GPT-4o input
+const meta = new OpenAI({
+  apiKey: process.env.META_API_KEY,
+  baseURL: 'https://api.llama.com/compat/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedMeta = wrapMeta(meta, llmeter);
+
+// All calls are automatically tracked — Meta's official Llama inference
+const completion = await trackedMeta.chat.completions.create(
+  {
+    model: 'Llama-4-Scout-17B-16E-Instruct-FP8', // or 'Llama-3.3-70B-Instruct', 'Llama-3.1-405B-Instruct-FP8', etc.
+    messages: [{ role: 'user', content: 'Hello from Meta Llama!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Meta Llama API
+);`;
+
 const sdkNousResearchExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNousResearch } from 'llmeter';
 
@@ -2280,6 +2302,7 @@ export default function DocsPage() {
                 <TabsTrigger value="ionos">IONOS AI</TabsTrigger>
                 <TabsTrigger value="anyscale">Anyscale</TabsTrigger>
                 <TabsTrigger value="nousresearch">Nous Research</TabsTrigger>
+                <TabsTrigger value="meta">Meta Llama API</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3268,6 +3291,17 @@ export default function DocsPage() {
                   call is tracked automatically. Anyscale is the creator of Ray (100M+ downloads), the distributed computing framework that powers ML workloads at OpenAI, Uber, Amazon, and Netflix. A16Z-backed ($100M+ raised). 8 models: Meta Llama 3.3 70B Instruct ($0.35/$0.55 — flagship), Llama 3.1 70B Instruct ($0.30/$0.50), Llama 3.1 8B Instruct ($0.08/$0.08 — budget symmetric), Llama 3.1 405B Instruct FP8 ($2.50/$3.00 — enterprise), Mistral 7B Instruct ($0.07/$0.07 — budget symmetric), Mixtral 8x7B Instruct ($0.24/$0.24 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 — symmetric). 4 of 8 symmetric pricing. Llama 3.3 70B at $0.35/1M — 86% cheaper than GPT-4o input. Get your key at app.endpoints.anyscale.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkAnyscaleExample} />
+              </TabsContent>
+              <TabsContent value="meta" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Meta Llama API is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.llama.com/compat/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call — Llama 4 Scout, Maverick, Llama 3.3 70B, Llama 3.1 405B, vision models — is tracked automatically.
+                </p>
+                <CodeBlock language="typescript" code={sdkMetaExample} />
               </TabsContent>
               <TabsContent value="nousresearch" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
