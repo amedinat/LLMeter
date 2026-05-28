@@ -2018,6 +2018,28 @@ const completion = await trackedNebius.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nebius AI
 );`;
 
+const sdkAnyscaleExample = `import OpenAI from 'openai';
+import LLMeter, { wrapAnyscale } from 'llmeter';
+
+// Anyscale Endpoints — creators of Ray (100M+ downloads), the distributed computing framework
+// powering ML workloads at OpenAI, Uber, Amazon, and Netflix. A16Z-backed ($100M+ raised).
+// Llama 3.3 70B at $0.35/1M — 86% cheaper than GPT-4o input
+const anyscale = new OpenAI({
+  apiKey: process.env.ANYSCALE_API_KEY,
+  baseURL: 'https://api.endpoints.anyscale.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAnyscale = wrapAnyscale(anyscale, llmeter);
+
+// All calls are automatically tracked — Ray-powered open-source inference
+const completion = await trackedAnyscale.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.1', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from Anyscale!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Anyscale
+);`;
+
 const sdkIonosExample = `import OpenAI from 'openai';
 import LLMeter, { wrapIONOS } from 'llmeter';
 
@@ -2234,6 +2256,7 @@ export default function DocsPage() {
                 <TabsTrigger value="naver">NAVER</TabsTrigger>
                 <TabsTrigger value="fal">fal.ai</TabsTrigger>
                 <TabsTrigger value="ionos">IONOS AI</TabsTrigger>
+                <TabsTrigger value="anyscale">Anyscale</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3211,6 +3234,17 @@ export default function DocsPage() {
                   call is tracked automatically. IONOS SE is Germany&apos;s largest web hosting provider (8.5M+ customers, owned by United Internet AG with €6.4B revenue, founded 1988). Frankfurt data centers: GDPR-native EU inference with zero US cloud dependency. 8 models: Meta Llama 3.3 70B Instruct ($0.25/$0.25 — flagship symmetric), Llama 3.1 70B Instruct ($0.22/$0.22 — symmetric), Llama 3.1 8B Instruct ($0.05/$0.05 — budget symmetric), Llama 3.1 405B Instruct ($1.50/$1.50 — enterprise symmetric), Mistral 7B Instruct ($0.04/$0.04 — cheapest EU AI), Mixtral 8x7B Instruct ($0.12/$0.12 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Microsoft Phi-4 ($0.15/$0.45 — compact). 6 of 8 symmetric pricing. Get your key at cloud.ionos.com/ai-model-hub.
                 </p>
                 <CodeBlock language="typescript" code={sdkIonosExample} />
+              </TabsContent>
+              <TabsContent value="anyscale" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Anyscale Endpoints is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.endpoints.anyscale.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Anyscale is the creator of Ray (100M+ downloads), the distributed computing framework that powers ML workloads at OpenAI, Uber, Amazon, and Netflix. A16Z-backed ($100M+ raised). 8 models: Meta Llama 3.3 70B Instruct ($0.35/$0.55 — flagship), Llama 3.1 70B Instruct ($0.30/$0.50), Llama 3.1 8B Instruct ($0.08/$0.08 — budget symmetric), Llama 3.1 405B Instruct FP8 ($2.50/$3.00 — enterprise), Mistral 7B Instruct ($0.07/$0.07 — budget symmetric), Mixtral 8x7B Instruct ($0.24/$0.24 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 — symmetric). 4 of 8 symmetric pricing. Llama 3.3 70B at $0.35/1M — 86% cheaper than GPT-4o input. Get your key at app.endpoints.anyscale.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkAnyscaleExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

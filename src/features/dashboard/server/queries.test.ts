@@ -147,6 +147,7 @@ const ZERO_PROVIDERS = {
   yandex: 0,
   fal: 0,
   ionos: 0,
+  anyscale: 0,
 };
 
 // --- Tests ---

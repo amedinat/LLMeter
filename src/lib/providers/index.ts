@@ -7,3 +7,4 @@ export { googleAdapter } from './google-adapter';
 export { deepseekAdapter } from './deepseek-adapter';
 export { mistralAdapter } from './mistral-adapter';
 export { yiAdapter } from './yi-adapter';
+export { anyscaleAdapter } from './anyscale-adapter';

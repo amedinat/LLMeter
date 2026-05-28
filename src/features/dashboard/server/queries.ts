@@ -264,6 +264,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           yandex: 0,
           fal: 0,
           ionos: 0,
+          anyscale: 0,
         }
       });
     }
@@ -387,6 +388,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           yandex: 0,
           fal: 0,
           ionos: 0,
+          anyscale: 0,
         },
       }
     );

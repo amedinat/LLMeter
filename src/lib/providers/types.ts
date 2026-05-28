@@ -938,4 +938,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.ionos.com/ai-model-hub',
     color: '#003D8F',
   },
+  anyscale: {
+    type: 'anyscale',
+    name: 'Anyscale',
+    description: "Meta Llama 3.3 70B, Llama 3.1 8B/70B/405B, Mistral 7B, Mixtral 8x7B, DeepSeek R1, Qwen 2.5 72B — created by the team behind Ray (100M+ downloads), the distributed computing framework powering ML workloads at OpenAI, Uber, Amazon, and Netflix. A16Z-backed ($100M+ raised). OpenAI-compatible inference API. Llama 3.3 70B at $0.35/1M — 86% cheaper than GPT-4o input. app.endpoints.anyscale.com",
+    keyPrefix: '',
+    keyPlaceholder: 'your-anyscale-api-key',
+    helpUrl: 'https://app.endpoints.anyscale.com',
+    color: '#0066FF',
+  },
 };

@@ -130,6 +130,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         yandex: 0,
         fal: 0,
         ionos: 0,
+        anyscale: 0,
       },
     };
   });

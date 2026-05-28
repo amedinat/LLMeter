@@ -8057,6 +8057,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── Anyscale Endpoints (creators of Ray, A16Z-backed, 100M+ Ray downloads) ────────
+  {
+    provider: 'anyscale',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Meta Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Meta Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Meta Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct-fp8',
+    display_name: 'Meta Llama 3.1 405B Instruct FP8',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.1',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'anyscale',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8282,6 +8356,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     yandex: [0.15, 0.45], // YandexGPT 4 Pro flagship rates on Yandex Cloud
     fal: [0.90, 0.90], // Meta Llama 3.3 70B Instruct list prices (symmetric on fal.ai)
     ionos: [0.25, 0.25], // Meta Llama 3.3 70B Instruct symmetric pricing on IONOS AI
+    anyscale: [0.35, 0.55], // Meta Llama 3.3 70B Instruct flagship rates on Anyscale Endpoints
   };
   return defaults[provider];
 }
