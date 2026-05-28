@@ -268,6 +268,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nousresearch: 0,
           meta: 0,
           glhf: 0,
+          sakura: 0,
         }
       });
     }
@@ -395,6 +396,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nousresearch: 0,
           meta: 0,
           glhf: 0,
+          sakura: 0,
         },
       }
     );

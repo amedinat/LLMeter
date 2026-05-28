@@ -14,12 +14,16 @@ const TIER_LABELS: Record<CapabilityTier, string> = {
   budget: 'Budget',
   standard: 'Standard',
   premium: 'Premium',
+  flagship: 'Flagship',
+  enterprise: 'Enterprise',
 };
 
 const TIER_COLORS: Record<CapabilityTier, string> = {
   budget: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
   standard: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
   premium: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  flagship: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  enterprise: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
 };
 
 const PROVIDER_LABELS: Record<string, string> = {

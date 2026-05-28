@@ -103,6 +103,7 @@ import { anyscaleAdapter } from './anyscale-adapter';
 import { nousresearchAdapter } from './nousresearch-adapter';
 import { metaAdapter } from './meta-adapter';
 import { glhfAdapter } from './glhf-adapter';
+import { sakuraAdapter } from './sakura-adapter';
 
 /**
  * Provider adapter registry.
@@ -214,6 +215,7 @@ adapters.set('anyscale', anyscaleAdapter);
 adapters.set('nousresearch', nousresearchAdapter);
 adapters.set('meta', metaAdapter);
 adapters.set('glhf', glhfAdapter);
+adapters.set('sakura', sakuraAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -2062,6 +2062,50 @@ const completion = await trackedNous.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nous Research
 );`;
 
+const sdkSakuraExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSakura } from 'llmeter';
+
+// Sakura Internet — Japan's largest independent cloud (TSE Prime: 3778, founded 1996)
+// H100 GPU AI inference platform with Japanese data sovereignty
+// Llama 3.3 70B at $0.45/1M — first Japanese sovereign cloud on LLMeter
+const sakura = new OpenAI({
+  apiKey: process.env.SAKURA_API_KEY,
+  baseURL: 'https://api.sakura.io/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedSakura = wrapSakura(sakura, llmeter);
+
+// All calls are automatically tracked — Japanese H100 GPU inference
+const completion = await trackedSakura.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'こんにちは from Sakura Internet!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Sakura Internet
+);`;
+
+const sdkGLHFExample = `import OpenAI from 'openai';
+import LLMeter, { wrapGLHF } from 'llmeter';
+
+// GLHF Chat — community GPU inference for 50+ open-source models (glhf.chat)
+// Llama 3.3 70B, DeepSeek R1, Qwen 2.5 72B, Mistral 7B, Gemma 3 and more
+// Mistral 7B at $0.04/1M — 99% cheaper than GPT-4o input
+const glhf = new OpenAI({
+  apiKey: process.env.GLHF_API_KEY,
+  baseURL: 'https://glhf.chat/api/openai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGLHF = wrapGLHF(glhf, llmeter);
+
+// All calls are automatically tracked — community GPU inference
+const completion = await trackedGLHF.chat.completions.create(
+  {
+    model: 'hf:meta-llama/Llama-3.3-70B-Instruct', // or 'hf:mistralai/Mistral-7B-Instruct-v0.3', 'hf:deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from GLHF!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to GLHF Chat
+);`;
+
 const sdkAnyscaleExample = `import OpenAI from 'openai';
 import LLMeter, { wrapAnyscale } from 'llmeter';
 
@@ -2303,6 +2347,8 @@ export default function DocsPage() {
                 <TabsTrigger value="anyscale">Anyscale</TabsTrigger>
                 <TabsTrigger value="nousresearch">Nous Research</TabsTrigger>
                 <TabsTrigger value="meta">Meta Llama API</TabsTrigger>
+                <TabsTrigger value="glhf">GLHF Chat</TabsTrigger>
+                <TabsTrigger value="sakura">Sakura Internet</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3313,6 +3359,28 @@ export default function DocsPage() {
                   call is tracked automatically. Nous Research is the open-source fine-tuning lab that built the Hermes series — 100M+ downloads on Hugging Face. Founded by Teknium and team; pioneered function calling alignment and tool-use fine-tuning on Llama, Mistral, and Yi base models. 8 models: Hermes-3 Llama 3.1 405B ($2.80/$4.00 — flagship enterprise), Hermes-3 Llama 3.1 70B ($0.40/$0.60 — standard), Hermes-3 Llama 3.1 8B ($0.08/$0.12 — budget), Hermes-3 Llama 3.2 3B ($0.05/$0.05 — ultra-budget symmetric), Hermes-2-Pro Llama-3 8B ($0.06/$0.09 — compact), Hermes-2-Theta Llama-3 70B ($0.35/$0.55 — previous gen), Hermes-2-Pro Mistral-7B ($0.07/$0.07 — symmetric cheapest, 97% cheaper than GPT-4o), Nous Hermes 2 Yi-34B ($0.12/$0.18 — Yi-based midrange). Get your key at api.nousresearch.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkNousResearchExample} />
+              </TabsContent>
+              <TabsContent value="glhf" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  GLHF Chat is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://glhf.chat/api/openai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. GLHF Chat is a community GPU inference platform hosting 50+ open-source models: Llama, DeepSeek R1, Qwen 2.5, Mistral, Gemma and more. Models are prefixed with &apos;hf:&apos; (e.g. &apos;hf:meta-llama/Llama-3.3-70B-Instruct&apos;). 8 tracked models: Llama 3.3 70B ($0.27/$0.27 symmetric), Llama 3.1 70B ($0.18/$0.18), Llama 3.1 8B ($0.05/$0.05), Mistral 7B ($0.04/$0.04 — ultra-budget, 99% cheaper than GPT-4o), Mixtral 8x7B ($0.12/$0.12), DeepSeek R1 70B ($0.38/$1.52 — reasoning), Qwen 2.5 72B ($0.22/$0.22), Gemma 3 27B ($0.10/$0.10). Get your key at glhf.chat/users/settings/api.
+                </p>
+                <CodeBlock language="typescript" code={sdkGLHFExample} />
+              </TabsContent>
+              <TabsContent value="sakura" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Sakura Internet is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.sakura.io/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Sakura Internet (さくらインターネット) is Japan&apos;s largest independent cloud provider, listed on TSE Prime (3778) since 1996. Launched H100 GPU AI inference in 2025 to serve Japanese enterprises with data sovereignty. 8 models: Llama 3.3 70B ($0.45/$0.65), Llama 3.1 70B ($0.35/$0.55), Llama 3.1 8B ($0.10/$0.10 — budget symmetric), Mistral 7B ($0.07/$0.07 — budget symmetric), Mixtral 8x7B ($0.25/$0.25 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.40/$0.40 — symmetric), Gemma 2 9B ($0.09/$0.09 — budget symmetric). Japan&apos;s first sovereign cloud provider on LLMeter. Get your key at api.sakura.io.
+                </p>
+                <CodeBlock language="typescript" code={sdkSakuraExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

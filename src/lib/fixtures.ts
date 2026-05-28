@@ -119,6 +119,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         venice: 0,
         inferless: 0,
         codestral: 0,
+        fluidstack: 0,
         monsterapi: 0,
         coreweave: 0,
         prem: 0,
@@ -134,6 +135,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         nousresearch: 0,
         meta: 0,
         glhf: 0,
+        sakura: 0,
       },
     };
   });

@@ -151,6 +151,7 @@ const ZERO_PROVIDERS = {
   nousresearch: 0,
   meta: 0,
   glhf: 0,
+  sakura: 0,
 };
 
 // --- Tests ---

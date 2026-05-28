@@ -15,6 +15,8 @@ const TIER_RANK: Record<CapabilityTier, number> = {
   budget: 0,
   standard: 1,
   premium: 2,
+  flagship: 3,
+  enterprise: 4,
 };
 
 interface ModelUsageSummary {

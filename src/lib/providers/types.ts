@@ -965,4 +965,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://api.nousresearch.com',
     color: '#7C3AED',
   },
+  glhf: {
+    type: 'glhf',
+    name: 'GLHF Chat',
+    description: 'Llama 3.3 70B, DeepSeek R1, Qwen 2.5 72B, Mistral 7B, Gemma 3, and 50+ open-source models — community GPU inference platform. Mistral 7B at $0.04/1M — 99% cheaper than GPT-4o input. OpenAI-compatible API.',
+    keyPrefix: 'glhf_',
+    keyPlaceholder: 'glhf_...',
+    helpUrl: 'https://glhf.chat/users/settings/api',
+    color: '#6366F1',
+  },
+  sakura: {
+    type: 'sakura',
+    name: 'Sakura Internet',
+    description: "Llama 3.3 70B, Llama 3.1 8B, Mistral 7B, Mixtral 8x7B, DeepSeek R1, Qwen 2.5 72B — Japan's largest independent cloud provider (TSE Prime: 3778, founded 1996). H100 GPU AI inference with Japanese data sovereignty. Llama 3.3 70B at $0.45/1M. OpenAI-compatible API at api.sakura.io.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sakura-internet-api-key',
+    helpUrl: 'https://api.sakura.io',
+    color: '#E91E63',
+  },
 };

@@ -11,7 +11,7 @@ import type { ProviderType } from '@/types';
  * via the refresh-pricing endpoint or CLI script.
  */
 
-export type CapabilityTier = 'budget' | 'standard' | 'premium';
+export type CapabilityTier = 'budget' | 'standard' | 'premium' | 'flagship' | 'enterprise';
 
 export interface ModelPricing {
   provider: ProviderType;
@@ -8288,6 +8288,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── Sakura Internet ────────────────────────────────────────────────────────
+  {
+    provider: 'sakura',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'sakura',
+    model_id: 'google/gemma-2-9b-it',
+    display_name: 'Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
   // ── GLHF Chat ──────────────────────────────────────────────────────────────
   {
     provider: 'glhf',
@@ -8589,7 +8663,9 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ionos: [0.25, 0.25], // Meta Llama 3.3 70B Instruct symmetric pricing on IONOS AI
     anyscale: [0.35, 0.55], // Meta Llama 3.3 70B Instruct flagship rates on Anyscale Endpoints
     nousresearch: [0.40, 0.60], // Hermes-3 Llama 3.1 70B flagship rates on Nous Research
+    meta: [0.28, 0.28], // Llama 3.3 70B Instruct symmetric on Meta Llama API (official Meta inference)
     glhf: [0.27, 0.27], // Llama 3.3 70B Instruct symmetric on GLHF Chat (community GPU inference)
+    sakura: [0.45, 0.65], // Llama 3.3 70B Instruct flagship rates on Sakura Internet (Japan H100 cloud)
   };
   return defaults[provider];
 }
