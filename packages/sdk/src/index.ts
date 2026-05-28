@@ -103,6 +103,7 @@ export { wrapNaver } from './naver.js';
 export { wrapInflection } from './inflection.js';
 export { wrapYandex } from './yandex.js';
 export { wrapFal } from './fal.js';
+export { wrapIONOS } from './ionos.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -929,4 +929,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://fal.ai/dashboard/keys',
     color: '#8B5CF6',
   },
+  ionos: {
+    type: 'ionos',
+    name: 'IONOS AI',
+    description: "Meta Llama 3.3 70B, Llama 3.1 70B/8B/405B, Mistral 7B, Mixtral 8x7B, DeepSeek R1, Microsoft Phi-4 — IONOS SE is Germany's largest web hosting provider (8.5M+ customers, owned by United Internet AG with €6.4B revenue, founded 1988). IONOS AI Model Hub runs on Frankfurt data centers — GDPR-native EU inference, zero US cloud dependency. 6 of 8 models symmetric pricing. Mistral 7B at $0.04/1M = cheapest EU AI. cloud.ionos.com/ai-model-hub",
+    keyPrefix: '',
+    keyPlaceholder: 'your-ionos-api-key',
+    helpUrl: 'https://cloud.ionos.com/ai-model-hub',
+    color: '#003D8F',
+  },
 };

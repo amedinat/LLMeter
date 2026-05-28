@@ -95,6 +95,7 @@ import { naverAdapter } from './naver-adapter';
 import { inflectionAdapter } from './inflection-adapter';
 import { yandexAdapter } from './yandex-adapter';
 import { falAdapter } from './fal-adapter';
+import { ionosAdapter } from './ionos-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7846,6 +7847,72 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(falAdapter.validateKey('   ')).rejects.toThrow(
         'fal.ai API key is missing. Get your key from fal.ai/dashboard/keys.'
+      );
+    });
+  });
+
+  describe('ionosAdapter', () => {
+    it('validates key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+      const result = await ionosAdapter.validateKey('ionos-test-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://openai.inference.de-txl.ionos.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer ionos-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message about cloud console', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(ionosAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid IONOS API key. Get your key from cloud.ionos.com/ai-model-hub.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(ionosAdapter.validateKey('ionos-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(ionosAdapter.validateKey('')).rejects.toThrow(
+        'IONOS API key is missing. Get your key from cloud.ionos.com/ai-model-hub.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ionosAdapter.fetchUsage(
+        'ionos-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-28')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('ionosAdapter.type is ionos', () => {
+      expect(ionosAdapter.type).toBe('ionos');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(ionosAdapter.validateKey('   ')).rejects.toThrow(
+        'IONOS API key is missing. Get your key from cloud.ionos.com/ai-model-hub.'
       );
     });
   });

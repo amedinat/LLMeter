@@ -7983,6 +7983,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── IONOS AI Model Hub (Germany's largest web host, 8.5M+ customers) ────────
+  {
+    provider: 'ionos',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Meta Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Meta Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Meta Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Meta Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'ionos',
+    model_id: 'microsoft/phi-4',
+    display_name: 'Microsoft Phi-4',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8207,6 +8281,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     inflection: [1.20, 3.60], // Inflection-3 Productivity flagship rates on Inflection AI
     yandex: [0.15, 0.45], // YandexGPT 4 Pro flagship rates on Yandex Cloud
     fal: [0.90, 0.90], // Meta Llama 3.3 70B Instruct list prices (symmetric on fal.ai)
+    ionos: [0.25, 0.25], // Meta Llama 3.3 70B Instruct symmetric pricing on IONOS AI
   };
   return defaults[provider];
 }

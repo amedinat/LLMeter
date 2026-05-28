@@ -98,6 +98,7 @@ import { naverAdapter } from './naver-adapter';
 import { inflectionAdapter } from './inflection-adapter';
 import { yandexAdapter } from './yandex-adapter';
 import { falAdapter } from './fal-adapter';
+import { ionosAdapter } from './ionos-adapter';
 
 /**
  * Provider adapter registry.
@@ -204,6 +205,7 @@ adapters.set('naver', naverAdapter);
 adapters.set('inflection', inflectionAdapter);
 adapters.set('yandex', yandexAdapter);
 adapters.set('fal', falAdapter);
+adapters.set('ionos', ionosAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -2018,6 +2018,28 @@ const completion = await trackedNebius.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nebius AI
 );`;
 
+const sdkIonosExample = `import OpenAI from 'openai';
+import LLMeter, { wrapIONOS } from 'llmeter';
+
+// IONOS AI Model Hub — Germany's largest web host (8.5M+ customers, United Internet Group €6.4B)
+// Frankfurt data centers: GDPR-native, zero US cloud dependency, 6/8 models symmetric pricing
+// Mistral 7B at $0.04/1M = cheapest EU AI inference
+const ionos = new OpenAI({
+  apiKey: process.env.IONOS_API_KEY,
+  baseURL: 'https://openai.inference.de-txl.ionos.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedIonos = wrapIONOS(ionos, llmeter);
+
+// All calls are automatically tracked — EU sovereign inference
+const completion = await trackedIonos.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from IONOS AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to IONOS
+);`;
+
 const sdkFalExample = `import OpenAI from 'openai';
 import LLMeter, { wrapFal } from 'llmeter';
 
@@ -2211,6 +2233,7 @@ export default function DocsPage() {
                 <TabsTrigger value="ai360">360 AI</TabsTrigger>
                 <TabsTrigger value="naver">NAVER</TabsTrigger>
                 <TabsTrigger value="fal">fal.ai</TabsTrigger>
+                <TabsTrigger value="ionos">IONOS AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3177,6 +3200,17 @@ export default function DocsPage() {
                   call is tracked automatically. fal.ai is a16z-backed serverless GPU inference (raised $54M Series B, founded 2022) — known for ultra-fast image generation (Flux, SDXL) and open-source LLM inference. 8 models: Meta Llama 3.3 70B Instruct ($0.90/$0.90 per 1M — flagship symmetric), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek R1 Distill Llama 70B ($0.45/$0.45 — distilled reasoning), Qwen 2.5 72B Instruct ($0.40/$0.40), Google Gemma 2 27B IT ($0.27/$0.27), Google Gemma 2 9B IT ($0.08/$0.08), Microsoft Phi-4 ($0.20/$0.20), Meta Llama 3.1 8B Instruct ($0.05/$0.05 — 99% cheaper than GPT-4o). Get your key at fal.ai/dashboard/keys.
                 </p>
                 <CodeBlock language="typescript" code={sdkFalExample} />
+              </TabsContent>
+              <TabsContent value="ionos" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  IONOS AI Model Hub is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://openai.inference.de-txl.ionos.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. IONOS SE is Germany&apos;s largest web hosting provider (8.5M+ customers, owned by United Internet AG with €6.4B revenue, founded 1988). Frankfurt data centers: GDPR-native EU inference with zero US cloud dependency. 8 models: Meta Llama 3.3 70B Instruct ($0.25/$0.25 — flagship symmetric), Llama 3.1 70B Instruct ($0.22/$0.22 — symmetric), Llama 3.1 8B Instruct ($0.05/$0.05 — budget symmetric), Llama 3.1 405B Instruct ($1.50/$1.50 — enterprise symmetric), Mistral 7B Instruct ($0.04/$0.04 — cheapest EU AI), Mixtral 8x7B Instruct ($0.12/$0.12 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Microsoft Phi-4 ($0.15/$0.45 — compact). 6 of 8 symmetric pricing. Get your key at cloud.ionos.com/ai-model-hub.
+                </p>
+                <CodeBlock language="typescript" code={sdkIonosExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
