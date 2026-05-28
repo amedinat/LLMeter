@@ -96,6 +96,7 @@ import { inflectionAdapter } from './inflection-adapter';
 import { yandexAdapter } from './yandex-adapter';
 import { falAdapter } from './fal-adapter';
 import { ionosAdapter } from './ionos-adapter';
+import { nousresearchAdapter } from './nousresearch-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7913,6 +7914,72 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(ionosAdapter.validateKey('   ')).rejects.toThrow(
         'IONOS API key is missing. Get your key from cloud.ionos.com/ai-model-hub.'
+      );
+    });
+  });
+
+  describe('nousresearchAdapter', () => {
+    it('validates key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ object: 'list', data: [] }),
+      });
+      const result = await nousresearchAdapter.validateKey('nous-test-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.nousresearch.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer nous-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message about api console', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(nousresearchAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Nous Research API key. Get your key from api.nousresearch.com.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(nousresearchAdapter.validateKey('nous-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(nousresearchAdapter.validateKey('')).rejects.toThrow(
+        'Nous Research API key is missing. Get your key from api.nousresearch.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nousresearchAdapter.fetchUsage(
+        'nous-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-28')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('nousresearchAdapter.type is nousresearch', () => {
+      expect(nousresearchAdapter.type).toBe('nousresearch');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(nousresearchAdapter.validateKey('   ')).rejects.toThrow(
+        'Nous Research API key is missing. Get your key from api.nousresearch.com.'
       );
     });
   });

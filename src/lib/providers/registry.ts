@@ -100,6 +100,7 @@ import { yandexAdapter } from './yandex-adapter';
 import { falAdapter } from './fal-adapter';
 import { ionosAdapter } from './ionos-adapter';
 import { anyscaleAdapter } from './anyscale-adapter';
+import { nousresearchAdapter } from './nousresearch-adapter';
 
 /**
  * Provider adapter registry.
@@ -208,6 +209,7 @@ adapters.set('yandex', yandexAdapter);
 adapters.set('fal', falAdapter);
 adapters.set('ionos', ionosAdapter);
 adapters.set('anyscale', anyscaleAdapter);
+adapters.set('nousresearch', nousresearchAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

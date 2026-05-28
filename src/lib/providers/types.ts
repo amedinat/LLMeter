@@ -947,4 +947,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://app.endpoints.anyscale.com',
     color: '#0066FF',
   },
+  nousresearch: {
+    type: 'nousresearch',
+    name: 'Nous Research',
+    description: "Hermes-3 405B/70B/8B, Hermes-2-Theta 70B, Hermes-2-Pro Mistral 7B/Llama-3 8B, Hermes-3 3B, Nous-Hermes-2 Yi-34B — the open-source fine-tuning lab that built the Hermes series (100M+ Hugging Face downloads). Founded by Teknium and team; pioneered function calling alignment and tool-use fine-tuning on Llama, Mistral, and Yi base models. Hermes-3 405B is the open-source standard for instruction following at scale. Mistral-7B Hermes-2-Pro at $0.07/1M — 97% cheaper than GPT-4o. api.nousresearch.com",
+    keyPrefix: '',
+    keyPlaceholder: 'your-nous-api-key',
+    helpUrl: 'https://api.nousresearch.com',
+    color: '#7C3AED',
+  },
 };

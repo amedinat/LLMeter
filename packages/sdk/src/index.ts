@@ -105,6 +105,7 @@ export { wrapYandex } from './yandex.js';
 export { wrapFal } from './fal.js';
 export { wrapIONOS } from './ionos.js';
 export { wrapAnyscale } from './anyscale.js';
+export { wrapNousResearch } from './nousresearch.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

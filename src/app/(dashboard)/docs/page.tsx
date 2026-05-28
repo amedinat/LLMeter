@@ -2018,6 +2018,28 @@ const completion = await trackedNebius.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nebius AI
 );`;
 
+const sdkNousResearchExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNousResearch } from 'llmeter';
+
+// Nous Research (Nous Forge) — the open-source fine-tuning lab that created the Hermes series
+// 100M+ Hugging Face downloads; Hermes-3 sets the standard for instruction following at scale
+// Hermes-2-Pro Mistral-7B at $0.07/1M — 97% cheaper than GPT-4o input
+const nous = new OpenAI({
+  apiKey: process.env.NOUS_API_KEY,
+  baseURL: 'https://api.nousresearch.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNous = wrapNousResearch(nous, llmeter);
+
+// All calls are automatically tracked — Hermes fine-tuned inference
+const completion = await trackedNous.chat.completions.create(
+  {
+    model: 'NousResearch/Hermes-3-Llama-3.1-70B', // or 'NousResearch/Hermes-2-Pro-Mistral-7B', 'NousResearch/Hermes-3-Llama-3.1-405B', etc.
+    messages: [{ role: 'user', content: 'Hello from Nous Forge!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nous Research
+);`;
+
 const sdkAnyscaleExample = `import OpenAI from 'openai';
 import LLMeter, { wrapAnyscale } from 'llmeter';
 
@@ -2257,6 +2279,7 @@ export default function DocsPage() {
                 <TabsTrigger value="fal">fal.ai</TabsTrigger>
                 <TabsTrigger value="ionos">IONOS AI</TabsTrigger>
                 <TabsTrigger value="anyscale">Anyscale</TabsTrigger>
+                <TabsTrigger value="nousresearch">Nous Research</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3245,6 +3268,17 @@ export default function DocsPage() {
                   call is tracked automatically. Anyscale is the creator of Ray (100M+ downloads), the distributed computing framework that powers ML workloads at OpenAI, Uber, Amazon, and Netflix. A16Z-backed ($100M+ raised). 8 models: Meta Llama 3.3 70B Instruct ($0.35/$0.55 — flagship), Llama 3.1 70B Instruct ($0.30/$0.50), Llama 3.1 8B Instruct ($0.08/$0.08 — budget symmetric), Llama 3.1 405B Instruct FP8 ($2.50/$3.00 — enterprise), Mistral 7B Instruct ($0.07/$0.07 — budget symmetric), Mixtral 8x7B Instruct ($0.24/$0.24 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 — symmetric). 4 of 8 symmetric pricing. Llama 3.3 70B at $0.35/1M — 86% cheaper than GPT-4o input. Get your key at app.endpoints.anyscale.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkAnyscaleExample} />
+              </TabsContent>
+              <TabsContent value="nousresearch" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Nous Research (Nous Forge) is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.nousresearch.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Nous Research is the open-source fine-tuning lab that built the Hermes series — 100M+ downloads on Hugging Face. Founded by Teknium and team; pioneered function calling alignment and tool-use fine-tuning on Llama, Mistral, and Yi base models. 8 models: Hermes-3 Llama 3.1 405B ($2.80/$4.00 — flagship enterprise), Hermes-3 Llama 3.1 70B ($0.40/$0.60 — standard), Hermes-3 Llama 3.1 8B ($0.08/$0.12 — budget), Hermes-3 Llama 3.2 3B ($0.05/$0.05 — ultra-budget symmetric), Hermes-2-Pro Llama-3 8B ($0.06/$0.09 — compact), Hermes-2-Theta Llama-3 70B ($0.35/$0.55 — previous gen), Hermes-2-Pro Mistral-7B ($0.07/$0.07 — symmetric cheapest, 97% cheaper than GPT-4o), Nous Hermes 2 Yi-34B ($0.12/$0.18 — Yi-based midrange). Get your key at api.nousresearch.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkNousResearchExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

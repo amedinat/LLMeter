@@ -8131,6 +8131,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── Nous Research (Nous Forge — Hermes series, 100M+ HF downloads, pioneer of OSS fine-tuning) ──
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-3-Llama-3.1-405B',
+    display_name: 'Hermes 3 Llama 3.1 405B',
+    input_price_per_1m_tokens: 2.80,
+    output_price_per_1m_tokens: 4.00,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-3-Llama-3.1-70B',
+    display_name: 'Hermes 3 Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-3-Llama-3.1-8B',
+    display_name: 'Hermes 3 Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-3-Llama-3.2-3B',
+    display_name: 'Hermes 3 Llama 3.2 3B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-2-Pro-Llama-3-8B',
+    display_name: 'Hermes 2 Pro Llama 3 8B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-2-Theta-Llama-3-70B',
+    display_name: 'Hermes 2 Theta Llama 3 70B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Hermes-2-Pro-Mistral-7B',
+    display_name: 'Hermes 2 Pro Mistral 7B',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nousresearch',
+    model_id: 'NousResearch/Nous-Hermes-2-Yi-34B',
+    display_name: 'Nous Hermes 2 Yi 34B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8357,6 +8431,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     fal: [0.90, 0.90], // Meta Llama 3.3 70B Instruct list prices (symmetric on fal.ai)
     ionos: [0.25, 0.25], // Meta Llama 3.3 70B Instruct symmetric pricing on IONOS AI
     anyscale: [0.35, 0.55], // Meta Llama 3.3 70B Instruct flagship rates on Anyscale Endpoints
+    nousresearch: [0.40, 0.60], // Hermes-3 Llama 3.1 70B flagship rates on Nous Research
   };
   return defaults[provider];
 }
