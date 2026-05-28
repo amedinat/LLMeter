@@ -128,6 +128,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         naver: 0,
         inflection: 0,
         yandex: 0,
+        fal: 0,
       },
     };
   });

@@ -94,6 +94,7 @@ import { ai360Adapter } from './ai360-adapter';
 import { naverAdapter } from './naver-adapter';
 import { inflectionAdapter } from './inflection-adapter';
 import { yandexAdapter } from './yandex-adapter';
+import { falAdapter } from './fal-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -7779,6 +7780,73 @@ describe('Provider Adapters', () => {
 
     it('yandexAdapter.type is yandex', () => {
       expect(yandexAdapter.type).toBe('yandex');
+    });
+  });
+
+  describe('falAdapter', () => {
+    it('validates key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ models: [] }),
+      });
+      const result = await falAdapter.validateKey('fal_test_key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://fal.run/v1/models',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: 'Key fal_test_key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message about dashboard keys', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(falAdapter.validateKey('bad_key')).rejects.toThrow(
+        'Invalid fal.ai API key. Get your key from fal.ai/dashboard/keys.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal server error' } }),
+      });
+      await expect(falAdapter.validateKey('fal_key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(falAdapter.validateKey('')).rejects.toThrow(
+        'fal.ai API key is missing. Get your key from fal.ai/dashboard/keys.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await falAdapter.fetchUsage(
+        'fal_test_key',
+        new Date('2026-05-01'),
+        new Date('2026-05-27')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('falAdapter.type is fal', () => {
+      expect(falAdapter.type).toBe('fal');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(falAdapter.validateKey('   ')).rejects.toThrow(
+        'fal.ai API key is missing. Get your key from fal.ai/dashboard/keys.'
+      );
     });
   });
 });

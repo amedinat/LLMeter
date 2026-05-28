@@ -2018,6 +2018,29 @@ const completion = await trackedNebius.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nebius AI
 );`;
 
+const sdkFalExample = `import OpenAI from 'openai';
+import LLMeter, { wrapFal } from 'llmeter';
+
+// fal.ai is OpenAI-compatible — a16z-backed serverless GPU inference ($54M Series B, founded 2022)
+// Known for ultra-fast image generation (Flux, SDXL) and open-source LLM inference
+// Use "Key" not "Bearer" for fal.ai authentication
+const fal = new OpenAI({
+  apiKey: process.env.FAL_API_KEY,
+  baseURL: 'https://fal.run/v1',
+  defaultHeaders: { 'Authorization': \`Key \${process.env.FAL_API_KEY}\` },
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedFal = wrapFal(fal, llmeter);
+
+// All calls are automatically tracked — serverless GPU inference
+const completion = await trackedFal.chat.completions.create(
+  {
+    model: 'fal-ai/meta-llama-3.3-70b-instruct', // or 'fal-ai/deepseek-r1', 'fal-ai/qwen2.5-72b-instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from fal.ai!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to fal.ai
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -2187,6 +2210,7 @@ export default function DocsPage() {
                 <TabsTrigger value="sensenova">SenseNova</TabsTrigger>
                 <TabsTrigger value="ai360">360 AI</TabsTrigger>
                 <TabsTrigger value="naver">NAVER</TabsTrigger>
+                <TabsTrigger value="fal">fal.ai</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3141,6 +3165,18 @@ export default function DocsPage() {
                   call is tracked automatically. 360 Security Technology (三六零) is China's largest cybersecurity company — listed on Shenzhen Stock Exchange (601360.SZ), founded 2005 by Zhou Hongyi, with 4.5 billion endpoint protection clients worldwide. 8 models: 360GPT2-Pro ($0.50/$1.50 per 1M — flagship), 360GPT2-Pro 128K ($1.00/$3.00 — long context), 360GPT-Turbo ($0.15/$0.45 — standard), 360GPT-Turbo Responsibility ($0.40/$1.20 — enterprise), 360GPT-Pro ($0.30/$0.90 — standard), 360GPT-S2-V9 ($0.12/$0.36 — budget), 360GPT-Lite ($0.08/$0.24 — 97% cheaper than GPT-4o input), 360GPT-130B ($1.50/$4.50 — premium large model).
                 </p>
                 <CodeBlock language="typescript" code={sdkAI360Example} />
+              </TabsContent>
+              <TabsContent value="fal" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  fal.ai is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://fal.run/v1&apos; and set{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">defaultHeaders: {'{'} &apos;Authorization&apos;: `Key {'${'}apiKey{'}'}`  {'}'}</code>.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. fal.ai is a16z-backed serverless GPU inference (raised $54M Series B, founded 2022) — known for ultra-fast image generation (Flux, SDXL) and open-source LLM inference. 8 models: Meta Llama 3.3 70B Instruct ($0.90/$0.90 per 1M — flagship symmetric), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek R1 Distill Llama 70B ($0.45/$0.45 — distilled reasoning), Qwen 2.5 72B Instruct ($0.40/$0.40), Google Gemma 2 27B IT ($0.27/$0.27), Google Gemma 2 9B IT ($0.08/$0.08), Microsoft Phi-4 ($0.20/$0.20), Meta Llama 3.1 8B Instruct ($0.05/$0.05 — 99% cheaper than GPT-4o). Get your key at fal.ai/dashboard/keys.
+                </p>
+                <CodeBlock language="typescript" code={sdkFalExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

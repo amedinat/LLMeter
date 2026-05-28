@@ -7909,6 +7909,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-27T00:00:00.000Z',
   },
 
+  // ── fal.ai ────────────────────────────────────────────────────────────────
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/meta-llama-3.3-70b-instruct',
+    display_name: 'Meta Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/meta-llama-3.1-8b-instruct',
+    display_name: 'Meta Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/deepseek-r1-distill-llama-70b',
+    display_name: 'DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/google-gemma-2-27b-it',
+    display_name: 'Google Gemma 2 27B IT',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 0.27,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/google-gemma-2-9b-it',
+    display_name: 'Google Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+  {
+    provider: 'fal',
+    model_id: 'fal-ai/microsoft-phi-4',
+    display_name: 'Microsoft Phi-4',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-27T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8132,6 +8206,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     naver: [2.00, 6.00], // HyperCLOVA X flagship rates on NAVER CLOVA Studio
     inflection: [1.20, 3.60], // Inflection-3 Productivity flagship rates on Inflection AI
     yandex: [0.15, 0.45], // YandexGPT 4 Pro flagship rates on Yandex Cloud
+    fal: [0.90, 0.90], // Meta Llama 3.3 70B Instruct list prices (symmetric on fal.ai)
   };
   return defaults[provider];
 }

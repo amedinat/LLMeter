@@ -145,6 +145,7 @@ const ZERO_PROVIDERS = {
   naver: 0,
   inflection: 0,
   yandex: 0,
+  fal: 0,
 };
 
 // --- Tests ---

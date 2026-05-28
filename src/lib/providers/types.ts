@@ -920,4 +920,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.yandex.com/en/docs/foundation-models',
     color: '#FF0000',
   },
+  fal: {
+    type: 'fal',
+    name: 'fal.ai',
+    description: "Meta Llama 3.3 70B, DeepSeek R1, Qwen 2.5 72B, Google Gemma 2, Microsoft Phi-4, and 50+ open-source models — fal.ai is a16z-backed serverless GPU inference platform (raised $54M Series B, founded 2022). Known for ultra-fast image generation (Flux, SDXL) and LLM inference. OpenAI-compatible API at fal.run/v1. 99% cheaper than GPT-4o for open-source inference. fal.ai/dashboard/keys",
+    keyPrefix: '',
+    keyPlaceholder: 'your-fal-api-key',
+    helpUrl: 'https://fal.ai/dashboard/keys',
+    color: '#8B5CF6',
+  },
 };
