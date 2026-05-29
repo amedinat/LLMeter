@@ -111,6 +111,7 @@ import { netmindAdapter } from './netmind-adapter';
 import { hyperstackAdapter } from './hyperstack-adapter';
 import { gmiAdapter } from './gmi-adapter';
 import { internlmAdapter } from './internlm-adapter';
+import { targonAdapter } from './targon-adapter';
 
 /**
  * Provider adapter registry.
@@ -230,6 +231,7 @@ adapters.set('netmind', netmindAdapter);
 adapters.set('hyperstack', hyperstackAdapter);
 adapters.set('gmi', gmiAdapter);
 adapters.set('internlm', internlmAdapter);
+adapters.set('targon', targonAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -159,6 +159,7 @@ const ZERO_PROVIDERS = {
   hyperstack: 0,
   gmi: 0,
   internlm: 0,
+  targon: 0,
 };
 
 // --- Tests ---

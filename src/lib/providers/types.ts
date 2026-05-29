@@ -1046,4 +1046,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://internlm.intern-ai.org.cn/api/tokens',
     color: '#0EA5E9',
   },
+  targon: {
+    type: 'targon',
+    name: 'Targon',
+    description: 'Llama 3.3 70B, Llama 3.1 8B/70B/405B, DeepSeek R1/V3, Mistral 7B, Qwen 2.5 72B — Bittensor subnet 19 decentralized inference network by Nineteen.ai. Community GPU validators earn TAO rewards by serving inference. 6th blockchain AI network on LLMeter. OpenAI-compatible API at api.targon.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-targon-api-key',
+    helpUrl: 'https://targon.com',
+    color: '#6D28D9',
+  },
 };

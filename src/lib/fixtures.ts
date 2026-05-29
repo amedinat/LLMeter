@@ -143,6 +143,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         hyperstack: 0,
         gmi: 0,
         internlm: 0,
+        targon: 0,
       },
     };
   });

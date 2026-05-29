@@ -105,6 +105,7 @@ import { netmindAdapter } from './netmind-adapter';
 import { hyperstackAdapter } from './hyperstack-adapter';
 import { gmiAdapter } from './gmi-adapter';
 import { internlmAdapter } from './internlm-adapter';
+import { targonAdapter } from './targon-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8511,6 +8512,80 @@ describe('Provider Adapters', () => {
       await expect(internlmAdapter.validateKey('   ')).rejects.toThrow(
         'InternLM API key is missing. Get your key from internlm.intern-ai.org.cn/api/tokens.'
       );
+    });
+  });
+
+  describe('targonAdapter', () => {
+    it('validates a correct Targon API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await targonAdapter.validateKey('targon-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.targon.com/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer targon-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(targonAdapter.validateKey('   ')).rejects.toThrow(
+        'Targon API key is missing. Get your key from targon.com.'
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(targonAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Targon API key. Get your key from targon.com.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(targonAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await targonAdapter.fetchUsage(
+        'targon-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await targonAdapter.validateKey('my-targon-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-targon-key-123',
+          }),
+        })
+      );
+    });
+
+    it('targonAdapter.type is targon', () => {
+      expect(targonAdapter.type).toBe('targon');
     });
   });
 });

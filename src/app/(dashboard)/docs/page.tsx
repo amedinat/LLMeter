@@ -2216,6 +2216,29 @@ const completion = await trackedInternLM.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to InternLM
 );`;
 
+const sdkTargonExample = `import OpenAI from 'openai';
+import LLMeter, { wrapTargon } from 'llmeter';
+
+// Targon (Nineteen.ai) — Bittensor subnet 19 decentralized inference
+// 6th blockchain AI network on LLMeter (Corcel/Bittensor + io.net/Solana + Akash/Cosmos + Heurist/ETH ZK + NEAR + Targon)
+// Community GPU validators earn TAO rewards by serving inference
+// Llama 3.1 8B at $0.04/1M — 98% cheaper than GPT-4o
+const targon = new OpenAI({
+  apiKey: process.env.TARGON_API_KEY,
+  baseURL: 'https://api.targon.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedTargon = wrapTargon(targon, llmeter);
+
+// All calls are automatically tracked — Bittensor subnet 19 inference
+const completion = await trackedTargon.chat.completions.create(
+  {
+    model: 'targon/llama-3-3-70b', // or 'targon/llama-3-1-8b', 'targon/deepseek-r1', etc.
+    messages: [{ role: 'user', content: 'Hello from Targon!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Targon
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2510,6 +2533,7 @@ export default function DocsPage() {
                 <TabsTrigger value="hyperstack">Hyperstack</TabsTrigger>
                 <TabsTrigger value="gmi">GMI Cloud</TabsTrigger>
                 <TabsTrigger value="internlm">InternLM</TabsTrigger>
+                <TabsTrigger value="targon">Targon</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3608,6 +3632,17 @@ export default function DocsPage() {
                   call is tracked automatically. InternLM is developed by Shanghai AI Laboratory (上海人工智能实验室) — a major Chinese research institution founded 2020, backed by Alibaba, Tencent, ByteDance, and Sequoia China. Top-ranked on C-Eval, CMMLU, and HumanEval benchmarks; InternVL2 is among the best open-source vision-language models globally. 8 models: InternLM3 8B ($0.10/$0.10 — budget, 96% cheaper than GPT-4o), InternLM2.5 7B ($0.08/$0.08 — ultra-budget), InternLM2.5 20B ($0.35/$0.35 — standard), InternLM2 Math 20B ($0.25/$0.25 — math-specialized), InternLM2 34B ($0.80/$0.80 — premium), InternVL2 8B ($0.12/$0.12 — vision budget), InternVL2 26B ($0.45/$0.45 — vision standard), InternVL2 76B ($1.20/$1.20 — vision premium). Get your key at internlm.intern-ai.org.cn/api/tokens.
                 </p>
                 <CodeBlock language="typescript" code={sdkInternLMExample} />
+              </TabsContent>
+              <TabsContent value="targon" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Targon is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.targon.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Targon is built by Nineteen.ai on Bittensor subnet 19 — the 6th blockchain AI network on LLMeter (after Corcel/Bittensor, io.net/Solana, Akash/Cosmos, Heurist/ETH ZK L2, NEAR Protocol). Community GPU validators earn TAO rewards by serving inference. 8 models: Llama 3.3 70B ($0.20/$0.20 — symmetric flagship, 90% cheaper than GPT-4o), Llama 3.1 70B ($0.18/$0.18 — symmetric), Llama 3.1 8B ($0.04/$0.04 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.50/$1.50 — enterprise), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.20/$0.80 — frontier), Mistral 7B ($0.05/$0.05 — symmetric budget), Qwen 2.5 72B ($0.22/$0.22 — symmetric multilingual). Get your key at targon.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkTargonExample} />
               </TabsContent>
               <TabsContent value="netmind" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

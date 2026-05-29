@@ -8954,6 +8954,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // ── Targon (Nineteen.ai — Bittensor subnet 19) ───────────────────────────────
+  {
+    provider: 'targon',
+    model_id: 'targon/llama-3-3-70b',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/llama-3-1-70b',
+    display_name: 'Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/llama-3-1-8b',
+    display_name: 'Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/llama-3-1-405b',
+    display_name: 'Llama 3.1 405B',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/deepseek-v3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/mistral-7b',
+    display_name: 'Mistral 7B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'targon',
+    model_id: 'targon/qwen-2-5-72b',
+    display_name: 'Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9191,6 +9265,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     hyperstack: [0.40, 0.60], // Llama 3.3 70B flagship on Hyperstack (NVIDIA Cloud Partner, H100/H200 GPU cloud)
     gmi: [0.25, 0.75], // Llama 3.3 70B flagship on GMI Cloud ($82M Series A GPU cloud, H100/H200 clusters)
     internlm: [0.10, 0.10], // InternLM3-8B-Instruct symmetric flagship on InternLM (Shanghai AI Lab, top C-Eval/CMMLU benchmarks)
+    targon: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on Targon (Nineteen.ai, Bittensor subnet 19, 6th blockchain AI network)
   };
   return defaults[provider];
 }
