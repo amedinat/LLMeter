@@ -155,6 +155,7 @@ const ZERO_PROVIDERS = {
   textsynth: 0,
   heurist: 0,
   nearai: 0,
+  netmind: 0,
 };
 
 // --- Tests ---

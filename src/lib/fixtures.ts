@@ -139,6 +139,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         textsynth: 0,
         heurist: 0,
         nearai: 0,
+        netmind: 0,
       },
     };
   });
