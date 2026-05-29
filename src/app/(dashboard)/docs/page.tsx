@@ -2194,6 +2194,28 @@ const completion = await trackedGMI.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to GMI Cloud
 );`;
 
+const sdkInternLMExample = `import OpenAI from 'openai';
+import LLMeter, { wrapInternLM } from 'llmeter';
+
+// InternLM — Shanghai AI Lab (上海人工智能实验室), founded 2020
+// Backed by Alibaba, Tencent, ByteDance, and Sequoia China
+// Top-ranked on C-Eval, CMMLU, HumanEval; InternVL2 is a top open-source vision-language model
+const internlm = new OpenAI({
+  apiKey: process.env.INTERNLM_API_KEY,
+  baseURL: 'https://internlm-chat.intern-ai.org.cn/puyu/api/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedInternLM = wrapInternLM(internlm, llmeter);
+
+// All calls are automatically tracked — ultra-budget Chinese AI with vision support
+const completion = await trackedInternLM.chat.completions.create(
+  {
+    model: 'internlm3-8b-instruct', // or 'internlm2-5-20b-chat', 'internvl2-26b', etc.
+    messages: [{ role: 'user', content: 'Hello from InternLM!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to InternLM
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2487,6 +2509,7 @@ export default function DocsPage() {
                 <TabsTrigger value="netmind">NetMind AI</TabsTrigger>
                 <TabsTrigger value="hyperstack">Hyperstack</TabsTrigger>
                 <TabsTrigger value="gmi">GMI Cloud</TabsTrigger>
+                <TabsTrigger value="internlm">InternLM</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3574,6 +3597,17 @@ export default function DocsPage() {
                   call is tracked automatically. GMI Cloud raised $82M Series A in October 2024 (led by Headline Asia) — founded 2022 by Alex Yeh in San Jose; pivoted from Bitcoin compute to AI GPU infrastructure. H100/H200 clusters with per-token serverless inference. 8 models: Llama 3.3 70B ($0.25/$0.75 — flagship, 90% cheaper than GPT-4o), DeepSeek R1 ($0.50/$2.18 — reasoning), DeepSeek V3 ($0.28/$0.88 — fast frontier), Kimi K2 ($0.80/$1.20 — agentic), MiniMax M2.1 ($0.30/$1.20 — efficient), Qwen3-VL 235B ($0.30/$1.40 — multimodal), GLM-4.7 ($0.40/$2.00 — ZhipuAI Chinese flagship), DeepSeek V3.2 ($0.28/$0.40 — ultra-fast). Get your key at console.gmicloud.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkGMIExample} />
+              </TabsContent>
+              <TabsContent value="internlm" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  InternLM is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://internlm-chat.intern-ai.org.cn/puyu/api/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. InternLM is developed by Shanghai AI Laboratory (上海人工智能实验室) — a major Chinese research institution founded 2020, backed by Alibaba, Tencent, ByteDance, and Sequoia China. Top-ranked on C-Eval, CMMLU, and HumanEval benchmarks; InternVL2 is among the best open-source vision-language models globally. 8 models: InternLM3 8B ($0.10/$0.10 — budget, 96% cheaper than GPT-4o), InternLM2.5 7B ($0.08/$0.08 — ultra-budget), InternLM2.5 20B ($0.35/$0.35 — standard), InternLM2 Math 20B ($0.25/$0.25 — math-specialized), InternLM2 34B ($0.80/$0.80 — premium), InternVL2 8B ($0.12/$0.12 — vision budget), InternVL2 26B ($0.45/$0.45 — vision standard), InternVL2 76B ($1.20/$1.20 — vision premium). Get your key at internlm.intern-ai.org.cn/api/tokens.
+                </p>
+                <CodeBlock language="typescript" code={sdkInternLMExample} />
               </TabsContent>
               <TabsContent value="netmind" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

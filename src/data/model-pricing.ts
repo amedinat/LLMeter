@@ -8880,6 +8880,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // ── InternLM (Shanghai AI Laboratory) ────────────────────────────────────────
+  {
+    provider: 'internlm',
+    model_id: 'internlm3-8b-instruct',
+    display_name: 'InternLM3 8B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internlm2-5-7b-chat',
+    display_name: 'InternLM2.5 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internlm2-5-20b-chat',
+    display_name: 'InternLM2.5 20B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internlm2-math-20b',
+    display_name: 'InternLM2 Math 20B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internlm2-34b',
+    display_name: 'InternLM2 34B',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internvl2-8b',
+    display_name: 'InternVL2 8B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internvl2-26b',
+    display_name: 'InternVL2 26B',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'internlm',
+    model_id: 'internvl2-76b',
+    display_name: 'InternVL2 76B',
+    input_price_per_1m_tokens: 1.20,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9116,6 +9190,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     netmind: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on NetMind AI (community GPU marketplace, NMT token rewards)
     hyperstack: [0.40, 0.60], // Llama 3.3 70B flagship on Hyperstack (NVIDIA Cloud Partner, H100/H200 GPU cloud)
     gmi: [0.25, 0.75], // Llama 3.3 70B flagship on GMI Cloud ($82M Series A GPU cloud, H100/H200 clusters)
+    internlm: [0.10, 0.10], // InternLM3-8B-Instruct symmetric flagship on InternLM (Shanghai AI Lab, top C-Eval/CMMLU benchmarks)
   };
   return defaults[provider];
 }
