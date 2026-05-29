@@ -140,6 +140,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         heurist: 0,
         nearai: 0,
         netmind: 0,
+        hyperstack: 0,
       },
     };
   });

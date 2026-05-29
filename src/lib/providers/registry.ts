@@ -108,6 +108,7 @@ import { textsynthAdapter } from './textsynth-adapter';
 import { heuristAdapter } from './heurist-adapter';
 import { nearaiAdapter } from './nearai-adapter';
 import { netmindAdapter } from './netmind-adapter';
+import { hyperstackAdapter } from './hyperstack-adapter';
 
 /**
  * Provider adapter registry.
@@ -224,6 +225,7 @@ adapters.set('textsynth', textsynthAdapter);
 adapters.set('heurist', heuristAdapter);
 adapters.set('nearai', nearaiAdapter);
 adapters.set('netmind', netmindAdapter);
+adapters.set('hyperstack', hyperstackAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -8658,6 +8658,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── Hyperstack ───────────────────────────────────────────────────────────────
+  {
+    provider: 'hyperstack',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'hyperstack',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
   // ── NetMind AI ───────────────────────────────────────────────────────────────
   {
     provider: 'netmind',
@@ -8965,6 +9039,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     textsynth: [0.25, 0.25], // Llama 3 70B symmetric flagship on TextSynth (Fabrice Bellard, France)
     heurist: [0.22, 0.22], // Llama 3.3 70B symmetric flagship on Heurist AI (decentralized, Ethereum ZK)
     nearai: [0.25, 0.25], // Llama 3.3 70B symmetric flagship on NEAR AI (NEAR Protocol PoS sharding, 5th blockchain network)
+    netmind: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on NetMind AI (community GPU marketplace, NMT token rewards)
+    hyperstack: [0.40, 0.60], // Llama 3.3 70B flagship on Hyperstack (NVIDIA Cloud Partner, H100/H200 GPU cloud)
   };
   return defaults[provider];
 }

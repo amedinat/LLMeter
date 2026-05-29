@@ -2150,6 +2150,28 @@ const completion = await trackedNetmind.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NetMind
 );`;
 
+const sdkHyperstackExample = `import OpenAI from 'openai';
+import LLMeter, { wrapHyperstack } from 'llmeter';
+
+// Hyperstack — UK/Netherlands GPU cloud, certified NVIDIA Cloud Partner
+// H100, H200, and A100 clusters; sustainable data centres on Dutch renewable energy
+// Mixtral 8x7B at $0.28/1M symmetric — MoE at GPU cloud pricing
+const hyperstack = new OpenAI({
+  apiKey: process.env.HYPERSTACK_API_KEY,
+  baseURL: 'https://infra.hyperstack.cloud/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedHyperstack = wrapHyperstack(hyperstack, llmeter);
+
+// All calls are automatically tracked — NVIDIA-certified H100/H200 inference
+const completion = await trackedHyperstack.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from Hyperstack!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Hyperstack
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2441,6 +2463,7 @@ export default function DocsPage() {
                 <TabsTrigger value="heurist">Heurist AI</TabsTrigger>
                 <TabsTrigger value="nearai">NEAR AI</TabsTrigger>
                 <TabsTrigger value="netmind">NetMind AI</TabsTrigger>
+                <TabsTrigger value="hyperstack">Hyperstack</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3506,6 +3529,17 @@ export default function DocsPage() {
                   call is tracked automatically. NEAR AI is NEAR Protocol&apos;s AI inference network — a Proof-of-Stake sharding blockchain optimized for scalable, low-cost compute. The 5th blockchain AI network on LLMeter after Corcel (Bittensor), io.net (Solana), Akash (Cosmos), and Heurist (Ethereum ZK L2). 8 models: Llama 3.3 70B ($0.25/$0.25 — symmetric flagship), Llama 3.1 70B ($0.20/$0.20), Llama 3.1 8B ($0.04/$0.04 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.60/$1.60 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Mistral 7B ($0.06/$0.06), Qwen 2.5 72B ($0.30/$0.30 — multilingual). Get your key at nearai.app.
                 </p>
                 <CodeBlock language="typescript" code={sdkNearAIExample} />
+              </TabsContent>
+              <TabsContent value="hyperstack" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Hyperstack is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://infra.hyperstack.cloud/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Hyperstack is a UK/Netherlands GPU cloud and certified NVIDIA Cloud Partner — H100, H200, and A100 clusters for AI inference and training. Founded 2022, based in London; sustainable data centres powered by Dutch renewable energy. 8 models: Llama 3.3 70B ($0.40/$0.60 — flagship), Llama 3.1 70B ($0.35/$0.55), Llama 3.1 8B ($0.08/$0.08 — symmetric budget), Llama 3.1 405B ($1.80/$1.80 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), Mistral 7B ($0.08/$0.08 — symmetric cheapest), Qwen 2.5 72B ($0.38/$0.38 — symmetric multilingual), Mixtral 8x7B ($0.28/$0.28 — symmetric MoE). Get your key at hyperstack.cloud.
+                </p>
+                <CodeBlock language="typescript" code={sdkHyperstackExample} />
               </TabsContent>
               <TabsContent value="netmind" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
