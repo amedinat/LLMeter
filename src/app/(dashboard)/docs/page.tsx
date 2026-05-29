@@ -3347,7 +3347,7 @@ export default function DocsPage() {
                   <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
                   package with the SenseNova base URL and your API key. Wrap it once and every{' '}
                   <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
-                  call is tracked automatically. SenseTime SenseNova is China's largest AI company by valuation at HKEX IPO (#0020) — won ImageNet 2015 Object Detection challenge (natural pairing with Clarifai/ImageNet 2013), serving 100M+ users. 8 models: SenseChat-5 ($2.00/$6.00 per 1M — flagship), SenseChat-5 Turbo ($0.80/$2.40 — fast flagship), SenseChat-5 Lite ($0.30/$0.90 — budget), SenseChat-Lite V4 ($0.10/$0.30 — ultra-budget, 96% cheaper than GPT-4o input), SenseReasoner-Pro ($0.80/$2.40 — reasoning), SenseCode-V2 ($0.20/$0.60 — code generation), SenseChat-5 32K ($1.00/$3.00 — long context), SenseChat-5 Vision ($1.50/$4.50 — multimodal).
+                  call is tracked automatically. SenseTime SenseNova is China&apos;s largest AI company by valuation at HKEX IPO (#0020) — won ImageNet 2015 Object Detection challenge (natural pairing with Clarifai/ImageNet 2013), serving 100M+ users. 8 models: SenseChat-5 ($2.00/$6.00 per 1M — flagship), SenseChat-5 Turbo ($0.80/$2.40 — fast flagship), SenseChat-5 Lite ($0.30/$0.90 — budget), SenseChat-Lite V4 ($0.10/$0.30 — ultra-budget, 96% cheaper than GPT-4o input), SenseReasoner-Pro ($0.80/$2.40 — reasoning), SenseCode-V2 ($0.20/$0.60 — code generation), SenseChat-5 32K ($1.00/$3.00 — long context), SenseChat-5 Vision ($1.50/$4.50 — multimodal).
                 </p>
                 <CodeBlock language="typescript" code={sdkSenseNovaExample} />
               </TabsContent>
@@ -3359,7 +3359,7 @@ export default function DocsPage() {
                   <code className="rounded bg-muted px-1.5 py-0.5">X-NCP-APIGW-API-KEY</code>{' '}
                   from the NAVER Cloud Platform console. Use the{' '}
                   <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
-                  package with the CLOVA Studio OpenAI-compatible base URL. NAVER Corporation (KRX: 035420) is Korea's largest internet company — HyperCLOVA (2021) was the world's first non-English large language model at 82B parameters, and HyperCLOVA X is Korea's flagship bilingual Korean-English LLM. 6 models: HyperCLOVA X ($2.00/$6.00 per 1M — flagship 82B+ bilingual), HyperCLOVA X Turbo ($0.80/$2.40 — speed-optimized), HyperCLOVA X Mini ($0.40/$1.20 — balanced), HyperCLOVA X DASH ($0.12/$0.36 — fast efficient), HyperCLOVA X DASH 2 ($0.10/$0.30 — updated fast), HyperCLOVA X DASH 3 ($0.08/$0.24 — latest, 97% cheaper than GPT-4o input). Credentials format: apiKeyId::serviceKey.
+                  package with the CLOVA Studio OpenAI-compatible base URL. NAVER Corporation (KRX: 035420) is Korea&apos;s largest internet company — HyperCLOVA (2021) was the world&apos;s first non-English large language model at 82B parameters, and HyperCLOVA X is Korea&apos;s flagship bilingual Korean-English LLM. 6 models: HyperCLOVA X ($2.00/$6.00 per 1M — flagship 82B+ bilingual), HyperCLOVA X Turbo ($0.80/$2.40 — speed-optimized), HyperCLOVA X Mini ($0.40/$1.20 — balanced), HyperCLOVA X DASH ($0.12/$0.36 — fast efficient), HyperCLOVA X DASH 2 ($0.10/$0.30 — updated fast), HyperCLOVA X DASH 3 ($0.08/$0.24 — latest, 97% cheaper than GPT-4o input). Credentials format: apiKeyId::serviceKey.
                 </p>
                 <CodeBlock language="typescript" code={sdkNaverExample} />
               </TabsContent>
@@ -3369,7 +3369,7 @@ export default function DocsPage() {
                   <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
                   package with the 360 AI base URL and your API key. Wrap it once and every{' '}
                   <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
-                  call is tracked automatically. 360 Security Technology (三六零) is China's largest cybersecurity company — listed on Shenzhen Stock Exchange (601360.SZ), founded 2005 by Zhou Hongyi, with 4.5 billion endpoint protection clients worldwide. 8 models: 360GPT2-Pro ($0.50/$1.50 per 1M — flagship), 360GPT2-Pro 128K ($1.00/$3.00 — long context), 360GPT-Turbo ($0.15/$0.45 — standard), 360GPT-Turbo Responsibility ($0.40/$1.20 — enterprise), 360GPT-Pro ($0.30/$0.90 — standard), 360GPT-S2-V9 ($0.12/$0.36 — budget), 360GPT-Lite ($0.08/$0.24 — 97% cheaper than GPT-4o input), 360GPT-130B ($1.50/$4.50 — premium large model).
+                  call is tracked automatically. 360 Security Technology (三六零) is China&apos;s largest cybersecurity company — listed on Shenzhen Stock Exchange (601360.SZ), founded 2005 by Zhou Hongyi, with 4.5 billion endpoint protection clients worldwide. 8 models: 360GPT2-Pro ($0.50/$1.50 per 1M — flagship), 360GPT2-Pro 128K ($1.00/$3.00 — long context), 360GPT-Turbo ($0.15/$0.45 — standard), 360GPT-Turbo Responsibility ($0.40/$1.20 — enterprise), 360GPT-Pro ($0.30/$0.90 — standard), 360GPT-S2-V9 ($0.12/$0.36 — budget), 360GPT-Lite ($0.08/$0.24 — 97% cheaper than GPT-4o input), 360GPT-130B ($1.50/$4.50 — premium large model).
                 </p>
                 <CodeBlock language="typescript" code={sdkAI360Example} />
               </TabsContent>
