@@ -101,6 +101,7 @@ import { metaAdapter } from './meta-adapter';
 import { glhfAdapter } from './glhf-adapter';
 import { heuristAdapter } from './heurist-adapter';
 import { nearaiAdapter } from './nearai-adapter';
+import { netmindAdapter } from './netmind-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8246,6 +8247,71 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(nearaiAdapter.validateKey('   ')).rejects.toThrow(
         'NEAR AI API key is missing. Get your key from nearai.app.'
+      );
+    });
+  });
+
+  describe('netmindAdapter', () => {
+    it('validates a correct NetMind API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await netmindAdapter.validateKey('netmind-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.netmind.ai/inference-api/openai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer netmind-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(netmindAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NetMind API key. Get your key from netmind.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(netmindAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(netmindAdapter.validateKey('')).rejects.toThrow(
+        'NetMind API key is missing. Get your key from netmind.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await netmindAdapter.fetchUsage(
+        'netmind-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('netmindAdapter.type is netmind', () => {
+      expect(netmindAdapter.type).toBe('netmind');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(netmindAdapter.validateKey('   ')).rejects.toThrow(
+        'NetMind API key is missing. Get your key from netmind.ai.'
       );
     });
   });

@@ -2128,6 +2128,28 @@ const completion = await trackedHeurist.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Heurist
 );`;
 
+const sdkNetmindExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNetmind } from 'llmeter';
+
+// NetMind AI — community GPU marketplace (250,000+ contributor nodes, NMT token rewards)
+// Founded 2022, UK-based; community GPU supply drives prices down
+// Llama 3.1 8B at $0.04/1M — 98% cheaper than GPT-4o input
+const netmind = new OpenAI({
+  apiKey: process.env.NETMIND_API_KEY,
+  baseURL: 'https://api.netmind.ai/inference-api/openai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNetmind = wrapNetmind(netmind, llmeter);
+
+// All calls are automatically tracked — community GPU inference
+const completion = await trackedNetmind.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from NetMind!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NetMind
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2418,6 +2440,7 @@ export default function DocsPage() {
                 <TabsTrigger value="textsynth">TextSynth</TabsTrigger>
                 <TabsTrigger value="heurist">Heurist AI</TabsTrigger>
                 <TabsTrigger value="nearai">NEAR AI</TabsTrigger>
+                <TabsTrigger value="netmind">NetMind AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3483,6 +3506,17 @@ export default function DocsPage() {
                   call is tracked automatically. NEAR AI is NEAR Protocol&apos;s AI inference network — a Proof-of-Stake sharding blockchain optimized for scalable, low-cost compute. The 5th blockchain AI network on LLMeter after Corcel (Bittensor), io.net (Solana), Akash (Cosmos), and Heurist (Ethereum ZK L2). 8 models: Llama 3.3 70B ($0.25/$0.25 — symmetric flagship), Llama 3.1 70B ($0.20/$0.20), Llama 3.1 8B ($0.04/$0.04 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.60/$1.60 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Mistral 7B ($0.06/$0.06), Qwen 2.5 72B ($0.30/$0.30 — multilingual). Get your key at nearai.app.
                 </p>
                 <CodeBlock language="typescript" code={sdkNearAIExample} />
+              </TabsContent>
+              <TabsContent value="netmind" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  NetMind AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.netmind.ai/inference-api/openai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. NetMind is a community GPU marketplace where contributors share idle capacity and earn NMT token rewards — founded 2022, based in the UK, 250,000+ nodes globally. Community GPU supply drives prices down. 8 models: Llama 3.3 70B ($0.20/$0.20 — symmetric flagship), Llama 3.1 70B ($0.18/$0.18 — symmetric), Llama 3.1 8B ($0.04/$0.04 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.40/$1.40 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.22/$0.88 — frontier), Mistral 7B ($0.05/$0.05 — symmetric budget), Qwen 2.5 72B ($0.28/$0.28 — symmetric multilingual). Get your key at netmind.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkNetmindExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -1010,4 +1010,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://nearai.app',
     color: '#00C08B',
   },
+  netmind: {
+    type: 'netmind',
+    name: 'NetMind AI',
+    description: 'Llama 3.3 70B, Llama 3.1 70B/8B/405B, DeepSeek R1, DeepSeek V3, Mistral 7B, Qwen 2.5 72B — community GPU marketplace where contributors share idle capacity and earn NMT token rewards. Founded 2022, based in UK; 250,000+ nodes globally. Community GPU supply drives prices down: Llama 3.1 8B at $0.04/1M, 98% cheaper than GPT-4o. OpenAI-compatible API at api.netmind.ai/inference-api/openai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-netmind-api-key',
+    helpUrl: 'https://netmind.ai',
+    color: '#1D4ED8',
+  },
 };
