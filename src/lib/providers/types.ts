@@ -1019,4 +1019,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://netmind.ai',
     color: '#1D4ED8',
   },
+  hyperstack: {
+    type: 'hyperstack',
+    name: 'Hyperstack',
+    description: 'Llama 3.3 70B, Llama 3.1 70B/8B/405B, DeepSeek R1, Mistral 7B, Qwen 2.5 72B, Mixtral 8x7B — UK/Netherlands GPU cloud and certified NVIDIA Cloud Partner. H100, H200, and A100 clusters for AI inference and training. Founded 2022, based in London; sustainable data centres powered by Dutch renewable energy. OpenAI-compatible API at infra.hyperstack.cloud/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-hyperstack-api-key',
+    helpUrl: 'https://hyperstack.cloud',
+    color: '#EA580C',
+  },
 };
