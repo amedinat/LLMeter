@@ -113,6 +113,9 @@ export { wrapTextSynth } from './textsynth.js';
 export { wrapHeurist } from './heurist.js';
 export { wrapNearAI } from './nearai.js';
 export { wrapNetmind } from './netmind.js';
+export { wrapHyperstack } from './hyperstack.js';
+export { wrapGMI } from './gmi.js';
+export { wrapInternLM } from './internlm.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

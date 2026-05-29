@@ -1037,4 +1037,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.gmicloud.ai',
     color: '#2563EB',
   },
+  internlm: {
+    type: 'internlm',
+    name: 'InternLM',
+    description: 'InternLM3 8B/20B, InternLM2.5 7B/20B, InternLM2 Math 20B/34B, InternVL2 8B/26B/76B — top-ranked on C-Eval, CMMLU, and HumanEval benchmarks. Developed by Shanghai AI Laboratory (上海人工智能实验室), a major Chinese research institution founded 2020 and backed by Alibaba, Tencent, ByteDance, and Sequoia China. InternVL2 is among the best open-source vision-language models globally. OpenAI-compatible API at internlm-chat.intern-ai.org.cn/puyu/api/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-internlm-api-key',
+    helpUrl: 'https://internlm.intern-ai.org.cn/api/tokens',
+    color: '#0EA5E9',
+  },
 };

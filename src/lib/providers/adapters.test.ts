@@ -104,6 +104,7 @@ import { nearaiAdapter } from './nearai-adapter';
 import { netmindAdapter } from './netmind-adapter';
 import { hyperstackAdapter } from './hyperstack-adapter';
 import { gmiAdapter } from './gmi-adapter';
+import { internlmAdapter } from './internlm-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8444,6 +8445,71 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(gmiAdapter.validateKey('   ')).rejects.toThrow(
         'GMI Cloud API key is missing. Get your key from console.gmicloud.ai.'
+      );
+    });
+  });
+
+  describe('internlmAdapter', () => {
+    it('validates a correct InternLM API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await internlmAdapter.validateKey('internlm-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://internlm-chat.intern-ai.org.cn/puyu/api/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer internlm-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(internlmAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid InternLM API key. Get your key from internlm.intern-ai.org.cn/api/tokens.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(internlmAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(internlmAdapter.validateKey('')).rejects.toThrow(
+        'InternLM API key is missing. Get your key from internlm.intern-ai.org.cn/api/tokens.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await internlmAdapter.fetchUsage(
+        'internlm-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('internlmAdapter.type is internlm', () => {
+      expect(internlmAdapter.type).toBe('internlm');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(internlmAdapter.validateKey('   ')).rejects.toThrow(
+        'InternLM API key is missing. Get your key from internlm.intern-ai.org.cn/api/tokens.'
       );
     });
   });
