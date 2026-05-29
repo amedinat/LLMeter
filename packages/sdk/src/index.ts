@@ -111,6 +111,7 @@ export { wrapGLHF } from './glhf.js';
 export { wrapSakura } from './sakura.js';
 export { wrapTextSynth } from './textsynth.js';
 export { wrapHeurist } from './heurist.js';
+export { wrapNearAI } from './nearai.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

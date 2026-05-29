@@ -8584,6 +8584,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── NEAR AI ─────────────────────────────────────────────────────────────────
+  {
+    provider: 'nearai',
+    model_id: 'nearai/llama-3-3-70b',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/llama-3-1-70b',
+    display_name: 'Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/llama-3-1-8b',
+    display_name: 'Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/llama-3-1-405b',
+    display_name: 'Llama 3.1 405B',
+    input_price_per_1m_tokens: 1.60,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/deepseek-v3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/mistral-7b',
+    display_name: 'Mistral 7B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'nearai',
+    model_id: 'nearai/qwen-2-5-72b',
+    display_name: 'Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8816,6 +8890,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     sakura: [0.45, 0.65], // Llama 3.3 70B Instruct flagship rates on Sakura Internet (Japan H100 cloud)
     textsynth: [0.25, 0.25], // Llama 3 70B symmetric flagship on TextSynth (Fabrice Bellard, France)
     heurist: [0.22, 0.22], // Llama 3.3 70B symmetric flagship on Heurist AI (decentralized, Ethereum ZK)
+    nearai: [0.25, 0.25], // Llama 3.3 70B symmetric flagship on NEAR AI (NEAR Protocol PoS sharding, 5th blockchain network)
   };
   return defaults[provider];
 }

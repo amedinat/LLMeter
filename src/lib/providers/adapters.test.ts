@@ -100,6 +100,7 @@ import { nousresearchAdapter } from './nousresearch-adapter';
 import { metaAdapter } from './meta-adapter';
 import { glhfAdapter } from './glhf-adapter';
 import { heuristAdapter } from './heurist-adapter';
+import { nearaiAdapter } from './nearai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8180,6 +8181,71 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(heuristAdapter.validateKey('   ')).rejects.toThrow(
         'Heurist API key is missing. Get your key from dev.heurist.ai.'
+      );
+    });
+  });
+
+  describe('nearaiAdapter', () => {
+    it('validates a correct NEAR AI API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await nearaiAdapter.validateKey('nearai-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.near.ai/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer nearai-test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(nearaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NEAR AI API key. Get your key from nearai.app.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(nearaiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(nearaiAdapter.validateKey('')).rejects.toThrow(
+        'NEAR AI API key is missing. Get your key from nearai.app.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nearaiAdapter.fetchUsage(
+        'nearai-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-28')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('nearaiAdapter.type is nearai', () => {
+      expect(nearaiAdapter.type).toBe('nearai');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(nearaiAdapter.validateKey('   ')).rejects.toThrow(
+        'NEAR AI API key is missing. Get your key from nearai.app.'
       );
     });
   });

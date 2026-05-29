@@ -2128,6 +2128,28 @@ const completion = await trackedHeurist.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Heurist
 );`;
 
+const sdkNearAIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNearAI } from 'llmeter';
+
+// NEAR AI — NEAR Protocol's AI inference network (PoS sharding for scalable, low-cost compute)
+// 5th blockchain AI network on LLMeter (Corcel/Bittensor + io.net/Solana + Akash/Cosmos + Heurist/ETH ZK + NEAR)
+// Llama 3.1 8B at $0.04/1M — 98% cheaper than GPT-4o
+const nearai = new OpenAI({
+  apiKey: process.env.NEARAI_API_KEY,
+  baseURL: 'https://api.near.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedNearAI = wrapNearAI(nearai, llmeter);
+
+// All calls are automatically tracked — NEAR Protocol blockchain AI inference
+const completion = await trackedNearAI.chat.completions.create(
+  {
+    model: 'nearai/llama-3-3-70b', // or 'nearai/llama-3-1-8b', 'nearai/deepseek-r1', etc.
+    messages: [{ role: 'user', content: 'Hello from NEAR AI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NEAR AI
+);`;
+
 const sdkGLHFExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGLHF } from 'llmeter';
 
@@ -2395,6 +2417,7 @@ export default function DocsPage() {
                 <TabsTrigger value="sakura">Sakura Internet</TabsTrigger>
                 <TabsTrigger value="textsynth">TextSynth</TabsTrigger>
                 <TabsTrigger value="heurist">Heurist AI</TabsTrigger>
+                <TabsTrigger value="nearai">NEAR AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3449,6 +3472,17 @@ export default function DocsPage() {
                   call is tracked automatically. Heurist AI is a decentralized LLM inference network built on Ethereum ZK (L2 zero-knowledge proofs). Idle GPU resources are rewarded via smart contracts — the 4th blockchain network on LLMeter after Corcel (Bittensor), io.net (Solana), and Akash (Cosmos). 8 models: Llama 3.3 70B ($0.22/$0.22 — symmetric flagship), Llama 3.1 70B ($0.18/$0.18 — symmetric), Llama 3.1 8B ($0.05/$0.05 — budget symmetric), Mistral 7B ($0.04/$0.04 — cheapest, 98% cheaper than GPT-4o), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.22/$0.88 — frontier), Qwen 2.5 72B ($0.22/$0.22 — symmetric multilingual), Phi-3 Mini 128K ($0.04/$0.04 — ultra-compact symmetric). Get your key at dev.heurist.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkHeuristExample} />
+              </TabsContent>
+              <TabsContent value="nearai" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  NEAR AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.near.ai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. NEAR AI is NEAR Protocol&apos;s AI inference network — a Proof-of-Stake sharding blockchain optimized for scalable, low-cost compute. The 5th blockchain AI network on LLMeter after Corcel (Bittensor), io.net (Solana), Akash (Cosmos), and Heurist (Ethereum ZK L2). 8 models: Llama 3.3 70B ($0.25/$0.25 — symmetric flagship), Llama 3.1 70B ($0.20/$0.20), Llama 3.1 8B ($0.04/$0.04 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.60/$1.60 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.28/$1.10), Mistral 7B ($0.06/$0.06), Qwen 2.5 72B ($0.30/$0.30 — multilingual). Get your key at nearai.app.
+                </p>
+                <CodeBlock language="typescript" code={sdkNearAIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

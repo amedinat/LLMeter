@@ -106,6 +106,7 @@ import { glhfAdapter } from './glhf-adapter';
 import { sakuraAdapter } from './sakura-adapter';
 import { textsynthAdapter } from './textsynth-adapter';
 import { heuristAdapter } from './heurist-adapter';
+import { nearaiAdapter } from './nearai-adapter';
 
 /**
  * Provider adapter registry.
@@ -220,6 +221,7 @@ adapters.set('glhf', glhfAdapter);
 adapters.set('sakura', sakuraAdapter);
 adapters.set('textsynth', textsynthAdapter);
 adapters.set('heurist', heuristAdapter);
+adapters.set('nearai', nearaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

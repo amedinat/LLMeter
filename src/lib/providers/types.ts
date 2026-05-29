@@ -1001,4 +1001,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://dev.heurist.ai',
     color: '#6366F1',
   },
+  nearai: {
+    type: 'nearai',
+    name: 'NEAR AI',
+    description: "Llama 3.3 70B, Llama 3.1 70B/8B/405B, DeepSeek R1, DeepSeek V3, Mistral 7B, Qwen 2.5 72B — NEAR Protocol's AI inference network. 5th blockchain AI network on LLMeter after Corcel (Bittensor), io.net (Solana), Akash (Cosmos), and Heurist (Ethereum ZK L2). PoS sharding for scalable, low-cost compute. Llama 3.1 8B at $0.04/1M. OpenAI-compatible API at api.near.ai/v1.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-nearai-api-key',
+    helpUrl: 'https://nearai.app',
+    color: '#00C08B',
+  },
 };
