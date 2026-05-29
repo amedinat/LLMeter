@@ -274,6 +274,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nearai: 0,
           netmind: 0,
           hyperstack: 0,
+          gmi: 0,
         }
       });
     }
@@ -407,6 +408,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nearai: 0,
           netmind: 0,
           hyperstack: 0,
+          gmi: 0,
         },
       }
     );

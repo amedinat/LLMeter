@@ -1028,4 +1028,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://hyperstack.cloud',
     color: '#EA580C',
   },
+  gmi: {
+    type: 'gmi',
+    name: 'GMI Cloud',
+    description: 'Llama 3.3 70B, DeepSeek R1, DeepSeek V3, Kimi K2 Agentic, MiniMax M2.1, Qwen3-VL 235B, GLM-4.7, DeepSeek V3.2 — $82M Series A GPU cloud (Oct 2024). Founded 2022 by Alex Yeh in San Jose; pivoted from Bitcoin compute to AI GPU infrastructure. H100/H200 clusters with per-token serverless inference. OpenAI-compatible API at api.gmi-serving.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-gmi-cloud-api-key',
+    helpUrl: 'https://console.gmicloud.ai',
+    color: '#2563EB',
+  },
 };

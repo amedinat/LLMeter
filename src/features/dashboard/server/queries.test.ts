@@ -157,6 +157,7 @@ const ZERO_PROVIDERS = {
   nearai: 0,
   netmind: 0,
   hyperstack: 0,
+  gmi: 0,
 };
 
 // --- Tests ---

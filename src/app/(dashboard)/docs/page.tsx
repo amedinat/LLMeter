@@ -2172,6 +2172,28 @@ const completion = await trackedHyperstack.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Hyperstack
 );`;
 
+const sdkGMIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapGMI } from 'llmeter';
+
+// GMI Cloud — $82M Series A GPU cloud (San Jose, founded 2022 by Alex Yeh)
+// Pivoted from Bitcoin compute to AI GPU infrastructure; H100/H200 clusters
+// Kimi K2 Agentic, MiniMax M2.1, Qwen3-VL 235B, GLM-4.7, DeepSeek R1, Llama 3.3 70B
+const gmi = new OpenAI({
+  apiKey: process.env.GMI_API_KEY,
+  baseURL: 'https://api.gmi-serving.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedGMI = wrapGMI(gmi, llmeter);
+
+// All calls are automatically tracked — frontier models via H100 GPU clusters
+const completion = await trackedGMI.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'deepseek-ai/DeepSeek-R1-0528', 'moonshotai/Kimi-K2-Instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from GMI Cloud!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to GMI Cloud
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2464,6 +2486,7 @@ export default function DocsPage() {
                 <TabsTrigger value="nearai">NEAR AI</TabsTrigger>
                 <TabsTrigger value="netmind">NetMind AI</TabsTrigger>
                 <TabsTrigger value="hyperstack">Hyperstack</TabsTrigger>
+                <TabsTrigger value="gmi">GMI Cloud</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3540,6 +3563,17 @@ export default function DocsPage() {
                   call is tracked automatically. Hyperstack is a UK/Netherlands GPU cloud and certified NVIDIA Cloud Partner — H100, H200, and A100 clusters for AI inference and training. Founded 2022, based in London; sustainable data centres powered by Dutch renewable energy. 8 models: Llama 3.3 70B ($0.40/$0.60 — flagship), Llama 3.1 70B ($0.35/$0.55), Llama 3.1 8B ($0.08/$0.08 — symmetric budget), Llama 3.1 405B ($1.80/$1.80 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), Mistral 7B ($0.08/$0.08 — symmetric cheapest), Qwen 2.5 72B ($0.38/$0.38 — symmetric multilingual), Mixtral 8x7B ($0.28/$0.28 — symmetric MoE). Get your key at hyperstack.cloud.
                 </p>
                 <CodeBlock language="typescript" code={sdkHyperstackExample} />
+              </TabsContent>
+              <TabsContent value="gmi" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  GMI Cloud is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.gmi-serving.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. GMI Cloud raised $82M Series A in October 2024 (led by Headline Asia) — founded 2022 by Alex Yeh in San Jose; pivoted from Bitcoin compute to AI GPU infrastructure. H100/H200 clusters with per-token serverless inference. 8 models: Llama 3.3 70B ($0.25/$0.75 — flagship, 90% cheaper than GPT-4o), DeepSeek R1 ($0.50/$2.18 — reasoning), DeepSeek V3 ($0.28/$0.88 — fast frontier), Kimi K2 ($0.80/$1.20 — agentic), MiniMax M2.1 ($0.30/$1.20 — efficient), Qwen3-VL 235B ($0.30/$1.40 — multimodal), GLM-4.7 ($0.40/$2.00 — ZhipuAI Chinese flagship), DeepSeek V3.2 ($0.28/$0.40 — ultra-fast). Get your key at console.gmicloud.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkGMIExample} />
               </TabsContent>
               <TabsContent value="netmind" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
