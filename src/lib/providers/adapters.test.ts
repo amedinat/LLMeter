@@ -99,6 +99,7 @@ import { ionosAdapter } from './ionos-adapter';
 import { nousresearchAdapter } from './nousresearch-adapter';
 import { metaAdapter } from './meta-adapter';
 import { glhfAdapter } from './glhf-adapter';
+import { heuristAdapter } from './heurist-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8114,6 +8115,71 @@ describe('Provider Adapters', () => {
     it('throws when api key is whitespace-only', async () => {
       await expect(glhfAdapter.validateKey('   ')).rejects.toThrow(
         'GLHF API key is missing. Get your key from glhf.chat/settings.'
+      );
+    });
+  });
+
+  describe('heuristAdapter', () => {
+    it('validates a correct Heurist API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await heuristAdapter.validateKey('heurist_test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://llm-gateway.heurist.xyz/v1/models',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer heurist_test-api-key',
+          }),
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(heuristAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Heurist API key. Get your key from dev.heurist.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(heuristAdapter.validateKey('heurist_key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(heuristAdapter.validateKey('')).rejects.toThrow(
+        'Heurist API key is missing. Get your key from dev.heurist.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await heuristAdapter.fetchUsage(
+        'heurist_test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-28')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('heuristAdapter.type is heurist', () => {
+      expect(heuristAdapter.type).toBe('heurist');
+    });
+
+    it('throws when api key is whitespace-only', async () => {
+      await expect(heuristAdapter.validateKey('   ')).rejects.toThrow(
+        'Heurist API key is missing. Get your key from dev.heurist.ai.'
       );
     });
   });

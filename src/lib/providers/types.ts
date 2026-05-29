@@ -992,4 +992,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://textsynth.com/settings.html',
     color: '#10B981',
   },
+  heurist: {
+    type: 'heurist',
+    name: 'Heurist AI',
+    description: "Llama 3.3 70B, Llama 3.1 70B/8B, Mistral 7B, DeepSeek R1, DeepSeek V3, Qwen 2.5 72B, Phi-3 Mini — decentralized AI inference network on Ethereum ZK (L2). Idle GPU resources rewarded via smart contracts. 4th blockchain network on LLMeter after Corcel (Bittensor), io.net (Solana), and Akash (Cosmos). Mistral 7B at $0.04/1M. OpenAI-compatible API at llm-gateway.heurist.xyz.",
+    keyPrefix: 'heurist_',
+    keyPlaceholder: 'heurist_...',
+    helpUrl: 'https://dev.heurist.ai',
+    color: '#6366F1',
+  },
 };

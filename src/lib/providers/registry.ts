@@ -105,6 +105,7 @@ import { metaAdapter } from './meta-adapter';
 import { glhfAdapter } from './glhf-adapter';
 import { sakuraAdapter } from './sakura-adapter';
 import { textsynthAdapter } from './textsynth-adapter';
+import { heuristAdapter } from './heurist-adapter';
 
 /**
  * Provider adapter registry.
@@ -218,6 +219,7 @@ adapters.set('meta', metaAdapter);
 adapters.set('glhf', glhfAdapter);
 adapters.set('sakura', sakuraAdapter);
 adapters.set('textsynth', textsynthAdapter);
+adapters.set('heurist', heuristAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

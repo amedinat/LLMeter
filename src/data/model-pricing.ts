@@ -8510,6 +8510,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── Heurist AI ──────────────────────────────────────────────────────────────
+  {
+    provider: 'heurist',
+    model_id: 'meta-llama/llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'meta-llama/llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'meta-llama/llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'mistralai/mistral-7b-instruct-v0.3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'deepseek-ai/deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'deepseek-ai/deepseek-v3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.88,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'qwen/qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'heurist',
+    model_id: 'microsoft/phi-3-mini-128k-instruct',
+    display_name: 'Phi-3 Mini 128K Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8741,6 +8815,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     glhf: [0.27, 0.27], // Llama 3.3 70B Instruct symmetric on GLHF Chat (community GPU inference)
     sakura: [0.45, 0.65], // Llama 3.3 70B Instruct flagship rates on Sakura Internet (Japan H100 cloud)
     textsynth: [0.25, 0.25], // Llama 3 70B symmetric flagship on TextSynth (Fabrice Bellard, France)
+    heurist: [0.22, 0.22], // Llama 3.3 70B symmetric flagship on Heurist AI (decentralized, Ethereum ZK)
   };
   return defaults[provider];
 }

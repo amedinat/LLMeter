@@ -2106,6 +2106,28 @@ const completion = await trackedTextSynth.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to TextSynth
 );`;
 
+const sdkHeuristExample = `import OpenAI from 'openai';
+import LLMeter, { wrapHeurist } from 'llmeter';
+
+// Heurist AI — decentralized inference on Ethereum ZK (L2 zero-knowledge proofs)
+// 4th blockchain network on LLMeter (Corcel/Bittensor + io.net/Solana + Akash/Cosmos + Heurist/ETH ZK)
+// Idle GPU resources rewarded via smart contracts. Mistral 7B at $0.04/1M — 98% cheaper than GPT-4o
+const heurist = new OpenAI({
+  apiKey: process.env.HEURIST_API_KEY,
+  baseURL: 'https://llm-gateway.heurist.xyz/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedHeurist = wrapHeurist(heurist, llmeter);
+
+// All calls are automatically tracked — decentralized Ethereum ZK inference
+const completion = await trackedHeurist.chat.completions.create(
+  {
+    model: 'meta-llama/llama-3.3-70b-instruct', // or 'mistralai/mistral-7b-instruct-v0.3', 'deepseek-ai/deepseek-r1', etc.
+    messages: [{ role: 'user', content: 'Hello from Heurist!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Heurist
+);`;
+
 const sdkGLHFExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGLHF } from 'llmeter';
 
@@ -2372,6 +2394,7 @@ export default function DocsPage() {
                 <TabsTrigger value="glhf">GLHF Chat</TabsTrigger>
                 <TabsTrigger value="sakura">Sakura Internet</TabsTrigger>
                 <TabsTrigger value="textsynth">TextSynth</TabsTrigger>
+                <TabsTrigger value="heurist">Heurist AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3415,6 +3438,17 @@ export default function DocsPage() {
                   call is tracked automatically. TextSynth is a privacy-first LLM inference service created by Fabrice Bellard — legendary programmer who invented FFmpeg (runs on every phone on Earth), QEMU, TCC (Tiny C Compiler), and JSLinux (first Linux running in a browser). One-man operation based in France; no training on user data; logs deleted regularly. 8 models: Mistral 7B ($0.04/$0.04 — cheapest, 98% cheaper than GPT-4o), Llama 3 8B ($0.06/$0.06), Gemma 2 9B ($0.07/$0.07), Code Llama 34B ($0.15/$0.15 — coding), Llama 3 70B ($0.25/$0.25 — flagship symmetric), Qwen 2 72B ($0.25/$0.25 — multilingual), Mixtral 8x7B ($0.35/$0.35 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning). Get your key at textsynth.com/settings.html.
                 </p>
                 <CodeBlock language="typescript" code={sdkTextSynthExample} />
+              </TabsContent>
+              <TabsContent value="heurist" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Heurist AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://llm-gateway.heurist.xyz/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Heurist AI is a decentralized LLM inference network built on Ethereum ZK (L2 zero-knowledge proofs). Idle GPU resources are rewarded via smart contracts — the 4th blockchain network on LLMeter after Corcel (Bittensor), io.net (Solana), and Akash (Cosmos). 8 models: Llama 3.3 70B ($0.22/$0.22 — symmetric flagship), Llama 3.1 70B ($0.18/$0.18 — symmetric), Llama 3.1 8B ($0.05/$0.05 — budget symmetric), Mistral 7B ($0.04/$0.04 — cheapest, 98% cheaper than GPT-4o), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.22/$0.88 — frontier), Qwen 2.5 72B ($0.22/$0.22 — symmetric multilingual), Phi-3 Mini 128K ($0.04/$0.04 — ultra-compact symmetric). Get your key at dev.heurist.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkHeuristExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
