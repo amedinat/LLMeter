@@ -8732,6 +8732,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // ── GMI Cloud ────────────────────────────────────────────────────────────────
+  {
+    provider: 'gmi',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'deepseek-ai/DeepSeek-R1-0528',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'deepseek-ai/DeepSeek-V3-0324',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.88,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'moonshotai/Kimi-K2-Instruct',
+    display_name: 'Kimi K2',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'minimax/MiniMax-M2.1',
+    display_name: 'MiniMax M2.1',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'Qwen/Qwen3-VL-235B-A22B',
+    display_name: 'Qwen3-VL 235B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 1.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'zai-org/GLM-4.7-FP8',
+    display_name: 'GLM-4.7',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'gmi',
+    model_id: 'deepseek-ai/DeepSeek-V3.2',
+    display_name: 'DeepSeek V3.2',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
   // ── NetMind AI ───────────────────────────────────────────────────────────────
   {
     provider: 'netmind',
@@ -9041,6 +9115,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nearai: [0.25, 0.25], // Llama 3.3 70B symmetric flagship on NEAR AI (NEAR Protocol PoS sharding, 5th blockchain network)
     netmind: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on NetMind AI (community GPU marketplace, NMT token rewards)
     hyperstack: [0.40, 0.60], // Llama 3.3 70B flagship on Hyperstack (NVIDIA Cloud Partner, H100/H200 GPU cloud)
+    gmi: [0.25, 0.75], // Llama 3.3 70B flagship on GMI Cloud ($82M Series A GPU cloud, H100/H200 clusters)
   };
   return defaults[provider];
 }

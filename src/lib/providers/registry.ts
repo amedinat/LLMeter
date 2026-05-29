@@ -109,6 +109,7 @@ import { heuristAdapter } from './heurist-adapter';
 import { nearaiAdapter } from './nearai-adapter';
 import { netmindAdapter } from './netmind-adapter';
 import { hyperstackAdapter } from './hyperstack-adapter';
+import { gmiAdapter } from './gmi-adapter';
 
 /**
  * Provider adapter registry.
@@ -226,6 +227,7 @@ adapters.set('heurist', heuristAdapter);
 adapters.set('nearai', nearaiAdapter);
 adapters.set('netmind', netmindAdapter);
 adapters.set('hyperstack', hyperstackAdapter);
+adapters.set('gmi', gmiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
