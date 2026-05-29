@@ -8436,6 +8436,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-28T00:00:00.000Z',
   },
 
+  // ── TextSynth ──────────────────────────────────────────────────────────────
+  {
+    provider: 'textsynth',
+    model_id: 'mistral_7B_instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'llama3_8B',
+    display_name: 'Llama 3 8B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'gemma2_9B_instruct',
+    display_name: 'Gemma 2 9B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'codellama_34B_instruct',
+    display_name: 'Code Llama 34B Instruct',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'llama3_70B',
+    display_name: 'Llama 3 70B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'qwen2_72B',
+    display_name: 'Qwen 2 72B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'mixtral_47B_instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+  {
+    provider: 'textsynth',
+    model_id: 'deepseek_r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-28T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -8666,6 +8740,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     meta: [0.28, 0.28], // Llama 3.3 70B Instruct symmetric on Meta Llama API (official Meta inference)
     glhf: [0.27, 0.27], // Llama 3.3 70B Instruct symmetric on GLHF Chat (community GPU inference)
     sakura: [0.45, 0.65], // Llama 3.3 70B Instruct flagship rates on Sakura Internet (Japan H100 cloud)
+    textsynth: [0.25, 0.25], // Llama 3 70B symmetric flagship on TextSynth (Fabrice Bellard, France)
   };
   return defaults[provider];
 }

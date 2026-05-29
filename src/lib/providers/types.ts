@@ -983,4 +983,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://api.sakura.io',
     color: '#E91E63',
   },
+  textsynth: {
+    type: 'textsynth',
+    name: 'TextSynth',
+    description: "Llama 3 70B, Mistral 7B, Mixtral 8x7B, Qwen 2 72B, Code Llama 34B, Gemma 2 9B, DeepSeek R1 — privacy-first LLM inference created by Fabrice Bellard (inventor of FFmpeg, QEMU, TCC, and JSLinux). One-man operation based in France; no training on user data. Mistral 7B at $0.04/1M — 98% cheaper than GPT-4o. OpenAI-compatible API at api.textsynth.com.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-textsynth-api-key',
+    helpUrl: 'https://textsynth.com/settings.html',
+    color: '#10B981',
+  },
 };

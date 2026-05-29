@@ -152,6 +152,7 @@ const ZERO_PROVIDERS = {
   meta: 0,
   glhf: 0,
   sakura: 0,
+  textsynth: 0,
 };
 
 // --- Tests ---

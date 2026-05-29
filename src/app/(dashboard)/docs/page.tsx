@@ -2084,6 +2084,28 @@ const completion = await trackedSakura.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Sakura Internet
 );`;
 
+const sdkTextSynthExample = `import OpenAI from 'openai';
+import LLMeter, { wrapTextSynth } from 'llmeter';
+
+// TextSynth — privacy-first LLM inference by Fabrice Bellard (creator of FFmpeg, QEMU, TCC)
+// One-man operation based in France; no training on user data; logs deleted regularly
+// Mistral 7B at $0.04/1M — 98% cheaper than GPT-4o input
+const textsynth = new OpenAI({
+  apiKey: process.env.TEXTSYNTH_API_KEY,
+  baseURL: 'https://api.textsynth.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedTextSynth = wrapTextSynth(textsynth, llmeter);
+
+// All calls are automatically tracked — privacy-first French inference
+const completion = await trackedTextSynth.chat.completions.create(
+  {
+    model: 'mistral_7B_instruct', // or 'llama3_70B', 'mixtral_47B_instruct', 'qwen2_72B', etc.
+    messages: [{ role: 'user', content: 'Hello from TextSynth!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to TextSynth
+);`;
+
 const sdkGLHFExample = `import OpenAI from 'openai';
 import LLMeter, { wrapGLHF } from 'llmeter';
 
@@ -2349,6 +2371,7 @@ export default function DocsPage() {
                 <TabsTrigger value="meta">Meta Llama API</TabsTrigger>
                 <TabsTrigger value="glhf">GLHF Chat</TabsTrigger>
                 <TabsTrigger value="sakura">Sakura Internet</TabsTrigger>
+                <TabsTrigger value="textsynth">TextSynth</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3381,6 +3404,17 @@ export default function DocsPage() {
                   call is tracked automatically. Sakura Internet (さくらインターネット) is Japan&apos;s largest independent cloud provider, listed on TSE Prime (3778) since 1996. Launched H100 GPU AI inference in 2025 to serve Japanese enterprises with data sovereignty. 8 models: Llama 3.3 70B ($0.45/$0.65), Llama 3.1 70B ($0.35/$0.55), Llama 3.1 8B ($0.10/$0.10 — budget symmetric), Mistral 7B ($0.07/$0.07 — budget symmetric), Mixtral 8x7B ($0.25/$0.25 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.40/$0.40 — symmetric), Gemma 2 9B ($0.09/$0.09 — budget symmetric). Japan&apos;s first sovereign cloud provider on LLMeter. Get your key at api.sakura.io.
                 </p>
                 <CodeBlock language="typescript" code={sdkSakuraExample} />
+              </TabsContent>
+              <TabsContent value="textsynth" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  TextSynth is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.textsynth.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. TextSynth is a privacy-first LLM inference service created by Fabrice Bellard — legendary programmer who invented FFmpeg (runs on every phone on Earth), QEMU, TCC (Tiny C Compiler), and JSLinux (first Linux running in a browser). One-man operation based in France; no training on user data; logs deleted regularly. 8 models: Mistral 7B ($0.04/$0.04 — cheapest, 98% cheaper than GPT-4o), Llama 3 8B ($0.06/$0.06), Gemma 2 9B ($0.07/$0.07), Code Llama 34B ($0.15/$0.15 — coding), Llama 3 70B ($0.25/$0.25 — flagship symmetric), Qwen 2 72B ($0.25/$0.25 — multilingual), Mixtral 8x7B ($0.35/$0.35 — symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning). Get your key at textsynth.com/settings.html.
+                </p>
+                <CodeBlock language="typescript" code={sdkTextSynthExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

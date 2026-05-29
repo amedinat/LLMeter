@@ -109,6 +109,7 @@ export { wrapNousResearch } from './nousresearch.js';
 export { wrapMeta } from './meta.js';
 export { wrapGLHF } from './glhf.js';
 export { wrapSakura } from './sakura.js';
+export { wrapTextSynth } from './textsynth.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
