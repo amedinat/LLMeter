@@ -160,6 +160,7 @@ const ZERO_PROVIDERS = {
   gmi: 0,
   internlm: 0,
   targon: 0,
+  skywork: 0,
 };
 
 // --- Tests ---

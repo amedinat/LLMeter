@@ -117,6 +117,7 @@ export { wrapHyperstack } from './hyperstack.js';
 export { wrapGMI } from './gmi.js';
 export { wrapInternLM } from './internlm.js';
 export { wrapTargon } from './targon.js';
+export { wrapSkyWork } from './skywork.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -1055,4 +1055,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://targon.com',
     color: '#6D28D9',
   },
+  skywork: {
+    type: 'skywork',
+    name: 'SkyWork AI',
+    description: "Tiangong-2, SkyWork-o1 reasoning, SkyWork MoE 20B, SkyWork 13B/7B Chat — Kunlun Tech's (昆仑万维, SZSE: 300418) AI pivot. China's largest gaming company launched Tiangong (天工) AI in 2023 with OpenAI-compatible API. SkyWork-o1-Preview brings chain-of-thought reasoning. SkyWork-7B-Chat at $0.06/1M — 97% cheaper than GPT-4o input.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-skywork-api-key',
+    helpUrl: 'https://platform.tiangong.cn',
+    color: '#FF6B35',
+  },
 };

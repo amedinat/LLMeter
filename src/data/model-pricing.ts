@@ -9028,6 +9028,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // ── SkyWork AI (Kunlun Tech / 昆仑万维 — SZSE: 300418) ───────────────────────
+  {
+    provider: 'skywork',
+    model_id: 'tiangong-2',
+    display_name: 'Tiangong-2',
+    input_price_per_1m_tokens: 1.00,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'tiangong-2-lite',
+    display_name: 'Tiangong-2 Lite',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'skywork-o1-preview',
+    display_name: 'SkyWork-o1 Preview',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'reasoning',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'skywork-moe-20b',
+    display_name: 'SkyWork MoE 20B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'skywork-13b-chat',
+    display_name: 'SkyWork 13B Chat',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'skywork-7b-chat',
+    display_name: 'SkyWork 7B Chat',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'skywork-math-plus',
+    display_name: 'SkyWork Math Plus',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.36,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'skywork',
+    model_id: 'skywork-code-plus',
+    display_name: 'SkyWork Code Plus',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.36,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9266,6 +9340,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     gmi: [0.25, 0.75], // Llama 3.3 70B flagship on GMI Cloud ($82M Series A GPU cloud, H100/H200 clusters)
     internlm: [0.10, 0.10], // InternLM3-8B-Instruct symmetric flagship on InternLM (Shanghai AI Lab, top C-Eval/CMMLU benchmarks)
     targon: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on Targon (Nineteen.ai, Bittensor subnet 19, 6th blockchain AI network)
+    skywork: [1.00, 3.00], // Tiangong-2 flagship on SkyWork AI (Kunlun Tech / 昆仑万维, SZSE: 300418, China's largest gaming-turned-AI company)
   };
   return defaults[provider];
 }

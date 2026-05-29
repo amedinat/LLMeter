@@ -106,6 +106,7 @@ import { hyperstackAdapter } from './hyperstack-adapter';
 import { gmiAdapter } from './gmi-adapter';
 import { internlmAdapter } from './internlm-adapter';
 import { targonAdapter } from './targon-adapter';
+import { skyworkAdapter } from './skywork-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8586,6 +8587,78 @@ describe('Provider Adapters', () => {
 
     it('targonAdapter.type is targon', () => {
       expect(targonAdapter.type).toBe('targon');
+    });
+  });
+
+  describe('skyworkAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await skyworkAdapter.validateKey('skywork-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.tiangong.cn/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer skywork-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(skyworkAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid SkyWork API key. Get your key from platform.tiangong.cn.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(skyworkAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(skyworkAdapter.validateKey('')).rejects.toThrow(
+        'SkyWork API key is missing. Get your key from platform.tiangong.cn.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await skyworkAdapter.fetchUsage(
+        'skywork-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await skyworkAdapter.validateKey('my-skywork-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-skywork-key-123',
+          }),
+        })
+      );
+    });
+
+    it('skyworkAdapter.type is skywork', () => {
+      expect(skyworkAdapter.type).toBe('skywork');
     });
   });
 });
