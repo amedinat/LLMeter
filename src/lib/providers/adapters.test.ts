@@ -111,6 +111,7 @@ import { infermaticAdapter } from './infermatic-adapter';
 import { mancerAdapter } from './mancer-adapter';
 import { rhymesAdapter } from './rhymes-adapter';
 import { primeintellectAdapter } from './primeintellect-adapter';
+import { exaoneAdapter } from './exaone-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8951,6 +8952,78 @@ describe('Provider Adapters', () => {
 
     it('primeintellectAdapter.type is primeintellect', () => {
       expect(primeintellectAdapter.type).toBe('primeintellect');
+    });
+  });
+
+  describe('exaoneAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await exaoneAdapter.validateKey('exaone-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.exaone.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer exaone-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(exaoneAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid EXAONE API key. Get your key from api.exaone.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(exaoneAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(exaoneAdapter.validateKey('')).rejects.toThrow(
+        'EXAONE API key is missing. Get your key from api.exaone.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await exaoneAdapter.fetchUsage(
+        'exaone-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await exaoneAdapter.validateKey('my-exaone-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-exaone-key-123',
+          }),
+        })
+      );
+    });
+
+    it('exaoneAdapter.type is exaone', () => {
+      expect(exaoneAdapter.type).toBe('exaone');
     });
   });
 });

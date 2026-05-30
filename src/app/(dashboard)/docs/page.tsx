@@ -2307,6 +2307,30 @@ const completion = await trackedPrime.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Prime Intellect
 );`;
 
+const sdkEXAONEExample = `import OpenAI from 'openai';
+import LLMeter, { wrapEXAONE } from 'llmeter';
+
+// LG AI Research (EXAONE) — LG Corporation ($66B revenue, South Korea's 4th largest conglomerate)
+// EXAONE 3.5: #1 on Korean benchmarks, competitive with Llama 3.3 70B at only 7.8B params
+// EXAONE Deep: reasoning model competitive with o1-level on MATH-500
+// 3rd Korean AI provider on LLMeter. Apache 2.0 open source.
+// EXAONE 3.5 2.4B at $0.04/1M — 98% cheaper than GPT-4o input
+const exaone = new OpenAI({
+  apiKey: process.env.EXAONE_API_KEY,
+  baseURL: 'https://api.exaone.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedExaone = wrapEXAONE(exaone, llmeter);
+
+// All calls are automatically tracked — LG Corporation AI inference
+const completion = await trackedExaone.chat.completions.create(
+  {
+    model: 'exaone-3.5-7.8b-instruct', // or 'exaone-deep-7.8b', 'exaone-3.5-2.4b-instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from EXAONE!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to EXAONE
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2605,6 +2629,7 @@ export default function DocsPage() {
                 <TabsTrigger value="mancer">Mancer</TabsTrigger>
                 <TabsTrigger value="rhymes">Rhymes AI</TabsTrigger>
                 <TabsTrigger value="primeintellect">Prime Intellect</TabsTrigger>
+                <TabsTrigger value="exaone">EXAONE</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3758,6 +3783,17 @@ export default function DocsPage() {
                   call is tracked automatically. San Francisco AI startup (2023) that pioneered decentralized model training via PRIME protocol — INTELLECT-1 (10B params) was the first LLM trained end-to-end across 112 GPU contributors in 40+ countries. 7th decentralized AI compute network on LLMeter ($15.5M raised). 8 models: INTELLECT-1 ($0.30/$0.30 — flagship symmetric), Llama 3.3 70B ($0.25/$0.25 — symmetric), Llama 3.1 70B ($0.22/$0.22 — symmetric), Llama 3.1 8B ($0.05/$0.05 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.50/$1.50 — enterprise symmetric), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.20/$0.80), Qwen 2.5 72B ($0.25/$0.25 — multilingual symmetric). Get your key at primeintellect.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkPrimeIntellectExample} />
+              </TabsContent>
+              <TabsContent value="exaone" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  EXAONE is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.exaone.ai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. LG AI Research (founded 2021 by LG Corporation, KRX: 003550 — South Korea&apos;s 4th largest conglomerate with $66B+ annual revenue). EXAONE 3.5 (December 2024): bilingual Korean-English, #1 on Korean language benchmarks, competitive with Llama 3.3 70B at only 7.8B params. EXAONE Deep: reasoning model competitive with o1-level on MATH-500 and AIME 2024. Apache 2.0 open source. 3rd Korean AI provider on LLMeter. 8 models: EXAONE 3.5 7.8B ($0.08/$0.20), EXAONE 3.5 2.4B ($0.04/$0.10 — 98% cheaper than GPT-4o input), EXAONE 3.0 7.8B ($0.06/$0.15), EXAONE 3.0 2.4B ($0.03/$0.08), EXAONE Deep 7.8B ($0.30/$1.20 — reasoning), EXAONE Deep 2.4B ($0.10/$0.40), EXAONE 3.5 7.8B 32K ($0.10/$0.25), EXAONE 3.5 7.8B Base ($0.05/$0.12). Get your key at api.exaone.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkEXAONEExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

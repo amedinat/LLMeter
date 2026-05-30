@@ -165,6 +165,7 @@ const ZERO_PROVIDERS = {
   mancer: 0,
   rhymes: 0,
   primeintellect: 0,
+  exaone: 0,
 };
 
 // --- Tests ---
