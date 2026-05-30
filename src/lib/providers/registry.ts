@@ -118,6 +118,7 @@ import { mancerAdapter } from './mancer-adapter';
 import { rhymesAdapter } from './rhymes-adapter';
 import { primeintellectAdapter } from './primeintellect-adapter';
 import { exaoneAdapter } from './exaone-adapter';
+import { mimoAdapter } from './mimo-adapter';
 
 /**
  * Provider adapter registry.
@@ -244,6 +245,7 @@ adapters.set('mancer', mancerAdapter);
 adapters.set('rhymes', rhymesAdapter);
 adapters.set('primeintellect', primeintellectAdapter);
 adapters.set('exaone', exaoneAdapter);
+adapters.set('mimo', mimoAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

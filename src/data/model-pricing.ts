@@ -9468,6 +9468,56 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // Xiaomi (小米科技, HKEX: 1810) — world's 3rd largest smartphone maker by shipments.
+  // Founded 2010 by Lei Jun; $46B+ revenue; 600M+ MIUI users; Smart TVs, IoT, EVs.
+  // MiMo-V2.5: 1M context window, deep thinking mode, tool calling, web search, multimodal.
+  // MiMo-V2-Flash: $0.01/1M input — 99.6% cheaper than GPT-4o input. OpenAI-compatible API at api.xiaomimimo.com/v1.
+  {
+    provider: 'mimo',
+    model_id: 'mimo-v2.5-pro',
+    display_name: 'MiMo-V2.5-Pro',
+    input_price_per_1m_tokens: 0.435,
+    output_price_per_1m_tokens: 0.87,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'mimo',
+    model_id: 'mimo-v2.5',
+    display_name: 'MiMo-V2.5',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'mimo',
+    model_id: 'mimo-v2-pro',
+    display_name: 'MiMo-V2-Pro',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'mimo',
+    model_id: 'mimo-v2-omni',
+    display_name: 'MiMo-V2-Omni',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'mimo',
+    model_id: 'mimo-v2-flash',
+    display_name: 'MiMo-V2-Flash',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9712,6 +9762,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     rhymes: [0.80, 2.00], // Aria flagship on Rhymes AI (Italian-founded, 25.3B MoE, 128K context, native video+image understanding)
     primeintellect: [0.30, 0.30], // INTELLECT-1 symmetric flagship on Prime Intellect (PRIME protocol, decentralized training, 7th blockchain AI network)
     exaone: [0.08, 0.20], // EXAONE 3.5 7.8B Instruct flagship on LG AI Research (LG Corporation, $66B revenue, 3rd Korean AI provider on LLMeter)
+    mimo: [0.14, 0.28], // MiMo-V2.5 flagship on Xiaomi (世界3rd-largest smartphone maker, HKEX 1810, 600M+ MIUI users, $46B+ revenue)
   };
   return defaults[provider];
 }

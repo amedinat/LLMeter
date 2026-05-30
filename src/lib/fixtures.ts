@@ -150,6 +150,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         rhymes: 0,
         primeintellect: 0,
         exaone: 0,
+        mimo: 0,
       },
     };
   });

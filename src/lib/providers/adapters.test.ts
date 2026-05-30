@@ -112,6 +112,7 @@ import { mancerAdapter } from './mancer-adapter';
 import { rhymesAdapter } from './rhymes-adapter';
 import { primeintellectAdapter } from './primeintellect-adapter';
 import { exaoneAdapter } from './exaone-adapter';
+import { mimoAdapter } from './mimo-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9024,6 +9025,78 @@ describe('Provider Adapters', () => {
 
     it('exaoneAdapter.type is exaone', () => {
       expect(exaoneAdapter.type).toBe('exaone');
+    });
+  });
+
+  describe('mimoAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await mimoAdapter.validateKey('mimo-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.xiaomimimo.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer mimo-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(mimoAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Xiaomi MiMo API key. Get your key from platform.xiaomimimo.com.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(mimoAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(mimoAdapter.validateKey('')).rejects.toThrow(
+        'Xiaomi MiMo API key is missing. Get your key from platform.xiaomimimo.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await mimoAdapter.fetchUsage(
+        'mimo-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await mimoAdapter.validateKey('my-mimo-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-mimo-key-123',
+          }),
+        })
+      );
+    });
+
+    it('mimoAdapter.type is mimo', () => {
+      expect(mimoAdapter.type).toBe('mimo');
     });
   });
 });
