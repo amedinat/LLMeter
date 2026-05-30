@@ -2239,6 +2239,29 @@ const completion = await trackedTargon.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Targon
 );`;
 
+const sdkRhymesExample = `import OpenAI from 'openai';
+import LLMeter, { wrapRhymes } from 'llmeter';
+
+// Rhymes AI (rhymes.ai) — Italian-founded AI startup (2023), former Meta AI Research
+// Aria: 25.3B MoE, 128K context, native video+image+text understanding
+// First native video-understanding LLM provider on LLMeter
+// Aria Mini at $0.10/1M input — 96% cheaper than GPT-4o
+const rhymes = new OpenAI({
+  apiKey: process.env.RHYMES_API_KEY,
+  baseURL: 'https://api.rhymes.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedRhymes = wrapRhymes(rhymes, llmeter);
+
+// All calls are automatically tracked — native multimodal understanding
+const completion = await trackedRhymes.chat.completions.create(
+  {
+    model: 'aria', // or 'aria-text', 'aria-mini' (budget), 'aria-v1', 'aria-v1-text'
+    messages: [{ role: 'user', content: 'Describe this video.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Rhymes AI
+);`;
+
 const sdkMancerExample = `import OpenAI from 'openai';
 import LLMeter, { wrapMancer } from 'llmeter';
 
@@ -2557,6 +2580,7 @@ export default function DocsPage() {
                 <TabsTrigger value="internlm">InternLM</TabsTrigger>
                 <TabsTrigger value="targon">Targon</TabsTrigger>
                 <TabsTrigger value="mancer">Mancer</TabsTrigger>
+                <TabsTrigger value="rhymes">Rhymes AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3688,6 +3712,17 @@ export default function DocsPage() {
                   call is tracked automatically. Mancer is privacy-first uncensored LLM inference hosted in Europe — no conversation logging, no data retention, no content filtering. 8th privacy-first provider on LLMeter (after Venice, TextSynth, Prem, Infermatic, and others). 8 models: WizardLM 2 8x22B MoE ($0.90/$0.90 — symmetric flagship MoE), Midnight Rose 103B ($0.90/$0.90 — symmetric flagship), WizardLM 2 70B ($0.50/$0.50 — symmetric), Llama 3.1 70B Instruct ($0.45/$0.45 — symmetric), WizardCoder 33B v1.1 ($0.25/$0.25 — coding), Noromaid 20B ($0.20/$0.20 — symmetric), MythoMax L2 13B ($0.12/$0.12 — budget), Llama 3 8B Instruct ($0.08/$0.08 — 95% cheaper than GPT-4o). Get your key at mancer.tech.
                 </p>
                 <CodeBlock language="typescript" code={sdkMancerExample} />
+              </TabsContent>
+              <TabsContent value="rhymes" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Rhymes AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.rhymes.ai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Italian-founded AI startup (2023) by Enrico Fini, Hatem Haddad, and Ivan Laptev — former Meta AI Research. First native video-understanding LLM provider on LLMeter. Aria: 25.3B MoE, 128K context, native multimodal understanding across text, images, and video. 5 models: Aria ($0.80/$2.00 — multimodal flagship), Aria Text ($0.40/$1.00 — text-only), Aria Mini ($0.10/$0.20 — budget, 96% cheaper than GPT-4o), Aria v1.0 ($0.60/$1.50 — original stable), Aria v1.0 Text ($0.25/$0.60 — v1 budget). Get your key at rhymes.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkRhymesExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

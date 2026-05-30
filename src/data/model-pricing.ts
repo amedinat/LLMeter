@@ -9256,6 +9256,58 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // ── Rhymes AI (rhymes.ai) ────────────────────────────────────────────────
+  // Italian-founded AI startup (2023) by Enrico Fini, Hatem Haddad, Ivan Laptev
+  // (formerly Meta AI Research). Aria: 25.3B parameter MoE, 128K context,
+  // native multimodal understanding across text, images, and video.
+  // First native video-understanding LLM provider on LLMeter.
+  // OpenAI-compatible API at api.rhymes.ai/v1.
+  {
+    provider: 'rhymes',
+    model_id: 'aria',
+    display_name: 'Aria',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'rhymes',
+    model_id: 'aria-text',
+    display_name: 'Aria Text',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'rhymes',
+    model_id: 'aria-mini',
+    display_name: 'Aria Mini',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'rhymes',
+    model_id: 'aria-v1',
+    display_name: 'Aria v1.0',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'rhymes',
+    model_id: 'aria-v1-text',
+    display_name: 'Aria v1.0 Text',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9497,6 +9549,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     skywork: [1.00, 3.00], // Tiangong-2 flagship on SkyWork AI (Kunlun Tech / 昆仑万维, SZSE: 300418, China's largest gaming-turned-AI company)
     infermatic: [0.90, 0.90], // Midnight Rose 103B symmetric flagship on Infermatic (privacy-first uncensored open-source model hosting, no logs)
     mancer: [0.90, 0.90], // WizardLM 2 8x22B MoE symmetric flagship on Mancer (privacy-first uncensored inference, Europe, no conversation logging)
+    rhymes: [0.80, 2.00], // Aria flagship on Rhymes AI (Italian-founded, 25.3B MoE, 128K context, native video+image understanding)
   };
   return defaults[provider];
 }

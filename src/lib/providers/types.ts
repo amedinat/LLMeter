@@ -1082,4 +1082,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://mancer.tech',
     color: '#8B4513',
   },
+  rhymes: {
+    type: 'rhymes',
+    name: 'Rhymes AI',
+    description: 'Aria (multimodal flagship MoE 25.3B, 128K context, native video+image understanding), Aria Text (text-only, faster), Aria Mini (compact, budget) — Italian-founded AI startup (2023) by former Meta AI Research team. First native video-understanding LLM provider on LLMeter. Aria Mini at $0.10/1M — 96% cheaper than GPT-4o input. OpenAI-compatible API at api.rhymes.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-rhymes-api-key',
+    helpUrl: 'https://rhymes.ai',
+    color: '#E84393',
+  },
 };

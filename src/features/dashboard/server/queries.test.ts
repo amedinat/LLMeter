@@ -163,6 +163,7 @@ const ZERO_PROVIDERS = {
   skywork: 0,
   infermatic: 0,
   mancer: 0,
+  rhymes: 0,
 };
 
 // --- Tests ---
