@@ -9308,6 +9308,87 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // ── Prime Intellect (primeintellect.ai) ──────────────────────────────────
+  // San Francisco AI startup (2023) pioneering decentralized model training.
+  // PRIME protocol trains models across heterogeneous GPUs worldwide.
+  // INTELLECT-1 (10B): first LLM trained end-to-end across 112 contributors
+  // in 40+ countries. $15.5M raised. 7th decentralized AI network on LLMeter
+  // (after io.net/Solana, Akash/Cosmos, Corcel/Bittensor-18, Heurist/ETH ZK L2,
+  // NEAR Protocol, Targon/Bittensor-19).
+  // OpenAI-compatible API at api.primeintellect.ai/v1.
+  {
+    provider: 'primeintellect',
+    model_id: 'INTELLECT-1',
+    display_name: 'INTELLECT-1 10B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'meta-llama/Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'primeintellect',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───

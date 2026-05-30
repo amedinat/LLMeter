@@ -1091,4 +1091,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://rhymes.ai',
     color: '#E84393',
   },
+  primeintellect: {
+    type: 'primeintellect',
+    name: 'Prime Intellect',
+    description: 'INTELLECT-1 (10B — trained across 112 GPU contributors in 40+ countries, first fully decentralized model training), Llama 3.3 70B ($0.25/1M), DeepSeek R1 (reasoning), Qwen 2.5 72B — San Francisco AI startup (2023) that pioneered PRIME protocol for distributed model training. $15.5M raised. 7th decentralized AI compute network on LLMeter. Llama 3.1 8B at $0.05/1M — 98% cheaper than GPT-4o input. OpenAI-compatible API at api.primeintellect.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-primeintellect-api-key',
+    helpUrl: 'https://primeintellect.ai',
+    color: '#6366F1',
+  },
 };

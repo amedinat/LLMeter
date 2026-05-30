@@ -116,6 +116,7 @@ import { skyworkAdapter } from './skywork-adapter';
 import { infermaticAdapter } from './infermatic-adapter';
 import { mancerAdapter } from './mancer-adapter';
 import { rhymesAdapter } from './rhymes-adapter';
+import { primeintellectAdapter } from './primeintellect-adapter';
 
 /**
  * Provider adapter registry.
@@ -240,6 +241,7 @@ adapters.set('skywork', skyworkAdapter);
 adapters.set('infermatic', infermaticAdapter);
 adapters.set('mancer', mancerAdapter);
 adapters.set('rhymes', rhymesAdapter);
+adapters.set('primeintellect', primeintellectAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -2284,6 +2284,29 @@ const completion = await trackedMancer.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Mancer
 );`;
 
+const sdkPrimeIntellectExample = `import OpenAI from 'openai';
+import LLMeter, { wrapPrimeIntellect } from 'llmeter';
+
+// Prime Intellect (primeintellect.ai) — San Francisco AI startup (2023)
+// PRIME protocol: trained INTELLECT-1 across 112 GPU contributors in 40+ countries
+// 7th decentralized AI compute network on LLMeter
+// Llama 3.1 8B at $0.05/1M — 98% cheaper than GPT-4o
+const prime = new OpenAI({
+  apiKey: process.env.PRIME_INTELLECT_API_KEY,
+  baseURL: 'https://api.primeintellect.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedPrime = wrapPrimeIntellect(prime, llmeter);
+
+// All calls are automatically tracked — decentralized compute inference
+const completion = await trackedPrime.chat.completions.create(
+  {
+    model: 'INTELLECT-1', // or 'meta-llama/Llama-3.3-70B-Instruct', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from Prime Intellect!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Prime Intellect
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2581,6 +2604,7 @@ export default function DocsPage() {
                 <TabsTrigger value="targon">Targon</TabsTrigger>
                 <TabsTrigger value="mancer">Mancer</TabsTrigger>
                 <TabsTrigger value="rhymes">Rhymes AI</TabsTrigger>
+                <TabsTrigger value="primeintellect">Prime Intellect</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3723,6 +3747,17 @@ export default function DocsPage() {
                   call is tracked automatically. Italian-founded AI startup (2023) by Enrico Fini, Hatem Haddad, and Ivan Laptev — former Meta AI Research. First native video-understanding LLM provider on LLMeter. Aria: 25.3B MoE, 128K context, native multimodal understanding across text, images, and video. 5 models: Aria ($0.80/$2.00 — multimodal flagship), Aria Text ($0.40/$1.00 — text-only), Aria Mini ($0.10/$0.20 — budget, 96% cheaper than GPT-4o), Aria v1.0 ($0.60/$1.50 — original stable), Aria v1.0 Text ($0.25/$0.60 — v1 budget). Get your key at rhymes.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkRhymesExample} />
+              </TabsContent>
+              <TabsContent value="primeintellect" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Prime Intellect is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.primeintellect.ai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. San Francisco AI startup (2023) that pioneered decentralized model training via PRIME protocol — INTELLECT-1 (10B params) was the first LLM trained end-to-end across 112 GPU contributors in 40+ countries. 7th decentralized AI compute network on LLMeter ($15.5M raised). 8 models: INTELLECT-1 ($0.30/$0.30 — flagship symmetric), Llama 3.3 70B ($0.25/$0.25 — symmetric), Llama 3.1 70B ($0.22/$0.22 — symmetric), Llama 3.1 8B ($0.05/$0.05 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.50/$1.50 — enterprise symmetric), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.20/$0.80), Qwen 2.5 72B ($0.25/$0.25 — multilingual symmetric). Get your key at primeintellect.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkPrimeIntellectExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
