@@ -1109,4 +1109,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://api.exaone.ai',
     color: '#A50034',
   },
+  mimo: {
+    type: 'mimo',
+    name: 'Xiaomi MiMo',
+    description: 'MiMo-V2.5-Pro (1M ctx, deep thinking, tool calling, web search), MiMo-V2.5 (multimodal text+image+video, 1M ctx), MiMo-V2-Flash ($0.01/1M input — 99.6% cheaper than GPT-4o) — Xiaomi (小米科技, HKEX: 1810), world\'s 3rd largest smartphone maker. Founded 2010 by Lei Jun; $46B+ revenue; 600M+ MIUI users. Also makes Smart TVs, IoT devices, and electric vehicles (SU7, 2024). MiMo-V2.5 adds 1M token context window, multimodal reasoning, and agentic tool use. OpenAI-compatible API at api.xiaomimimo.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-mimo-api-key',
+    helpUrl: 'https://platform.xiaomimimo.com',
+    color: '#FF6900',
+  },
 };

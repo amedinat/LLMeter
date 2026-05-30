@@ -123,6 +123,7 @@ export { wrapMancer } from './mancer.js';
 export { wrapRhymes } from './rhymes.js';
 export { wrapPrimeIntellect } from './primeintellect.js';
 export { wrapEXAONE } from './exaone.js';
+export { wrapMiMo } from './mimo.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -2307,6 +2307,28 @@ const completion = await trackedPrime.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Prime Intellect
 );`;
 
+const sdkMiMoExample = `import OpenAI from 'openai';
+import LLMeter, { wrapMiMo } from 'llmeter';
+
+// Xiaomi MiMo — world's 3rd largest smartphone maker (HKEX: 1810, $46B+ revenue)
+// MiMo-V2.5-Pro: 1M context, deep thinking, tool calling, web search
+// MiMo-V2-Flash: $0.01/1M input — 99.6% cheaper than GPT-4o input
+const mimo = new OpenAI({
+  apiKey: process.env.MIMO_API_KEY,
+  baseURL: 'https://api.xiaomimimo.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedMiMo = wrapMiMo(mimo, llmeter);
+
+// All calls are automatically tracked — Xiaomi AI inference
+const completion = await trackedMiMo.chat.completions.create(
+  {
+    model: 'mimo-v2.5-pro', // or 'mimo-v2.5', 'mimo-v2-flash', 'mimo-v2-omni', etc.
+    messages: [{ role: 'user', content: 'Hello from MiMo!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Xiaomi MiMo
+);`;
+
 const sdkEXAONEExample = `import OpenAI from 'openai';
 import LLMeter, { wrapEXAONE } from 'llmeter';
 
@@ -2630,6 +2652,7 @@ export default function DocsPage() {
                 <TabsTrigger value="rhymes">Rhymes AI</TabsTrigger>
                 <TabsTrigger value="primeintellect">Prime Intellect</TabsTrigger>
                 <TabsTrigger value="exaone">EXAONE</TabsTrigger>
+                <TabsTrigger value="mimo">Xiaomi MiMo</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3794,6 +3817,17 @@ export default function DocsPage() {
                   call is tracked automatically. LG AI Research (founded 2021 by LG Corporation, KRX: 003550 — South Korea&apos;s 4th largest conglomerate with $66B+ annual revenue). EXAONE 3.5 (December 2024): bilingual Korean-English, #1 on Korean language benchmarks, competitive with Llama 3.3 70B at only 7.8B params. EXAONE Deep: reasoning model competitive with o1-level on MATH-500 and AIME 2024. Apache 2.0 open source. 3rd Korean AI provider on LLMeter. 8 models: EXAONE 3.5 7.8B ($0.08/$0.20), EXAONE 3.5 2.4B ($0.04/$0.10 — 98% cheaper than GPT-4o input), EXAONE 3.0 7.8B ($0.06/$0.15), EXAONE 3.0 2.4B ($0.03/$0.08), EXAONE Deep 7.8B ($0.30/$1.20 — reasoning), EXAONE Deep 2.4B ($0.10/$0.40), EXAONE 3.5 7.8B 32K ($0.10/$0.25), EXAONE 3.5 7.8B Base ($0.05/$0.12). Get your key at api.exaone.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkEXAONEExample} />
+              </TabsContent>
+              <TabsContent value="mimo" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Xiaomi MiMo is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.xiaomimimo.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Xiaomi (小米科技, HKEX: 1810) — world&apos;s 3rd largest smartphone maker. Founded 2010 by Lei Jun; $46B+ revenue; 600M+ MIUI users; smartphones, Smart TVs, IoT devices, and electric vehicles (SU7, 2024). MiMo-V2.5-Pro: 1M token context, deep thinking mode, tool calling, web search ($0.435/$0.87/1M). MiMo-V2.5: multimodal text+image+video, 1M context ($0.14/$0.28/1M — 94% cheaper than GPT-4o input). MiMo-V2-Flash: $0.01/$0.30/1M — 99.6% cheaper than GPT-4o input. Get your key at platform.xiaomimimo.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkMiMoExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
