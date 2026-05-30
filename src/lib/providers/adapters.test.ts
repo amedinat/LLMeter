@@ -115,6 +115,7 @@ import { exaoneAdapter } from './exaone-adapter';
 import { mimoAdapter } from './mimo-adapter';
 import { laminiAdapter } from './lamini-adapter';
 import { intelAdapter } from './intel-adapter';
+import { h2oAdapter } from './h2o-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9243,6 +9244,78 @@ describe('Provider Adapters', () => {
 
     it('intelAdapter.type is \'intel\'', () => {
       expect(intelAdapter.type).toBe('intel');
+    });
+  });
+
+  describe('h2oAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await h2oAdapter.validateKey('h2o-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.h2o.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer h2o-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with \'Invalid H2O.ai API key. Get your key from platform.h2o.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(h2oAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid H2O.ai API key. Get your key from platform.h2o.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(h2oAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty with \'H2O.ai API key is missing. Get your key from platform.h2o.ai.\'', async () => {
+      await expect(h2oAdapter.validateKey('')).rejects.toThrow(
+        'H2O.ai API key is missing. Get your key from platform.h2o.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await h2oAdapter.fetchUsage(
+        'h2o-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await h2oAdapter.validateKey('my-h2o-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-h2o-key-123',
+          },
+        })
+      );
+    });
+
+    it('h2oAdapter.type is \'h2o\'', () => {
+      expect(h2oAdapter.type).toBe('h2o');
     });
   });
 });
