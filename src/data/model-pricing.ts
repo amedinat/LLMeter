@@ -9053,7 +9053,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'SkyWork-o1 Preview',
     input_price_per_1m_tokens: 0.60,
     output_price_per_1m_tokens: 2.40,
-    capability_tier: 'reasoning',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
   {
