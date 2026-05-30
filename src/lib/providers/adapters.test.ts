@@ -109,6 +109,7 @@ import { targonAdapter } from './targon-adapter';
 import { skyworkAdapter } from './skywork-adapter';
 import { infermaticAdapter } from './infermatic-adapter';
 import { mancerAdapter } from './mancer-adapter';
+import { rhymesAdapter } from './rhymes-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8805,6 +8806,78 @@ describe('Provider Adapters', () => {
 
     it('mancerAdapter.type is mancer', () => {
       expect(mancerAdapter.type).toBe('mancer');
+    });
+  });
+
+  describe('rhymesAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await rhymesAdapter.validateKey('rhymes-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.rhymes.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer rhymes-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(rhymesAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Rhymes AI API key. Get your key from rhymes.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(rhymesAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(rhymesAdapter.validateKey('')).rejects.toThrow(
+        'Rhymes AI API key is missing. Get your key from rhymes.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await rhymesAdapter.fetchUsage(
+        'rhymes-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await rhymesAdapter.validateKey('my-rhymes-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-rhymes-key-123',
+          }),
+        })
+      );
+    });
+
+    it('rhymesAdapter.type is rhymes', () => {
+      expect(rhymesAdapter.type).toBe('rhymes');
     });
   });
 });

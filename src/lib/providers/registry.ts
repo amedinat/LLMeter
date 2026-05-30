@@ -115,6 +115,7 @@ import { targonAdapter } from './targon-adapter';
 import { skyworkAdapter } from './skywork-adapter';
 import { infermaticAdapter } from './infermatic-adapter';
 import { mancerAdapter } from './mancer-adapter';
+import { rhymesAdapter } from './rhymes-adapter';
 
 /**
  * Provider adapter registry.
@@ -238,6 +239,7 @@ adapters.set('targon', targonAdapter);
 adapters.set('skywork', skyworkAdapter);
 adapters.set('infermatic', infermaticAdapter);
 adapters.set('mancer', mancerAdapter);
+adapters.set('rhymes', rhymesAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
