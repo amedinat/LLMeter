@@ -1100,4 +1100,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://primeintellect.ai',
     color: '#6366F1',
   },
+  exaone: {
+    type: 'exaone',
+    name: 'LG AI Research (EXAONE)',
+    description: 'EXAONE 3.5 7.8B/2.4B Instruct, EXAONE Deep (reasoning), EXAONE 3.0 — LG Corporation\'s AI research lab. 3rd Korean AI provider on LLMeter. EXAONE 3.5 bilingual Korean-English, #1 on Korean benchmarks, competitive with Llama 3.3 70B at 7.8B params. EXAONE Deep reasoning model competitive with o1-level on MATH-500. Apache 2.0 open source. EXAONE 3.5 2.4B at $0.04/1M — 98% cheaper than GPT-4o input. OpenAI-compatible API at api.exaone.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-exaone-api-key',
+    helpUrl: 'https://api.exaone.ai',
+    color: '#A50034',
+  },
 };

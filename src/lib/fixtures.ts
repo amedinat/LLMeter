@@ -149,6 +149,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         mancer: 0,
         rhymes: 0,
         primeintellect: 0,
+        exaone: 0,
       },
     };
   });

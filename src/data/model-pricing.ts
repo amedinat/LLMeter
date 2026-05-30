@@ -9389,6 +9389,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── LG AI Research (EXAONE) ───────────────────────────────────────────────
+  // LG Corporation (KRX: 003550), South Korea's 4th largest conglomerate, $66B+ annual revenue.
+  // LG AI Research founded 2021. EXAONE (Expert AI for Everyone) — bilingual Korean-English.
+  // EXAONE 3.5 (Dec 2024): #1 on Korean benchmarks, competitive with Llama 3.3 70B at 7.8B params.
+  // EXAONE Deep: reasoning model competitive with o1-level on MATH-500 and AIME 2024.
+  // Apache 2.0 open source. 3rd Korean AI provider on LLMeter. OpenAI-compatible API at api.exaone.ai/v1.
+  {
+    provider: 'exaone',
+    model_id: 'exaone-3.5-7.8b-instruct',
+    display_name: 'EXAONE 3.5 7.8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-3.5-2.4b-instruct',
+    display_name: 'EXAONE 3.5 2.4B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-3.0-7.8b-instruct',
+    display_name: 'EXAONE 3.0 7.8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-3.0-2.4b-instruct',
+    display_name: 'EXAONE 3.0 2.4B Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-deep-7.8b',
+    display_name: 'EXAONE Deep 7.8B',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-deep-2.4b',
+    display_name: 'EXAONE Deep 2.4B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-3.5-7.8b-instruct-32k',
+    display_name: 'EXAONE 3.5 7.8B Instruct 32K',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'exaone',
+    model_id: 'exaone-3.5-7.8b',
+    display_name: 'EXAONE 3.5 7.8B Base',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9631,6 +9710,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     infermatic: [0.90, 0.90], // Midnight Rose 103B symmetric flagship on Infermatic (privacy-first uncensored open-source model hosting, no logs)
     mancer: [0.90, 0.90], // WizardLM 2 8x22B MoE symmetric flagship on Mancer (privacy-first uncensored inference, Europe, no conversation logging)
     rhymes: [0.80, 2.00], // Aria flagship on Rhymes AI (Italian-founded, 25.3B MoE, 128K context, native video+image understanding)
+    primeintellect: [0.30, 0.30], // INTELLECT-1 symmetric flagship on Prime Intellect (PRIME protocol, decentralized training, 7th blockchain AI network)
+    exaone: [0.08, 0.20], // EXAONE 3.5 7.8B Instruct flagship on LG AI Research (LG Corporation, $66B revenue, 3rd Korean AI provider on LLMeter)
   };
   return defaults[provider];
 }
