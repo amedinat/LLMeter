@@ -1118,4 +1118,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.xiaomimimo.com',
     color: '#FF6900',
   },
+  lamini: {
+    type: 'lamini',
+    name: 'Lamini AI',
+    description: 'Llama 3.3 70B ($0.30/$0.50), Llama 3.1 8B ($0.08/$0.12 — 97% cheaper than GPT-4o), Mistral 7B ($0.10/$0.10 symmetric), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.35/$0.35 symmetric), Mixtral 8x7B ($0.30/$0.30 symmetric MoE), Llama 3.1 405B ($2.50/$3.00 — enterprise), Phi-3 Medium 128K ($0.25/$0.25 symmetric) — Lamini (lamini.ai), LLM fine-tuning and inference platform. Founded 2022 by Sharon Zhou (Stanford AI PhD, formerly NVIDIA) and Greg Diamos (co-created NVIDIA Volta architecture, formerly Baidu/NVIDIA/Snowflake). San Francisco. AMD partnership: AMD Instinct MI300X GPUs — the only AMD-powered inference provider on LLMeter. Full fine-tuning → serving loop: train on private data, deploy on the same OpenAI-compatible endpoint. Mistral 7B at $0.10/1M — 96% cheaper than GPT-4o input. OpenAI-compatible API at api.lamini.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-lamini-api-key',
+    helpUrl: 'https://docs.lamini.ai',
+    color: '#7C3AED',
+  },
 };

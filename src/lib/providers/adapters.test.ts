@@ -113,6 +113,7 @@ import { rhymesAdapter } from './rhymes-adapter';
 import { primeintellectAdapter } from './primeintellect-adapter';
 import { exaoneAdapter } from './exaone-adapter';
 import { mimoAdapter } from './mimo-adapter';
+import { laminiAdapter } from './lamini-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9097,6 +9098,78 @@ describe('Provider Adapters', () => {
 
     it('mimoAdapter.type is mimo', () => {
       expect(mimoAdapter.type).toBe('mimo');
+    });
+  });
+
+  describe('laminiAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await laminiAdapter.validateKey('lamini-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.lamini.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer lamini-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(laminiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Lamini API key. Get your key from app.lamini.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(laminiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(laminiAdapter.validateKey('')).rejects.toThrow(
+        'Lamini API key is missing. Get your key from app.lamini.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await laminiAdapter.fetchUsage(
+        'lamini-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await laminiAdapter.validateKey('my-lamini-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-lamini-key-123',
+          },
+        })
+      );
+    });
+
+    it('laminiAdapter.type is lamini', () => {
+      expect(laminiAdapter.type).toBe('lamini');
     });
   });
 });

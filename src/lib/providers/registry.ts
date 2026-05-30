@@ -119,6 +119,7 @@ import { rhymesAdapter } from './rhymes-adapter';
 import { primeintellectAdapter } from './primeintellect-adapter';
 import { exaoneAdapter } from './exaone-adapter';
 import { mimoAdapter } from './mimo-adapter';
+import { laminiAdapter } from './lamini-adapter';
 
 /**
  * Provider adapter registry.
@@ -246,6 +247,7 @@ adapters.set('rhymes', rhymesAdapter);
 adapters.set('primeintellect', primeintellectAdapter);
 adapters.set('exaone', exaoneAdapter);
 adapters.set('mimo', mimoAdapter);
+adapters.set('lamini', laminiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
