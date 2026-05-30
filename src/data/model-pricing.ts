@@ -9102,6 +9102,83 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // Infermatic (infermatic.ai) — Day 116, provider #114
+  // Privacy-first uncensored open-source model hosting. No request logging, no training on user data.
+  // Hosts uncensored creative models (Midnight Rose, WizardLM 2, MythoMax) and standard open-weights.
+  // All pricing symmetric (input = output per token). Founded 2023.
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/mn-midnight-rose-103b',
+    display_name: 'Midnight Rose 103B',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/wizardlm-2-70b',
+    display_name: 'WizardLM 2 70B',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/llama-3-70b-instruct',
+    display_name: 'Llama 3 70B Instruct',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/mythomax-l2-13b',
+    display_name: 'MythoMax L2 13B',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/openhermes-2.5-mistral-7b',
+    display_name: 'OpenHermes 2.5 Mistral 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/neural-hermes-2.5-mistral-7b',
+    display_name: 'NeuralHermes 2.5 Mistral 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'infermatic',
+    model_id: 'infermatic/llama-3-8b-instruct',
+    display_name: 'Llama 3 8B Instruct',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9341,6 +9418,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     internlm: [0.10, 0.10], // InternLM3-8B-Instruct symmetric flagship on InternLM (Shanghai AI Lab, top C-Eval/CMMLU benchmarks)
     targon: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on Targon (Nineteen.ai, Bittensor subnet 19, 6th blockchain AI network)
     skywork: [1.00, 3.00], // Tiangong-2 flagship on SkyWork AI (Kunlun Tech / 昆仑万维, SZSE: 300418, China's largest gaming-turned-AI company)
+    infermatic: [0.90, 0.90], // Midnight Rose 103B symmetric flagship on Infermatic (privacy-first uncensored open-source model hosting, no logs)
   };
   return defaults[provider];
 }

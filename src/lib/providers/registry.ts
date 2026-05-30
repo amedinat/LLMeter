@@ -113,6 +113,7 @@ import { gmiAdapter } from './gmi-adapter';
 import { internlmAdapter } from './internlm-adapter';
 import { targonAdapter } from './targon-adapter';
 import { skyworkAdapter } from './skywork-adapter';
+import { infermaticAdapter } from './infermatic-adapter';
 
 /**
  * Provider adapter registry.
@@ -234,6 +235,7 @@ adapters.set('gmi', gmiAdapter);
 adapters.set('internlm', internlmAdapter);
 adapters.set('targon', targonAdapter);
 adapters.set('skywork', skyworkAdapter);
+adapters.set('infermatic', infermaticAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
