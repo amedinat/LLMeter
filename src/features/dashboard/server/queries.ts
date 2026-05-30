@@ -284,6 +284,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           primeintellect: 0,
           exaone: 0,
           mimo: 0,
+          lamini: 0,
         }
       });
     }
@@ -427,6 +428,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           primeintellect: 0,
           exaone: 0,
           mimo: 0,
+          lamini: 0,
         },
       }
     );

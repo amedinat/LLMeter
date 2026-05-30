@@ -9518,6 +9518,87 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── Lamini AI ─────────────────────────────────────────────────────────
+  // LLM fine-tuning and inference platform. Founded 2022 by Sharon Zhou (Stanford AI PhD,
+  // formerly NVIDIA researcher) and Greg Diamos (co-created NVIDIA Volta architecture,
+  // formerly Baidu/NVIDIA/Snowflake). San Francisco. AMD partnership: AMD Instinct MI300X
+  // GPUs — the only AMD-powered inference provider on LLMeter. Full fine-tuning → serving
+  // loop: train on private data, deploy on same OpenAI-compatible endpoint.
+  // Mistral 7B at $0.10/1M symmetric — 96% cheaper than GPT-4o input.
+  // OpenAI-compatible API at api.lamini.ai/v1.
+  {
+    provider: 'lamini',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.48,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.50,
+    output_price_per_1m_tokens: 3.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'lamini',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9763,6 +9844,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     primeintellect: [0.30, 0.30], // INTELLECT-1 symmetric flagship on Prime Intellect (PRIME protocol, decentralized training, 7th blockchain AI network)
     exaone: [0.08, 0.20], // EXAONE 3.5 7.8B Instruct flagship on LG AI Research (LG Corporation, $66B revenue, 3rd Korean AI provider on LLMeter)
     mimo: [0.14, 0.28], // MiMo-V2.5 flagship on Xiaomi (世界3rd-largest smartphone maker, HKEX 1810, 600M+ MIUI users, $46B+ revenue)
+    lamini: [0.30, 0.50], // Llama 3.3 70B Instruct flagship on Lamini AI (AMD-powered inference, founded by Sharon Zhou + Greg Diamos, San Francisco 2022)
   };
   return defaults[provider];
 }

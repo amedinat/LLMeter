@@ -2329,6 +2329,29 @@ const completion = await trackedMiMo.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Xiaomi MiMo
 );`;
 
+const sdkLaminiExample = `import OpenAI from 'openai';
+import LLMeter, { wrapLamini } from 'llmeter';
+
+// Lamini AI — AMD-powered LLM fine-tuning and inference platform
+// Founded 2022 by Sharon Zhou (Stanford AI PhD, formerly NVIDIA) and Greg Diamos (co-created Volta)
+// AMD Instinct MI300X GPUs — only AMD-powered inference provider on LLMeter
+// Mistral 7B at $0.10/1M symmetric — 96% cheaper than GPT-4o input
+const lamini = new OpenAI({
+  apiKey: process.env.LAMINI_API_KEY,
+  baseURL: 'https://api.lamini.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedLamini = wrapLamini(lamini, llmeter);
+
+// All calls are automatically tracked — AMD-powered fine-tuning + inference
+const completion = await trackedLamini.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from Lamini!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Lamini
+);`;
+
 const sdkEXAONEExample = `import OpenAI from 'openai';
 import LLMeter, { wrapEXAONE } from 'llmeter';
 
@@ -2653,6 +2676,7 @@ export default function DocsPage() {
                 <TabsTrigger value="primeintellect">Prime Intellect</TabsTrigger>
                 <TabsTrigger value="exaone">EXAONE</TabsTrigger>
                 <TabsTrigger value="mimo">Xiaomi MiMo</TabsTrigger>
+                <TabsTrigger value="lamini">Lamini AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3828,6 +3852,17 @@ export default function DocsPage() {
                   call is tracked automatically. Xiaomi (小米科技, HKEX: 1810) — world&apos;s 3rd largest smartphone maker. Founded 2010 by Lei Jun; $46B+ revenue; 600M+ MIUI users; smartphones, Smart TVs, IoT devices, and electric vehicles (SU7, 2024). MiMo-V2.5-Pro: 1M token context, deep thinking mode, tool calling, web search ($0.435/$0.87/1M). MiMo-V2.5: multimodal text+image+video, 1M context ($0.14/$0.28/1M — 94% cheaper than GPT-4o input). MiMo-V2-Flash: $0.01/$0.30/1M — 99.6% cheaper than GPT-4o input. Get your key at platform.xiaomimimo.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkMiMoExample} />
+              </TabsContent>
+              <TabsContent value="lamini" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Lamini AI is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.lamini.ai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Lamini (lamini.ai) — LLM fine-tuning and inference platform. Founded 2022 by Sharon Zhou (Stanford AI PhD, formerly NVIDIA researcher) and Greg Diamos (co-created NVIDIA Volta architecture, formerly Baidu/NVIDIA/Snowflake). San Francisco. AMD partnership: AMD Instinct MI300X GPUs — the only AMD-powered inference provider on LLMeter. Full fine-tuning → serving loop: train on private data, deploy on the same OpenAI-compatible endpoint. 8 models: Llama 3.3 70B ($0.30/$0.50), Llama 3.1 70B ($0.28/$0.48), Llama 3.1 8B ($0.08/$0.12 — 97% cheaper than GPT-4o), Llama 3.1 405B ($2.50/$3.00 — enterprise), Mistral 7B ($0.10/$0.10 symmetric — 96% cheaper than GPT-4o), Mixtral 8x7B ($0.30/$0.30 symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.35/$0.35 symmetric). Get your key at app.lamini.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkLaminiExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
