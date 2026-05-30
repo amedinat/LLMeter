@@ -9680,6 +9680,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── H2O.ai (api.h2o.ai) ──────────────────────────────────────────────────
+  // H2O.ai, Inc. — Mountain View, California. Founded 2012 by Sri Ambati.
+  // The ML democratization company: 20,000+ organizations, $250M+ raised.
+  // H2O Danube 3: compact enterprise LLMs (1.8B, 4B) for constrained hardware.
+  // 4 of 8 models have symmetric pricing. H2O Danube 3 1.8B $0.06/1M — 97% cheaper than GPT-4o.
+  // OpenAI-compatible API at api.h2o.ai/v1.
+  {
+    provider: 'h2o',
+    model_id: 'h2oai/h2o-danube3-4b-chat',
+    display_name: 'H2O Danube 3 4B Chat',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'h2oai/h2o-danube3-1.8b-chat',
+    display_name: 'H2O Danube 3 1.8B Chat',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'h2o',
+    model_id: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9927,6 +10006,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     mimo: [0.14, 0.28], // MiMo-V2.5 flagship on Xiaomi (世界3rd-largest smartphone maker, HKEX 1810, 600M+ MIUI users, $46B+ revenue)
     lamini: [0.30, 0.50], // Llama 3.3 70B Instruct flagship on Lamini AI (AMD-powered inference, founded by Sharon Zhou + Greg Diamos, San Francisco 2022)
     intel: [0.35, 0.40], // Llama 3.3 70B on Intel Gaudi (Big 3 AI chip: NVIDIA, AMD, Intel now all tracked)
+    h2o: [0.15, 0.15], // H2O Danube 3 4B symmetric flagship on H2O.ai (ML democratization since 2012, 20,000+ orgs, $250M+ raised)
   };
   return defaults[provider];
 }

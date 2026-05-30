@@ -286,6 +286,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           mimo: 0,
           lamini: 0,
           intel: 0,
+          h2o: 0,
         }
       });
     }
@@ -431,6 +432,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           mimo: 0,
           lamini: 0,
           intel: 0,
+          h2o: 0,
         },
       }
     );

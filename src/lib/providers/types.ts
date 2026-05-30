@@ -1136,4 +1136,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.cloud.intel.com',
     color: '#0068B5',
   },
+  h2o: {
+    type: 'h2o',
+    name: 'H2O.ai',
+    description: 'H2O Danube 3 4B ($0.15/$0.15 symmetric — compact enterprise, 94% cheaper than GPT-4o), H2O Danube 3 1.8B ($0.06/$0.06 symmetric — ultra-budget), Llama 3.3 70B ($0.40/$0.60), Mistral 7B ($0.07/$0.07 symmetric — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), Mixtral 8x7B ($0.30/$0.30 symmetric MoE), Llama 3.1 70B ($0.35/$0.55), Llama 3.1 8B ($0.08/$0.08 symmetric — budget) — H2O.ai, Inc., Mountain View CA. Founded 2012 by Sri Ambati — the ML democratization company that existed before "LLM" was a common phrase. 20,000+ organizations (Goldman Sachs, PayPal, Cigna, Capital One, VISA) run H2O products. $250M+ raised from NVIDIA, IBM, Wells Fargo Strategic Capital, Nexus Venture Partners. Products: H2O-3 (open-source AutoML, 11,000+ GitHub stars), H2OGPT (open-source LLM interface), H2O Wave, H2O AI Cloud (enterprise inference). H2O Danube 3: compact enterprise LLMs (1.8B and 4B) optimized for constrained hardware. 4 of 8 models symmetric pricing. OpenAI-compatible API at api.h2o.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-h2o-api-key',
+    helpUrl: 'https://docs.h2o.ai/h2o-ai-cloud',
+    color: '#FEC925',
+  },
 };
