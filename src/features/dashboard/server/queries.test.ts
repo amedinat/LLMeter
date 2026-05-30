@@ -161,6 +161,7 @@ const ZERO_PROVIDERS = {
   internlm: 0,
   targon: 0,
   skywork: 0,
+  infermatic: 0,
 };
 
 // --- Tests ---

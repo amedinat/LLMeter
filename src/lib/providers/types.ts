@@ -1064,4 +1064,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.tiangong.cn',
     color: '#FF6B35',
   },
+  infermatic: {
+    type: 'infermatic',
+    name: 'Infermatic',
+    description: 'Midnight Rose 103B, WizardLM 2 70B, Llama 3 70B, MythoMax L2 13B, OpenHermes 2.5, Mistral 7B — privacy-first uncensored open-source model hosting. No request logging, no training on user data. Hosts creative and standard open-weights models. All pricing symmetric (input = output). Mistral 7B at $0.07/1M — 97% cheaper than GPT-4o. OpenAI-compatible API at api.infermatic.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-infermatic-api-key',
+    helpUrl: 'https://infermatic.ai',
+    color: '#7C3AED',
+  },
 };

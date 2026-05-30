@@ -107,6 +107,7 @@ import { gmiAdapter } from './gmi-adapter';
 import { internlmAdapter } from './internlm-adapter';
 import { targonAdapter } from './targon-adapter';
 import { skyworkAdapter } from './skywork-adapter';
+import { infermaticAdapter } from './infermatic-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8659,6 +8660,78 @@ describe('Provider Adapters', () => {
 
     it('skyworkAdapter.type is skywork', () => {
       expect(skyworkAdapter.type).toBe('skywork');
+    });
+  });
+
+  describe('infermaticAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await infermaticAdapter.validateKey('infermatic-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.infermatic.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer infermatic-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(infermaticAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Infermatic API key. Get your key from infermatic.ai.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(infermaticAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(infermaticAdapter.validateKey('')).rejects.toThrow(
+        'Infermatic API key is missing. Get your key from infermatic.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await infermaticAdapter.fetchUsage(
+        'infermatic-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await infermaticAdapter.validateKey('my-infermatic-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-infermatic-key-123',
+          }),
+        })
+      );
+    });
+
+    it('infermaticAdapter.type is infermatic', () => {
+      expect(infermaticAdapter.type).toBe('infermatic');
     });
   });
 });
