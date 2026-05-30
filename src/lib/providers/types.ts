@@ -1127,4 +1127,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.lamini.ai',
     color: '#7C3AED',
   },
+  intel: {
+    type: 'intel',
+    name: 'Intel Developer Cloud',
+    description: 'Llama 3.3 70B ($0.35/$0.40), Llama 3.1 8B ($0.07/$0.07 symmetric — 98% cheaper than GPT-4o), Mistral 7B ($0.05/$0.05 symmetric — 98% cheaper than GPT-4o), Phi-4 ($0.12/$0.12 symmetric Microsoft), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.32/$0.32 symmetric), Llama 3.1 405B ($1.80/$1.80 symmetric — enterprise), Llama 3.1 70B ($0.30/$0.35) — Intel Corporation (NASDAQ: INTC), Santa Clara CA. Gaudi AI accelerators (Gaudi 3 launched April 2024) compete directly with NVIDIA A100/H100 and AMD Instinct MI300X. 113,000 employees, $54B+ revenue. Intel AI PC initiative: 100M+ AI PCs with Neural Processing Units. 3rd of the Big 3 AI chip companies tracked in LLMeter. 5 of 8 models symmetric pricing. Mistral 7B at $0.05/1M — 98% cheaper than GPT-4o input. OpenAI-compatible API at api.us.gaudi.cloud.intel.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-intel-api-key',
+    helpUrl: 'https://console.cloud.intel.com',
+    color: '#0068B5',
+  },
 };

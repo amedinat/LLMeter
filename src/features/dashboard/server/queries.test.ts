@@ -168,6 +168,7 @@ const ZERO_PROVIDERS = {
   exaone: 0,
   mimo: 0,
   lamini: 0,
+  intel: 0,
 };
 
 // --- Tests ---

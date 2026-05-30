@@ -2352,6 +2352,30 @@ const completion = await trackedLamini.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Lamini
 );`;
 
+const sdkIntelExample = `import OpenAI from 'openai';
+import LLMeter, { wrapIntel } from 'llmeter';
+
+// Intel Developer Cloud — Gaudi AI accelerators (Gaudi 3 launched April 2024)
+// Intel Corporation (NASDAQ: INTC), Santa Clara CA, founded 1968 by Gordon Moore and Robert Noyce
+// Gaudi 3: 4× AI compute vs Gaudi 2 — competes with NVIDIA A100/H100 and AMD Instinct MI300X
+// 3rd of the Big 3 AI chip companies tracked in LLMeter (NVIDIA → AMD/Lamini → Intel)
+// Mistral 7B at $0.05/1M — 98% cheaper than GPT-4o input
+const intel = new OpenAI({
+  apiKey: process.env.INTEL_API_KEY,
+  baseURL: 'https://api.us.gaudi.cloud.intel.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedIntel = wrapIntel(intel, llmeter);
+
+// All calls are automatically tracked — Intel Gaudi AI inference
+const completion = await trackedIntel.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'microsoft/phi-4', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Hello from Intel Gaudi!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Intel
+);`;
+
 const sdkEXAONEExample = `import OpenAI from 'openai';
 import LLMeter, { wrapEXAONE } from 'llmeter';
 
@@ -2677,6 +2701,7 @@ export default function DocsPage() {
                 <TabsTrigger value="exaone">EXAONE</TabsTrigger>
                 <TabsTrigger value="mimo">Xiaomi MiMo</TabsTrigger>
                 <TabsTrigger value="lamini">Lamini AI</TabsTrigger>
+                <TabsTrigger value="intel">Intel Developer Cloud</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3863,6 +3888,17 @@ export default function DocsPage() {
                   call is tracked automatically. Lamini (lamini.ai) — LLM fine-tuning and inference platform. Founded 2022 by Sharon Zhou (Stanford AI PhD, formerly NVIDIA researcher) and Greg Diamos (co-created NVIDIA Volta architecture, formerly Baidu/NVIDIA/Snowflake). San Francisco. AMD partnership: AMD Instinct MI300X GPUs — the only AMD-powered inference provider on LLMeter. Full fine-tuning → serving loop: train on private data, deploy on the same OpenAI-compatible endpoint. 8 models: Llama 3.3 70B ($0.30/$0.50), Llama 3.1 70B ($0.28/$0.48), Llama 3.1 8B ($0.08/$0.12 — 97% cheaper than GPT-4o), Llama 3.1 405B ($2.50/$3.00 — enterprise), Mistral 7B ($0.10/$0.10 symmetric — 96% cheaper than GPT-4o), Mixtral 8x7B ($0.30/$0.30 symmetric MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.35/$0.35 symmetric). Get your key at app.lamini.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkLaminiExample} />
+              </TabsContent>
+              <TabsContent value="intel" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Intel Developer Cloud is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.us.gaudi.cloud.intel.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Intel Tiber AI Cloud with Gaudi AI accelerators — Intel Corporation (NASDAQ: INTC), Santa Clara CA, founded 1968 by Gordon Moore and Robert Noyce. 113,000 employees, $54B+ revenue. Gaudi 3 (launched April 2024): 4× AI compute vs Gaudi 2, competes directly with NVIDIA A100/H100 and AMD Instinct MI300X. 3rd of the Big 3 AI chip companies tracked in LLMeter (NVIDIA → AMD/Lamini → Intel). 8 models: Llama 3.3 70B ($0.35/$0.40), Llama 3.1 70B ($0.30/$0.35), Llama 3.1 8B ($0.07/$0.07 symmetric — 98% cheaper than GPT-4o), Llama 3.1 405B ($1.80/$1.80 symmetric — enterprise), Mistral 7B ($0.05/$0.05 symmetric — 98% cheaper than GPT-4o), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.32/$0.32 symmetric), Phi-4 ($0.12/$0.12 symmetric). 5 of 8 models symmetric pricing. Get your key at console.cloud.intel.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkIntelExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

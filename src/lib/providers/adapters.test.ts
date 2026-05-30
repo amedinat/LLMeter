@@ -114,6 +114,7 @@ import { primeintellectAdapter } from './primeintellect-adapter';
 import { exaoneAdapter } from './exaone-adapter';
 import { mimoAdapter } from './mimo-adapter';
 import { laminiAdapter } from './lamini-adapter';
+import { intelAdapter } from './intel-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9170,6 +9171,78 @@ describe('Provider Adapters', () => {
 
     it('laminiAdapter.type is lamini', () => {
       expect(laminiAdapter.type).toBe('lamini');
+    });
+  });
+
+  describe('intelAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await intelAdapter.validateKey('intel-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.us.gaudi.cloud.intel.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer intel-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with \'Invalid Intel API key. Get your key from console.cloud.intel.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(intelAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Intel API key. Get your key from console.cloud.intel.com.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(intelAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty with \'Intel API key is missing. Get your key from console.cloud.intel.com.\'', async () => {
+      await expect(intelAdapter.validateKey('')).rejects.toThrow(
+        'Intel API key is missing. Get your key from console.cloud.intel.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await intelAdapter.fetchUsage(
+        'intel-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await intelAdapter.validateKey('my-intel-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-intel-key-123',
+          },
+        })
+      );
+    });
+
+    it('intelAdapter.type is \'intel\'', () => {
+      expect(intelAdapter.type).toBe('intel');
     });
   });
 });

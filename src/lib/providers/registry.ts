@@ -120,6 +120,7 @@ import { primeintellectAdapter } from './primeintellect-adapter';
 import { exaoneAdapter } from './exaone-adapter';
 import { mimoAdapter } from './mimo-adapter';
 import { laminiAdapter } from './lamini-adapter';
+import { intelAdapter } from './intel-adapter';
 
 /**
  * Provider adapter registry.
@@ -248,6 +249,7 @@ adapters.set('primeintellect', primeintellectAdapter);
 adapters.set('exaone', exaoneAdapter);
 adapters.set('mimo', mimoAdapter);
 adapters.set('lamini', laminiAdapter);
+adapters.set('intel', intelAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

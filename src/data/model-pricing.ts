@@ -9599,6 +9599,87 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── Intel Developer Cloud (Gaudi AI) ──────────────────────────────────────
+  // Intel Tiber AI Cloud with Gaudi AI accelerators (Gaudi 2 + Gaudi 3).
+  // Intel Corporation (NASDAQ: INTC), Santa Clara CA, founded 1968.
+  // Gaudi 3 launched April 2024: 4× AI compute vs Gaudi 2.
+  // Competes with NVIDIA A100/H100 and AMD Instinct MI300X.
+  // 113,000 employees, $54B+ revenue.
+  // 5 of 8 models symmetric pricing. Mistral 7B $0.05/1M — 98% cheaper than GPT-4o.
+  // OpenAI-compatible API at api.us.gaudi.cloud.intel.com/v1.
+  {
+    provider: 'intel',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.32,
+    output_price_per_1m_tokens: 0.32,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'intel',
+    model_id: 'microsoft/phi-4',
+    display_name: 'Phi-4',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9845,6 +9926,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     exaone: [0.08, 0.20], // EXAONE 3.5 7.8B Instruct flagship on LG AI Research (LG Corporation, $66B revenue, 3rd Korean AI provider on LLMeter)
     mimo: [0.14, 0.28], // MiMo-V2.5 flagship on Xiaomi (世界3rd-largest smartphone maker, HKEX 1810, 600M+ MIUI users, $46B+ revenue)
     lamini: [0.30, 0.50], // Llama 3.3 70B Instruct flagship on Lamini AI (AMD-powered inference, founded by Sharon Zhou + Greg Diamos, San Francisco 2022)
+    intel: [0.35, 0.40], // Llama 3.3 70B on Intel Gaudi (Big 3 AI chip: NVIDIA, AMD, Intel now all tracked)
   };
   return defaults[provider];
 }
