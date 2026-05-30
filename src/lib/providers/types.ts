@@ -1073,4 +1073,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://infermatic.ai',
     color: '#7C3AED',
   },
+  mancer: {
+    type: 'mancer',
+    name: 'Mancer',
+    description: 'WizardLM 2 8x22B MoE, Midnight Rose 103B, WizardLM 2 70B, MythoMax L2 13B, Noromaid 20B, WizardCoder 33B, Llama 3.1 70B, Llama 3 8B — privacy-first uncensored LLM inference hosted in Europe. No conversation logging, no data retention, no content filtering. All pricing symmetric (input = output). Llama 3 8B at $0.08/1M — 95% cheaper than GPT-4o. OpenAI-compatible API at neuro.mancer.tech/oai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-mancer-api-key',
+    helpUrl: 'https://mancer.tech',
+    color: '#8B4513',
+  },
 };

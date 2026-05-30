@@ -2239,6 +2239,28 @@ const completion = await trackedTargon.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Targon
 );`;
 
+const sdkMancerExample = `import OpenAI from 'openai';
+import LLMeter, { wrapMancer } from 'llmeter';
+
+// Mancer (mancer.tech) — privacy-first uncensored LLM inference hosted in Europe
+// No conversation logging, no data retention, no content filtering
+// WizardLM 2 8x22B MoE at $0.90/1M symmetric — Llama 3 8B at $0.08/1M (95% cheaper than GPT-4o)
+const mancer = new OpenAI({
+  apiKey: process.env.MANCER_API_KEY,
+  baseURL: 'https://neuro.mancer.tech/oai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedMancer = wrapMancer(mancer, llmeter);
+
+// All calls are automatically tracked — zero-log uncensored inference
+const completion = await trackedMancer.chat.completions.create(
+  {
+    model: 'mancer/mn-midnight-rose-103b', // or 'mancer/wizardlm-2-8x22b', 'mancer/llama-3-8b-instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from Mancer!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Mancer
+);`;
+
 const sdkNearAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNearAI } from 'llmeter';
 
@@ -2534,6 +2556,7 @@ export default function DocsPage() {
                 <TabsTrigger value="gmi">GMI Cloud</TabsTrigger>
                 <TabsTrigger value="internlm">InternLM</TabsTrigger>
                 <TabsTrigger value="targon">Targon</TabsTrigger>
+                <TabsTrigger value="mancer">Mancer</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3654,6 +3677,17 @@ export default function DocsPage() {
                   call is tracked automatically. NetMind is a community GPU marketplace where contributors share idle capacity and earn NMT token rewards — founded 2022, based in the UK, 250,000+ nodes globally. Community GPU supply drives prices down. 8 models: Llama 3.3 70B ($0.20/$0.20 — symmetric flagship), Llama 3.1 70B ($0.18/$0.18 — symmetric), Llama 3.1 8B ($0.04/$0.04 — budget, 98% cheaper than GPT-4o), Llama 3.1 405B ($1.40/$1.40 — enterprise), DeepSeek R1 ($0.55/$2.19 — reasoning), DeepSeek V3 ($0.22/$0.88 — frontier), Mistral 7B ($0.05/$0.05 — symmetric budget), Qwen 2.5 72B ($0.28/$0.28 — symmetric multilingual). Get your key at netmind.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkNetmindExample} />
+              </TabsContent>
+              <TabsContent value="mancer" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Mancer is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://neuro.mancer.tech/oai/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. Mancer is privacy-first uncensored LLM inference hosted in Europe — no conversation logging, no data retention, no content filtering. 8th privacy-first provider on LLMeter (after Venice, TextSynth, Prem, Infermatic, and others). 8 models: WizardLM 2 8x22B MoE ($0.90/$0.90 — symmetric flagship MoE), Midnight Rose 103B ($0.90/$0.90 — symmetric flagship), WizardLM 2 70B ($0.50/$0.50 — symmetric), Llama 3.1 70B Instruct ($0.45/$0.45 — symmetric), WizardCoder 33B v1.1 ($0.25/$0.25 — coding), Noromaid 20B ($0.20/$0.20 — symmetric), MythoMax L2 13B ($0.12/$0.12 — budget), Llama 3 8B Instruct ($0.08/$0.08 — 95% cheaper than GPT-4o). Get your key at mancer.tech.
+                </p>
+                <CodeBlock language="typescript" code={sdkMancerExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -162,6 +162,7 @@ const ZERO_PROVIDERS = {
   targon: 0,
   skywork: 0,
   infermatic: 0,
+  mancer: 0,
 };
 
 // --- Tests ---

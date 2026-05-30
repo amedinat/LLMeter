@@ -144,6 +144,9 @@ export function generateDailySpend(days = 30): DailySpend[] {
         gmi: 0,
         internlm: 0,
         targon: 0,
+        skywork: 0,
+        infermatic: 0,
+        mancer: 0,
       },
     };
   });
