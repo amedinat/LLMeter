@@ -121,6 +121,7 @@ export { wrapSkyWork } from './skywork.js';
 export { wrapInfermatic } from './infermatic.js';
 export { wrapMancer } from './mancer.js';
 export { wrapRhymes } from './rhymes.js';
+export { wrapPrimeIntellect } from './primeintellect.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
