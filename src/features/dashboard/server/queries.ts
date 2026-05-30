@@ -279,6 +279,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           targon: 0,
           skywork: 0,
           infermatic: 0,
+          mancer: 0,
         }
       });
     }
@@ -417,6 +418,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           targon: 0,
           skywork: 0,
           infermatic: 0,
+          mancer: 0,
         },
       }
     );

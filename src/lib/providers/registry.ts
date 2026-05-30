@@ -114,6 +114,7 @@ import { internlmAdapter } from './internlm-adapter';
 import { targonAdapter } from './targon-adapter';
 import { skyworkAdapter } from './skywork-adapter';
 import { infermaticAdapter } from './infermatic-adapter';
+import { mancerAdapter } from './mancer-adapter';
 
 /**
  * Provider adapter registry.
@@ -236,6 +237,7 @@ adapters.set('internlm', internlmAdapter);
 adapters.set('targon', targonAdapter);
 adapters.set('skywork', skyworkAdapter);
 adapters.set('infermatic', infermaticAdapter);
+adapters.set('mancer', mancerAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

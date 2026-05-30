@@ -108,6 +108,7 @@ import { internlmAdapter } from './internlm-adapter';
 import { targonAdapter } from './targon-adapter';
 import { skyworkAdapter } from './skywork-adapter';
 import { infermaticAdapter } from './infermatic-adapter';
+import { mancerAdapter } from './mancer-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -8732,6 +8733,78 @@ describe('Provider Adapters', () => {
 
     it('infermaticAdapter.type is infermatic', () => {
       expect(infermaticAdapter.type).toBe('infermatic');
+    });
+  });
+
+  describe('mancerAdapter', () => {
+    it('validateKey returns true on success', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await mancerAdapter.validateKey('mancer-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://neuro.mancer.tech/oai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer mancer-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+      await expect(mancerAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Mancer API key. Get your key from mancer.tech.'
+      );
+    });
+
+    it('throws with server error message on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal server error' }),
+      });
+      await expect(mancerAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal server error'
+      );
+    });
+
+    it('throws when api key is empty', async () => {
+      await expect(mancerAdapter.validateKey('')).rejects.toThrow(
+        'Mancer API key is missing. Get your key from mancer.tech.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await mancerAdapter.fetchUsage(
+        'mancer-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-29')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await mancerAdapter.validateKey('my-mancer-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer my-mancer-key-123',
+          }),
+        })
+      );
+    });
+
+    it('mancerAdapter.type is mancer', () => {
+      expect(mancerAdapter.type).toBe('mancer');
     });
   });
 });

@@ -9179,6 +9179,83 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-29T00:00:00.000Z',
   },
 
+  // Mancer (mancer.tech) — Day 117, provider #115
+  // Privacy-first uncensored LLM inference hosted in Europe. No conversation logging,
+  // no data retention, no content filtering. Founded ~2023; OpenRouter partner provider.
+  // All pricing symmetric (input = output per token).
+  {
+    provider: 'mancer',
+    model_id: 'mancer/mn-midnight-rose-103b',
+    display_name: 'Midnight Rose 103B',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/wizardlm-2-8x22b',
+    display_name: 'WizardLM 2 8x22B MoE',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/wizardlm-2-70b',
+    display_name: 'WizardLM 2 70B',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/noromaid-20b',
+    display_name: 'Noromaid 20B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/wizardcoder-33b-v1.1',
+    display_name: 'WizardCoder 33B v1.1',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/mythomax-l2-13b',
+    display_name: 'MythoMax L2 13B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+  {
+    provider: 'mancer',
+    model_id: 'mancer/llama-3-8b-instruct',
+    display_name: 'Llama 3 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-29T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -9419,6 +9496,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     targon: [0.20, 0.20], // Llama 3.3 70B symmetric flagship on Targon (Nineteen.ai, Bittensor subnet 19, 6th blockchain AI network)
     skywork: [1.00, 3.00], // Tiangong-2 flagship on SkyWork AI (Kunlun Tech / 昆仑万维, SZSE: 300418, China's largest gaming-turned-AI company)
     infermatic: [0.90, 0.90], // Midnight Rose 103B symmetric flagship on Infermatic (privacy-first uncensored open-source model hosting, no logs)
+    mancer: [0.90, 0.90], // WizardLM 2 8x22B MoE symmetric flagship on Mancer (privacy-first uncensored inference, Europe, no conversation logging)
   };
   return defaults[provider];
 }
