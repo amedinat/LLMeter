@@ -10321,6 +10321,74 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── MixedBread AI (api.mixedbread.ai) ──────────────────────────────────────
+  // MixedBread AI GmbH — Berlin, Germany. Founded 2023 by Dominik Sheridan
+  // (CEO) and Jonathan Kocmoud (CTO). Fourth embeddings-focused provider on
+  // LLMeter (after Voyage AI Day 128, Nomic AI Day 129, Jina AI Day 130).
+  // mxbai-embed-large-v1: debuted at #1 on MTEB leaderboard (335M params,
+  // 512 context) — beating OpenAI ada-002 on retrieval benchmarks at launch.
+  // mxbai-embed-2d-large-v1: Matryoshka 2D representation — same model
+  // supports flexible dimensions from 64 to 1024, enabling 6× cheaper vector
+  // storage when 64-dim suffices vs full 1024-dim. mxbai-colbert-large-v1:
+  // ColBERT late interaction — token-level matching for high-precision retrieval
+  // (vs single-vector cosine similarity). mxbai-rerank-large-v1 and base:
+  // cross-encoder rerankers for two-stage RAG (fast retrieve → precise rerank).
+  // All embeddings: output_price=0 (embeddings produce vectors, not tokens).
+  {
+    provider: 'mixedbread',
+    model_id: 'mxbai-embed-large-v1',
+    display_name: 'mxbai-embed-large-v1',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'mixedbread',
+    model_id: 'mxbai-embed-2d-large-v1',
+    display_name: 'mxbai-embed-2d-large-v1',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'mixedbread',
+    model_id: 'mxbai-colbert-large-v1',
+    display_name: 'mxbai-colbert-large-v1',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'mixedbread',
+    model_id: 'mxbai-rerank-large-v1',
+    display_name: 'mxbai-rerank-large-v1',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'mixedbread',
+    model_id: 'mxbai-rerank-base-v1',
+    display_name: 'mxbai-rerank-base-v1',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'mixedbread',
+    model_id: 'mxbai-embed-large-v1-quantized',
+    display_name: 'mxbai-embed-large-v1 (Quantized)',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10576,6 +10644,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nomic: [0.10, 0], // nomic-embed-text-v1.5 flagship on Nomic AI (only fully open-source Apache 2.0 MTEB-competitive embeddings, Matryoshka dims)
     jina: [0.02, 0], // jina-embeddings-v3 flagship on Jina AI (Berlin 2020, multimodal CLIP v2 + 89-language embeddings, 3rd embeddings provider on LLMeter)
     tenstorrent: [0.35, 0.45], // Llama 3.3 70B flagship on Tenstorrent (first RISC-V AI accelerator on LLMeter, Jim Keller CEO, $693M Series D 2024)
+    mixedbread: [0.02, 0], // mxbai-embed-large-v1 flagship on MixedBread AI (Berlin 2023, MTEB #1 at launch, 4th embeddings provider on LLMeter)
   };
   return defaults[provider];
 }

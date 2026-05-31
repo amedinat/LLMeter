@@ -134,6 +134,7 @@ export { wrapVoyage } from './voyage.js';
 export { wrapNomic } from './nomic.js';
 export { wrapJina } from './jina.js';
 export { wrapTenstorrent } from './tenstorrent.js';
+export { wrapMixedBread } from './mixedbread.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
