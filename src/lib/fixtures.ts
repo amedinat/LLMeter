@@ -159,6 +159,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         recursal: 0,
         voyage: 0,
         nomic: 0,
+        jina: 0,
       },
     };
   });

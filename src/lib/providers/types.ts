@@ -1190,4 +1190,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.nomic.ai',
     color: '#10B981',
   },
+  jina: {
+    type: 'jina',
+    name: 'Jina AI',
+    description: 'jina-embeddings-v3 ($0.02/1M — flagship, 570M params, MTEB top 10, 89 languages, 8192 ctx, late interaction retrieval), jina-clip-v2 ($0.02/1M — multimodal text+image unified model, 865M params, same model encodes both text and images for true multimodal RAG), jina-clip-v1 ($0.02/1M — previous multimodal, 223M params), jina-embeddings-v2-base-en ($0.01/1M — English-only, Apache 2.0 open-source), jina-embeddings-v2-base-de ($0.01/1M — German-specialized enterprise embeddings), jina-embeddings-v2-base-zh ($0.01/1M — Chinese-English bilingual), jina-embeddings-v2-base-code ($0.01/1M — code-specialized, multi-language programming), jina-colbert-v2 ($0.02/1M — ColBERT late interaction for precise retrieval, 89 languages) — Jina AI GmbH, Berlin, Germany. Founded 2020 by Han Xiao (CEO, ex-Tencent AI Lab) and Michael Berk Yazici. Third embeddings-focused provider on LLMeter after Voyage AI (Day 128) and Nomic AI (Day 129). jina-clip-v2 is a unique multimodal model: the same model encodes both text queries and images, enabling multimodal RAG without separate vision encoders. German and Chinese-specialized models serve non-English enterprise markets. All models: input-only pricing (output_price=0, embeddings produce vectors not tokens). API key starts with jina_ prefix. jina.ai',
+    keyPrefix: 'jina_',
+    keyPlaceholder: 'jina_...',
+    helpUrl: 'https://jina.ai/api-dashboard',
+    color: '#F59E0B',
+  },
 };

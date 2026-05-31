@@ -2398,6 +2398,28 @@ const embedding = await trackedVoyage.embeddings.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Voyage AI
 );`;
 
+const sdkJinaExample = `import { JinaAIClient } from 'jinaai';
+import LLMeter, { wrapJina } from 'llmeter';
+
+// Jina AI — Berlin, Germany. Founded 2020 by Han Xiao (CEO, ex-Tencent AI Lab).
+// Third embeddings-focused provider on LLMeter (after Voyage AI Day 128, Nomic AI Day 129).
+// jina-embeddings-v3: 570M params, MTEB top 10 multilingual, 89 languages, 8192 token context.
+// jina-clip-v2: multimodal text+image — same model encodes both text queries and images.
+// German and Chinese-specialized models for non-English enterprise markets.
+// All models: input-only pricing (output_price=0, embeddings produce vectors not tokens).
+const jina = new JinaAIClient({ apiToken: process.env.JINA_API_KEY });
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedJina = wrapJina(jina, llmeter);
+
+// All calls are automatically tracked — multimodal MTEB-top-10 embeddings
+const embedding = await trackedJina.embeddings.create(
+  {
+    model: 'jina-embeddings-v3', // or 'jina-clip-v2', 'jina-embeddings-v2-base-de', 'jina-colbert-v2', etc.
+    input: ['Hello from Jina AI — multimodal embeddings from Berlin!'],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Jina AI
+);`;
+
 const sdkTensorWaveExample = `import OpenAI from 'openai';
 import LLMeter, { wrapTensorWave } from 'llmeter';
 
@@ -2750,6 +2772,7 @@ export default function DocsPage() {
                 <TabsTrigger value="intel">Intel Developer Cloud</TabsTrigger>
                 <TabsTrigger value="tensorwave">TensorWave</TabsTrigger>
                 <TabsTrigger value="voyage">Voyage AI</TabsTrigger>
+                <TabsTrigger value="jina">Jina AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3966,6 +3989,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Voyage AI — San Francisco, CA. Founded 2023 by Tengyu Ma (Stanford CS Professor, formerly Meta FAIR) and team. $20M seed from Andreessen Horowitz. First embeddings-focused provider on LLMeter — #1 on MTEB leaderboard for general and code embeddings. Used by Anthropic as the official RAG recommendation for Claude, plus Pinecone, LlamaIndex, LangChain, and Cohere. RAG developers pay for embeddings but most LLM cost monitors only track generation costs — LLMeter closes that gap. 8 models: voyage-3 ($0.06/1M — best quality-price balance), voyage-3-lite ($0.02/1M — ultra-budget), voyage-code-3 ($0.12/1M — #1 code embeddings on MTEB), voyage-3-large ($0.18/1M — highest quality), voyage-finance-2 ($0.12/1M — finance domain), voyage-law-2 ($0.12/1M — legal domain), voyage-multilingual-2 ($0.12/1M — 30+ languages), voyage-large-2-instruct ($0.12/1M — instruction-following). All models input-only pricing (embeddings produce vectors, not tokens). API key starts with pa- prefix. Get your key at dash.voyageai.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkVoyageExample} />
+              </TabsContent>
+              <TabsContent value="jina" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Jina AI client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">embeddings.create</code>{' '}
+                  once and every call is tracked automatically. Jina AI — Berlin, Germany. Founded 2020 by Han Xiao (CEO, ex-Tencent AI Lab) and Michael Berk Yazici. Third embeddings-focused provider on LLMeter (after Voyage AI Day 128, Nomic AI Day 129). jina-embeddings-v3: 570M params, MTEB top 10, 89 languages, 8192 token context. jina-clip-v2: unified multimodal model (865M params) — same model encodes both text and images, enabling true multimodal RAG without a separate vision encoder. German and Chinese-specialized models extend coverage beyond English. 8 models: jina-embeddings-v3 ($0.02/1M — flagship), jina-clip-v2 ($0.02/1M — multimodal), jina-clip-v1 ($0.02/1M — previous multimodal), jina-embeddings-v2-base-en ($0.01/1M — English, Apache 2.0), jina-embeddings-v2-base-de ($0.01/1M — German), jina-embeddings-v2-base-zh ($0.01/1M — Chinese), jina-embeddings-v2-base-code ($0.01/1M — code), jina-colbert-v2 ($0.02/1M — ColBERT late interaction). All models input-only pricing (embeddings produce vectors, not tokens). API key starts with jina_ prefix. Get your key at jina.ai/api-dashboard.
+                </p>
+                <CodeBlock language="typescript" code={sdkJinaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

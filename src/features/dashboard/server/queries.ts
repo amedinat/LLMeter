@@ -292,6 +292,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           recursal: 0,
           voyage: 0,
           nomic: 0,
+          jina: 0,
         }
       });
     }
@@ -443,6 +444,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           recursal: 0,
           voyage: 0,
           nomic: 0,
+          jina: 0,
         },
       }
     );

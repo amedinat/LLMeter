@@ -127,6 +127,7 @@ import { tensorwaveAdapter } from './tensorwave-adapter';
 import { recursalAdapter } from './recursal-adapter';
 import { voyageAdapter } from './voyage-adapter';
 import { nomicAdapter } from './nomic-adapter';
+import { jinaAdapter } from './jina-adapter';
 
 /**
  * Provider adapter registry.
@@ -262,6 +263,7 @@ adapters.set('tensorwave', tensorwaveAdapter);
 adapters.set('recursal', recursalAdapter);
 adapters.set('voyage', voyageAdapter);
 adapters.set('nomic', nomicAdapter);
+adapters.set('jina', jinaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
