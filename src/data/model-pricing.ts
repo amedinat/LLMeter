@@ -10158,6 +10158,86 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── Jina AI (api.jina.ai) ──────────────────────────────────────────────────
+  // Jina AI GmbH — Berlin, Germany. Founded 2020 by Han Xiao (CEO) and Michael Berk Yazici.
+  // Third embeddings-focused provider on LLMeter (after Voyage AI Day 128, Nomic AI Day 129).
+  // jina-embeddings-v3: 570M params, MTEB top 10 multilingual, 89 languages, 8192 context.
+  // jina-clip-v2: unified multimodal model — same model encodes text AND images, enabling
+  // true multimodal RAG without separate vision encoder (unique on LLMeter).
+  // All models: input-only pricing (output_price=0, embeddings produce vectors not tokens).
+  {
+    provider: 'jina',
+    model_id: 'jina-embeddings-v3',
+    display_name: 'Jina Embeddings v3',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-clip-v2',
+    display_name: 'Jina CLIP v2',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-clip-v1',
+    display_name: 'Jina CLIP v1',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-embeddings-v2-base-en',
+    display_name: 'Jina Embeddings v2 Base EN',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-embeddings-v2-base-de',
+    display_name: 'Jina Embeddings v2 Base DE',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-embeddings-v2-base-zh',
+    display_name: 'Jina Embeddings v2 Base ZH',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-embeddings-v2-base-code',
+    display_name: 'Jina Embeddings v2 Base Code',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'jina',
+    model_id: 'jina-colbert-v2',
+    display_name: 'Jina ColBERT v2',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10407,6 +10487,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     intel: [0.35, 0.40], // Llama 3.3 70B on Intel Gaudi (Big 3 AI chip: NVIDIA, AMD, Intel now all tracked)
     h2o: [0.15, 0.15], // H2O Danube 3 4B symmetric flagship on H2O.ai (ML democratization since 2012, 20,000+ orgs, $250M+ raised)
     g42: [0.30, 0.30], // Jais-30B-Chat symmetric flagship on G42 Cloud AI (Abu Dhabi sovereign AI, Microsoft $1.5B investment, MBZUAI partnership)
+    jina: [0.02, 0], // jina-embeddings-v3 flagship on Jina AI (Berlin 2020, multimodal CLIP v2 + 89-language embeddings, 3rd embeddings provider on LLMeter)
   };
   return defaults[provider];
 }

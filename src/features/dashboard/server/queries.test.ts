@@ -175,6 +175,7 @@ const ZERO_PROVIDERS = {
   recursal: 0,
   voyage: 0,
   nomic: 0,
+  jina: 0,
 };
 
 // --- Tests ---

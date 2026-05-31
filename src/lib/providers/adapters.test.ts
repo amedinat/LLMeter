@@ -121,6 +121,7 @@ import { tensorwaveAdapter } from './tensorwave-adapter';
 import { recursalAdapter } from './recursal-adapter';
 import { voyageAdapter } from './voyage-adapter';
 import { nomicAdapter } from './nomic-adapter';
+import { jinaAdapter } from './jina-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9691,6 +9692,80 @@ describe('Provider Adapters', () => {
 
     it('nomicAdapter.type is \'nomic\'', () => {
       expect(nomicAdapter.type).toBe('nomic');
+    });
+  });
+
+  describe('jinaAdapter', () => {
+    it('validates a valid Jina AI API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await jinaAdapter.validateKey('jina_test-jina-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.jina.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer jina_test-jina-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Jina AI API key. Get your key from jina.ai/api-dashboard.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(jinaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Jina AI API key. Get your key from jina.ai/api-dashboard.'
+      );
+    });
+
+    it('throws a generic error on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(jinaAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Jina AI API key is missing. Get your key from jina.ai/api-dashboard.\'', async () => {
+      await expect(jinaAdapter.validateKey('')).rejects.toThrow(
+        'Jina AI API key is missing. Get your key from jina.ai/api-dashboard.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await jinaAdapter.fetchUsage(
+        'jina_test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-31')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await jinaAdapter.validateKey('jina_my-jina-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jina_my-jina-key-123',
+          },
+        })
+      );
+    });
+
+    it('jinaAdapter.type is \'jina\'', () => {
+      expect(jinaAdapter.type).toBe('jina');
     });
   });
 });
