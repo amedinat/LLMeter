@@ -124,6 +124,7 @@ import { nomicAdapter } from './nomic-adapter';
 import { jinaAdapter } from './jina-adapter';
 import { tenstorrentAdapter } from './tenstorrent-adapter';
 import { mixedbreadAdapter } from './mixedbread-adapter';
+import { stabilityAdapter } from './stability-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9916,6 +9917,80 @@ describe('Provider Adapters', () => {
 
     it('mixedbreadAdapter.type is \'mixedbread\'', () => {
       expect(mixedbreadAdapter.type).toBe('mixedbread');
+    });
+  });
+
+  describe('stabilityAdapter', () => {
+    it('validates a valid Stability AI API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'user_abc', email: 'dev@example.com' }) });
+
+      const result = await stabilityAdapter.validateKey('sk-test-stability-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.stability.ai/v1/user/account',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer sk-test-stability-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Stability AI API key. Get your key from platform.stability.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(stabilityAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Stability AI API key. Get your key from platform.stability.ai.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(stabilityAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Stability AI API key is missing. Get your key from platform.stability.ai.\'', async () => {
+      await expect(stabilityAdapter.validateKey('')).rejects.toThrow(
+        'Stability AI API key is missing. Get your key from platform.stability.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await stabilityAdapter.fetchUsage(
+        'sk-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-31')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await stabilityAdapter.validateKey('my-stability-key-789');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-stability-key-789',
+          },
+        })
+      );
+    });
+
+    it('stabilityAdapter.type is \'stability\'', () => {
+      expect(stabilityAdapter.type).toBe('stability');
     });
   });
 });
