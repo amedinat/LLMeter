@@ -178,6 +178,7 @@ const ZERO_PROVIDERS = {
   jina: 0,
   tenstorrent: 0,
   mixedbread: 0,
+  stability: 0,
 };
 
 // --- Tests ---

@@ -130,6 +130,7 @@ import { nomicAdapter } from './nomic-adapter';
 import { jinaAdapter } from './jina-adapter';
 import { tenstorrentAdapter } from './tenstorrent-adapter';
 import { mixedbreadAdapter } from './mixedbread-adapter';
+import { stabilityAdapter } from './stability-adapter';
 
 /**
  * Provider adapter registry.
@@ -268,6 +269,7 @@ adapters.set('nomic', nomicAdapter);
 adapters.set('jina', jinaAdapter);
 adapters.set('tenstorrent', tenstorrentAdapter);
 adapters.set('mixedbread', mixedbreadAdapter);
+adapters.set('stability', stabilityAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

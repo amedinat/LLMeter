@@ -10389,6 +10389,88 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── Stability AI (api.stability.ai) ─────────────────────────────────────────
+  // Stability AI — London, UK. Founded 2020 by Emad Mostaque.
+  // Creator of Stable Diffusion — the open-source image generation model that
+  // launched the AI art revolution. $101M raised at $1B+ valuation.
+  // First UK-headquartered AI foundation model lab on LLMeter.
+  // StableLM 2: Apache 2.0 language model family. StableLM 2 12B Chat (flagship)
+  // is competitive on MMLU/HellaSwag/ARC-Challenge benchmarks at a fraction of
+  // GPT-4o cost. StableLM 2 1.6B: ultra-compact for on-device inference.
+  // StableCode: code-specialized variants. All fully symmetric pricing.
+  {
+    provider: 'stability',
+    model_id: 'stablelm-2-12b-chat',
+    display_name: 'StableLM 2 12B Chat',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stablelm-2-12b',
+    display_name: 'StableLM 2 12B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stablelm-zephyr-3b',
+    display_name: 'StableLM Zephyr 3B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stablelm-3b-4e1t',
+    display_name: 'StableLM 3B 4E1T',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stablelm-2-zephyr-1_6b',
+    display_name: 'StableLM 2 Zephyr 1.6B',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stablelm-2-1_6b-chat',
+    display_name: 'StableLM 2 1.6B Chat',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stable-code-3b',
+    display_name: 'StableCode 3B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'stability',
+    model_id: 'stable-code-instruct-3b',
+    display_name: 'StableCode Instruct 3B',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10645,6 +10727,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     jina: [0.02, 0], // jina-embeddings-v3 flagship on Jina AI (Berlin 2020, multimodal CLIP v2 + 89-language embeddings, 3rd embeddings provider on LLMeter)
     tenstorrent: [0.35, 0.45], // Llama 3.3 70B flagship on Tenstorrent (first RISC-V AI accelerator on LLMeter, Jim Keller CEO, $693M Series D 2024)
     mixedbread: [0.02, 0], // mxbai-embed-large-v1 flagship on MixedBread AI (Berlin 2023, MTEB #1 at launch, 4th embeddings provider on LLMeter)
+    stability: [0.15, 0.15], // StableLM 2 12B Chat symmetric flagship on Stability AI (London 2020, creator of Stable Diffusion, first UK AI foundation model lab on LLMeter, Apache 2.0)
   };
   return defaults[provider];
 }

@@ -162,6 +162,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         jina: 0,
         tenstorrent: 0,
         mixedbread: 0,
+        stability: 0,
       },
     };
   });
