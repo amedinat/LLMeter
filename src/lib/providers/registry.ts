@@ -123,6 +123,7 @@ import { laminiAdapter } from './lamini-adapter';
 import { intelAdapter } from './intel-adapter';
 import { h2oAdapter } from './h2o-adapter';
 import { g42Adapter } from './g42-adapter';
+import { tensorwaveAdapter } from './tensorwave-adapter';
 
 /**
  * Provider adapter registry.
@@ -254,6 +255,7 @@ adapters.set('lamini', laminiAdapter);
 adapters.set('intel', intelAdapter);
 adapters.set('h2o', h2oAdapter);
 adapters.set('g42', g42Adapter);
+adapters.set('tensorwave', tensorwaveAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

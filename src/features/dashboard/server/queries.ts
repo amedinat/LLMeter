@@ -288,6 +288,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           intel: 0,
           h2o: 0,
           g42: 0,
+          tensorwave: 0,
         }
       });
     }
@@ -435,6 +436,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           intel: 0,
           h2o: 0,
           g42: 0,
+          tensorwave: 0,
         },
       }
     );
