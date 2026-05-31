@@ -128,6 +128,7 @@ import { recursalAdapter } from './recursal-adapter';
 import { voyageAdapter } from './voyage-adapter';
 import { nomicAdapter } from './nomic-adapter';
 import { jinaAdapter } from './jina-adapter';
+import { tenstorrentAdapter } from './tenstorrent-adapter';
 
 /**
  * Provider adapter registry.
@@ -264,6 +265,7 @@ adapters.set('recursal', recursalAdapter);
 adapters.set('voyage', voyageAdapter);
 adapters.set('nomic', nomicAdapter);
 adapters.set('jina', jinaAdapter);
+adapters.set('tenstorrent', tenstorrentAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
