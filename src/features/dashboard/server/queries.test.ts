@@ -177,6 +177,7 @@ const ZERO_PROVIDERS = {
   nomic: 0,
   jina: 0,
   tenstorrent: 0,
+  mixedbread: 0,
 };
 
 // --- Tests ---
