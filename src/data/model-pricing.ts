@@ -14,7 +14,11 @@ import type { ProviderType } from '@/types';
 export type CapabilityTier = 'budget' | 'standard' | 'premium' | 'flagship' | 'enterprise';
 
 export interface ModelPricing {
-  provider: ProviderType;
+  // Widened from ProviderType to string: a 1063-entry catalog × 124-member
+  // ProviderType union overflows TS' union evaluator
+  // ("Expression produces a union type that is too complex to represent").
+  // Runtime validation still happens via adapter.type === entry.provider lookups.
+  provider: string;
   model_id: string;
   display_name: string;
   input_price_per_1m_tokens: number;
@@ -9847,7 +9851,7 @@ let catalog: ModelPricing[] = [...MODEL_CATALOG];
 // ── Indexes (rebuilt on catalog update) ──────────────────────
 
 let byModelId = new Map<string, ModelPricing>();
-let byProvider = new Map<ProviderType, ModelPricing[]>();
+let byProvider = new Map<string, ModelPricing[]>();
 let byTier = new Map<CapabilityTier, ModelPricing[]>();
 
 function rebuildIndexes(): void {
