@@ -157,6 +157,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         g42: 0,
         tensorwave: 0,
         recursal: 0,
+        voyage: 0,
+        nomic: 0,
       },
     };
   });

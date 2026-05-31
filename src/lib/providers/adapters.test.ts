@@ -120,6 +120,7 @@ import { g42Adapter } from './g42-adapter';
 import { tensorwaveAdapter } from './tensorwave-adapter';
 import { recursalAdapter } from './recursal-adapter';
 import { voyageAdapter } from './voyage-adapter';
+import { nomicAdapter } from './nomic-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9616,6 +9617,80 @@ describe('Provider Adapters', () => {
 
     it('voyageAdapter.type is \'voyage\'', () => {
       expect(voyageAdapter.type).toBe('voyage');
+    });
+  });
+
+  describe('nomicAdapter', () => {
+    it('validates a valid Nomic AI API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await nomicAdapter.validateKey('nk-test-nomic-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api-atlas.nomic.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer nk-test-nomic-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Nomic AI API key. Get your key from atlas.nomic.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(nomicAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Nomic AI API key. Get your key from atlas.nomic.ai.'
+      );
+    });
+
+    it('throws a generic error on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(nomicAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Nomic AI API key is missing. Get your key from atlas.nomic.ai.\'', async () => {
+      await expect(nomicAdapter.validateKey('')).rejects.toThrow(
+        'Nomic AI API key is missing. Get your key from atlas.nomic.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nomicAdapter.fetchUsage(
+        'nk-nomic-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await nomicAdapter.validateKey('nk-my-nomic-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer nk-my-nomic-key-123',
+          },
+        })
+      );
+    });
+
+    it('nomicAdapter.type is \'nomic\'', () => {
+      expect(nomicAdapter.type).toBe('nomic');
     });
   });
 });

@@ -126,6 +126,7 @@ import { g42Adapter } from './g42-adapter';
 import { tensorwaveAdapter } from './tensorwave-adapter';
 import { recursalAdapter } from './recursal-adapter';
 import { voyageAdapter } from './voyage-adapter';
+import { nomicAdapter } from './nomic-adapter';
 
 /**
  * Provider adapter registry.
@@ -260,6 +261,7 @@ adapters.set('g42', g42Adapter);
 adapters.set('tensorwave', tensorwaveAdapter);
 adapters.set('recursal', recursalAdapter);
 adapters.set('voyage', voyageAdapter);
+adapters.set('nomic', nomicAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

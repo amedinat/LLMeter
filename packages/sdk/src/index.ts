@@ -131,6 +131,7 @@ export { wrapG42 } from './g42.js';
 export { wrapTensorWave } from './tensorwave.js';
 export { wrapRecursal } from './recursal.js';
 export { wrapVoyage } from './voyage.js';
+export { wrapNomic } from './nomic.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

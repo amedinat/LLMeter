@@ -174,6 +174,7 @@ const ZERO_PROVIDERS = {
   tensorwave: 0,
   recursal: 0,
   voyage: 0,
+  nomic: 0,
 };
 
 // --- Tests ---

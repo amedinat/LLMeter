@@ -1181,4 +1181,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://dash.voyageai.com',
     color: '#6B21A8',
   },
+  nomic: {
+    type: 'nomic',
+    name: 'Nomic AI',
+    description: 'nomic-embed-text-v1.5 ($0.10/1M — flagship, only fully open-source Apache 2.0 embedding model competitive on MTEB; 8192 token context; Matryoshka dims for 6× cheaper vector storage), nomic-embed-text-v1.5-long ($0.10/1M — extended context optimized), nomic-embed-text-v1 ($0.10/1M — previous generation, established), nomic-embed-vision-v1.5 ($0.10/1M — multimodal image+text embeddings flagship), nomic-embed-vision-v1 ($0.10/1M — previous generation multimodal), nomic-embed-text-v1-unsupervised ($0.05/1M — 50% cheaper, no contrastive training), nomic-embed-text-v2-moe ($0.15/1M — MoE architecture higher quality), nomic-embed-code ($0.10/1M — code-specialized embeddings) — Nomic AI, New York, NY. Founded 2022 by Brandon Duderstadt (CEO) and Zach Nussbaum (CTO). Second embeddings-focused provider on LLMeter after Voyage AI (Day 128). The only fully open-source (Apache 2.0) embedding model in top MTEB rankings — full training code, dataset, and weights publicly released. Matryoshka representation learning enables truncation to 128 dimensions for 6× cheaper vector storage vs full 768 dims. Customers include enterprise RAG developers needing open-source auditable embeddings with no vendor lock-in. All models: input-only pricing (output_price=0, embeddings produce vectors not tokens). API key starts with nk- prefix. nomic.ai',
+    keyPrefix: 'nk-',
+    keyPlaceholder: 'nk-...',
+    helpUrl: 'https://docs.nomic.ai',
+    color: '#10B981',
+  },
 };
