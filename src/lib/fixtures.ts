@@ -155,6 +155,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         intel: 0,
         h2o: 0,
         g42: 0,
+        tensorwave: 0,
       },
     };
   });

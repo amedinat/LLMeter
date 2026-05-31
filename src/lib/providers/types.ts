@@ -1154,4 +1154,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.g42cloud.com/ai',
     color: '#00A86B',
   },
+  tensorwave: {
+    type: 'tensorwave',
+    name: 'TensorWave',
+    description: 'Llama 3.3 70B Instruct ($0.35/$0.35 symmetric — flagship, AMD MI300X), Llama 3.1 70B Instruct ($0.30/$0.30 symmetric), Llama 3.1 8B Instruct ($0.08/$0.08 symmetric — budget, 97% cheaper than GPT-4o), Llama 3.1 405B Instruct ($1.60/$1.60 symmetric — enterprise; MI300X 192GB VRAM enables full 405B), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.20/$0.80), Mistral 7B Instruct ($0.06/$0.06 symmetric — cheapest, 97% cheaper than GPT-4o), Qwen 2.5 72B Instruct ($0.30/$0.30 symmetric — multilingual) — TensorWave, Inc., Phoenix, AZ. Founded 2023. AMD MI300X-based GPU cloud — the first AMD-native cloud built from the ground up with no NVIDIA hardware. AMD MI300X has 192GB HBM3 memory (vs NVIDIA H100\'s 80GB) — 2.4× memory advantage, ideal for large models and MoE architectures. The "AMD moment" in AI: AMD\'s MI300X is the #1 server AI chip revenue driver for AMD in 2024-2025. 2nd AMD-powered inference provider on LLMeter after Lamini AI. 6 of 8 models symmetric pricing. OpenAI-compatible API at api.tensorwave.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-tensorwave-api-key',
+    helpUrl: 'https://docs.tensorwave.com',
+    color: '#ED1C24',
+  },
 };

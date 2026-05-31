@@ -2376,6 +2376,30 @@ const completion = await trackedIntel.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Intel
 );`;
 
+const sdkTensorWaveExample = `import OpenAI from 'openai';
+import LLMeter, { wrapTensorWave } from 'llmeter';
+
+// TensorWave — AMD MI300X-native GPU cloud (Phoenix, AZ, founded 2023)
+// First AMD-native cloud built from the ground up with no NVIDIA hardware
+// AMD MI300X: 192GB HBM3 memory vs NVIDIA H100's 80GB — 2.4× memory advantage
+// Enables full Llama 3.1 405B in a single node. 2nd AMD-powered provider on LLMeter after Lamini.
+// Mistral 7B at $0.06/1M — 97% cheaper than GPT-4o input
+const tensorwave = new OpenAI({
+  apiKey: process.env.TENSORWAVE_API_KEY,
+  baseURL: 'https://api.tensorwave.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedTensorWave = wrapTensorWave(tensorwave, llmeter);
+
+// All calls are automatically tracked — AMD MI300X inference
+const completion = await trackedTensorWave.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'deepseek-ai/DeepSeek-R1', 'meta-llama/Llama-3.1-405B-Instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from TensorWave AMD MI300X!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to TensorWave
+);`;
+
 const sdkEXAONEExample = `import OpenAI from 'openai';
 import LLMeter, { wrapEXAONE } from 'llmeter';
 
@@ -2702,6 +2726,7 @@ export default function DocsPage() {
                 <TabsTrigger value="mimo">Xiaomi MiMo</TabsTrigger>
                 <TabsTrigger value="lamini">Lamini AI</TabsTrigger>
                 <TabsTrigger value="intel">Intel Developer Cloud</TabsTrigger>
+                <TabsTrigger value="tensorwave">TensorWave</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3899,6 +3924,17 @@ export default function DocsPage() {
                   call is tracked automatically. Intel Tiber AI Cloud with Gaudi AI accelerators — Intel Corporation (NASDAQ: INTC), Santa Clara CA, founded 1968 by Gordon Moore and Robert Noyce. 113,000 employees, $54B+ revenue. Gaudi 3 (launched April 2024): 4× AI compute vs Gaudi 2, competes directly with NVIDIA A100/H100 and AMD Instinct MI300X. 3rd of the Big 3 AI chip companies tracked in LLMeter (NVIDIA → AMD/Lamini → Intel). 8 models: Llama 3.3 70B ($0.35/$0.40), Llama 3.1 70B ($0.30/$0.35), Llama 3.1 8B ($0.07/$0.07 symmetric — 98% cheaper than GPT-4o), Llama 3.1 405B ($1.80/$1.80 symmetric — enterprise), Mistral 7B ($0.05/$0.05 symmetric — 98% cheaper than GPT-4o), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.32/$0.32 symmetric), Phi-4 ($0.12/$0.12 symmetric). 5 of 8 models symmetric pricing. Get your key at console.cloud.intel.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkIntelExample} />
+              </TabsContent>
+              <TabsContent value="tensorwave" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  TensorWave is OpenAI-compatible — use the{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">openai</code>{' '}
+                  package with baseURL: &apos;https://api.tensorwave.com/v1&apos;.
+                  Wrap it once and every{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create()</code>{' '}
+                  call is tracked automatically. TensorWave, Inc. — Phoenix, AZ. Founded 2023. AMD MI300X-based GPU cloud — the first AMD-native cloud built from the ground up with no NVIDIA hardware. AMD MI300X has 192GB HBM3 memory (vs NVIDIA H100&apos;s 80GB) — 2.4× memory advantage, ideal for large models and MoE architectures. The &quot;AMD moment&quot; in AI: AMD&apos;s MI300X is the #1 server AI chip revenue driver for AMD in 2024-2025. 2nd AMD-powered inference provider on LLMeter after Lamini AI. 8 models: Llama 3.3 70B ($0.35/$0.35 symmetric — flagship), Llama 3.1 70B ($0.30/$0.30 symmetric), Llama 3.1 8B ($0.08/$0.08 symmetric — 97% cheaper than GPT-4o), Llama 3.1 405B ($1.60/$1.60 symmetric — enterprise; MI300X 192GB VRAM enables full 405B), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.20/$0.80), Mistral 7B ($0.06/$0.06 symmetric — cheapest, 97% cheaper than GPT-4o), Qwen 2.5 72B ($0.30/$0.30 symmetric). 6 of 8 models symmetric pricing. Get your key at console.tensorwave.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkTensorWaveExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

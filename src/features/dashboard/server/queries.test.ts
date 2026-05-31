@@ -171,6 +171,7 @@ const ZERO_PROVIDERS = {
   intel: 0,
   h2o: 0,
   g42: 0,
+  tensorwave: 0,
 };
 
 // --- Tests ---

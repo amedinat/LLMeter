@@ -117,6 +117,7 @@ import { laminiAdapter } from './lamini-adapter';
 import { intelAdapter } from './intel-adapter';
 import { h2oAdapter } from './h2o-adapter';
 import { g42Adapter } from './g42-adapter';
+import { tensorwaveAdapter } from './tensorwave-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9391,6 +9392,80 @@ describe('Provider Adapters', () => {
 
     it('g42Adapter.type is \'g42\'', () => {
       expect(g42Adapter.type).toBe('g42');
+    });
+  });
+
+  describe('tensorwaveAdapter', () => {
+    it('resolves true on 200', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      const result = await tensorwaveAdapter.validateKey('tensorwave-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.tensorwave.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer tensorwave-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with \'Invalid TensorWave API key. Get your key from console.tensorwave.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(tensorwaveAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid TensorWave API key. Get your key from console.tensorwave.com.'
+      );
+    });
+
+    it('throws on non-auth error with provider message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'TensorWave service error' } }),
+      });
+
+      await expect(tensorwaveAdapter.validateKey('some-key')).rejects.toThrow(
+        'TensorWave service error'
+      );
+    });
+
+    it('throws when api key is empty with \'TensorWave API key is missing. Get your key from console.tensorwave.com.\'', async () => {
+      await expect(tensorwaveAdapter.validateKey('')).rejects.toThrow(
+        'TensorWave API key is missing. Get your key from console.tensorwave.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await tensorwaveAdapter.fetchUsage(
+        'tensorwave-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await tensorwaveAdapter.validateKey('my-tensorwave-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-tensorwave-key-123',
+          },
+        })
+      );
+    });
+
+    it('tensorwaveAdapter.type is \'tensorwave\'', () => {
+      expect(tensorwaveAdapter.type).toBe('tensorwave');
     });
   });
 });
