@@ -172,6 +172,7 @@ const ZERO_PROVIDERS = {
   h2o: 0,
   g42: 0,
   tensorwave: 0,
+  recursal: 0,
 };
 
 // --- Tests ---

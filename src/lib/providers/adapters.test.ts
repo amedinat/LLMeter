@@ -118,6 +118,7 @@ import { intelAdapter } from './intel-adapter';
 import { h2oAdapter } from './h2o-adapter';
 import { g42Adapter } from './g42-adapter';
 import { tensorwaveAdapter } from './tensorwave-adapter';
+import { recursalAdapter } from './recursal-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9466,6 +9467,80 @@ describe('Provider Adapters', () => {
 
     it('tensorwaveAdapter.type is \'tensorwave\'', () => {
       expect(tensorwaveAdapter.type).toBe('tensorwave');
+    });
+  });
+
+  describe('recursalAdapter', () => {
+    it('validates a valid Recursal API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await recursalAdapter.validateKey('recursal-test-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.recursal.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer recursal-test-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Recursal API key. Get your key from platform.recursal.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(recursalAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Recursal API key. Get your key from platform.recursal.ai.'
+      );
+    });
+
+    it('throws a generic error on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(recursalAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Recursal API key is missing. Get your key from platform.recursal.ai.\'', async () => {
+      await expect(recursalAdapter.validateKey('')).rejects.toThrow(
+        'Recursal API key is missing. Get your key from platform.recursal.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await recursalAdapter.fetchUsage(
+        'recursal-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await recursalAdapter.validateKey('my-recursal-key-456');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-recursal-key-456',
+          },
+        })
+      );
+    });
+
+    it('recursalAdapter.type is \'recursal\'', () => {
+      expect(recursalAdapter.type).toBe('recursal');
     });
   });
 });
