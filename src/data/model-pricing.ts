@@ -10078,6 +10078,86 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── Nomic AI (api-atlas.nomic.ai) ─────────────────────────────────────────
+  // Nomic AI — New York, NY. Founded 2022 by Brandon Duderstadt and Zach Nussbaum.
+  // Second embeddings-focused provider on LLMeter (after Voyage AI, Day 128).
+  // nomic-embed-text-v1.5 is the only fully open-source (Apache 2.0) embedding model
+  // competitive on MTEB — full training code, dataset, and weights released publicly.
+  // Matryoshka representation learning: truncate to 128 dims for 6× cheaper vector storage.
+  // All models: input-only pricing (output_price=0, embeddings produce vectors not tokens).
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-text-v1.5',
+    display_name: 'Nomic Embed Text v1.5',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-text-v1.5-long',
+    display_name: 'Nomic Embed Text v1.5 Long',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-text-v1',
+    display_name: 'Nomic Embed Text v1',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-vision-v1.5',
+    display_name: 'Nomic Embed Vision v1.5',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-vision-v1',
+    display_name: 'Nomic Embed Vision v1',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-text-v1-unsupervised',
+    display_name: 'Nomic Embed Text v1 Unsupervised',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-text-v2-moe',
+    display_name: 'Nomic Embed Text v2 MoE',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'nomic',
+    model_id: 'nomic-embed-code',
+    display_name: 'Nomic Embed Code',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
