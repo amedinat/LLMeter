@@ -1145,4 +1145,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.h2o.ai/h2o-ai-cloud',
     color: '#FEC925',
   },
+  g42: {
+    type: 'g42',
+    name: 'G42 Cloud AI',
+    description: 'Jais-30B-Chat ($0.30/$0.30 symmetric — Arabic-English flagship, 88% cheaper than GPT-4o), Jais-13B-Chat ($0.15/$0.15 symmetric — mid-range), Jais-6.7B-Chat ($0.08/$0.08 symmetric — budget, 97% cheaper than GPT-4o), Jais-30B ($0.25/$0.25 symmetric — base model), Llama 3.3 70B ($0.40/$0.60 — multilingual), Llama 3.1 70B ($0.35/$0.55), Mistral 7B ($0.07/$0.07 symmetric — cheapest, 97% cheaper than GPT-4o), Qwen 2.5 72B ($0.38/$0.38 symmetric — multilingual) — G42 (Group 42 Holding Ltd), Abu Dhabi, UAE. Founded 2018 by Peng Xiao. Abu Dhabi government-backed AI conglomerate with $50B+ assets under management. Microsoft invested $1.5B in G42 in April 2024 — one of the largest single AI investments ever. JAIS: Arabic-English bilingual LLM series developed jointly with MBZUAI (Mohamed bin Zayed University of AI — world\'s first graduate-level AI university). Jais-30B trained on 72% English + 28% Arabic data; purpose-built for MENA enterprise customers. 2nd UAE sovereign AI provider on LLMeter after AI71 (Falcon by TII). 6 of 8 models symmetric pricing. OpenAI-compatible API at api.g42cloud.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-g42-api-key',
+    helpUrl: 'https://docs.g42cloud.com/ai',
+    color: '#00A86B',
+  },
 };

@@ -122,6 +122,7 @@ import { mimoAdapter } from './mimo-adapter';
 import { laminiAdapter } from './lamini-adapter';
 import { intelAdapter } from './intel-adapter';
 import { h2oAdapter } from './h2o-adapter';
+import { g42Adapter } from './g42-adapter';
 
 /**
  * Provider adapter registry.
@@ -252,6 +253,7 @@ adapters.set('mimo', mimoAdapter);
 adapters.set('lamini', laminiAdapter);
 adapters.set('intel', intelAdapter);
 adapters.set('h2o', h2oAdapter);
+adapters.set('g42', g42Adapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
