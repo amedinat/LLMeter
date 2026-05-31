@@ -10238,6 +10238,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── Tenstorrent (api.tenstorrent.ai) ─────────────────────────────────────
+  // Tenstorrent Inc. — Santa Clara, CA + Toronto, ON. Founded 2016.
+  // CEO: Jim Keller (legendary CPU architect — AMD K7/K8/Zen, Apple A4/A5,
+  // Intel, Tesla FSD chip). First RISC-V AI accelerator on LLMeter.
+  // Wormhole (n150, n300) accelerators use RISC-V Tensix cores (no proprietary ISA).
+  // Blackhole: next-gen chip with 2× performance improvement over Wormhole.
+  // $693M Series D (2024) — Hyundai, Samsung, BHP, Bezos Expeditions.
+  // Closes Big 5 AI chip story: NVIDIA + AMD + Intel Gaudi + Groq LPU +
+  // Cerebras WSE + Tenstorrent RISC-V (Day 131).
+  // All symmetric pricing — Wormhole memory efficiency reduces output cost overhead.
+  {
+    provider: 'tenstorrent',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'qwen-2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'tenstorrent',
+    model_id: 'phi-4',
+    display_name: 'Phi-4',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10487,7 +10570,12 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     intel: [0.35, 0.40], // Llama 3.3 70B on Intel Gaudi (Big 3 AI chip: NVIDIA, AMD, Intel now all tracked)
     h2o: [0.15, 0.15], // H2O Danube 3 4B symmetric flagship on H2O.ai (ML democratization since 2012, 20,000+ orgs, $250M+ raised)
     g42: [0.30, 0.30], // Jais-30B-Chat symmetric flagship on G42 Cloud AI (Abu Dhabi sovereign AI, Microsoft $1.5B investment, MBZUAI partnership)
+    tensorwave: [0.35, 0.45], // Llama 3.3 70B flagship on TensorWave (first AMD-native GPU cloud on LLMeter, MI300X 192GB HBM3, Phoenix AZ 2023)
+    recursal: [0.20, 0.20], // RWKV-6 Finch 14B symmetric flagship on Recursal AI (100% attention-free RWKV architecture, 4th non-transformer, linear O(n) inference)
+    voyage: [0.06, 0], // voyage-3 flagship on Voyage AI (MTEB #1 general+code embeddings, $20M a16z seed, 1st embeddings provider on LLMeter)
+    nomic: [0.10, 0], // nomic-embed-text-v1.5 flagship on Nomic AI (only fully open-source Apache 2.0 MTEB-competitive embeddings, Matryoshka dims)
     jina: [0.02, 0], // jina-embeddings-v3 flagship on Jina AI (Berlin 2020, multimodal CLIP v2 + 89-language embeddings, 3rd embeddings provider on LLMeter)
+    tenstorrent: [0.35, 0.45], // Llama 3.3 70B flagship on Tenstorrent (first RISC-V AI accelerator on LLMeter, Jim Keller CEO, $693M Series D 2024)
   };
   return defaults[provider];
 }

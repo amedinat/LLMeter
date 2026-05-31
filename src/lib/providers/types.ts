@@ -1199,4 +1199,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://jina.ai/api-dashboard',
     color: '#F59E0B',
   },
+  tenstorrent: {
+    type: 'tenstorrent',
+    name: 'Tenstorrent',
+    description: 'llama-3.3-70b-instruct ($0.35/$0.45 — flagship on Wormhole RISC-V, 91% cheaper than GPT-4o), llama-3.1-70b-instruct ($0.30/$0.40 — previous gen flagship), llama-3.1-8b-instruct ($0.08/$0.08 sym — budget, 97% cheaper than GPT-4o), llama-3.1-405b-instruct ($1.80/$1.80 sym — enterprise, Wormhole 192GB memory fits full 405B), mistral-7b-instruct ($0.05/$0.05 sym — cheapest, 98% cheaper than GPT-4o), deepseek-r1 ($0.55/$2.19 — reasoning flagship), qwen-2.5-72b-instruct ($0.30/$0.30 sym — multilingual), phi-4 ($0.12/$0.12 sym — Microsoft flagship) — Tenstorrent Inc., Santa Clara, CA + Toronto, ON. Founded 2016. CEO: Jim Keller (legendary CPU architect — AMD K7/K8/Zen, Apple A4/A5, Intel, Tesla FSD chip). First RISC-V AI accelerator on LLMeter. Wormhole RISC-V Tensix cores eliminate proprietary ISA lock-in. $693M Series D (2024) — Hyundai, Samsung, BHP, Bezos Expeditions. Closes the Big 5 AI chip story: NVIDIA (Day 1) + AMD/Lamini (Day 122) + Intel Gaudi (Day 123) + Groq LPU + Cerebras WSE + Tenstorrent RISC-V (Day 131). OpenAI-compatible API at api.tenstorrent.ai/v1. tenstorrent.com',
+    keyPrefix: '',
+    keyPlaceholder: 'tt_...',
+    helpUrl: 'https://cloud.tenstorrent.com',
+    color: '#7C3AED',
+  },
 };

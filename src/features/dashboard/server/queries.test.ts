@@ -176,6 +176,7 @@ const ZERO_PROVIDERS = {
   voyage: 0,
   nomic: 0,
   jina: 0,
+  tenstorrent: 0,
 };
 
 // --- Tests ---

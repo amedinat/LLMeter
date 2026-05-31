@@ -122,6 +122,7 @@ import { recursalAdapter } from './recursal-adapter';
 import { voyageAdapter } from './voyage-adapter';
 import { nomicAdapter } from './nomic-adapter';
 import { jinaAdapter } from './jina-adapter';
+import { tenstorrentAdapter } from './tenstorrent-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9766,6 +9767,80 @@ describe('Provider Adapters', () => {
 
     it('jinaAdapter.type is \'jina\'', () => {
       expect(jinaAdapter.type).toBe('jina');
+    });
+  });
+
+  describe('tenstorrentAdapter', () => {
+    it('validates a valid Tenstorrent API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await tenstorrentAdapter.validateKey('tt_test-tenstorrent-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.tenstorrent.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer tt_test-tenstorrent-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Tenstorrent API key. Get your key from cloud.tenstorrent.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(tenstorrentAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Tenstorrent API key. Get your key from cloud.tenstorrent.com.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(tenstorrentAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Tenstorrent API key is missing. Get your key from cloud.tenstorrent.com.\'', async () => {
+      await expect(tenstorrentAdapter.validateKey('')).rejects.toThrow(
+        'Tenstorrent API key is missing. Get your key from cloud.tenstorrent.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await tenstorrentAdapter.fetchUsage(
+        'tt_test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-31')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await tenstorrentAdapter.validateKey('my-tenstorrent-key-456');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-tenstorrent-key-456',
+          },
+        })
+      );
+    });
+
+    it('tenstorrentAdapter.type is \'tenstorrent\'', () => {
+      expect(tenstorrentAdapter.type).toBe('tenstorrent');
     });
   });
 });

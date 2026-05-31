@@ -160,6 +160,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         voyage: 0,
         nomic: 0,
         jina: 0,
+        tenstorrent: 0,
       },
     };
   });
