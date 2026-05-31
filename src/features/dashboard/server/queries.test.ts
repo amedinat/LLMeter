@@ -170,6 +170,7 @@ const ZERO_PROVIDERS = {
   lamini: 0,
   intel: 0,
   h2o: 0,
+  g42: 0,
 };
 
 // --- Tests ---

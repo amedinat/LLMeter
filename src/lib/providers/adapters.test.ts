@@ -116,6 +116,7 @@ import { mimoAdapter } from './mimo-adapter';
 import { laminiAdapter } from './lamini-adapter';
 import { intelAdapter } from './intel-adapter';
 import { h2oAdapter } from './h2o-adapter';
+import { g42Adapter } from './g42-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9316,6 +9317,80 @@ describe('Provider Adapters', () => {
 
     it('h2oAdapter.type is \'h2o\'', () => {
       expect(h2oAdapter.type).toBe('h2o');
+    });
+  });
+
+  describe('g42Adapter', () => {
+    it('resolves true on 200', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      const result = await g42Adapter.validateKey('g42-test-api-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.g42cloud.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer g42-test-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with \'Invalid G42 Cloud API key. Get your key from console.g42cloud.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(g42Adapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid G42 Cloud API key. Get your key from console.g42cloud.com.'
+      );
+    });
+
+    it('throws on non-auth error with provider message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'G42 service error' } }),
+      });
+
+      await expect(g42Adapter.validateKey('some-key')).rejects.toThrow(
+        'G42 service error'
+      );
+    });
+
+    it('throws when api key is empty with \'G42 Cloud API key is missing. Get your key from console.g42cloud.com.\'', async () => {
+      await expect(g42Adapter.validateKey('')).rejects.toThrow(
+        'G42 Cloud API key is missing. Get your key from console.g42cloud.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await g42Adapter.fetchUsage(
+        'g42-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('passes correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await g42Adapter.validateKey('my-g42-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-g42-key-123',
+          },
+        })
+      );
+    });
+
+    it('g42Adapter.type is \'g42\'', () => {
+      expect(g42Adapter.type).toBe('g42');
     });
   });
 });

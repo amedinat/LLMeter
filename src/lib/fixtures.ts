@@ -154,6 +154,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         lamini: 0,
         intel: 0,
         h2o: 0,
+        g42: 0,
       },
     };
   });

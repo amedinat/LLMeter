@@ -9759,6 +9759,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── G42 Cloud AI (api.g42cloud.com) ──────────────────────────────────────
+  // G42 (Group 42 Holding Ltd) — Abu Dhabi, UAE. Founded 2018 by Peng Xiao.
+  // Abu Dhabi government-backed AI conglomerate; Microsoft invested $1.5B in April 2024.
+  // JAIS: Arabic-English bilingual LLM (Jais-30B) developed with MBZUAI.
+  // 2nd UAE sovereign AI provider on LLMeter after AI71 (Falcon by TII). 6 of 8 symmetric.
+  // Jais-6.7B-Chat $0.08/1M — 97% cheaper than GPT-4o. OpenAI-compatible API at api.g42cloud.com/v1.
+  {
+    provider: 'g42',
+    model_id: 'inceptionai/jais-30b-chat',
+    display_name: 'Jais 30B Chat',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'inceptionai/jais-13b-chat',
+    display_name: 'Jais 13B Chat',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'inceptionai/jais-6.7b-chat',
+    display_name: 'Jais 6.7B Chat',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'inceptionai/jais-30b',
+    display_name: 'Jais 30B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'g42',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10007,6 +10086,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     lamini: [0.30, 0.50], // Llama 3.3 70B Instruct flagship on Lamini AI (AMD-powered inference, founded by Sharon Zhou + Greg Diamos, San Francisco 2022)
     intel: [0.35, 0.40], // Llama 3.3 70B on Intel Gaudi (Big 3 AI chip: NVIDIA, AMD, Intel now all tracked)
     h2o: [0.15, 0.15], // H2O Danube 3 4B symmetric flagship on H2O.ai (ML democratization since 2012, 20,000+ orgs, $250M+ raised)
+    g42: [0.30, 0.30], // Jais-30B-Chat symmetric flagship on G42 Cloud AI (Abu Dhabi sovereign AI, Microsoft $1.5B investment, MBZUAI partnership)
   };
   return defaults[provider];
 }
