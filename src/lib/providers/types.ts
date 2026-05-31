@@ -1172,4 +1172,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.recursal.ai',
     color: '#4F46E5',
   },
+  voyage: {
+    type: 'voyage',
+    name: 'Voyage AI',
+    description: 'voyage-3 ($0.06/1M — best quality-price balance), voyage-3-lite ($0.02/1M — ultra-budget, 99% cheaper than typical text generation), voyage-code-3 ($0.12/1M — best code embeddings on MTEB, #1 code leaderboard), voyage-3-large ($0.18/1M — highest quality general embeddings), voyage-finance-2 ($0.12/1M — finance domain-specialized), voyage-law-2 ($0.12/1M — legal domain-specialized), voyage-multilingual-2 ($0.12/1M — 30+ language support), voyage-large-2-instruct ($0.12/1M — instruction-following embeddings) — Voyage AI, San Francisco, CA. Founded 2023 by Tengyu Ma (Stanford CS Professor, formerly Meta FAIR) and team. $20M seed from Andreessen Horowitz. First embeddings-focused provider on LLMeter — #1 on MTEB leaderboard for general and code embeddings. Used by Anthropic (official RAG recommendation for Claude), Pinecone, LlamaIndex, LangChain, and Cohere. RAG developers pay for embeddings but most LLM cost monitors only track generation costs. All 8 models: input-only pricing (output_price=0, embeddings produce vectors not tokens). API key starts with pa- prefix. voyageai.com',
+    keyPrefix: 'pa-',
+    keyPlaceholder: 'pa-...',
+    helpUrl: 'https://dash.voyageai.com',
+    color: '#6B21A8',
+  },
 };

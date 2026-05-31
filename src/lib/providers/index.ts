@@ -11,3 +11,4 @@ export { anyscaleAdapter } from './anyscale-adapter';
 export { internlmAdapter } from './internlm-adapter';
 export { targonAdapter } from './targon-adapter';
 export { tensorwaveAdapter } from './tensorwave-adapter';
+export { voyageAdapter } from './voyage-adapter';

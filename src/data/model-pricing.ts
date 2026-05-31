@@ -9999,6 +9999,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── Voyage AI (api.voyageai.com) ──────────────────────────────────────────
+  // Voyage AI — San Francisco, CA. Founded 2023 by Tengyu Ma (Stanford CS Professor, formerly Meta FAIR).
+  // $20M seed from Andreessen Horowitz. #1 on MTEB leaderboard for general and code embeddings.
+  // First embeddings-focused provider on LLMeter. Used by Anthropic (official Claude RAG recommendation).
+  // Embeddings produce vectors, not tokens — output_price = 0 for all models.
+  // voyage-3 at $0.06/1M — 97% cheaper than typical text generation costs.
+  {
+    provider: 'voyage',
+    model_id: 'voyage-3',
+    display_name: 'Voyage 3',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-3-lite',
+    display_name: 'Voyage 3 Lite',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-code-3',
+    display_name: 'Voyage Code 3',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-3-large',
+    display_name: 'Voyage 3 Large',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-finance-2',
+    display_name: 'Voyage Finance 2',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-law-2',
+    display_name: 'Voyage Law 2',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-multilingual-2',
+    display_name: 'Voyage Multilingual 2',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'voyage',
+    model_id: 'voyage-large-2-instruct',
+    display_name: 'Voyage Large 2 Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───

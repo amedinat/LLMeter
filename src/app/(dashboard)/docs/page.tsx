@@ -2376,6 +2376,28 @@ const completion = await trackedIntel.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Intel
 );`;
 
+const sdkVoyageExample = `import VoyageAI from 'voyageai';
+import LLMeter, { wrapVoyage } from 'llmeter';
+
+// Voyage AI — San Francisco, CA. Founded 2023 by Tengyu Ma (Stanford CS Professor, formerly Meta FAIR)
+// $20M seed from Andreessen Horowitz. #1 on MTEB leaderboard for general and code embeddings.
+// First embeddings-focused provider on LLMeter — used by Anthropic (official Claude RAG recommendation),
+// Pinecone, LlamaIndex, LangChain, and Cohere.
+// RAG developers pay for embeddings but most LLM cost monitors only track generation costs.
+// voyage-3 at $0.06/1M — embeddings-only pricing (output_price=0, vectors not tokens)
+const voyage = new VoyageAI({ apiKey: process.env.VOYAGE_API_KEY });
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedVoyage = wrapVoyage(voyage, llmeter);
+
+// All calls are automatically tracked — MTEB #1 embeddings
+const embedding = await trackedVoyage.embeddings.create(
+  {
+    model: 'voyage-3', // or 'voyage-3-large', 'voyage-code-3', 'voyage-3-lite', 'voyage-finance-2', 'voyage-law-2', etc.
+    input: ['Hello from Voyage AI — #1 embeddings on MTEB!'],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Voyage AI
+);`;
+
 const sdkTensorWaveExample = `import OpenAI from 'openai';
 import LLMeter, { wrapTensorWave } from 'llmeter';
 
@@ -2727,6 +2749,7 @@ export default function DocsPage() {
                 <TabsTrigger value="lamini">Lamini AI</TabsTrigger>
                 <TabsTrigger value="intel">Intel Developer Cloud</TabsTrigger>
                 <TabsTrigger value="tensorwave">TensorWave</TabsTrigger>
+                <TabsTrigger value="voyage">Voyage AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3935,6 +3958,14 @@ export default function DocsPage() {
                   call is tracked automatically. TensorWave, Inc. — Phoenix, AZ. Founded 2023. AMD MI300X-based GPU cloud — the first AMD-native cloud built from the ground up with no NVIDIA hardware. AMD MI300X has 192GB HBM3 memory (vs NVIDIA H100&apos;s 80GB) — 2.4× memory advantage, ideal for large models and MoE architectures. The &quot;AMD moment&quot; in AI: AMD&apos;s MI300X is the #1 server AI chip revenue driver for AMD in 2024-2025. 2nd AMD-powered inference provider on LLMeter after Lamini AI. 8 models: Llama 3.3 70B ($0.35/$0.35 symmetric — flagship), Llama 3.1 70B ($0.30/$0.30 symmetric), Llama 3.1 8B ($0.08/$0.08 symmetric — 97% cheaper than GPT-4o), Llama 3.1 405B ($1.60/$1.60 symmetric — enterprise; MI300X 192GB VRAM enables full 405B), DeepSeek R1 ($0.50/$2.00 — reasoning), DeepSeek V3 ($0.20/$0.80), Mistral 7B ($0.06/$0.06 symmetric — cheapest, 97% cheaper than GPT-4o), Qwen 2.5 72B ($0.30/$0.30 symmetric). 6 of 8 models symmetric pricing. Get your key at console.tensorwave.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkTensorWaveExample} />
+              </TabsContent>
+              <TabsContent value="voyage" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Voyage AI client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">embeddings.create</code>{' '}
+                  once and every call is tracked automatically. Voyage AI — San Francisco, CA. Founded 2023 by Tengyu Ma (Stanford CS Professor, formerly Meta FAIR) and team. $20M seed from Andreessen Horowitz. First embeddings-focused provider on LLMeter — #1 on MTEB leaderboard for general and code embeddings. Used by Anthropic as the official RAG recommendation for Claude, plus Pinecone, LlamaIndex, LangChain, and Cohere. RAG developers pay for embeddings but most LLM cost monitors only track generation costs — LLMeter closes that gap. 8 models: voyage-3 ($0.06/1M — best quality-price balance), voyage-3-lite ($0.02/1M — ultra-budget), voyage-code-3 ($0.12/1M — #1 code embeddings on MTEB), voyage-3-large ($0.18/1M — highest quality), voyage-finance-2 ($0.12/1M — finance domain), voyage-law-2 ($0.12/1M — legal domain), voyage-multilingual-2 ($0.12/1M — 30+ languages), voyage-large-2-instruct ($0.12/1M — instruction-following). All models input-only pricing (embeddings produce vectors, not tokens). API key starts with pa- prefix. Get your key at dash.voyageai.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkVoyageExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

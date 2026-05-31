@@ -119,6 +119,7 @@ import { h2oAdapter } from './h2o-adapter';
 import { g42Adapter } from './g42-adapter';
 import { tensorwaveAdapter } from './tensorwave-adapter';
 import { recursalAdapter } from './recursal-adapter';
+import { voyageAdapter } from './voyage-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9541,6 +9542,80 @@ describe('Provider Adapters', () => {
 
     it('recursalAdapter.type is \'recursal\'', () => {
       expect(recursalAdapter.type).toBe('recursal');
+    });
+  });
+
+  describe('voyageAdapter', () => {
+    it('validates a valid Voyage AI API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+
+      const result = await voyageAdapter.validateKey('pa-test-voyage-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.voyageai.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer pa-test-voyage-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Voyage AI API key. Get your key from dash.voyageai.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(voyageAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Voyage AI API key. Get your key from dash.voyageai.com.'
+      );
+    });
+
+    it('throws a generic error on non-401 failure', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(voyageAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Voyage AI API key is missing. Get your key from dash.voyageai.com.\'', async () => {
+      await expect(voyageAdapter.validateKey('')).rejects.toThrow(
+        'Voyage AI API key is missing. Get your key from dash.voyageai.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await voyageAdapter.fetchUsage(
+        'pa-voyage-test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await voyageAdapter.validateKey('pa-my-voyage-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer pa-my-voyage-key-123',
+          },
+        })
+      );
+    });
+
+    it('voyageAdapter.type is \'voyage\'', () => {
+      expect(voyageAdapter.type).toBe('voyage');
     });
   });
 });

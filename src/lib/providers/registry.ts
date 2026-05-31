@@ -125,6 +125,7 @@ import { h2oAdapter } from './h2o-adapter';
 import { g42Adapter } from './g42-adapter';
 import { tensorwaveAdapter } from './tensorwave-adapter';
 import { recursalAdapter } from './recursal-adapter';
+import { voyageAdapter } from './voyage-adapter';
 
 /**
  * Provider adapter registry.
@@ -258,6 +259,7 @@ adapters.set('h2o', h2oAdapter);
 adapters.set('g42', g42Adapter);
 adapters.set('tensorwave', tensorwaveAdapter);
 adapters.set('recursal', recursalAdapter);
+adapters.set('voyage', voyageAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
