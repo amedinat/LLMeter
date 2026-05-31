@@ -1163,4 +1163,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.tensorwave.com',
     color: '#ED1C24',
   },
+  recursal: {
+    type: 'recursal',
+    name: 'Recursal AI',
+    description: 'RWKV-6 Finch 14B ($0.20/$0.20 symmetric — flagship, 4th non-transformer on LLMeter), RWKV-6 Finch 7B ($0.10/$0.10 symmetric), RWKV-6 Finch 3B ($0.06/$0.06 symmetric — budget), RWKV-5 Eagle 7B ($0.08/$0.08 symmetric), RWKV-6 World 14B ($0.15/$0.15 symmetric — multilingual 100+ languages), RWKV-6 World 7B ($0.08/$0.08 symmetric — multilingual budget), RWKV-4 Raven 14B ($0.12/$0.12 symmetric — instruction-tuned), RWKV-4 World 14B ($0.10/$0.10 symmetric — multilingual legacy) — Recursal AI, San Francisco, CA. Founded 2023 by BlinkDL (Peng Bo). RWKV (Receptance Weighted Key Value) — 100% attention-free architecture: linear time and memory complexity during inference. Fourth non-transformer architecture on LLMeter after Inception AI (Mercury diffusion, Day 80), Liquid AI (LFMs, Day 81), and Zyphra (Zamba Mamba SSM, Day 82). RWKV trains like a Transformer (parallelizable) but infers like an RNN (sequential state) — eliminating the O(n²) attention bottleneck. Eagle (RWKV-5) and Finch (RWKV-6) are the production-grade model families. RWKV World models support 100+ languages trained on multilingual data. All 8 models symmetric pricing (input = output per 1M tokens). OpenAI-compatible API at api.recursal.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-recursal-api-key',
+    helpUrl: 'https://docs.recursal.ai',
+    color: '#4F46E5',
+  },
 };

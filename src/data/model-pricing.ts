@@ -9921,6 +9921,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
 
+  // ── Recursal AI (api.recursal.ai) ────────────────────────────────────────
+  // Recursal AI — San Francisco, CA. Founded 2023 by BlinkDL (Peng Bo).
+  // RWKV — 100% attention-free: linear time/memory, 4th non-transformer on LLMeter.
+  // Eagle (RWKV-5) and Finch (RWKV-6) production families. All 8 symmetric.
+  // RWKV-6 Finch 14B at $0.20/1M — 92% cheaper than GPT-4o. OpenAI-compatible at api.recursal.ai/v1.
+  {
+    provider: 'recursal',
+    model_id: 'RWKV/v6-Finch-14B-HF',
+    display_name: 'RWKV-6 Finch 14B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'RWKV/v6-Finch-7B-HF',
+    display_name: 'RWKV-6 Finch 7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'RWKV/v6-Finch-3B-HF',
+    display_name: 'RWKV-6 Finch 3B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'RWKV/v5-Eagle-7B-HF',
+    display_name: 'RWKV-5 Eagle 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'RWKV/v6-World-14B-HF',
+    display_name: 'RWKV-6 World 14B',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'RWKV/v6-World-7B-HF',
+    display_name: 'RWKV-6 World 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'BlinkDL/rwkv-4-raven-14b',
+    display_name: 'RWKV-4 Raven 14B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+  {
+    provider: 'recursal',
+    model_id: 'BlinkDL/rwkv-4-world-14b',
+    display_name: 'RWKV-4 World 14B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-30T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───

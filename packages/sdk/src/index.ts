@@ -129,6 +129,7 @@ export { wrapIntel } from './intel.js';
 export { wrapH2O } from './h2o.js';
 export { wrapG42 } from './g42.js';
 export { wrapTensorWave } from './tensorwave.js';
+export { wrapRecursal } from './recursal.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
