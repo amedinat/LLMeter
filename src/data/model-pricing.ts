@@ -9890,7 +9890,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     display_name: 'DeepSeek R1',
     input_price_per_1m_tokens: 0.50,
     output_price_per_1m_tokens: 2.00,
-    capability_tier: 'reasoning',
+    capability_tier: 'premium',
     last_verified_at: '2026-05-30T00:00:00.000Z',
   },
   {

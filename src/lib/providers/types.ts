@@ -1208,4 +1208,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.tenstorrent.com',
     color: '#7C3AED',
   },
+  mixedbread: {
+    type: 'mixedbread',
+    name: 'MixedBread AI',
+    description: 'mxbai-embed-large-v1 ($0.02/1M — MTEB #1 at launch, 335M params, beats OpenAI ada-002 on retrieval benchmarks), mxbai-embed-2d-large-v1 ($0.02/1M — Matryoshka 2D, flexible dims 64→1024, 16× cheaper storage at 64-dim), mxbai-colbert-large-v1 ($0.04/1M — ColBERT late interaction, token-level precision), mxbai-rerank-large-v1 ($0.20/1M — cross-encoder reranker flagship for two-stage RAG), mxbai-rerank-base-v1 ($0.10/1M — budget reranker), mxbai-embed-large-v1-quantized ($0.01/1M — 99.6% cheaper than GPT-4o input) — MixedBread AI GmbH, Berlin, Germany. Founded 2023 by Dominik Sheridan (CEO) and Jonathan Kocmoud (CTO). Fourth embeddings-focused provider on LLMeter after Voyage AI (Day 128), Nomic AI (Day 129), and Jina AI (Day 130). Focused exclusively on high-quality embeddings and reranking — mxbai-embed-large-v1 debuted at #1 on MTEB leaderboard at launch, beating OpenAI text-embedding-ada-002 without frontier compute. mxbai-embed-2d-large-v1: Matryoshka 2D representation enables same model at flexible dimensions — 16× cheaper vector storage at 64-dim vs full 1024-dim. mxbai-colbert-large-v1: ColBERT late interaction for higher-precision retrieval vs single-vector cosine similarity. Cross-encoder rerankers for two-stage RAG pipelines. All models: input-only pricing (output_price=0, embeddings produce vectors not tokens). api.mixedbread.ai',
+    keyPrefix: '',
+    keyPlaceholder: 'your-mixedbread-api-key',
+    helpUrl: 'https://www.mixedbread.ai',
+    color: '#F97316',
+  },
+  stability: {
+    type: 'stability',
+    name: 'Stability AI',
+    description: 'stablelm-2-12b-chat ($0.15/$0.15 sym — flagship, Apache 2.0, 12B params, competitive MMLU/HellaSwag/ARC-Challenge), stablelm-2-12b ($0.12/$0.12 sym — base model), stablelm-zephyr-3b ($0.06/$0.06 sym — instruction-tuned 3B), stablelm-3b-4e1t ($0.05/$0.05 sym — base 3B), stablelm-2-zephyr-1_6b ($0.04/$0.04 sym — instruction-tuned 1.6B), stablelm-2-1_6b-chat ($0.04/$0.04 sym — ultra-compact, 98% cheaper than GPT-4o), stablecode-3b ($0.06/$0.06 sym — code), stablecode-instruct-alpha-3b ($0.07/$0.07 sym — code instruction-tuned) — Stability AI, London, UK. Founded 2020 by Emad Mostaque. Creator of Stable Diffusion — the open-source image generation model that launched the AI art revolution (10M+ downloads, $101M raised at $1B+ valuation from Coatue Management, Lightspeed, O\'Shaughnessy Ventures). First UK-headquartered AI foundation model lab on LLMeter. StableLM 2: Apache 2.0 open-source language models — deploy commercially without usage restrictions. After CEO transition (Emad Mostaque resigned March 2024), Prem Akkaraju became CEO, company refocused on enterprise API services. All 8 models fully symmetric pricing (input = output per 1M tokens). API key starts with sk- prefix. api.stability.ai',
+    keyPrefix: 'sk-',
+    keyPlaceholder: 'sk-...',
+    helpUrl: 'https://platform.stability.ai/docs',
+    color: '#3B82F6',
+  },
 };
