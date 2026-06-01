@@ -2678,6 +2678,30 @@ const completion = await trackedModular.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Modular
 );`;
 
+const sdkPhindExample = `import OpenAI from 'openai';
+import LLMeter, { wrapPhind } from 'llmeter';
+
+// Phind (phind.com) — San Francisco CA, founded 2022 by Michael Royzen (CEO)
+// and Charles Sherif (CTO). AI-powered search engine + coding assistant for developers.
+// Combines LLMs with real-time web search to answer technical questions with citations.
+// Phind-70B: first open-weights model to beat GPT-4 Turbo on HumanEval (82.3% pass@1).
+// 1M+ developers. $10M from General Catalyst, Y Combinator, SV Angel.
+const phind = new OpenAI({
+  apiKey: process.env.PHIND_API_KEY,
+  baseURL: 'https://api.phind.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedPhind = wrapPhind(phind, llmeter);
+
+// All calls are automatically tracked — developer AI search + code generation
+const completion = await trackedPhind.chat.completions.create(
+  {
+    model: 'phind-70b-v2', // or 'phind-34b-v2', 'phind-instant', 'deepseek-r1', etc.
+    messages: [{ role: 'user', content: 'How do I implement a binary search tree in Rust?' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Phind
+);`;
+
 const sdkVastExample = `import OpenAI from 'openai';
 import LLMeter, { wrapVast } from 'llmeter';
 
@@ -2929,6 +2953,7 @@ export default function DocsPage() {
                 <TabsTrigger value="modular">Modular AI</TabsTrigger>
                 <TabsTrigger value="infercom">Infercom</TabsTrigger>
                 <TabsTrigger value="vast">Vast.ai</TabsTrigger>
+                <TabsTrigger value="phind">Phind</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4201,6 +4226,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Infercom — Luxembourg HQ, Munich Germany (Equinix MU1). Europe&apos;s First Sovereign AI Inference Provider on SambaNova SN40 RDU chips — not NVIDIA GPUs. Reconfigurable Dataflow Units deliver up to 10× faster inference, 5× more energy efficient than GPU-based alternatives. gpt-oss-120b at 713 tok/s — fastest 120B inference in Europe. Data never leaves EU, no US CLOUD Act exposure, ISO 27001:2022, GDPR + EU AI Act compliant. 8 models: gpt-oss-120b ($0.24/$0.65 — EU sovereign flagship, SambaNova 713 tok/s), MiniMax M2.7 Ultraspeed ($0.66/$2.64 — EU sovereign 192K ctx), MiniMax M2.5 ($0.33/$1.32 — EU sovereign 160K ctx), Gemma 3 12B ($0.22/$0.39 — EU sovereign vision, 91% cheaper GPT-4o), Llama 3.3 70B ($0.66/$1.32 — global JP catalog), Llama 3.1 8B ($0.17/$0.28 — global JP catalog budget), DeepSeek V3.2 ($3.30/$4.95 — global JP catalog), DeepSeek V3.1 ($3.30/$4.95 — global JP catalog). Free tier: €5 credit, no credit card. Get your key at cloud.infercom.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkInfercomExample} />
+              </TabsContent>
+              <TabsContent value="phind" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Phind client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Phind — San Francisco CA, founded 2022 by Michael Royzen (CEO) and Charles Sherif (CTO). AI-powered search engine and coding assistant for developers — combines LLMs with real-time web search to answer technical questions with cited sources. Phind-70B: the first open-weights model to beat GPT-4 Turbo on HumanEval coding benchmark — 82.3% pass@1 vs GPT-4 Turbo&apos;s 81.1%. Apache 2.0 licensed. 1M+ developers. $10M raised from General Catalyst, Y Combinator, and SV Angel. 8 models: Phind-70B v2 ($0.90/$0.90 sym — flagship, HumanEval SOTA), Phind-34B v2 ($0.40/$0.40 sym — efficient code gen), Phind Instant ($0.10/$0.10 sym — fast 4K ctx), Llama 3.1 70B Instruct ($0.35/$0.55 — general purpose), Llama 3.1 8B Instruct ($0.08/$0.08 sym — budget), CodeLlama 70B Instruct ($0.75/$0.75 sym — Meta code model), DeepSeek R1 ($0.55/$2.19 — reasoning), Mistral 7B Instruct ($0.07/$0.07 sym — cheapest, 97% cheaper than GPT-4o). Get your key at platform.phind.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkPhindExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
