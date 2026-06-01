@@ -186,6 +186,7 @@ const ZERO_PROVIDERS = {
   infercom: 0,
   vast: 0,
   siloai: 0,
+  phind: 0,
 };
 
 // --- Tests ---

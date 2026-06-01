@@ -170,6 +170,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         infercom: 0,
         vast: 0,
         siloai: 0,
+        phind: 0,
       },
     };
   });

@@ -11015,6 +11015,87 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // ── Phind ────────────────────────────────────────────────────────────────────
+  // Phind (phind.com) — San Francisco, CA. Founded 2022 by Michael Royzen (CEO)
+  // and Charles Sherif (CTO). AI-powered search engine and coding assistant for
+  // developers — combines LLMs with real-time web search. 1M+ developers.
+  // $10M raised from General Catalyst, Y Combinator, SV Angel.
+  // Phind-70B: first open-weights model to beat GPT-4 Turbo on HumanEval
+  // (82.3% pass@1 vs 81.1%). Apache 2.0 licensed model weights.
+  // OpenAI-compatible API at api.phind.com/v1.
+  {
+    provider: 'phind',
+    model_id: 'phind-70b-v2',
+    display_name: 'Phind-70B v2',
+    input_price_per_1m_tokens: 0.90,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'phind-34b-v2',
+    display_name: 'Phind-34B v2',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'phind-instant',
+    display_name: 'Phind Instant',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'codellama-70b-instruct',
+    display_name: 'CodeLlama 70B Instruct',
+    input_price_per_1m_tokens: 0.75,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'phind',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11279,6 +11360,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     infercom: [0.24, 0.65], // gpt-oss-120b flagship on Infercom (Luxembourg/Germany 2024, SambaNova RDU — Europe's First Sovereign AI Inference, 713 tok/s fastest 120B in Europe, data never leaves EU)
     vast: [0.16, 0.16], // Llama 3.3 70B symmetric flagship on Vast.ai (San Francisco 2017, original P2P GPU marketplace, 30,000+ GPUs from individual owners, 20-40% below centralized cloud pricing)
     siloai: [0.28, 0.28], // Viking 33B symmetric flagship on Silo AI (Helsinki 2017, AMD $665M acquisition 2024, first Nordic-language LLMs on LLMeter, Apache 2.0)
+    phind: [0.90, 0.90], // Phind-70B v2 symmetric flagship on Phind (San Francisco 2022, first developer-focused AI search + code generation on LLMeter, HumanEval SOTA 82.3% pass@1)
   };
   return defaults[provider];
 }

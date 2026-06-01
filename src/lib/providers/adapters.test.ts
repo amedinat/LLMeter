@@ -132,6 +132,7 @@ import { modularAdapter } from './modular-adapter';
 import { infercomAdapter } from './infercom-adapter';
 import { vastAdapter } from './vast-adapter';
 import { siloaiAdapter } from './siloai-adapter';
+import { phindAdapter } from './phind-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10516,6 +10517,80 @@ describe('Provider Adapters', () => {
 
     it('siloaiAdapter.type is \'siloai\'', () => {
       expect(siloaiAdapter.type).toBe('siloai');
+    });
+  });
+
+  describe('phindAdapter', () => {
+    it('validates a valid Phind API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'phind-70b-v2' }] }) });
+
+      const result = await phindAdapter.validateKey('test-phind-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.phind.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-phind-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Phind API key. Get your key from platform.phind.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(phindAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Phind API key. Get your key from platform.phind.com.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(phindAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Phind API key is missing. Get your key from platform.phind.com.\'', async () => {
+      await expect(phindAdapter.validateKey('')).rejects.toThrow(
+        'Phind API key is missing. Get your key from platform.phind.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await phindAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await phindAdapter.validateKey('my-phind-key-xyz');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-phind-key-xyz',
+          },
+        })
+      );
+    });
+
+    it('phindAdapter.type is \'phind\'', () => {
+      expect(phindAdapter.type).toBe('phind');
     });
   });
 });

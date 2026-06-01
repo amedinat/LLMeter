@@ -1289,4 +1289,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.silo.ai',
     color: '#003580',
   },
+  phind: {
+    type: 'phind',
+    name: 'Phind',
+    description: 'Developer AI search + code generation — Phind-70B beats GPT-4 Turbo on HumanEval',
+    keyPrefix: '',
+    keyPlaceholder: 'pf-...',
+    helpUrl: 'https://platform.phind.com',
+    color: '#7B61FF',
+  },
 };

@@ -138,6 +138,7 @@ import { modularAdapter } from './modular-adapter';
 import { infercomAdapter } from './infercom-adapter';
 import { vastAdapter } from './vast-adapter';
 import { siloaiAdapter } from './siloai-adapter';
+import { phindAdapter } from './phind-adapter';
 
 /**
  * Provider adapter registry.
@@ -284,6 +285,7 @@ adapters.set('modular', modularAdapter);
 adapters.set('infercom', infercomAdapter);
 adapters.set('vast', vastAdapter);
 adapters.set('siloai', siloaiAdapter);
+adapters.set('phind', phindAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
