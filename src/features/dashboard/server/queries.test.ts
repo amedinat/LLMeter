@@ -180,6 +180,7 @@ const ZERO_PROVIDERS = {
   mixedbread: 0,
   stability: 0,
   octoai: 0,
+  ai2: 0,
 };
 
 // --- Tests ---

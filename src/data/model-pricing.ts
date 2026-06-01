@@ -10549,6 +10549,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── Allen Institute for AI / AI2 (api.allenai.org) ──────────────────────────
+  {
+    provider: 'ai2',
+    model_id: 'olmo-2-13b-instruct',
+    display_name: 'OLMo 2 13B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'olmo-2-7b-instruct',
+    display_name: 'OLMo 2 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'tulu-3-70b',
+    display_name: 'Tulu 3 70B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'tulu-3-8b',
+    display_name: 'Tulu 3 8B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'molmo-72b',
+    display_name: 'Molmo 72B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'molmo-7b-d',
+    display_name: 'Molmo 7B-D',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'olmo-2-1b',
+    display_name: 'OLMo 2 1B',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'ai2',
+    model_id: 'olmo-1-7b',
+    display_name: 'OLMo 1 7B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10807,6 +10881,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     mixedbread: [0.02, 0], // mxbai-embed-large-v1 flagship on MixedBread AI (Berlin 2023, MTEB #1 at launch, 4th embeddings provider on LLMeter)
     stability: [0.15, 0.15], // StableLM 2 12B Chat symmetric flagship on Stability AI (London 2020, creator of Stable Diffusion, first UK AI foundation model lab on LLMeter, Apache 2.0)
     octoai: [0.28, 0.45], // Llama 3.3 70B flagship on OctoAI (Apache TVM compiler team, Tianqi Chen — TVM + XGBoost creator, $132M raised, TVM auto-kernel-optimization)
+    ai2: [0.12, 0.12], // OLMo 2 13B Instruct symmetric flagship on AI2 (Allen Institute for AI, Seattle WA, Paul Allen legacy, only AI nonprofit on LLMeter, most truly open LLM)
   };
   return defaults[provider];
 }
