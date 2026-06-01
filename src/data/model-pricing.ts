@@ -10780,6 +10780,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // Infercom — Luxembourg HQ, Munich Germany (Equinix MU1).
+  // Europe's First Sovereign AI Inference Provider on SambaNova SN40 RDU.
+  // Not NVIDIA GPUs — Reconfigurable Dataflow Units (RDU): 10x faster, 5x more energy efficient.
+  // gpt-oss-120b at 713 tok/s output throughput — fastest 120B inference in Europe.
+  // Data never leaves EU. No US CLOUD Act. ISO 27001:2022. api.infercom.ai/v1
+  // Prices listed in USD (Infercom bills in EUR; ~1.10 EUR/USD conversion).
+  {
+    provider: 'infercom',
+    model_id: 'gpt-oss-120b',
+    display_name: 'GPT-OSS 120B',
+    input_price_per_1m_tokens: 0.24,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'minimax-m2.7-ultraspeed',
+    display_name: 'MiniMax M2.7 Ultraspeed',
+    input_price_per_1m_tokens: 0.66,
+    output_price_per_1m_tokens: 2.64,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'minimax-m2.5',
+    display_name: 'MiniMax M2.5',
+    input_price_per_1m_tokens: 0.33,
+    output_price_per_1m_tokens: 1.32,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'gemma-3-12b-it',
+    display_name: 'Gemma 3 12B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.39,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.66,
+    output_price_per_1m_tokens: 1.32,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.17,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'DeepSeek-V3.2',
+    display_name: 'DeepSeek V3.2',
+    input_price_per_1m_tokens: 3.30,
+    output_price_per_1m_tokens: 4.95,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'infercom',
+    model_id: 'DeepSeek-V3.1',
+    display_name: 'DeepSeek V3.1',
+    input_price_per_1m_tokens: 3.30,
+    output_price_per_1m_tokens: 4.95,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11041,6 +11120,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ai2: [0.12, 0.12], // OLMo 2 13B Instruct symmetric flagship on AI2 (Allen Institute for AI, Seattle WA, Paul Allen legacy, only AI nonprofit on LLMeter, most truly open LLM)
     lighton: [0.25, 0.75], // Alfred-40b-1123 flagship on LightOn AI (Paris, France 2016, photonic computing origin, second French AI foundation model lab on LLMeter)
     modular: [0.30, 0.40], // Llama 3.1 70B flagship on Modular AI (San José 2022, Chris Lattner — LLVM+Clang+Swift+MLIR creator, MAX inference engine 2–3x faster than vLLM)
+    infercom: [0.24, 0.65], // gpt-oss-120b flagship on Infercom (Luxembourg/Germany 2024, SambaNova RDU — Europe's First Sovereign AI Inference, 713 tok/s fastest 120B in Europe, data never leaves EU)
   };
   return defaults[provider];
 }

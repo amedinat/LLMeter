@@ -129,6 +129,7 @@ import { octoaiAdapter } from './octoai-adapter';
 import { ai2Adapter } from './ai2-adapter';
 import { lightonAdapter } from './lighton-adapter';
 import { modularAdapter } from './modular-adapter';
+import { infercomAdapter } from './infercom-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10291,6 +10292,80 @@ describe('Provider Adapters', () => {
 
     it('modularAdapter.type is \'modular\'', () => {
       expect(modularAdapter.type).toBe('modular');
+    });
+  });
+
+  describe('infercomAdapter', () => {
+    it('validates a valid Infercom API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'gpt-oss-120b' }] }) });
+
+      const result = await infercomAdapter.validateKey('test-infercom-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.infercom.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-infercom-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Infercom API key. Get your key from cloud.infercom.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(infercomAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Infercom API key. Get your key from cloud.infercom.ai.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(infercomAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Infercom API key is missing. Get your key from cloud.infercom.ai.\'', async () => {
+      await expect(infercomAdapter.validateKey('')).rejects.toThrow(
+        'Infercom API key is missing. Get your key from cloud.infercom.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await infercomAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await infercomAdapter.validateKey('my-infercom-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-infercom-key-123',
+          },
+        })
+      );
+    });
+
+    it('infercomAdapter.type is \'infercom\'', () => {
+      expect(infercomAdapter.type).toBe('infercom');
     });
   });
 });

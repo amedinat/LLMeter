@@ -1253,4 +1253,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.lighton.ai',
     color: '#7C3AED',
   },
+  modular: {
+    type: 'modular',
+    name: 'Modular AI',
+    description: 'meta-llama/llama-3.1-70b-instruct ($0.30/$0.40 — flagship, 88% cheaper than GPT-4o), meta-llama/llama-3.1-8b-instruct ($0.06/$0.06 sym — budget, 98% cheaper), meta-llama/llama-3.3-70b-instruct ($0.33/$0.45), meta-llama/llama-3.1-405b-instruct ($1.60/$1.60 sym — enterprise), mistralai/mistral-7b-instruct ($0.05/$0.05 sym — cheapest, 98% cheaper GPT-4o), mistralai/mistral-nemo-12b-instruct ($0.10/$0.10 sym), mistralai/mixtral-8x7b-instruct ($0.28/$0.28 sym — MoE), qwen/qwen2.5-72b-instruct ($0.28/$0.28 sym — multilingual) — Modular Inc., San José, CA. Founded 2022 by Chris Lattner (creator of LLVM, Clang, Swift, MLIR — 4 iconic compiler tools that power modern computing at Apple, Google, Meta, Microsoft), Tim Davis, and Guido van Rossum (Python creator, advisor/investor). MAX inference engine uses MLIR graph-level compilation to generate hardware-specific kernels at deploy time — 2–3x faster throughput than vLLM on identical hardware. Mojo programming language: Python superset, 68,000x faster than pure Python for custom kernels. First custom-MLIR-compiler AI inference cloud on LLMeter. $130M Series B — SV Angel, GV (Google Ventures). api.modular.com/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-modular-api-key',
+    helpUrl: 'https://docs.modular.com/max/api/',
+    color: '#F97316',
+  },
+  infercom: {
+    type: 'infercom',
+    name: 'Infercom',
+    description: 'gpt-oss-120b ($0.24/$0.65 — EU sovereign flagship, SambaNova RDU 713 tok/s fastest in Europe), minimax-m2.7-ultraspeed ($0.66/$2.64 — EU sovereign 192K ctx), minimax-m2.5 ($0.33/$1.32 — EU sovereign 160K ctx), gemma-3-12b-it ($0.22/$0.39 — EU sovereign vision, 91% cheaper than GPT-4o for GDPR workloads), Llama-3.3-70B-Instruct ($0.66/$1.32 — global JP catalog), Meta-Llama-3.1-8B-Instruct ($0.17/$0.28 — global JP catalog budget), DeepSeek-V3.2 ($3.30/$4.95 — global JP catalog), DeepSeek-V3.1 ($3.30/$4.95 — global JP catalog) — Infercom SCS, Luxembourg HQ + Munich Germany (Equinix MU1). Founders: Cem Tufekci (Chairman), Serik Kaldykulov (Co-Founder), Altuğ Eker (Managing Director). Europe\'s First Sovereign AI Inference Provider on SambaNova SN40 RDU chips — not NVIDIA GPUs. SambaNova Reconfigurable Dataflow Units: up to 10x faster than GPU inference, 5x more energy efficient, ~10 kW avg system power vs thousands of kW for GPU clusters. gpt-oss-120b at 713 tok/s — fastest 120B inference in Europe. Data never leaves EU jurisdiction. No US CLOUD Act or PATRIOT Act exposure. ISO 27001:2022 certified. GDPR + EU AI Act compliant. Free tier: €5 credit, no credit card. Priced in EUR (a first on LLMeter). api.infercom.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-infercom-api-key',
+    helpUrl: 'https://docs.infercom.ai',
+    color: '#1D4ED8',
+  },
 };

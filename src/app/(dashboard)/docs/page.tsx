@@ -2653,6 +2653,57 @@ const completion = await trackedLightOn.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to LightOn
 );`;
 
+const sdkModularExample = `import OpenAI from 'openai';
+import LLMeter, { wrapModular } from 'llmeter';
+
+// Modular AI (modular.com) — San José, CA. Founded 2022 by Chris Lattner,
+// creator of LLVM, Clang, Swift, and MLIR — 4 iconic compiler tools powering
+// modern computing at Apple, Google, Meta, Microsoft.
+// MAX inference engine: MLIR graph-level compilation — 2–3× faster than vLLM.
+// Mojo language: Python superset, 68,000× faster than pure Python.
+// $130M Series B — SV Angel, GV (Google Ventures). api.modular.com/v1.
+const modular = new OpenAI({
+  apiKey: process.env.MODULAR_API_KEY,
+  baseURL: 'https://api.modular.com/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedModular = wrapModular(modular, llmeter);
+
+// All calls are automatically tracked — MLIR-compiled inference
+const completion = await trackedModular.chat.completions.create(
+  {
+    model: 'meta-llama/llama-3.1-70b-instruct', // or 'meta-llama/llama-3.3-70b-instruct', etc.
+    messages: [{ role: 'user', content: 'Compiled by MAX, tracked by LLMeter.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Modular
+);`;
+
+const sdkInfercomExample = `import OpenAI from 'openai';
+import LLMeter, { wrapInfercom } from 'llmeter';
+
+// Infercom (infercom.ai) — Luxembourg HQ, Munich Germany (Equinix MU1).
+// Europe's First Sovereign AI Inference Provider on SambaNova SN40 RDU chips.
+// Not NVIDIA GPUs — Reconfigurable Dataflow Units: up to 10× faster than GPU,
+// 5× more energy efficient, ~10 kW avg total vs thousands of kW for GPU clusters.
+// gpt-oss-120b at 713 tok/s — fastest 120B inference in Europe.
+// Data never leaves EU. No US CLOUD Act. ISO 27001:2022. GDPR + EU AI Act ready.
+// Gemma 3 12B at €0.20/1M input — 91% cheaper than GPT-4o for EU-compliant workloads.
+const infercom = new OpenAI({
+  apiKey: process.env.INFERCOM_API_KEY,
+  baseURL: 'https://api.infercom.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedInfercom = wrapInfercom(infercom, llmeter);
+
+// All calls are automatically tracked — EU sovereign SambaNova RDU inference
+const completion = await trackedInfercom.chat.completions.create(
+  {
+    model: 'gpt-oss-120b', // or 'gemma-3-12b-it', 'minimax-m2.5', 'Llama-3.3-70B-Instruct', etc.
+    messages: [{ role: 'user', content: 'EU sovereign, tracked by LLMeter.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Infercom
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -2850,6 +2901,8 @@ export default function DocsPage() {
                 <TabsTrigger value="octoai">OctoAI</TabsTrigger>
                 <TabsTrigger value="ai2">Allen Institute (AI2)</TabsTrigger>
                 <TabsTrigger value="lighton">LightOn AI</TabsTrigger>
+                <TabsTrigger value="modular">Modular AI</TabsTrigger>
+                <TabsTrigger value="infercom">Infercom</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4098,6 +4151,22 @@ export default function DocsPage() {
                   once and every call is tracked automatically. LightOn AI — Paris, France. Founded 2016 by Laurent Daudet (Professor of Physics, Sorbonne University) and Sylvain Gigan (Professor of Physics, ENS Paris). Origin: built Optical Processing Units (OPUs) — hardware using laser diffraction through random optical media to perform ML matrix multiplications at the speed of light. Second French AI foundation model lab on LLMeter (after Mistral AI). Alfred: 40B parameter model with strong French and English capabilities. 8 models: alfred-40b-1123 ($0.25/$0.75 — flagship, 90% cheaper than GPT-4o), alfred-40b-0923 ($0.22/$0.66 — stable), alfred-40b-1023 ($0.22/$0.66 — Oct stable), alfred-17b-0824 ($0.10/$0.30 — midrange), alfred-7b-0824 ($0.05/$0.15 — compact), llama-3.3-70b-instruct ($0.38/$0.60 — hosted Llama flagship), llama-3.1-8b-instruct ($0.08/$0.08 sym — budget), mistral-7b-instruct-v0.3 ($0.06/$0.06 sym — cheapest). Get your key at platform.lighton.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkLightOnExample} />
+              </TabsContent>
+              <TabsContent value="modular" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Modular client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Modular AI — San José, CA. Founded 2022 by Chris Lattner, creator of LLVM, Clang, Swift, and MLIR — the 4 iconic compiler tools powering modern computing at Apple, Google, Meta, and Microsoft. MAX inference engine uses MLIR graph-level compilation for 2–3× faster throughput than vLLM. Mojo: Python superset, 68,000× faster than pure Python. 8 models: Llama 3.1 70B ($0.30/$0.40 — flagship, 88% cheaper GPT-4o), Llama 3.1 8B ($0.06/$0.06 sym — budget), Llama 3.3 70B ($0.33/$0.45), Llama 3.1 405B ($1.60/$1.60 sym — enterprise), Mistral 7B ($0.05/$0.05 sym — cheapest), Mistral NeMo 12B ($0.10/$0.10 sym), Mixtral 8x7B ($0.28/$0.28 sym — MoE), Qwen 2.5 72B ($0.28/$0.28 sym — multilingual). $130M Series B from SV Angel + GV. Get your key at console.modular.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkModularExample} />
+              </TabsContent>
+              <TabsContent value="infercom" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Infercom client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Infercom — Luxembourg HQ, Munich Germany (Equinix MU1). Europe&apos;s First Sovereign AI Inference Provider on SambaNova SN40 RDU chips — not NVIDIA GPUs. Reconfigurable Dataflow Units deliver up to 10× faster inference, 5× more energy efficient than GPU-based alternatives. gpt-oss-120b at 713 tok/s — fastest 120B inference in Europe. Data never leaves EU, no US CLOUD Act exposure, ISO 27001:2022, GDPR + EU AI Act compliant. 8 models: gpt-oss-120b ($0.24/$0.65 — EU sovereign flagship, SambaNova 713 tok/s), MiniMax M2.7 Ultraspeed ($0.66/$2.64 — EU sovereign 192K ctx), MiniMax M2.5 ($0.33/$1.32 — EU sovereign 160K ctx), Gemma 3 12B ($0.22/$0.39 — EU sovereign vision, 91% cheaper GPT-4o), Llama 3.3 70B ($0.66/$1.32 — global JP catalog), Llama 3.1 8B ($0.17/$0.28 — global JP catalog budget), DeepSeek V3.2 ($3.30/$4.95 — global JP catalog), DeepSeek V3.1 ($3.30/$4.95 — global JP catalog). Free tier: €5 credit, no credit card. Get your key at cloud.infercom.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkInfercomExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

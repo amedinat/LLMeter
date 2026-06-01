@@ -135,6 +135,7 @@ import { octoaiAdapter } from './octoai-adapter';
 import { ai2Adapter } from './ai2-adapter';
 import { lightonAdapter } from './lighton-adapter';
 import { modularAdapter } from './modular-adapter';
+import { infercomAdapter } from './infercom-adapter';
 
 /**
  * Provider adapter registry.
@@ -278,6 +279,7 @@ adapters.set('octoai', octoaiAdapter);
 adapters.set('ai2', ai2Adapter);
 adapters.set('lighton', lightonAdapter);
 adapters.set('modular', modularAdapter);
+adapters.set('infercom', infercomAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
