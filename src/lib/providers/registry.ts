@@ -136,6 +136,7 @@ import { ai2Adapter } from './ai2-adapter';
 import { lightonAdapter } from './lighton-adapter';
 import { modularAdapter } from './modular-adapter';
 import { infercomAdapter } from './infercom-adapter';
+import { vastAdapter } from './vast-adapter';
 
 /**
  * Provider adapter registry.
@@ -280,6 +281,7 @@ adapters.set('ai2', ai2Adapter);
 adapters.set('lighton', lightonAdapter);
 adapters.set('modular', modularAdapter);
 adapters.set('infercom', infercomAdapter);
+adapters.set('vast', vastAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

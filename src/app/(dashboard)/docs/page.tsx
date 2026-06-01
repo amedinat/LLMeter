@@ -2678,6 +2678,31 @@ const completion = await trackedModular.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Modular
 );`;
 
+const sdkVastExample = `import OpenAI from 'openai';
+import LLMeter, { wrapVast } from 'llmeter';
+
+// Vast.ai (vast.ai) — San Francisco CA, founded 2017 by Jonah Phillips (CEO).
+// The original peer-to-peer GPU marketplace — predates io.net, Akash, Corcel.
+// 30,000+ GPUs from individual owners worldwide.
+// Marketplace competition drives LLM inference 20-40% below centralized cloud pricing.
+// Instant Inference: serverless OpenAI-compatible endpoints on marketplace hardware.
+// Llama 3.1 8B at $0.03/1M — 99% cheaper than GPT-4o.
+const vast = new OpenAI({
+  apiKey: process.env.VAST_API_KEY,
+  baseURL: 'https://api.vast.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedVast = wrapVast(vast, llmeter);
+
+// All calls are automatically tracked — peer-to-peer GPU marketplace inference
+const completion = await trackedVast.chat.completions.create(
+  {
+    model: 'meta-llama/Meta-Llama-3.3-70B-Instruct', // or 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Marketplace pricing, tracked by LLMeter.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Vast.ai
+);`;
+
 const sdkInfercomExample = `import OpenAI from 'openai';
 import LLMeter, { wrapInfercom } from 'llmeter';
 
@@ -2903,6 +2928,7 @@ export default function DocsPage() {
                 <TabsTrigger value="lighton">LightOn AI</TabsTrigger>
                 <TabsTrigger value="modular">Modular AI</TabsTrigger>
                 <TabsTrigger value="infercom">Infercom</TabsTrigger>
+                <TabsTrigger value="vast">Vast.ai</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4159,6 +4185,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Modular AI — San José, CA. Founded 2022 by Chris Lattner, creator of LLVM, Clang, Swift, and MLIR — the 4 iconic compiler tools powering modern computing at Apple, Google, Meta, and Microsoft. MAX inference engine uses MLIR graph-level compilation for 2–3× faster throughput than vLLM. Mojo: Python superset, 68,000× faster than pure Python. 8 models: Llama 3.1 70B ($0.30/$0.40 — flagship, 88% cheaper GPT-4o), Llama 3.1 8B ($0.06/$0.06 sym — budget), Llama 3.3 70B ($0.33/$0.45), Llama 3.1 405B ($1.60/$1.60 sym — enterprise), Mistral 7B ($0.05/$0.05 sym — cheapest), Mistral NeMo 12B ($0.10/$0.10 sym), Mixtral 8x7B ($0.28/$0.28 sym — MoE), Qwen 2.5 72B ($0.28/$0.28 sym — multilingual). $130M Series B from SV Angel + GV. Get your key at console.modular.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkModularExample} />
+              </TabsContent>
+              <TabsContent value="vast" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Vast.ai client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Vast.ai — San Francisco CA, founded 2017 by Jonah Phillips. The original peer-to-peer GPU marketplace — predates io.net, Akash, Corcel, and every other decentralized compute network on LLMeter. 30,000+ GPUs from individual owners worldwide. Marketplace competition drives LLM inference 20-40% below centralized cloud pricing. Instant Inference: serverless OpenAI-compatible endpoints on marketplace hardware. 8 models: Llama 3.3 70B ($0.16/$0.16 sym — marketplace flagship, 94% cheaper than GPT-4o), Llama 3.1 70B ($0.14/$0.14 sym), Llama 3.1 8B ($0.03/$0.03 sym — 99% cheaper than GPT-4o), Llama 3.1 405B ($1.40/$1.40 sym — enterprise), DeepSeek R1 ($0.45/$1.80 — reasoning), DeepSeek V3 ($0.16/$0.64), Mistral 7B ($0.04/$0.04 sym — cheapest on platform, 98% cheaper GPT-4o), Qwen 2.5 72B ($0.18/$0.18 sym — multilingual). 6 of 8 models symmetric pricing. Get your key at console.vast.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkVastExample} />
               </TabsContent>
               <TabsContent value="infercom" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -168,6 +168,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         lighton: 0,
         modular: 0,
         infercom: 0,
+        vast: 0,
       },
     };
   });

@@ -10859,6 +10859,83 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // Vast.ai — San Francisco CA, founded 2017 by Jonah Phillips (CEO).
+  // The original peer-to-peer GPU marketplace — predates io.net, Akash, Corcel.
+  // 30,000+ GPUs from individual owners worldwide. Instant Inference: serverless LLM endpoints.
+  // Marketplace competition drives pricing 20-40% below centralized clouds. api.vast.ai/v1
+  {
+    provider: 'vast',
+    model_id: 'meta-llama/Meta-Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.16,
+    output_price_per_1m_tokens: 0.16,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.40,
+    output_price_per_1m_tokens: 1.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.16,
+    output_price_per_1m_tokens: 0.64,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'vast',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
