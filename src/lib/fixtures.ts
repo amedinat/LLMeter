@@ -165,6 +165,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         stability: 0,
         octoai: 0,
         ai2: 0,
+        lighton: 0,
       },
     };
   });

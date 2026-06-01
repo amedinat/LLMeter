@@ -2629,6 +2629,30 @@ const completion = await trackedAI2.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI2
 );`;
 
+const sdkLightOnExample = `import OpenAI from 'openai';
+import LLMeter, { wrapLightOn } from 'llmeter';
+
+// LightOn AI — Paris, France. Founded 2016 by Laurent Daudet (Sorbonne University)
+// and Sylvain Gigan (ENS Paris). Origin: built Optical Processing Units (OPUs)
+// that performed ML matrix multiplications with laser diffraction — AI at the
+// speed of light. Second French AI foundation model lab on LLMeter (after Mistral AI).
+// Alfred-40b-1123 at $0.25/1M input — 90% cheaper than GPT-4o.
+const lighton = new OpenAI({
+  apiKey: process.env.LIGHTON_API_KEY,
+  baseURL: 'https://api.lighton.ai/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedLightOn = wrapLightOn(lighton, llmeter);
+
+// All calls are automatically tracked — French-English bilingual inference
+const completion = await trackedLightOn.chat.completions.create(
+  {
+    model: 'alfred-40b-1123', // or 'alfred-17b-0824', 'meta-llama/llama-3.3-70b-instruct', etc.
+    messages: [{ role: 'user', content: 'Bonjour depuis LightOn Alfred!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to LightOn
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -2825,6 +2849,7 @@ export default function DocsPage() {
                 <TabsTrigger value="jina">Jina AI</TabsTrigger>
                 <TabsTrigger value="octoai">OctoAI</TabsTrigger>
                 <TabsTrigger value="ai2">Allen Institute (AI2)</TabsTrigger>
+                <TabsTrigger value="lighton">LightOn AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4065,6 +4090,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Allen Institute for AI (AI2) — Seattle, WA. Founded 2014 by Paul G. Allen (Microsoft co-founder). The only AI research nonprofit on LLMeter. OLMo 2: the most truly open LLM — weights + ALL training data (Dolma 3T+ tokens) + training code + eval code. Molmo: open multimodal model competitive with GPT-4V at 84% lower cost ($0.40/1M vs $2.50/1M GPT-4o). 8 models: olmo-2-13b-instruct ($0.12/$0.12 sym — flagship), olmo-2-7b-instruct ($0.06/$0.06 sym — budget, 98% cheaper GPT-4o), tulu-3-70b ($0.18/$0.20 — RLVR flagship), tulu-3-8b ($0.08/$0.08 sym), molmo-72b ($0.40/$0.40 sym — multimodal flagship), molmo-7b-d ($0.08/$0.08 sym — multimodal budget), olmo-2-1b ($0.03/$0.03 sym — ultra-compact), olmo-1-7b ($0.05/$0.05 sym — prev gen). 6 of 8 symmetric. Get your key at allenai.org/ai2-api.
                 </p>
                 <CodeBlock language="typescript" code={sdkAI2Example} />
+              </TabsContent>
+              <TabsContent value="lighton" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the LightOn client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. LightOn AI — Paris, France. Founded 2016 by Laurent Daudet (Professor of Physics, Sorbonne University) and Sylvain Gigan (Professor of Physics, ENS Paris). Origin: built Optical Processing Units (OPUs) — hardware using laser diffraction through random optical media to perform ML matrix multiplications at the speed of light. Second French AI foundation model lab on LLMeter (after Mistral AI). Alfred: 40B parameter model with strong French and English capabilities. 8 models: alfred-40b-1123 ($0.25/$0.75 — flagship, 90% cheaper than GPT-4o), alfred-40b-0923 ($0.22/$0.66 — stable), alfred-40b-1023 ($0.22/$0.66 — Oct stable), alfred-17b-0824 ($0.10/$0.30 — midrange), alfred-7b-0824 ($0.05/$0.15 — compact), llama-3.3-70b-instruct ($0.38/$0.60 — hosted Llama flagship), llama-3.1-8b-instruct ($0.08/$0.08 sym — budget), mistral-7b-instruct-v0.3 ($0.06/$0.06 sym — cheapest). Get your key at platform.lighton.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkLightOnExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -1244,4 +1244,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://allenai.org/ai2-api',
     color: '#1E6FAD',
   },
+  lighton: {
+    type: 'lighton',
+    name: 'LightOn AI',
+    description: 'alfred-40b-1123 ($0.25/$0.75 — flagship, 40B params, French-English bilingual, 90% cheaper than GPT-4o), alfred-40b-0923 ($0.22/$0.66 — stable release), alfred-40b-1023 ($0.22/$0.66 — Oct stable), alfred-17b-0824 ($0.10/$0.30 — midrange), alfred-7b-0824 ($0.05/$0.15 — compact), meta-llama/llama-3.3-70b-instruct ($0.38/$0.60 — hosted Llama 70B flagship), meta-llama/llama-3.1-8b-instruct ($0.08/$0.08 sym — hosted Llama budget), mistralai/mistral-7b-instruct-v0.3 ($0.06/$0.06 sym — cheapest) — LightOn, Paris, France. Founded 2016 by Laurent Daudet (Professor of Physics, Sorbonne University) and Sylvain Gigan (Professor of Physics, ENS Paris). Origin: LightOn built physical Optical Processing Units (OPUs) — hardware using laser diffraction through random optical media to perform ML matrix multiplications at the speed of light, deployed at French research labs. Pivoted from photonic hardware to GPU-based LLM inference in 2022. Second French AI foundation model lab on LLMeter (after Mistral AI). Alfred-40b-1123 at $0.25/1M input — 90% cheaper than GPT-4o. OpenAI-compatible API at api.lighton.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-lighton-api-key',
+    helpUrl: 'https://docs.lighton.ai',
+    color: '#7C3AED',
+  },
 };

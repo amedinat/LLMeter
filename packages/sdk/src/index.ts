@@ -138,6 +138,7 @@ export { wrapMixedBread } from './mixedbread.js';
 export { wrapStability } from './stability.js';
 export { wrapOctoAI } from './octoai.js';
 export { wrapAI2 } from './ai2.js';
+export { wrapLightOn } from './lighton.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
