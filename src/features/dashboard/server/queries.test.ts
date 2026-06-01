@@ -185,6 +185,7 @@ const ZERO_PROVIDERS = {
   modular: 0,
   infercom: 0,
   vast: 0,
+  siloai: 0,
 };
 
 // --- Tests ---

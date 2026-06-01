@@ -137,6 +137,7 @@ import { lightonAdapter } from './lighton-adapter';
 import { modularAdapter } from './modular-adapter';
 import { infercomAdapter } from './infercom-adapter';
 import { vastAdapter } from './vast-adapter';
+import { siloaiAdapter } from './siloai-adapter';
 
 /**
  * Provider adapter registry.
@@ -282,6 +283,7 @@ adapters.set('lighton', lightonAdapter);
 adapters.set('modular', modularAdapter);
 adapters.set('infercom', infercomAdapter);
 adapters.set('vast', vastAdapter);
+adapters.set('siloai', siloaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

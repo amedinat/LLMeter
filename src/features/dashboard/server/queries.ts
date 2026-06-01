@@ -302,6 +302,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           modular: 0,
           infercom: 0,
           vast: 0,
+          siloai: 0,
         }
       });
     }
@@ -463,6 +464,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           modular: 0,
           infercom: 0,
           vast: 0,
+          siloai: 0,
         },
       }
     );
