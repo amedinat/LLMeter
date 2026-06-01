@@ -10623,6 +10623,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── LightOn AI ────────────────────────────────────────────────────────────
+  // Paris, France. Founded 2016 by Laurent Daudet (Sorbonne) + Sylvain Gigan (ENS Paris).
+  // Origin: photonic computing hardware (Optical Processing Units using laser diffraction).
+  // Second French AI foundation model lab on LLMeter (after Mistral AI).
+  // Alfred: 40B parameter French-English bilingual LLM. api.lighton.ai/v1
+  {
+    provider: 'lighton',
+    model_id: 'alfred-40b-1123',
+    display_name: 'Alfred 40B (Nov 2023)',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.75,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'alfred-40b-0923',
+    display_name: 'Alfred 40B (Sep 2023)',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.66,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'alfred-40b-1023',
+    display_name: 'Alfred 40B (Oct 2023)',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.66,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'alfred-17b-0824',
+    display_name: 'Alfred 17B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'alfred-7b-0824',
+    display_name: 'Alfred 7B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'meta-llama/llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'meta-llama/llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'lighton',
+    model_id: 'mistralai/mistral-7b-instruct-v0.3',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10882,6 +10960,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     stability: [0.15, 0.15], // StableLM 2 12B Chat symmetric flagship on Stability AI (London 2020, creator of Stable Diffusion, first UK AI foundation model lab on LLMeter, Apache 2.0)
     octoai: [0.28, 0.45], // Llama 3.3 70B flagship on OctoAI (Apache TVM compiler team, Tianqi Chen — TVM + XGBoost creator, $132M raised, TVM auto-kernel-optimization)
     ai2: [0.12, 0.12], // OLMo 2 13B Instruct symmetric flagship on AI2 (Allen Institute for AI, Seattle WA, Paul Allen legacy, only AI nonprofit on LLMeter, most truly open LLM)
+    lighton: [0.25, 0.75], // Alfred-40b-1123 flagship on LightOn AI (Paris, France 2016, photonic computing origin, second French AI foundation model lab on LLMeter)
   };
   return defaults[provider];
 }

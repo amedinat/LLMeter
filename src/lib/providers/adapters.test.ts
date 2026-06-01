@@ -127,6 +127,7 @@ import { mixedbreadAdapter } from './mixedbread-adapter';
 import { stabilityAdapter } from './stability-adapter';
 import { octoaiAdapter } from './octoai-adapter';
 import { ai2Adapter } from './ai2-adapter';
+import { lightonAdapter } from './lighton-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10141,6 +10142,80 @@ describe('Provider Adapters', () => {
 
     it('ai2Adapter.type is \'ai2\'', () => {
       expect(ai2Adapter.type).toBe('ai2');
+    });
+  });
+
+  describe('lightonAdapter', () => {
+    it('validates a valid LightOn API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'alfred-40b-1123' }] }) });
+
+      const result = await lightonAdapter.validateKey('test-lighton-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.lighton.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-lighton-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid LightOn API key. Get your key from platform.lighton.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(lightonAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid LightOn API key. Get your key from platform.lighton.ai.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(lightonAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'LightOn API key is missing. Get your key from platform.lighton.ai.\'', async () => {
+      await expect(lightonAdapter.validateKey('')).rejects.toThrow(
+        'LightOn API key is missing. Get your key from platform.lighton.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await lightonAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-31')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await lightonAdapter.validateKey('my-lighton-key-789');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-lighton-key-789',
+          },
+        })
+      );
+    });
+
+    it('lightonAdapter.type is \'lighton\'', () => {
+      expect(lightonAdapter.type).toBe('lighton');
     });
   });
 });

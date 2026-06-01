@@ -181,6 +181,7 @@ const ZERO_PROVIDERS = {
   stability: 0,
   octoai: 0,
   ai2: 0,
+  lighton: 0,
 };
 
 // --- Tests ---
