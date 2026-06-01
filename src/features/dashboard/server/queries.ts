@@ -296,6 +296,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           tenstorrent: 0,
           mixedbread: 0,
           stability: 0,
+          octoai: 0,
         }
       });
     }
@@ -451,6 +452,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           tenstorrent: 0,
           mixedbread: 0,
           stability: 0,
+          octoai: 0,
         },
       }
     );

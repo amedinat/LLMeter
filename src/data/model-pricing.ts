@@ -10471,6 +10471,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── OctoAI (text.octoai.run) ────────────────────────────────────────────────
+  // OctoAI — San Francisco, CA. Founded 2018 as OctoML by Luis Ceze, Thierry Moreau,
+  // and Tianqi Chen (Apache TVM compiler creator + XGBoost creator). $132M raised.
+  // TVM Auto-Scheduling generates hardware-optimized CUDA/OpenCL/ARM kernels automatically.
+  // Llama 3.1 8B $0.05/1M — 98% cheaper than GPT-4o. 4 of 8 models symmetric.
+  {
+    provider: 'octoai',
+    model_id: 'meta-llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'meta-llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'meta-llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'meta-llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B',
+    input_price_per_1m_tokens: 2.00,
+    output_price_per_1m_tokens: 2.50,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'mistral-7b-instruct-v0.3',
+    display_name: 'Mistral 7B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'mixtral-8x7b-instruct-v0.1',
+    display_name: 'Mixtral 8x7B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+  {
+    provider: 'octoai',
+    model_id: 'qwen-2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B',
+    input_price_per_1m_tokens: 0.32,
+    output_price_per_1m_tokens: 0.32,
+    capability_tier: 'standard',
+    last_verified_at: '2026-05-31T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10728,6 +10806,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     tenstorrent: [0.35, 0.45], // Llama 3.3 70B flagship on Tenstorrent (first RISC-V AI accelerator on LLMeter, Jim Keller CEO, $693M Series D 2024)
     mixedbread: [0.02, 0], // mxbai-embed-large-v1 flagship on MixedBread AI (Berlin 2023, MTEB #1 at launch, 4th embeddings provider on LLMeter)
     stability: [0.15, 0.15], // StableLM 2 12B Chat symmetric flagship on Stability AI (London 2020, creator of Stable Diffusion, first UK AI foundation model lab on LLMeter, Apache 2.0)
+    octoai: [0.28, 0.45], // Llama 3.3 70B flagship on OctoAI (Apache TVM compiler team, Tianqi Chen — TVM + XGBoost creator, $132M raised, TVM auto-kernel-optimization)
   };
   return defaults[provider];
 }

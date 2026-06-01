@@ -163,6 +163,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         tenstorrent: 0,
         mixedbread: 0,
         stability: 0,
+        octoai: 0,
       },
     };
   });

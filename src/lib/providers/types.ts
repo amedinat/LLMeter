@@ -1226,4 +1226,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.stability.ai/docs',
     color: '#3B82F6',
   },
+  octoai: {
+    type: 'octoai',
+    name: 'OctoAI',
+    description: 'meta-llama-3.3-70b-instruct ($0.28/$0.45 — flagship, TVM-compiled, 89% cheaper than GPT-4o), meta-llama-3.1-70b-instruct ($0.25/$0.40 — standard flagship), meta-llama-3.1-8b-instruct ($0.05/$0.05 sym — budget, 98% cheaper than GPT-4o), meta-llama-3.1-405b-instruct ($2.00/$2.50 — enterprise), deepseek-r1 ($0.55/$2.19 — reasoning), mistral-7b-instruct-v0.3 ($0.06/$0.06 sym — cheapest on platform), mixtral-8x7b-instruct-v0.1 ($0.20/$0.20 sym — MoE), qwen-2.5-72b-instruct ($0.32/$0.32 sym — multilingual) — OctoAI, San Francisco, CA. Founded 2018 as OctoML by Luis Ceze (University of Washington CSE), Thierry Moreau (UW CSE), and Tianqi Chen (creator of Apache TVM neural network compiler and XGBoost). Rebranded OctoAI in 2022. $132M raised (a16z, Amplify Partners, Madrona). Apache TVM: the most widely deployed neural network compiler — used by Google, Amazon, Microsoft, ARM, Qualcomm. TVM Auto-Scheduling automatically generates hardware-optimized CUDA/OpenCL/ARM kernels without manual tuning. Tianqi Chen: also created XGBoost (100M+ downloads, the dominant gradient boosting library before neural networks). 4 of 8 models symmetric pricing. OpenAI-compatible API at text.octoai.run/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-octoai-api-key',
+    helpUrl: 'https://octoai.cloud/docs',
+    color: '#0EA5E9',
+  },
 };
