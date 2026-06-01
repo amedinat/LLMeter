@@ -132,6 +132,7 @@ import { tenstorrentAdapter } from './tenstorrent-adapter';
 import { mixedbreadAdapter } from './mixedbread-adapter';
 import { stabilityAdapter } from './stability-adapter';
 import { octoaiAdapter } from './octoai-adapter';
+import { ai2Adapter } from './ai2-adapter';
 
 /**
  * Provider adapter registry.
@@ -272,6 +273,7 @@ adapters.set('tenstorrent', tenstorrentAdapter);
 adapters.set('mixedbread', mixedbreadAdapter);
 adapters.set('stability', stabilityAdapter);
 adapters.set('octoai', octoaiAdapter);
+adapters.set('ai2', ai2Adapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

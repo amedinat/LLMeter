@@ -126,6 +126,7 @@ import { tenstorrentAdapter } from './tenstorrent-adapter';
 import { mixedbreadAdapter } from './mixedbread-adapter';
 import { stabilityAdapter } from './stability-adapter';
 import { octoaiAdapter } from './octoai-adapter';
+import { ai2Adapter } from './ai2-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10066,6 +10067,80 @@ describe('Provider Adapters', () => {
 
     it('octoaiAdapter.type is \'octoai\'', () => {
       expect(octoaiAdapter.type).toBe('octoai');
+    });
+  });
+
+  describe('ai2Adapter', () => {
+    it('validates a valid AI2 API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'olmo-2-13b-instruct' }] }) });
+
+      const result = await ai2Adapter.validateKey('test-ai2-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.allenai.org/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-ai2-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid AI2 API key. Get your key from allenai.org/ai2-api.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(ai2Adapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI2 API key. Get your key from allenai.org/ai2-api.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(ai2Adapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'AI2 API key is missing. Get your key from allenai.org/ai2-api.\'', async () => {
+      await expect(ai2Adapter.validateKey('')).rejects.toThrow(
+        'AI2 API key is missing. Get your key from allenai.org/ai2-api.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ai2Adapter.fetchUsage(
+        'test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-31')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await ai2Adapter.validateKey('my-ai2-key-789');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-ai2-key-789',
+          },
+        })
+      );
+    });
+
+    it('ai2Adapter.type is \'ai2\'', () => {
+      expect(ai2Adapter.type).toBe('ai2');
     });
   });
 });

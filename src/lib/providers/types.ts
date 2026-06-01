@@ -1235,4 +1235,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://octoai.cloud/docs',
     color: '#0EA5E9',
   },
+  ai2: {
+    type: 'ai2',
+    name: 'Allen Institute for AI (AI2)',
+    description: 'olmo-2-13b-instruct ($0.12/$0.12 sym — flagship, Paul Allen legacy open research), olmo-2-7b-instruct ($0.06/$0.06 sym — budget, 98% cheaper than GPT-4o), tulu-3-70b ($0.18/$0.20 — instruction-tuned RLVR flagship), tulu-3-8b ($0.08/$0.08 sym — instruction-tuned budget), molmo-72b ($0.40/$0.40 sym — multimodal flagship, 84% cheaper than GPT-4o), molmo-7b-d ($0.08/$0.08 sym — multimodal budget), olmo-2-1b ($0.03/$0.03 sym — ultra-compact), olmo-1-7b ($0.05/$0.05 sym — prev gen) — Allen Institute for AI, Seattle WA. Founded 2014 by Paul G. Allen (Microsoft co-founder, 1953–2018). The ONLY AI research nonprofit on LLMeter. OLMo 2: the most truly open LLM — weights + ALL training data (Dolma 3T+ tokens) + training code + eval code. Full scientific reproducibility unlike Llama/Mistral (weights-only). Molmo: open multimodal competitive with GPT-4V, 84% cheaper. Tulu 3: RLVR post-training without human preference labels. OpenAI-compatible API at api.allenai.org/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-ai2-api-key',
+    helpUrl: 'https://allenai.org/ai2-api',
+    color: '#1E6FAD',
+  },
 };

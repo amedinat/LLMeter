@@ -2604,6 +2604,31 @@ const completion = await trackedOctoAI.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OctoAI
 );`;
 
+const sdkAI2Example = `import OpenAI from 'openai';
+import LLMeter, { wrapAI2 } from 'llmeter';
+
+// Allen Institute for AI (AI2) — Seattle, WA. Founded 2014 by Paul G. Allen
+// (Microsoft co-founder). The only AI research nonprofit on LLMeter.
+// OLMo 2: the most truly open LLM — weights + ALL training data (Dolma 3T+ tokens)
+// + training code + eval code. Full scientific reproducibility unlike Llama/Mistral.
+// Molmo: open multimodal competitive with GPT-4V at 84% lower cost.
+// OLMo 2 7B Instruct at $0.06/1M — 98% cheaper than GPT-4o.
+const ai2 = new OpenAI({
+  apiKey: process.env.AI2_API_KEY,
+  baseURL: 'https://api.allenai.org/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedAI2 = wrapAI2(ai2, llmeter);
+
+// All calls are automatically tracked — open-source research inference
+const completion = await trackedAI2.chat.completions.create(
+  {
+    model: 'olmo-2-13b-instruct', // or 'tulu-3-70b', 'molmo-72b', 'olmo-2-7b-instruct', etc.
+    messages: [{ role: 'user', content: 'Hello from AI2 OLMo!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to AI2
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -2799,6 +2824,7 @@ export default function DocsPage() {
                 <TabsTrigger value="voyage">Voyage AI</TabsTrigger>
                 <TabsTrigger value="jina">Jina AI</TabsTrigger>
                 <TabsTrigger value="octoai">OctoAI</TabsTrigger>
+                <TabsTrigger value="ai2">Allen Institute (AI2)</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4031,6 +4057,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. OctoAI — San Francisco, CA. Founded 2018 as OctoML by Luis Ceze, Thierry Moreau, and Tianqi Chen (creator of Apache TVM neural network compiler and XGBoost). $132M raised (a16z, Amplify Partners, Madrona). Apache TVM: the most widely deployed neural network compiler — used by Google, Amazon, Microsoft, ARM, Qualcomm. TVM Auto-Scheduling generates hardware-optimized kernels automatically without manual tuning. Tianqi Chen also created XGBoost (100M+ downloads). 8 models: meta-llama-3.3-70b-instruct ($0.28/$0.45 — flagship), meta-llama-3.1-8b-instruct ($0.05/$0.05 sym — budget, 98% cheaper than GPT-4o), mistral-7b-instruct-v0.3 ($0.06/$0.06 sym — cheapest), mixtral-8x7b-instruct-v0.1 ($0.20/$0.20 sym — MoE), qwen-2.5-72b-instruct ($0.32/$0.32 sym — multilingual), deepseek-r1 ($0.55/$2.19 — reasoning), meta-llama-3.1-70b-instruct ($0.25/$0.40), meta-llama-3.1-405b-instruct ($2.00/$2.50 — enterprise). 4 of 8 models symmetric pricing. Get your key at octoai.cloud.
                 </p>
                 <CodeBlock language="typescript" code={sdkOctoAIExample} />
+              </TabsContent>
+              <TabsContent value="ai2" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the AI2 client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Allen Institute for AI (AI2) — Seattle, WA. Founded 2014 by Paul G. Allen (Microsoft co-founder). The only AI research nonprofit on LLMeter. OLMo 2: the most truly open LLM — weights + ALL training data (Dolma 3T+ tokens) + training code + eval code. Molmo: open multimodal model competitive with GPT-4V at 84% lower cost ($0.40/1M vs $2.50/1M GPT-4o). 8 models: olmo-2-13b-instruct ($0.12/$0.12 sym — flagship), olmo-2-7b-instruct ($0.06/$0.06 sym — budget, 98% cheaper GPT-4o), tulu-3-70b ($0.18/$0.20 — RLVR flagship), tulu-3-8b ($0.08/$0.08 sym), molmo-72b ($0.40/$0.40 sym — multimodal flagship), molmo-7b-d ($0.08/$0.08 sym — multimodal budget), olmo-2-1b ($0.03/$0.03 sym — ultra-compact), olmo-1-7b ($0.05/$0.05 sym — prev gen). 6 of 8 symmetric. Get your key at allenai.org/ai2-api.
+                </p>
+                <CodeBlock language="typescript" code={sdkAI2Example} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
