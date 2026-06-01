@@ -128,6 +128,7 @@ import { stabilityAdapter } from './stability-adapter';
 import { octoaiAdapter } from './octoai-adapter';
 import { ai2Adapter } from './ai2-adapter';
 import { lightonAdapter } from './lighton-adapter';
+import { modularAdapter } from './modular-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10216,6 +10217,80 @@ describe('Provider Adapters', () => {
 
     it('lightonAdapter.type is \'lighton\'', () => {
       expect(lightonAdapter.type).toBe('lighton');
+    });
+  });
+
+  describe('modularAdapter', () => {
+    it('validates a valid Modular API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'meta-llama/llama-3.1-70b-instruct' }] }) });
+
+      const result = await modularAdapter.validateKey('test-modular-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.modular.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-modular-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Modular API key. Get your key from console.modular.com.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(modularAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Modular API key. Get your key from console.modular.com.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(modularAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Modular API key is missing. Get your key from console.modular.com.\'', async () => {
+      await expect(modularAdapter.validateKey('')).rejects.toThrow(
+        'Modular API key is missing. Get your key from console.modular.com.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await modularAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await modularAdapter.validateKey('my-modular-key-123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-modular-key-123',
+          },
+        })
+      );
+    });
+
+    it('modularAdapter.type is \'modular\'', () => {
+      expect(modularAdapter.type).toBe('modular');
     });
   });
 });

@@ -10701,6 +10701,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-05-31T00:00:00.000Z',
   },
 
+  // ── Modular AI (MAX Serving Cloud) ──────────────────────────────────────────
+  // San José, CA. Founded 2022 by Chris Lattner (LLVM, Clang, Swift, MLIR).
+  // MAX: custom MLIR-based inference engine. 2–3x faster than vLLM via
+  // graph-level compilation and hardware-specific kernel generation at deploy time.
+  // Mojo language: Python superset, 68,000x faster than pure Python.
+  // $130M Series B — SV Angel, GV (Google Ventures). api.modular.com/v1
+  {
+    provider: 'modular',
+    model_id: 'meta-llama/llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'meta-llama/llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'meta-llama/llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.33,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'meta-llama/llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.60,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'mistralai/mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'mistralai/mistral-nemo-instruct-2407',
+    display_name: 'Mistral NeMo 12B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'mistralai/mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'modular',
+    model_id: 'qwen/qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -10961,6 +11040,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     octoai: [0.28, 0.45], // Llama 3.3 70B flagship on OctoAI (Apache TVM compiler team, Tianqi Chen — TVM + XGBoost creator, $132M raised, TVM auto-kernel-optimization)
     ai2: [0.12, 0.12], // OLMo 2 13B Instruct symmetric flagship on AI2 (Allen Institute for AI, Seattle WA, Paul Allen legacy, only AI nonprofit on LLMeter, most truly open LLM)
     lighton: [0.25, 0.75], // Alfred-40b-1123 flagship on LightOn AI (Paris, France 2016, photonic computing origin, second French AI foundation model lab on LLMeter)
+    modular: [0.30, 0.40], // Llama 3.1 70B flagship on Modular AI (San José 2022, Chris Lattner — LLVM+Clang+Swift+MLIR creator, MAX inference engine 2–3x faster than vLLM)
   };
   return defaults[provider];
 }

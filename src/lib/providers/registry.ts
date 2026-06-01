@@ -134,6 +134,7 @@ import { stabilityAdapter } from './stability-adapter';
 import { octoaiAdapter } from './octoai-adapter';
 import { ai2Adapter } from './ai2-adapter';
 import { lightonAdapter } from './lighton-adapter';
+import { modularAdapter } from './modular-adapter';
 
 /**
  * Provider adapter registry.
@@ -276,6 +277,7 @@ adapters.set('stability', stabilityAdapter);
 adapters.set('octoai', octoaiAdapter);
 adapters.set('ai2', ai2Adapter);
 adapters.set('lighton', lightonAdapter);
+adapters.set('modular', modularAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
