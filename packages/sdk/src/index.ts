@@ -136,6 +136,7 @@ export { wrapJina } from './jina.js';
 export { wrapTenstorrent } from './tenstorrent.js';
 export { wrapMixedBread } from './mixedbread.js';
 export { wrapStability } from './stability.js';
+export { wrapOctoAI } from './octoai.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

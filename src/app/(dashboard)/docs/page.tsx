@@ -2579,6 +2579,31 @@ const completion = await trackedFal.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to fal.ai
 );`;
 
+const sdkOctoAIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapOctoAI } from 'llmeter';
+
+// OctoAI — San Francisco, CA. Founded 2018 as OctoML by Luis Ceze, Thierry Moreau,
+// and Tianqi Chen (Apache TVM compiler creator + XGBoost creator). $132M raised.
+// Apache TVM auto-compiler generates optimized CUDA/OpenCL/ARM kernels automatically —
+// better hardware utilization than standard CUDA for specific model+hardware combinations.
+// Tianqi Chen: also created XGBoost (100M+ downloads, dominant gradient boosting library).
+// Llama 3.1 8B at $0.05/1M — 98% cheaper than GPT-4o. 4 of 8 models symmetric pricing.
+const octoai = new OpenAI({
+  apiKey: process.env.OCTOAI_API_KEY,
+  baseURL: 'https://text.octoai.run/v1',
+});
+const llmeter = new LLMeter({ apiKey: 'lm_...' });
+const trackedOctoAI = wrapOctoAI(octoai, llmeter);
+
+// All calls are automatically tracked — TVM-compiled inference
+const completion = await trackedOctoAI.chat.completions.create(
+  {
+    model: 'meta-llama-3.3-70b-instruct', // or 'meta-llama-3.1-8b-instruct', 'deepseek-r1', etc.
+    messages: [{ role: 'user', content: 'Hello from OctoAI!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to OctoAI
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -2773,6 +2798,7 @@ export default function DocsPage() {
                 <TabsTrigger value="tensorwave">TensorWave</TabsTrigger>
                 <TabsTrigger value="voyage">Voyage AI</TabsTrigger>
                 <TabsTrigger value="jina">Jina AI</TabsTrigger>
+                <TabsTrigger value="octoai">OctoAI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -3997,6 +4023,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Jina AI — Berlin, Germany. Founded 2020 by Han Xiao (CEO, ex-Tencent AI Lab) and Michael Berk Yazici. Third embeddings-focused provider on LLMeter (after Voyage AI Day 128, Nomic AI Day 129). jina-embeddings-v3: 570M params, MTEB top 10, 89 languages, 8192 token context. jina-clip-v2: unified multimodal model (865M params) — same model encodes both text and images, enabling true multimodal RAG without a separate vision encoder. German and Chinese-specialized models extend coverage beyond English. 8 models: jina-embeddings-v3 ($0.02/1M — flagship), jina-clip-v2 ($0.02/1M — multimodal), jina-clip-v1 ($0.02/1M — previous multimodal), jina-embeddings-v2-base-en ($0.01/1M — English, Apache 2.0), jina-embeddings-v2-base-de ($0.01/1M — German), jina-embeddings-v2-base-zh ($0.01/1M — Chinese), jina-embeddings-v2-base-code ($0.01/1M — code), jina-colbert-v2 ($0.02/1M — ColBERT late interaction). All models input-only pricing (embeddings produce vectors, not tokens). API key starts with jina_ prefix. Get your key at jina.ai/api-dashboard.
                 </p>
                 <CodeBlock language="typescript" code={sdkJinaExample} />
+              </TabsContent>
+              <TabsContent value="octoai" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the OctoAI client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. OctoAI — San Francisco, CA. Founded 2018 as OctoML by Luis Ceze, Thierry Moreau, and Tianqi Chen (creator of Apache TVM neural network compiler and XGBoost). $132M raised (a16z, Amplify Partners, Madrona). Apache TVM: the most widely deployed neural network compiler — used by Google, Amazon, Microsoft, ARM, Qualcomm. TVM Auto-Scheduling generates hardware-optimized kernels automatically without manual tuning. Tianqi Chen also created XGBoost (100M+ downloads). 8 models: meta-llama-3.3-70b-instruct ($0.28/$0.45 — flagship), meta-llama-3.1-8b-instruct ($0.05/$0.05 sym — budget, 98% cheaper than GPT-4o), mistral-7b-instruct-v0.3 ($0.06/$0.06 sym — cheapest), mixtral-8x7b-instruct-v0.1 ($0.20/$0.20 sym — MoE), qwen-2.5-72b-instruct ($0.32/$0.32 sym — multilingual), deepseek-r1 ($0.55/$2.19 — reasoning), meta-llama-3.1-70b-instruct ($0.25/$0.40), meta-llama-3.1-405b-instruct ($2.00/$2.50 — enterprise). 4 of 8 models symmetric pricing. Get your key at octoai.cloud.
+                </p>
+                <CodeBlock language="typescript" code={sdkOctoAIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

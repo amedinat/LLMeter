@@ -125,6 +125,7 @@ import { jinaAdapter } from './jina-adapter';
 import { tenstorrentAdapter } from './tenstorrent-adapter';
 import { mixedbreadAdapter } from './mixedbread-adapter';
 import { stabilityAdapter } from './stability-adapter';
+import { octoaiAdapter } from './octoai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -9991,6 +9992,80 @@ describe('Provider Adapters', () => {
 
     it('stabilityAdapter.type is \'stability\'', () => {
       expect(stabilityAdapter.type).toBe('stability');
+    });
+  });
+
+  describe('octoaiAdapter', () => {
+    it('validates a valid OctoAI API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'meta-llama-3.3-70b-instruct' }] }) });
+
+      const result = await octoaiAdapter.validateKey('sk-test-octoai-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://text.octoai.run/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer sk-test-octoai-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid OctoAI API key. Get your key from octoai.cloud.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(octoaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid OctoAI API key. Get your key from octoai.cloud.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(octoaiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'OctoAI API key is missing. Get your key from octoai.cloud.\'', async () => {
+      await expect(octoaiAdapter.validateKey('')).rejects.toThrow(
+        'OctoAI API key is missing. Get your key from octoai.cloud.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await octoaiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-05-01'),
+        new Date('2026-05-31')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await octoaiAdapter.validateKey('my-octoai-key-789');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-octoai-key-789',
+          },
+        })
+      );
+    });
+
+    it('octoaiAdapter.type is \'octoai\'', () => {
+      expect(octoaiAdapter.type).toBe('octoai');
     });
   });
 });
