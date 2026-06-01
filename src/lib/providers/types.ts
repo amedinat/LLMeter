@@ -1271,4 +1271,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.infercom.ai',
     color: '#1D4ED8',
   },
+  vast: {
+    type: 'vast',
+    name: 'Vast.ai',
+    description: 'Llama 3.3 70B ($0.16/$0.16 sym — marketplace flagship, 94% cheaper than GPT-4o), Llama 3.1 8B ($0.03/$0.03 sym — budget, 99% cheaper than GPT-4o), Mistral 7B ($0.04/$0.04 sym — cheapest, 98% cheaper), DeepSeek R1 ($0.45/$1.80 — reasoning), Llama 3.1 405B ($1.40/$1.40 sym — enterprise), Qwen 2.5 72B ($0.18/$0.18 sym — multilingual), DeepSeek V3 ($0.16/$0.64) — Vast.ai, San Francisco 2017, the original peer-to-peer GPU marketplace (before io.net, Akash, Corcel). 30,000+ GPUs from individual owners worldwide. Marketplace competition drives LLM inference 20-40% below centralized cloud pricing. Instant Inference: serverless OpenAI-compatible endpoints. 6 of 8 models symmetric pricing. Llama 3.1 8B at $0.03/1M — 99% cheaper than GPT-4o. api.vast.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-vast-api-key',
+    helpUrl: 'https://docs.vast.ai/serverless/inference',
+    color: '#FF6B35',
+  },
 };

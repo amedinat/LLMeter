@@ -184,6 +184,7 @@ const ZERO_PROVIDERS = {
   lighton: 0,
   modular: 0,
   infercom: 0,
+  vast: 0,
 };
 
 // --- Tests ---
