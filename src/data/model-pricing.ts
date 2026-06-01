@@ -10936,6 +10936,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // Silo AI — Helsinki, Finland. Founded 2017 by Peter Sarlin (CEO, former Bank of Finland
+  // senior researcher). AMD acquired Silo AI for $665M in July 2024 — AMD's largest AI
+  // software acquisition ever. Creator of the Viking LLM series: the only Scandinavian-language
+  // foundation models trained natively on Finnish, Swedish, Norwegian, Danish, and Icelandic data.
+  // Apache 2.0 licensed. EuroLLM co-lead (EU-funded €10M, 24 EU official languages).
+  // OpenAI-compatible API at api.silo.ai/v1.
+  {
+    provider: 'siloai',
+    model_id: 'viking-33b-v0.1',
+    display_name: 'Viking 33B v0.1',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'viking-7b-v0.1',
+    display_name: 'Viking 7B v0.1',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'viking-70b-v0.1',
+    display_name: 'Viking 70B v0.1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'eurollm-9b-instruct',
+    display_name: 'EuroLLM 9B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'eurollm-1.7b-instruct',
+    display_name: 'EuroLLM 1.7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'viking-33b-instruct',
+    display_name: 'Viking 33B Instruct',
+    input_price_per_1m_tokens: 0.32,
+    output_price_per_1m_tokens: 0.32,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'siloai',
+    model_id: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11198,6 +11277,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     lighton: [0.25, 0.75], // Alfred-40b-1123 flagship on LightOn AI (Paris, France 2016, photonic computing origin, second French AI foundation model lab on LLMeter)
     modular: [0.30, 0.40], // Llama 3.1 70B flagship on Modular AI (San José 2022, Chris Lattner — LLVM+Clang+Swift+MLIR creator, MAX inference engine 2–3x faster than vLLM)
     infercom: [0.24, 0.65], // gpt-oss-120b flagship on Infercom (Luxembourg/Germany 2024, SambaNova RDU — Europe's First Sovereign AI Inference, 713 tok/s fastest 120B in Europe, data never leaves EU)
+    vast: [0.16, 0.16], // Llama 3.3 70B symmetric flagship on Vast.ai (San Francisco 2017, original P2P GPU marketplace, 30,000+ GPUs from individual owners, 20-40% below centralized cloud pricing)
+    siloai: [0.28, 0.28], // Viking 33B symmetric flagship on Silo AI (Helsinki 2017, AMD $665M acquisition 2024, first Nordic-language LLMs on LLMeter, Apache 2.0)
   };
   return defaults[provider];
 }

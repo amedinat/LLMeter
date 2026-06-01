@@ -1280,4 +1280,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.vast.ai/serverless/inference',
     color: '#FF6B35',
   },
+  siloai: {
+    type: 'siloai',
+    name: 'Silo AI',
+    description: 'viking-33b-v0.1 ($0.28/$0.28 sym — flagship, Nordic-language 33B, 89% cheaper than GPT-4o), viking-7b-v0.1 ($0.07/$0.07 sym — budget, 97% cheaper), viking-70b-v0.1 ($0.55/$0.55 sym — enterprise), eurollm-9b-instruct ($0.10/$0.10 sym — EU 24-language model), eurollm-1.7b-instruct ($0.04/$0.04 sym — ultra-budget EU multilingual), viking-33b-instruct ($0.32/$0.32 sym — instruction-tuned), llama-3.1-70b-instruct ($0.45/$0.55 — hosted Llama flagship), llama-3.1-8b-instruct ($0.08/$0.08 sym — hosted Llama budget) — Silo AI, Helsinki, Finland 2017. Founded by Peter Sarlin (CEO, former Bank of Finland researcher). AMD acquired Silo AI for $665M in July 2024 — AMD\'s largest AI software acquisition ever. Viking LLM series: the only Scandinavian-language foundation models on LLMeter — trained natively on Finnish, Swedish, Norwegian, Danish, Icelandic data. Apache 2.0 licensed. EuroLLM co-lead (EU-funded €10M, 24 EU official languages). viking-33b-v0.1 at $0.28/1M — 89% cheaper than GPT-4o for Nordic-language tasks. api.silo.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-siloai-api-key',
+    helpUrl: 'https://docs.silo.ai',
+    color: '#003580',
+  },
 };

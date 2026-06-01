@@ -130,6 +130,8 @@ import { ai2Adapter } from './ai2-adapter';
 import { lightonAdapter } from './lighton-adapter';
 import { modularAdapter } from './modular-adapter';
 import { infercomAdapter } from './infercom-adapter';
+import { vastAdapter } from './vast-adapter';
+import { siloaiAdapter } from './siloai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10366,6 +10368,154 @@ describe('Provider Adapters', () => {
 
     it('infercomAdapter.type is \'infercom\'', () => {
       expect(infercomAdapter.type).toBe('infercom');
+    });
+  });
+
+  describe('vastAdapter', () => {
+    it('validates a valid Vast.ai API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'meta-llama/Meta-Llama-3.3-70B-Instruct' }] }) });
+
+      const result = await vastAdapter.validateKey('test-vast-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.vast.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-vast-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Vast.ai API key. Get your key from console.vast.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(vastAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Vast.ai API key. Get your key from console.vast.ai.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(vastAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Vast.ai API key is missing. Get your key from console.vast.ai.\'', async () => {
+      await expect(vastAdapter.validateKey('')).rejects.toThrow(
+        'Vast.ai API key is missing. Get your key from console.vast.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await vastAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await vastAdapter.validateKey('my-vast-key-abc');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-vast-key-abc',
+          },
+        })
+      );
+    });
+
+    it('vastAdapter.type is \'vast\'', () => {
+      expect(vastAdapter.type).toBe('vast');
+    });
+  });
+
+  describe('siloaiAdapter', () => {
+    it('validates a valid Silo AI API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'viking-33b-v0.1' }] }) });
+
+      const result = await siloaiAdapter.validateKey('test-siloai-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.silo.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-siloai-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with \'Invalid Silo AI API key. Get your key from platform.silo.ai.\'', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(siloaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Silo AI API key. Get your key from platform.silo.ai.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(siloaiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with \'Silo AI API key is missing. Get your key from platform.silo.ai.\'', async () => {
+      await expect(siloaiAdapter.validateKey('')).rejects.toThrow(
+        'Silo AI API key is missing. Get your key from platform.silo.ai.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await siloaiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await siloaiAdapter.validateKey('my-siloai-key-xyz');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-siloai-key-xyz',
+          },
+        })
+      );
+    });
+
+    it('siloaiAdapter.type is \'siloai\'', () => {
+      expect(siloaiAdapter.type).toBe('siloai');
     });
   });
 });
