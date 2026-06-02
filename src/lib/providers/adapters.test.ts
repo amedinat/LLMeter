@@ -135,6 +135,7 @@ import { siloaiAdapter } from './siloai-adapter';
 import { phindAdapter } from './phind-adapter';
 import { bentocloudAdapter } from './bentocloud-adapter';
 import { kakaoAdapter } from './kakao-adapter';
+import { nlpcloudAdapter } from './nlpcloud-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10740,6 +10741,80 @@ describe('Provider Adapters', () => {
 
     it('kakaoAdapter.type is \'kakao\'', () => {
       expect(kakaoAdapter.type).toBe('kakao');
+    });
+  });
+
+  describe('nlpcloudAdapter', () => {
+    it('validates a valid NLP Cloud API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'llama-3.3-70b-instruct' }] }) });
+
+      const result = await nlpcloudAdapter.validateKey('test-nlpcloud-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.nlpcloud.io/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-nlpcloud-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with NLP Cloud invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(nlpcloudAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NLP Cloud API key.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(nlpcloudAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(nlpcloudAdapter.validateKey('')).rejects.toThrow(
+        'NLP Cloud API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nlpcloudAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await nlpcloudAdapter.validateKey('my-nlpcloud-key-abc');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-nlpcloud-key-abc',
+          },
+        })
+      );
+    });
+
+    it('nlpcloudAdapter.type is \'nlpcloud\'', () => {
+      expect(nlpcloudAdapter.type).toBe('nlpcloud');
     });
   });
 });

@@ -1316,4 +1316,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developers.kakao.com',
     color: '#FEE500',
   },
+  nlpcloud: {
+    type: 'nlpcloud',
+    name: 'NLP Cloud',
+    description: 'Privacy-first open-source LLM inference — Llama 3.3 70B ($0.35/$0.70), Mixtral 8x7B ($0.25 sym), Mistral 7B ($0.07 sym — cheapest EU inference) — 4th French AI provider on LLMeter, founded 2021 by Julien Salinas (solo developer), no prompt logging, no training on user data, EU servers (France + Ireland), GDPR-compliant',
+    keyPrefix: '',
+    keyPlaceholder: 'your-nlpcloud-api-key',
+    helpUrl: 'https://nlpcloud.io/home/token',
+    color: '#4F46E5',
+  },
 };

@@ -2727,6 +2727,31 @@ const completion = await trackedKakao.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Kakao
 );`;
 
+const sdkNlpCloudExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNlpCloud } from 'llmeter';
+
+// NLP Cloud (api.nlpcloud.io) — Île-de-France, France. Founded 2021 by Julien Salinas
+// (solo developer, bootstrapped — no VC). Privacy-first: no prompt logging, no training
+// on user data, EU-only servers (France + Ireland), full GDPR compliance.
+// 4th French AI provider on LLMeter (after Mistral AI, TextSynth, LightOn AI).
+// Exclusively open-source models: Llama 3.3, Mistral, Mixtral, DeepSeek R1, CodeLlama.
+// Llama 3.3 70B at $0.35/$0.70 — 86% cheaper than GPT-4o input.
+const nlpcloud = new OpenAI({
+  apiKey: process.env.NLPCLOUD_API_KEY,
+  baseURL: 'https://api.nlpcloud.io/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedNlpCloud = wrapNlpCloud(nlpcloud, llmeter);
+
+const completion = await trackedNlpCloud.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'mistral-7b-instruct-v0-3', 'mixtral-8x7b-instruct-v0-1', 'deepseek-r1-distill-llama-70b', etc.
+    messages: [{ role: 'user', content: 'Expliquez le RGPD en termes simples.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NLP Cloud
+);`;
+
 const sdkBentoCloudExample = `import OpenAI from 'openai';
 import LLMeter, { wrapBentoCloud } from 'llmeter';
 
@@ -3008,6 +3033,7 @@ export default function DocsPage() {
                 <TabsTrigger value="phind">Phind</TabsTrigger>
                 <TabsTrigger value="bentocloud">BentoCloud</TabsTrigger>
                 <TabsTrigger value="kakao">Kakao AI</TabsTrigger>
+                <TabsTrigger value="nlpcloud">NLP Cloud</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4304,6 +4330,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Kakao Corp (카카오, KOSPI: 035720) — Jeju-si, South Korea, founded 2010 by Brian Kim (Kim Beom-su). KakaoTalk: 53M monthly active users, 96% of South Korea&apos;s population — the de facto communication infrastructure of an entire nation. KakaoBrain (2018): AI research subsidiary; KoGPT 1.0 (June 2021): first open-source Korean GPT-3 scale model (6B parameters, 200B+ Korean tokens, Apache 2.0). KoGPT 2.0 (2023): 30B parameter upgrade. Fourth Korean AI provider on LLMeter after NAVER HyperCLOVA X (Day 97), Upstage Solar, and EXAONE / LG AI Research (Day 120). 8 models: KoGPT 2.0 30B Chat ($0.28/$0.84 — premium Korean flagship, 89% cheaper than GPT-4o), KoGPT 2.0 6B Chat ($0.10/$0.30 — standard Korean, 96% cheaper), KoGPT 1.0 6B Chat ($0.08/$0.08 sym — budget Korean, Apache 2.0), KoGPT 1.0 6B ($0.06/$0.06 sym — base model), KoGPT 2.0 30B ($0.22/$0.22 sym — base 30B), Llama 3.3 70B Instruct ($0.38/$0.58 — hosted flagship), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper GPT-4o), Mistral 7B Instruct ($0.06/$0.06 sym — cheapest, 97% cheaper GPT-4o). 4 of 8 symmetric. Get your REST API key at developers.kakao.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkKakaoExample} />
+              </TabsContent>
+              <TabsContent value="nlpcloud" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the NLP Cloud client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. NLP Cloud — Île-de-France, France, founded 2021 by Julien Salinas (solo developer, bootstrapped — no VC). Privacy-first: no prompt logging, no training on user data, EU-only servers (France + Ireland), full GDPR compliance. Fourth French AI provider on LLMeter after Mistral AI, TextSynth (Fabrice Bellard), and LightOn AI. Exclusively open-source models — Llama 3.3, Mistral 7B, Mixtral 8x7B, DeepSeek R1, CodeLlama, Gemma 2. 8 models: Llama 3.3 70B Instruct ($0.35/$0.70 — flagship, 86% cheaper than GPT-4o), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Mistral 7B Instruct v0.3 ($0.07/$0.07 sym — cheapest EU inference, 97% cheaper), Mixtral 8x7B Instruct ($0.25/$0.25 sym — MoE), CodeLlama 34B Instruct ($0.22/$0.22 sym — code generation), DeepSeek R1 Distill Llama 70B ($0.40/$1.60 — EU reasoning), Dolphin 2.9 Llama 3 8B ($0.08/$0.08 sym — uncensored), Gemma 2 9B IT ($0.08/$0.08 sym — Google open-source). 5 of 8 symmetric. Get your API key at nlpcloud.io/home/token.
+                </p>
+                <CodeBlock language="typescript" code={sdkNlpCloudExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
