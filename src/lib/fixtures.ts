@@ -173,6 +173,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         phind: 0,
         bentocloud: 0,
         kakao: 0,
+        nlpcloud: 0,
       },
     };
   });

@@ -11263,6 +11263,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // ── NLP Cloud (api.nlpcloud.io/v1) ────────────────────────────────────────
+  // Fourth French AI inference provider on LLMeter (Mistral AI, TextSynth,
+  // LightOn AI). Founded 2021 by Julien Salinas (solo developer). Privacy-first:
+  // no prompt logging, no training on user data, EU servers (France + Ireland).
+  // OpenAI-compatible endpoint added 2024.
+  {
+    provider: 'nlpcloud',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.70,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'mistral-7b-instruct-v0-3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'mixtral-8x7b-instruct-v0-1',
+    display_name: 'Mixtral 8x7B Instruct v0.1',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'codellama-34b-instruct',
+    display_name: 'CodeLlama 34B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'deepseek-r1-distill-llama-70b',
+    display_name: 'DeepSeek R1 Distill Llama 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'dolphin-2-9-llama3-8b',
+    display_name: 'Dolphin 2.9 Llama 3 8B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nlpcloud',
+    model_id: 'gemma-2-9b-it',
+    display_name: 'Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11530,6 +11608,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     phind: [0.90, 0.90], // Phind-70B v2 symmetric flagship on Phind (San Francisco 2022, first developer-focused AI search + code generation on LLMeter, HumanEval SOTA 82.3% pass@1)
     bentocloud: [0.35, 0.55], // Llama 3.3 70B flagship on BentoCloud (San Francisco 2019, BentoML open-source ML serving framework 7K+ stars, first ML serving framework to build managed cloud on their OSS tool)
     kakao: [0.28, 0.84], // KoGPT 2.0 30B Chat flagship on Kakao AI (Jeju-si South Korea 2010, KakaoTalk 53M MAU 96% of South Korea, KoGPT 1.0 first open-source Korean GPT-3 scale model Apache 2.0, 4th Korean AI provider on LLMeter)
+    nlpcloud: [0.35, 0.70], // Llama 3.3 70B Instruct flagship on NLP Cloud (Île-de-France France 2021, founded by Julien Salinas solo developer, privacy-first no prompt logging GDPR EU servers, 4th French AI provider on LLMeter)
   };
   return defaults[provider];
 }
