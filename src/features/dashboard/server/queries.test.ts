@@ -195,6 +195,7 @@ const ZERO_PROVIDERS = {
   infomaniak: 0,
   stackit: 0,
   abacusai: 0,
+  pinecone: 0,
 };
 
 // --- Tests ---

@@ -141,6 +141,7 @@ import { tensoroperaAdapter } from './tensoropera-adapter';
 import { infomaniakAdapter } from './infomaniak-adapter';
 import { stackitAdapter } from './stackit-adapter';
 import { abacusaiAdapter } from './abacusai-adapter';
+import { pineconeAdapter } from './pinecone-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11162,6 +11163,82 @@ describe('Provider Adapters', () => {
 
     it('abacusaiAdapter.type is \'abacusai\'', () => {
       expect(abacusaiAdapter.type).toBe('abacusai');
+    });
+  });
+
+  describe('pineconeAdapter', () => {
+    it('validateKey returns true for a valid Pinecone API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ indexes: [] }) });
+      const result = await pineconeAdapter.validateKey('test-pinecone-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.pinecone.io/indexes',
+        expect.objectContaining({
+          headers: { 'Api-Key': 'test-pinecone-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(pineconeAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Pinecone API key.'
+      );
+    });
+
+    it('throws for a 403 response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({}),
+      });
+
+      await expect(pineconeAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Pinecone API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(pineconeAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(pineconeAdapter.validateKey('')).rejects.toThrow(
+        'Pinecone API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await pineconeAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Api-Key header (not Bearer)', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await pineconeAdapter.validateKey('pcsk_abc123');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: { 'Api-Key': 'pcsk_abc123' },
+        })
+      );
+    });
+
+    it('pineconeAdapter.type is \'pinecone\'', () => {
+      expect(pineconeAdapter.type).toBe('pinecone');
     });
   });
 });
