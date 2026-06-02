@@ -11420,6 +11420,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
 
+  // ── TensorOpera (api.tensoropera.ai/v1) ───────────────────────────────────
+  // TensorOpera, Inc. (formerly FedML, Inc.) — San Mateo, California. Founded 2020 by
+  // Salman Avestimehr (USC Professor, IEEE Fellow) + Chaoyang He (USC PhD).
+  // $14M seed from Samsung NEXT, NVIDIA, Intel Capital.
+  // First federated ML research framework to become a commercial LLM inference cloud.
+  {
+    provider: 'tensoropera',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'tensoropera',
+    model_id: 'mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11689,6 +11767,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     kakao: [0.28, 0.84], // KoGPT 2.0 30B Chat flagship on Kakao AI (Jeju-si South Korea 2010, KakaoTalk 53M MAU 96% of South Korea, KoGPT 1.0 first open-source Korean GPT-3 scale model Apache 2.0, 4th Korean AI provider on LLMeter)
     nlpcloud: [0.35, 0.70], // Llama 3.3 70B Instruct flagship on NLP Cloud (Île-de-France France 2021, founded by Julien Salinas solo developer, privacy-first no prompt logging GDPR EU servers, 4th French AI provider on LLMeter)
     cerebrium: [0.25, 0.25], // Llama 3.3 70B Instruct flagship on Cerebrium (Cape Town South Africa 2022, YC S22, first South African AI inference provider on LLMeter, serverless ML cold start <250ms pay-per-millisecond)
+    tensoropera: [0.35, 0.55], // Llama 3.3 70B Instruct flagship on TensorOpera (formerly FedML, San Mateo CA 2020, Salman Avestimehr USC Professor + IEEE Fellow, $14M Samsung NEXT/NVIDIA/Intel Capital, first federated ML framework to become commercial LLM inference cloud)
   };
   return defaults[provider];
 }

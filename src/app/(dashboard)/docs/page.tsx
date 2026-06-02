@@ -2727,6 +2727,30 @@ const completion = await trackedKakao.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Kakao
 );`;
 
+const sdkTensorOperaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapTensorOpera } from 'llmeter';
+
+// TensorOpera (formerly FedML) — San Mateo, California. Founded 2020 by
+// Salman Avestimehr (USC Professor, IEEE Fellow) + Chaoyang He (USC PhD).
+// $14M from Samsung NEXT, NVIDIA, Intel Capital. First federated ML research
+// framework to become a commercial LLM inference cloud.
+// Llama 3.3 70B at $0.35/$0.55 — 87% cheaper than GPT-4o.
+const tensoropera = new OpenAI({
+  apiKey: process.env.TENSOROPERA_API_KEY,
+  baseURL: 'https://api.tensoropera.ai/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedTensorOpera = wrapTensorOpera(tensoropera, llmeter);
+
+const completion = await trackedTensorOpera.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'mistral-7b-instruct', 'deepseek-r1', 'qwen2.5-72b-instruct', etc.
+    messages: [{ role: 'user', content: 'Explain federated learning in production.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to TensorOpera
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3058,6 +3082,7 @@ export default function DocsPage() {
                 <TabsTrigger value="kakao">Kakao AI</TabsTrigger>
                 <TabsTrigger value="nlpcloud">NLP Cloud</TabsTrigger>
                 <TabsTrigger value="cerebrium">Cerebrium</TabsTrigger>
+                <TabsTrigger value="tensoropera">TensorOpera</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4370,6 +4395,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Cerebrium — Cape Town, South Africa, founded 2022 by Michael Louis and Jordon Asher. Y Combinator S22. ~$7.4M raised. First South African AI inference provider on LLMeter — the only ML inference provider from sub-Saharan Africa. Serverless ML inference platform: cold start under 250ms, pay-per-millisecond billing. 8 models: Llama 3.3 70B Instruct ($0.25/$0.25 sym — flagship, 90% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.22/$0.22 sym — standard), Llama 3.1 8B Instruct ($0.05/$0.05 sym — budget, 98% cheaper), Llama 3.1 405B Instruct ($1.60/$1.60 sym — enterprise), Mistral 7B Instruct ($0.04/$0.04 sym — cheapest, 98% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.28/$0.28 sym — multilingual), Mixtral 8x7B Instruct ($0.24/$0.24 sym — MoE). 6 of 8 symmetric. Get your API key at dashboard.cerebrium.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkCerebriumExample} />
+              </TabsContent>
+              <TabsContent value="tensoropera" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the TensorOpera client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. TensorOpera (formerly FedML) — San Mateo, California, founded 2020 by Salman Avestimehr (USC Professor, IEEE Fellow) + Chaoyang He (USC PhD). $14M from Samsung NEXT, NVIDIA, Intel Capital. FedML was the most-cited federated learning framework in academic ML literature (3,000+ GitHub stars, 2,000+ citations) — enabling privacy-preserving distributed training across data silos without sharing raw data. First federated ML research organization to become a commercial LLM inference cloud. 8 models: Llama 3.3 70B Instruct ($0.35/$0.55 — flagship, 87% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.50 — standard), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct ($0.07/$0.07 sym — cheapest, 97% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), Mixtral 8x7B Instruct ($0.28/$0.28 sym — MoE). 5 of 8 symmetric. Get your API key at console.tensoropera.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkTensorOperaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

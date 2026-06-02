@@ -191,6 +191,7 @@ const ZERO_PROVIDERS = {
   kakao: 0,
   nlpcloud: 0,
   cerebrium: 0,
+  tensoropera: 0,
 };
 
 // --- Tests ---

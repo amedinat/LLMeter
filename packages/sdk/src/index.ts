@@ -148,6 +148,7 @@ export { wrapBentoCloud } from './bentocloud.js';
 export { wrapKakao } from './kakao.js';
 export { wrapNlpCloud } from './nlpcloud.js';
 export { wrapCerebrium } from './cerebrium.js';
+export { wrapTensorOpera } from './tensoropera.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -137,6 +137,7 @@ import { bentocloudAdapter } from './bentocloud-adapter';
 import { kakaoAdapter } from './kakao-adapter';
 import { nlpcloudAdapter } from './nlpcloud-adapter';
 import { cerebriumAdapter } from './cerebrium-adapter';
+import { tensoroperaAdapter } from './tensoropera-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10890,6 +10891,80 @@ describe('Provider Adapters', () => {
 
     it('cerebriumAdapter.type is \'cerebrium\'', () => {
       expect(cerebriumAdapter.type).toBe('cerebrium');
+    });
+  });
+
+  describe('tensoroperaAdapter', () => {
+    it('returns true for a valid API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      const result = await tensoroperaAdapter.validateKey('test-tensoropera-key');
+
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.tensoropera.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-tensoropera-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({}),
+      });
+
+      await expect(tensoroperaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid TensorOpera API key.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(tensoroperaAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(tensoroperaAdapter.validateKey('')).rejects.toThrow(
+        'TensorOpera API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await tensoroperaAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await tensoroperaAdapter.validateKey('my-tensoropera-key-abc');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-tensoropera-key-abc',
+          },
+        })
+      );
+    });
+
+    it('tensoroperaAdapter.type is \'tensoropera\'', () => {
+      expect(tensoroperaAdapter.type).toBe('tensoropera');
     });
   });
 });

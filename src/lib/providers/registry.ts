@@ -143,6 +143,7 @@ import { bentocloudAdapter } from './bentocloud-adapter';
 import { kakaoAdapter } from './kakao-adapter';
 import { nlpcloudAdapter } from './nlpcloud-adapter';
 import { cerebriumAdapter } from './cerebrium-adapter';
+import { tensoroperaAdapter } from './tensoropera-adapter';
 
 /**
  * Provider adapter registry.
@@ -294,6 +295,7 @@ adapters.set('bentocloud', bentocloudAdapter);
 adapters.set('kakao', kakaoAdapter);
 adapters.set('nlpcloud', nlpcloudAdapter);
 adapters.set('cerebrium', cerebriumAdapter);
+adapters.set('tensoropera', tensoroperaAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

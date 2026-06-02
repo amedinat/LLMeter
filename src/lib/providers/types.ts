@@ -1334,4 +1334,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://dashboard.cerebrium.ai',
     color: '#6C47FF',
   },
+  tensoropera: {
+    type: 'tensoropera',
+    name: 'TensorOpera',
+    description: 'Llama 3.3 70B ($0.35/$0.55 — flagship, 87% cheaper than GPT-4o), Llama 3.1 8B ($0.07/$0.07 sym — budget, 97% cheaper), Mistral 7B ($0.07/$0.07 sym — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.35/$0.35 sym — multilingual), Mixtral 8x7B ($0.28/$0.28 sym — MoE) — TensorOpera (formerly FedML), San Mateo CA 2020. Founded by Salman Avestimehr (USC Professor, IEEE Fellow) + Chaoyang He (USC PhD). $14M from Samsung NEXT, NVIDIA, Intel Capital. First federated ML research framework to become a commercial LLM inference cloud.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-tensoropera-api-key',
+    helpUrl: 'https://docs.tensoropera.ai',
+    color: '#8B5CF6',
+  },
 };

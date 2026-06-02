@@ -175,6 +175,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         kakao: 0,
         nlpcloud: 0,
         cerebrium: 0,
+        tensoropera: 0,
       },
     };
   });
