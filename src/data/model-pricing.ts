@@ -11179,6 +11179,90 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // ── Kakao AI ──────────────────────────────────────────────────────────────
+  // Kakao Corp (카카오, KOSPI: 035720) — Jeju-si, South Korea. Founded 2010
+  // by Brian Kim (Kim Beom-su). KakaoTalk: 53M monthly active users, 96% of
+  // South Korea's population — nation-scale communication infrastructure.
+  // KakaoBrain (2018): AI research subsidiary merged back into Kakao Corp
+  // (2023). KoGPT 1.0 (June 2021): first open-source Korean GPT-3 scale
+  // model, 6B parameters trained on 200B+ Korean tokens, Apache 2.0.
+  // KoGPT 2.0 (2023): 30B parameter upgrade with improved reasoning.
+  // Fourth Korean AI provider on LLMeter after NAVER HyperCLOVA X (Day 97),
+  // Upstage Solar, and EXAONE / LG AI Research (Day 120).
+  // OpenAI-compatible API at api.kakao.com/v1.
+  {
+    provider: 'kakao',
+    model_id: 'kogpt-2.0-30b-chat',
+    display_name: 'KoGPT 2.0 30B Chat',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.84,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'kogpt-2.0-6b-chat',
+    display_name: 'KoGPT 2.0 6B Chat',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'kogpt-1.0-6b-chat',
+    display_name: 'KoGPT 1.0 6B Chat',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'kogpt-1.0-6b',
+    display_name: 'KoGPT 1.0 6B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'kogpt-2.0-30b',
+    display_name: 'KoGPT 2.0 30B',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.58,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'kakao',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11445,6 +11529,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     siloai: [0.28, 0.28], // Viking 33B symmetric flagship on Silo AI (Helsinki 2017, AMD $665M acquisition 2024, first Nordic-language LLMs on LLMeter, Apache 2.0)
     phind: [0.90, 0.90], // Phind-70B v2 symmetric flagship on Phind (San Francisco 2022, first developer-focused AI search + code generation on LLMeter, HumanEval SOTA 82.3% pass@1)
     bentocloud: [0.35, 0.55], // Llama 3.3 70B flagship on BentoCloud (San Francisco 2019, BentoML open-source ML serving framework 7K+ stars, first ML serving framework to build managed cloud on their OSS tool)
+    kakao: [0.28, 0.84], // KoGPT 2.0 30B Chat flagship on Kakao AI (Jeju-si South Korea 2010, KakaoTalk 53M MAU 96% of South Korea, KoGPT 1.0 first open-source Korean GPT-3 scale model Apache 2.0, 4th Korean AI provider on LLMeter)
   };
   return defaults[provider];
 }
