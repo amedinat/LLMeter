@@ -171,6 +171,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         vast: 0,
         siloai: 0,
         phind: 0,
+        bentocloud: 0,
       },
     };
   });

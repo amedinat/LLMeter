@@ -2702,6 +2702,33 @@ const completion = await trackedPhind.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Phind
 );`;
 
+const sdkBentoCloudExample = `import OpenAI from 'openai';
+import LLMeter, { wrapBentoCloud } from 'llmeter';
+
+// BentoCloud (cloud.bentoml.com) — San Francisco CA, founded 2019 by Chaoyu Yang (CEO,
+// ex-Uber Machine Learning Platform team) and Li Yuchen (CTO, CUHK PhD).
+// BentoML: most widely adopted open-source ML model serving framework (7,000+ GitHub stars,
+// production use at DoorDash, Snap, NVIDIA, Qualcomm). BentoCloud: managed inference
+// platform serving 200+ ML models — unique "open-source first, cloud optional" approach.
+// First ML serving framework to build a managed cloud on top of their OSS tool.
+// $23M raised from Sequoia Capital Southeast Asia, Rainfall Ventures (YC W20).
+// Llama 3.1 8B at $0.07/1M — 97% cheaper than GPT-4o input.
+const bentocloud = new OpenAI({
+  apiKey: process.env.BENTOCLOUD_API_KEY,
+  baseURL: 'https://api.cloud.bentoml.com/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedBentoCloud = wrapBentoCloud(bentocloud, llmeter);
+
+const completion = await trackedBentoCloud.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'mistral-7b-instruct', 'deepseek-r1', 'qwen-2.5-72b-instruct', etc.
+    messages: [{ role: 'user', content: 'Explain transformer attention in one paragraph.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to BentoCloud
+);`;
+
 const sdkVastExample = `import OpenAI from 'openai';
 import LLMeter, { wrapVast } from 'llmeter';
 
@@ -2954,6 +2981,7 @@ export default function DocsPage() {
                 <TabsTrigger value="infercom">Infercom</TabsTrigger>
                 <TabsTrigger value="vast">Vast.ai</TabsTrigger>
                 <TabsTrigger value="phind">Phind</TabsTrigger>
+                <TabsTrigger value="bentocloud">BentoCloud</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4234,6 +4262,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Phind — San Francisco CA, founded 2022 by Michael Royzen (CEO) and Charles Sherif (CTO). AI-powered search engine and coding assistant for developers — combines LLMs with real-time web search to answer technical questions with cited sources. Phind-70B: the first open-weights model to beat GPT-4 Turbo on HumanEval coding benchmark — 82.3% pass@1 vs GPT-4 Turbo&apos;s 81.1%. Apache 2.0 licensed. 1M+ developers. $10M raised from General Catalyst, Y Combinator, and SV Angel. 8 models: Phind-70B v2 ($0.90/$0.90 sym — flagship, HumanEval SOTA), Phind-34B v2 ($0.40/$0.40 sym — efficient code gen), Phind Instant ($0.10/$0.10 sym — fast 4K ctx), Llama 3.1 70B Instruct ($0.35/$0.55 — general purpose), Llama 3.1 8B Instruct ($0.08/$0.08 sym — budget), CodeLlama 70B Instruct ($0.75/$0.75 sym — Meta code model), DeepSeek R1 ($0.55/$2.19 — reasoning), Mistral 7B Instruct ($0.07/$0.07 sym — cheapest, 97% cheaper than GPT-4o). Get your key at platform.phind.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkPhindExample} />
+              </TabsContent>
+              <TabsContent value="bentocloud" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the BentoCloud client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. BentoCloud — San Francisco CA, founded 2019 by Chaoyu Yang (CEO, ex-Uber Machine Learning Platform team) and Li Yuchen (CTO). BentoML is the most widely adopted open-source ML model serving framework (7,000+ GitHub stars, production use at DoorDash, Snap, NVIDIA, Qualcomm). BentoCloud: managed inference platform serving 200+ ML models — unique &quot;open-source first, cloud optional&quot; approach. $23M raised from Sequoia Capital Southeast Asia, Rainfall Ventures (YC W20). 8 models: Llama 3.3 70B Instruct ($0.35/$0.55 — flagship, 86% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.50), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper GPT-4o), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct ($0.07/$0.07 sym — cheapest, 97% cheaper GPT-4o), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), Mixtral 8x7B Instruct ($0.28/$0.28 sym — MoE). 5 of 8 symmetric. Get your key at cloud.bentoml.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkBentoCloudExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

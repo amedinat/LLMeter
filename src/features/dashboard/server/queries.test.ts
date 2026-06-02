@@ -187,6 +187,7 @@ const ZERO_PROVIDERS = {
   vast: 0,
   siloai: 0,
   phind: 0,
+  bentocloud: 0,
 };
 
 // --- Tests ---
