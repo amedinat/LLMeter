@@ -146,6 +146,7 @@ import { cerebriumAdapter } from './cerebrium-adapter';
 import { tensoroperaAdapter } from './tensoropera-adapter';
 import { infomaniakAdapter } from './infomaniak-adapter';
 import { stackitAdapter } from './stackit-adapter';
+import { abacusaiAdapter } from './abacusai-adapter';
 
 /**
  * Provider adapter registry.
@@ -300,6 +301,7 @@ adapters.set('cerebrium', cerebriumAdapter);
 adapters.set('tensoropera', tensoroperaAdapter);
 adapters.set('infomaniak', infomaniakAdapter);
 adapters.set('stackit', stackitAdapter);
+adapters.set('abacusai', abacusaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

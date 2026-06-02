@@ -1361,4 +1361,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.stackit.cloud/stackit/en/generative-ai-166674180.html',
     color: '#1A56DB',
   },
+  abacusai: {
+    type: 'abacusai',
+    name: 'Abacus.AI',
+    description: 'Llama 3.3 70B ($0.55/$0.75 — flagship, 82% cheaper than GPT-4o), Llama 3.1 8B ($0.15/$0.15 sym — budget, 94% cheaper), Mistral 7B ($0.12/$0.12 sym — cheapest), DeepSeek R1 ($0.75/$2.25 — reasoning), Qwen 2.5 72B ($0.50/$0.50 sym — multilingual), Mixtral 8x7B ($0.45/$0.45 sym — MoE) — San Francisco CA 2019. Founded by Bindu Reddy (ex-Google YouTube Recommendations PM) + Arvind Govindarajan (ex-Uber). $405M raised. First pre-LLM enterprise AutoML company to become an LLM inference provider. ChatLLM Teams serves Fortune 500 (Levi\'s, Gap, DoorDash, Verizon, Cisco).',
+    keyPrefix: '',
+    keyPlaceholder: 'your-abacusai-api-key',
+    helpUrl: 'https://docs.abacus.ai/reference',
+    color: '#7C3AED',
+  },
 };

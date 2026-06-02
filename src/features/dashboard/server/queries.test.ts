@@ -194,6 +194,7 @@ const ZERO_PROVIDERS = {
   tensoropera: 0,
   infomaniak: 0,
   stackit: 0,
+  abacusai: 0,
 };
 
 // --- Tests ---
