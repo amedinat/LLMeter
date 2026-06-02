@@ -11729,6 +11729,79 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
+  // ── Pinecone ───────────────────────────────────────────────────────────────────
+  // Pinecone (pinecone.io) — San Francisco, CA. Founded Dec 2019 by Edo Liberty (CEO,
+  // ex-Head of Amazon AI NYC, ex-Head of Yahoo Research, Yale PhD).
+  // $138M raised: $10M seed (Wing VC), $28M Series A + $100M Series B (Andreessen Horowitz).
+  // The most widely adopted managed vector database in the LLM ecosystem.
+  // Customers: Shopify, Notion, Brex, Gong, Varo, and thousands of AI startups.
+  // Pinecone Inference (2024): standalone model serving API for embeddings + reranking.
+  // First vector database company to offer standalone model inference on LLMeter.
+  // 5th embeddings provider (after Voyage Day 128, Nomic Day 129, Jina Day 130, MixedBread Day 132).
+  // All output_price = 0 (vectors not tokens).
+  {
+    provider: 'pinecone',
+    model_id: 'llama-text-embed-v2',
+    display_name: 'Pinecone: Llama Text Embed v2',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'pinecone',
+    model_id: 'llama-text-embed-v2-small',
+    display_name: 'Pinecone: Llama Text Embed v2 Small',
+    input_price_per_1m_tokens: 0.01,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'pinecone',
+    model_id: 'multilingual-e5-large',
+    display_name: 'Pinecone: Multilingual E5 Large',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'pinecone',
+    model_id: 'multilingual-e5-base',
+    display_name: 'Pinecone: Multilingual E5 Base',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'pinecone',
+    model_id: 'pinecone-sparse-english-v0',
+    display_name: 'Pinecone: Sparse English v0',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'pinecone',
+    model_id: 'pinecone-rerank-v0',
+    display_name: 'Pinecone: Rerank v0',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'pinecone',
+    model_id: 'pinecone-rerank-v0-base',
+    display_name: 'Pinecone: Rerank v0 Base',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
 
 ];
 
@@ -12003,6 +12076,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     infomaniak: [0.4, 0.6], // Llama 3.3 70B Instruct flagship on Infomaniak (Geneva Switzerland 1994, Serge Frech, family-owned, 100% renewable energy, first Swiss AI inference provider on LLMeter, Swiss nFADP sovereign cloud)
     stackit: [0.45, 0.65], // Llama 3.3 70B Instruct flagship on STACKIT (Schwarz IT, Heilbronn Germany 2021, Schwarz Group Lidl+Kaufland €113B revenue, first retail conglomerate's sovereign AI cloud on LLMeter, 100% German infra no US CLOUD Act)
     abacusai: [0.55, 0.75], // Llama 3.3 70B Instruct flagship on Abacus.AI (San Francisco 2019, Bindu Reddy ex-Google YouTube Recommendations PM, Arvind Govindarajan ex-Uber, $405M raised, first pre-LLM AutoML platform to become LLM inference provider on LLMeter)
+    pinecone: [0.02, 0], // llama-text-embed-v2 flagship on Pinecone (San Francisco 2019, Edo Liberty ex-Head of Amazon AI, $138M a16z-backed, most widely adopted managed vector DB, first vector database company to offer standalone model inference on LLMeter, 5th embeddings provider)
   };
   return defaults[provider];
 }

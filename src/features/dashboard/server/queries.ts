@@ -312,6 +312,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           infomaniak: 0,
           stackit: 0,
           abacusai: 0,
+          pinecone: 0,
         }
       });
     }
@@ -483,6 +484,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           infomaniak: 0,
           stackit: 0,
           abacusai: 0,
+          pinecone: 0,
         },
       }
     );

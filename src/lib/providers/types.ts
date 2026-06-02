@@ -1370,4 +1370,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.abacus.ai/reference',
     color: '#7C3AED',
   },
+  pinecone: {
+    type: 'pinecone',
+    name: 'Pinecone',
+    description: 'llama-text-embed-v2 ($0.02/$0.00 — LLAMA-based dense embeddings flagship), multilingual-e5-large ($0.05/$0.00 — 100+ languages), pinecone-sparse-english-v0 ($0.02/$0.00 — hybrid search), pinecone-rerank-v0 ($0.05/$0.00 — cross-encoder reranker) — San Francisco CA 2019. Founded by Edo Liberty (ex-Head of Amazon AI). $138M raised from a16z. Pioneered the managed vector database category. Pinecone Inference (2024): the only vector database company to offer standalone model inference on LLMeter. 5th embeddings provider.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-pinecone-api-key',
+    helpUrl: 'https://docs.pinecone.io/reference',
+    color: '#10B981',
+  },
 };
