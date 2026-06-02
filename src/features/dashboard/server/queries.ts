@@ -307,6 +307,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           bentocloud: 0,
           kakao: 0,
           nlpcloud: 0,
+          cerebrium: 0,
         }
       });
     }
@@ -473,6 +474,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           bentocloud: 0,
           kakao: 0,
           nlpcloud: 0,
+          cerebrium: 0,
         },
       }
     );

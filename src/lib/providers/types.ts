@@ -1325,4 +1325,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://nlpcloud.io/home/token',
     color: '#4F46E5',
   },
+  cerebrium: {
+    type: 'cerebrium',
+    name: 'Cerebrium',
+    description: 'Llama 3.3 70B, Llama 3.1 8B, Mistral 7B, DeepSeek R1, Qwen 2.5 72B — Cape Town South Africa serverless ML inference, YC S22, cold start <250ms, pay-per-millisecond billing. First South African AI inference provider on LLMeter.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-cerebrium-api-key',
+    helpUrl: 'https://dashboard.cerebrium.ai',
+    color: '#6C47FF',
+  },
 };

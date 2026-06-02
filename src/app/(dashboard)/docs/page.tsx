@@ -2727,6 +2727,29 @@ const completion = await trackedKakao.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Kakao
 );`;
 
+const sdkCerebriumExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCerebrium } from 'llmeter';
+
+// Cerebrium (cerebrium.ai) — Cape Town, South Africa. Founded 2022 by Michael Louis
+// and Jordon Asher. Y Combinator S22. ~$7.4M raised. First South African AI inference
+// provider on LLMeter. Serverless ML inference: cold start <250ms, pay-per-millisecond.
+// Llama 3.3 70B at $0.25/1M — 90% cheaper than GPT-4o. Mistral 7B at $0.04/1M.
+const cerebrium = new OpenAI({
+  apiKey: process.env.CEREBRIUM_API_KEY,
+  baseURL: 'https://api.inference.cerebrium.ai/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedCerebrium = wrapCerebrium(cerebrium, llmeter);
+
+const completion = await trackedCerebrium.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'mistral-7b-instruct', 'deepseek-r1', 'qwen-2.5-72b-instruct', etc.
+    messages: [{ role: 'user', content: 'Tell me about the Cape Town tech ecosystem.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Cerebrium
+);`;
+
 const sdkNlpCloudExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNlpCloud } from 'llmeter';
 
@@ -3034,6 +3057,7 @@ export default function DocsPage() {
                 <TabsTrigger value="bentocloud">BentoCloud</TabsTrigger>
                 <TabsTrigger value="kakao">Kakao AI</TabsTrigger>
                 <TabsTrigger value="nlpcloud">NLP Cloud</TabsTrigger>
+                <TabsTrigger value="cerebrium">Cerebrium</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4338,6 +4362,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. NLP Cloud — Île-de-France, France, founded 2021 by Julien Salinas (solo developer, bootstrapped — no VC). Privacy-first: no prompt logging, no training on user data, EU-only servers (France + Ireland), full GDPR compliance. Fourth French AI provider on LLMeter after Mistral AI, TextSynth (Fabrice Bellard), and LightOn AI. Exclusively open-source models — Llama 3.3, Mistral 7B, Mixtral 8x7B, DeepSeek R1, CodeLlama, Gemma 2. 8 models: Llama 3.3 70B Instruct ($0.35/$0.70 — flagship, 86% cheaper than GPT-4o), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Mistral 7B Instruct v0.3 ($0.07/$0.07 sym — cheapest EU inference, 97% cheaper), Mixtral 8x7B Instruct ($0.25/$0.25 sym — MoE), CodeLlama 34B Instruct ($0.22/$0.22 sym — code generation), DeepSeek R1 Distill Llama 70B ($0.40/$1.60 — EU reasoning), Dolphin 2.9 Llama 3 8B ($0.08/$0.08 sym — uncensored), Gemma 2 9B IT ($0.08/$0.08 sym — Google open-source). 5 of 8 symmetric. Get your API key at nlpcloud.io/home/token.
                 </p>
                 <CodeBlock language="typescript" code={sdkNlpCloudExample} />
+              </TabsContent>
+              <TabsContent value="cerebrium" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Cerebrium client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Cerebrium — Cape Town, South Africa, founded 2022 by Michael Louis and Jordon Asher. Y Combinator S22. ~$7.4M raised. First South African AI inference provider on LLMeter — the only ML inference provider from sub-Saharan Africa. Serverless ML inference platform: cold start under 250ms, pay-per-millisecond billing. 8 models: Llama 3.3 70B Instruct ($0.25/$0.25 sym — flagship, 90% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.22/$0.22 sym — standard), Llama 3.1 8B Instruct ($0.05/$0.05 sym — budget, 98% cheaper), Llama 3.1 405B Instruct ($1.60/$1.60 sym — enterprise), Mistral 7B Instruct ($0.04/$0.04 sym — cheapest, 98% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.28/$0.28 sym — multilingual), Mixtral 8x7B Instruct ($0.24/$0.24 sym — MoE). 6 of 8 symmetric. Get your API key at dashboard.cerebrium.ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkCerebriumExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
