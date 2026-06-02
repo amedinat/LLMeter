@@ -11574,6 +11574,83 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
 
+  // ── STACKIT (generativeai.api.eu01.onstackit.com/openai/v1) ──────────────
+  // Schwarz IT GmbH — Heilbronn, Germany. Cloud platform of Schwarz Group.
+  // First retail conglomerate's sovereign AI cloud on LLMeter.
+  // Schwarz Group: parent of Lidl + Kaufland. €113B revenue. Europe's largest retailer.
+  {
+    provider: 'stackit',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.65,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.20,
+    output_price_per_1m_tokens: 2.20,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.32,
+    output_price_per_1m_tokens: 0.32,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 2.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'stackit',
+    model_id: 'qwen-2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11845,6 +11922,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     cerebrium: [0.25, 0.25], // Llama 3.3 70B Instruct flagship on Cerebrium (Cape Town South Africa 2022, YC S22, first South African AI inference provider on LLMeter, serverless ML cold start <250ms pay-per-millisecond)
     tensoropera: [0.35, 0.55], // Llama 3.3 70B Instruct flagship on TensorOpera (formerly FedML, San Mateo CA 2020, Salman Avestimehr USC Professor + IEEE Fellow, $14M Samsung NEXT/NVIDIA/Intel Capital, first federated ML framework to become commercial LLM inference cloud)
     infomaniak: [0.4, 0.6], // Llama 3.3 70B Instruct flagship on Infomaniak (Geneva Switzerland 1994, Serge Frech, family-owned, 100% renewable energy, first Swiss AI inference provider on LLMeter, Swiss nFADP sovereign cloud)
+    stackit: [0.45, 0.65], // Llama 3.3 70B Instruct flagship on STACKIT (Schwarz IT, Heilbronn Germany 2021, Schwarz Group Lidl+Kaufland €113B revenue, first retail conglomerate's sovereign AI cloud on LLMeter, 100% German infra no US CLOUD Act)
   };
   return defaults[provider];
 }

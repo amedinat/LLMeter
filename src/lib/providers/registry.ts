@@ -145,6 +145,7 @@ import { nlpcloudAdapter } from './nlpcloud-adapter';
 import { cerebriumAdapter } from './cerebrium-adapter';
 import { tensoroperaAdapter } from './tensoropera-adapter';
 import { infomaniakAdapter } from './infomaniak-adapter';
+import { stackitAdapter } from './stackit-adapter';
 
 /**
  * Provider adapter registry.
@@ -298,6 +299,7 @@ adapters.set('nlpcloud', nlpcloudAdapter);
 adapters.set('cerebrium', cerebriumAdapter);
 adapters.set('tensoropera', tensoroperaAdapter);
 adapters.set('infomaniak', infomaniakAdapter);
+adapters.set('stackit', stackitAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
