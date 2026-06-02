@@ -151,6 +151,7 @@ export { wrapCerebrium } from './cerebrium.js';
 export { wrapTensorOpera } from './tensoropera.js';
 export { wrapInfomaniak } from './infomaniak.js';
 export { wrapStackit } from './stackit.js';
+export { wrapAbacusAI } from './abacusai.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

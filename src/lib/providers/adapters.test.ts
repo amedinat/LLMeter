@@ -140,6 +140,7 @@ import { cerebriumAdapter } from './cerebrium-adapter';
 import { tensoroperaAdapter } from './tensoropera-adapter';
 import { infomaniakAdapter } from './infomaniak-adapter';
 import { stackitAdapter } from './stackit-adapter';
+import { abacusaiAdapter } from './abacusai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11093,6 +11094,74 @@ describe('Provider Adapters', () => {
 
     it('stackitAdapter.type is \'stackit\'', () => {
       expect(stackitAdapter.type).toBe('stackit');
+    });
+  });
+
+  describe('abacusaiAdapter', () => {
+    it('validateKey returns true for a valid Abacus.AI API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await abacusaiAdapter.validateKey('test-abacusai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.abacus.ai/api/v0/llm/openai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-abacusai-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(abacusaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Abacus.AI API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(abacusaiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(abacusaiAdapter.validateKey('')).rejects.toThrow(
+        'Abacus.AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await abacusaiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await abacusaiAdapter.validateKey('my-abacusai-key-xyz');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-abacusai-key-xyz',
+          },
+        })
+      );
+    });
+
+    it('abacusaiAdapter.type is \'abacusai\'', () => {
+      expect(abacusaiAdapter.type).toBe('abacusai');
     });
   });
 });

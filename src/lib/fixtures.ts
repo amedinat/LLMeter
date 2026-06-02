@@ -178,6 +178,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         tensoropera: 0,
         infomaniak: 0,
         stackit: 0,
+        abacusai: 0,
       },
     };
   });
