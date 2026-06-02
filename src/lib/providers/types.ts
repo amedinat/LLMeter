@@ -1352,4 +1352,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.infomaniak.com',
     color: '#E63A28',
   },
+  stackit: {
+    type: 'stackit',
+    name: 'STACKIT',
+    description: 'Llama 3.3 70B ($0.45/$0.65 — flagship, 83% cheaper than GPT-4o), Llama 3.1 8B ($0.12/$0.12 sym — budget, 95% cheaper), Mistral 7B ($0.10/$0.10 sym — cheapest), DeepSeek R1 ($0.60/$2.20 — reasoning), Qwen 2.5 72B ($0.45/$0.45 sym — multilingual), Mixtral 8x7B ($0.32/$0.32 sym — MoE) — Schwarz IT GmbH, Heilbronn Germany 2021. Cloud platform of Schwarz Group (Lidl + Kaufland, €113B revenue). First retail conglomerate\'s sovereign AI cloud on LLMeter. 100% German infrastructure, GDPR by design, no US CLOUD Act exposure.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-stackit-api-key',
+    helpUrl: 'https://docs.stackit.cloud/stackit/en/generative-ai-166674180.html',
+    color: '#1A56DB',
+  },
 };

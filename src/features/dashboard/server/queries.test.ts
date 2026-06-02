@@ -193,6 +193,7 @@ const ZERO_PROVIDERS = {
   cerebrium: 0,
   tensoropera: 0,
   infomaniak: 0,
+  stackit: 0,
 };
 
 // --- Tests ---

@@ -139,6 +139,7 @@ import { nlpcloudAdapter } from './nlpcloud-adapter';
 import { cerebriumAdapter } from './cerebrium-adapter';
 import { tensoroperaAdapter } from './tensoropera-adapter';
 import { infomaniakAdapter } from './infomaniak-adapter';
+import { stackitAdapter } from './stackit-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11024,6 +11025,74 @@ describe('Provider Adapters', () => {
 
     it('infomaniakAdapter.type is \'infomaniak\'', () => {
       expect(infomaniakAdapter.type).toBe('infomaniak');
+    });
+  });
+
+  describe('stackitAdapter', () => {
+    it('validateKey returns true for a valid STACKIT API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await stackitAdapter.validateKey('test-stackit-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://generativeai.api.eu01.onstackit.com/openai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-stackit-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(stackitAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid STACKIT API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(stackitAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(stackitAdapter.validateKey('')).rejects.toThrow(
+        'STACKIT API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await stackitAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await stackitAdapter.validateKey('my-stackit-key-xyz');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-stackit-key-xyz',
+          },
+        })
+      );
+    });
+
+    it('stackitAdapter.type is \'stackit\'', () => {
+      expect(stackitAdapter.type).toBe('stackit');
     });
   });
 });
