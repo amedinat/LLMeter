@@ -11096,6 +11096,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-01T00:00:00.000Z',
   },
 
+  // BentoCloud (cloud.bentoml.com) — San Francisco, CA. Founded 2019 by
+  // Chaoyu Yang (CEO, ex-Uber Machine Learning Platform team) and Li Yuchen
+  // (CTO, CUHK PhD). BentoML: the most widely adopted open-source ML model
+  // serving framework (7,000+ GitHub stars, production use at DoorDash, Snap,
+  // NVIDIA, Qualcomm). BentoCloud: managed inference platform serving 200+
+  // ML models — unique "open-source first, cloud optional" approach.
+  // First ML model serving framework to build a managed cloud on top of
+  // their open-source tool. $23M raised from Sequoia Capital Southeast Asia,
+  // Rainfall Ventures (YC W20).
+  // OpenAI-compatible API at api.cloud.bentoml.com/v1.
+  {
+    provider: 'bentocloud',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'qwen-2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+  {
+    provider: 'bentocloud',
+    model_id: 'mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-01T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11361,6 +11444,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     vast: [0.16, 0.16], // Llama 3.3 70B symmetric flagship on Vast.ai (San Francisco 2017, original P2P GPU marketplace, 30,000+ GPUs from individual owners, 20-40% below centralized cloud pricing)
     siloai: [0.28, 0.28], // Viking 33B symmetric flagship on Silo AI (Helsinki 2017, AMD $665M acquisition 2024, first Nordic-language LLMs on LLMeter, Apache 2.0)
     phind: [0.90, 0.90], // Phind-70B v2 symmetric flagship on Phind (San Francisco 2022, first developer-focused AI search + code generation on LLMeter, HumanEval SOTA 82.3% pass@1)
+    bentocloud: [0.35, 0.55], // Llama 3.3 70B flagship on BentoCloud (San Francisco 2019, BentoML open-source ML serving framework 7K+ stars, first ML serving framework to build managed cloud on their OSS tool)
   };
   return defaults[provider];
 }

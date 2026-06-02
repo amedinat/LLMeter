@@ -1298,4 +1298,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.phind.com',
     color: '#7B61FF',
   },
+  bentocloud: {
+    type: 'bentocloud',
+    name: 'BentoCloud',
+    description: 'Managed ML model serving — BentoML open-source framework → cloud platform, 200+ models, OpenAI-compatible API',
+    keyPrefix: '',
+    keyPlaceholder: 'your-bentocloud-api-key',
+    helpUrl: 'https://cloud.bentoml.com',
+    color: '#FF6B35',
+  },
 };

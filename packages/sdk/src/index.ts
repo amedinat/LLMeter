@@ -144,6 +144,7 @@ export { wrapInfercom } from './infercom.js';
 export { wrapVast } from './vast.js';
 export { wrapSiloAI } from './siloai.js';
 export { wrapPhind } from './phind.js';
+export { wrapBentoCloud } from './bentocloud.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
