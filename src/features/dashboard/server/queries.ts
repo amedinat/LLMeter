@@ -309,6 +309,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nlpcloud: 0,
           cerebrium: 0,
           tensoropera: 0,
+          infomaniak: 0,
         }
       });
     }
@@ -477,6 +478,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nlpcloud: 0,
           cerebrium: 0,
           tensoropera: 0,
+          infomaniak: 0,
         },
       }
     );

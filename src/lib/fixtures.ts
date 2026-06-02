@@ -176,6 +176,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         nlpcloud: 0,
         cerebrium: 0,
         tensoropera: 0,
+        infomaniak: 0,
       },
     };
   });

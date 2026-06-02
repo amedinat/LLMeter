@@ -138,6 +138,7 @@ import { kakaoAdapter } from './kakao-adapter';
 import { nlpcloudAdapter } from './nlpcloud-adapter';
 import { cerebriumAdapter } from './cerebrium-adapter';
 import { tensoroperaAdapter } from './tensoropera-adapter';
+import { infomaniakAdapter } from './infomaniak-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10965,6 +10966,64 @@ describe('Provider Adapters', () => {
 
     it('tensoroperaAdapter.type is \'tensoropera\'', () => {
       expect(tensoroperaAdapter.type).toBe('tensoropera');
+    });
+  });
+
+  describe('infomaniakAdapter', () => {
+    it('validateKey returns true for a valid Infomaniak API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await infomaniakAdapter.validateKey('test-infomaniak-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://openai.infomaniak.com/v1/models',
+        { headers: { Authorization: 'Bearer test-infomaniak-key' } }
+      );
+    });
+
+    it('validateKey throws on 401', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({}) });
+      await expect(infomaniakAdapter.validateKey('bad-key')).rejects.toThrow(
+        /Invalid Infomaniak API key/
+      );
+    });
+
+    it('validateKey throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }) });
+      await expect(infomaniakAdapter.validateKey('some-key')).rejects.toThrow(
+        /Internal Server Error/
+      );
+    });
+
+    it('validateKey throws when apiKey is empty', async () => {
+      await expect(infomaniakAdapter.validateKey('')).rejects.toThrow(
+        /Infomaniak API key is missing/
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await infomaniakAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-02')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('validateKey sends correct Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({}) });
+      await infomaniakAdapter.validateKey('my-infomaniak-key-xyz');
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-infomaniak-key-xyz',
+          },
+        })
+      );
+    });
+
+    it('infomaniakAdapter.type is \'infomaniak\'', () => {
+      expect(infomaniakAdapter.type).toBe('infomaniak');
     });
   });
 });

@@ -1343,4 +1343,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.tensoropera.ai',
     color: '#8B5CF6',
   },
+  infomaniak: {
+    type: 'infomaniak',
+    name: 'Infomaniak',
+    description: 'Llama 3.3 70B ($0.40/$0.60 — flagship, 84% cheaper than GPT-4o), Llama 3.1 8B ($0.10/$0.10 sym — budget, 96% cheaper), Mistral 7B ($0.08/$0.08 sym — cheapest), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B ($0.40/$0.40 sym — multilingual), Mixtral 8x7B ($0.28/$0.28 sym — MoE) — Infomaniak Network AG, Geneva Switzerland 1994. Founded by Serge Frech. Family-owned, 100% renewable energy. First Swiss AI inference provider on LLMeter. Swiss nFADP data sovereignty law (stricter than GDPR). Data never leaves Switzerland.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-infomaniak-api-key',
+    helpUrl: 'https://developer.infomaniak.com',
+    color: '#E63A28',
+  },
 };

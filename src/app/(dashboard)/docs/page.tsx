@@ -2751,6 +2751,30 @@ const completion = await trackedTensorOpera.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to TensorOpera
 );`;
 
+const sdkInfomaniakExample = `import OpenAI from 'openai';
+import LLMeter, { wrapInfomaniak } from 'llmeter';
+
+// Infomaniak Network AG — Geneva, Switzerland. Founded 1994 by Serge Frech.
+// Family-owned, 100% renewable energy, 30-year history. First Swiss AI inference
+// provider on LLMeter. Swiss nFADP data sovereignty law, no US CLOUD Act exposure.
+// Data never leaves Switzerland. ISO 14001 environmental certification.
+// Llama 3.3 70B at $0.40/$0.60 — 84% cheaper than GPT-4o. Mistral 7B at $0.08/1M.
+const infomaniak = new OpenAI({
+  apiKey: process.env.INFOMANIAK_API_KEY,
+  baseURL: 'https://openai.infomaniak.com/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedInfomaniak = wrapInfomaniak(infomaniak, llmeter);
+
+const completion = await trackedInfomaniak.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'mistral-7b-instruct', 'deepseek-r1', 'mixtral-8x7b-instruct', etc.
+    messages: [{ role: 'user', content: 'Bonjour depuis la Suisse — tell me about Swiss AI sovereignty.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Infomaniak
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3083,6 +3107,7 @@ export default function DocsPage() {
                 <TabsTrigger value="nlpcloud">NLP Cloud</TabsTrigger>
                 <TabsTrigger value="cerebrium">Cerebrium</TabsTrigger>
                 <TabsTrigger value="tensoropera">TensorOpera</TabsTrigger>
+                <TabsTrigger value="infomaniak">Infomaniak</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4403,6 +4428,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. TensorOpera (formerly FedML) — San Mateo, California, founded 2020 by Salman Avestimehr (USC Professor, IEEE Fellow) + Chaoyang He (USC PhD). $14M from Samsung NEXT, NVIDIA, Intel Capital. FedML was the most-cited federated learning framework in academic ML literature (3,000+ GitHub stars, 2,000+ citations) — enabling privacy-preserving distributed training across data silos without sharing raw data. First federated ML research organization to become a commercial LLM inference cloud. 8 models: Llama 3.3 70B Instruct ($0.35/$0.55 — flagship, 87% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.50 — standard), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct ($0.07/$0.07 sym — cheapest, 97% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), Mixtral 8x7B Instruct ($0.28/$0.28 sym — MoE). 5 of 8 symmetric. Get your API key at console.tensoropera.ai.
                 </p>
                 <CodeBlock language="typescript" code={sdkTensorOperaExample} />
+              </TabsContent>
+              <TabsContent value="infomaniak" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Infomaniak client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Infomaniak Network AG — Geneva, Switzerland. Founded 1994 by Serge Frech. Family-owned; never raised VC funding. Switzerland&apos;s largest independent web hosting company (100,000+ customers, CHF 90M+ revenue). <strong>First Swiss AI inference provider on LLMeter.</strong> 100% renewable energy (Swiss hydroelectric + solar), ISO 14001 environmental certification. Swiss Federal Act on Data Protection (nFADP) — stricter than EU GDPR in key provisions. Zero US CLOUD Act or Patriot Act exposure. Data stored exclusively in Infomaniak&apos;s own Geneva and Lausanne data centers. Switzerland now joins France, Germany, UK, Finland, and Luxembourg as EU/EEA sovereign AI inference hubs tracked in LLMeter. 8 models: Llama 3.3 70B Instruct ($0.40/$0.60 — flagship, 84% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.35/$0.55 — standard), Llama 3.1 8B Instruct ($0.10/$0.10 sym — budget, 96% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct ($0.08/$0.08 sym — cheapest, 97% cheaper), Mixtral 8x7B Instruct ($0.28/$0.28 sym — MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.40/$0.40 sym — multilingual). 5 of 8 symmetric. Get your API key at manager.infomaniak.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkInfomaniakExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

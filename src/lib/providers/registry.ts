@@ -144,6 +144,7 @@ import { kakaoAdapter } from './kakao-adapter';
 import { nlpcloudAdapter } from './nlpcloud-adapter';
 import { cerebriumAdapter } from './cerebrium-adapter';
 import { tensoroperaAdapter } from './tensoropera-adapter';
+import { infomaniakAdapter } from './infomaniak-adapter';
 
 /**
  * Provider adapter registry.
@@ -296,6 +297,7 @@ adapters.set('kakao', kakaoAdapter);
 adapters.set('nlpcloud', nlpcloudAdapter);
 adapters.set('cerebrium', cerebriumAdapter);
 adapters.set('tensoropera', tensoroperaAdapter);
+adapters.set('infomaniak', infomaniakAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

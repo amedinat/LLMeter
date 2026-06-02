@@ -192,6 +192,7 @@ const ZERO_PROVIDERS = {
   nlpcloud: 0,
   cerebrium: 0,
   tensoropera: 0,
+  infomaniak: 0,
 };
 
 // --- Tests ---

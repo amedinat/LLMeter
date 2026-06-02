@@ -11498,6 +11498,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
 
+  // ── Infomaniak (openai.infomaniak.com/v1) ─────────────────────────────────
+  // Infomaniak Network AG — Geneva, Switzerland. Founded 1994 by Serge Frech.
+  // First Swiss AI inference provider on LLMeter. 100% renewable energy. Family-owned.
+  {
+    provider: 'infomaniak',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.4,
+    output_price_per_1m_tokens: 0.6,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.1,
+    output_price_per_1m_tokens: 0.1,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.8,
+    output_price_per_1m_tokens: 1.8,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'infomaniak',
+    model_id: 'qwen-2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.4,
+    output_price_per_1m_tokens: 0.4,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -11768,6 +11844,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nlpcloud: [0.35, 0.70], // Llama 3.3 70B Instruct flagship on NLP Cloud (Île-de-France France 2021, founded by Julien Salinas solo developer, privacy-first no prompt logging GDPR EU servers, 4th French AI provider on LLMeter)
     cerebrium: [0.25, 0.25], // Llama 3.3 70B Instruct flagship on Cerebrium (Cape Town South Africa 2022, YC S22, first South African AI inference provider on LLMeter, serverless ML cold start <250ms pay-per-millisecond)
     tensoropera: [0.35, 0.55], // Llama 3.3 70B Instruct flagship on TensorOpera (formerly FedML, San Mateo CA 2020, Salman Avestimehr USC Professor + IEEE Fellow, $14M Samsung NEXT/NVIDIA/Intel Capital, first federated ML framework to become commercial LLM inference cloud)
+    infomaniak: [0.4, 0.6], // Llama 3.3 70B Instruct flagship on Infomaniak (Geneva Switzerland 1994, Serge Frech, family-owned, 100% renewable energy, first Swiss AI inference provider on LLMeter, Swiss nFADP sovereign cloud)
   };
   return defaults[provider];
 }
