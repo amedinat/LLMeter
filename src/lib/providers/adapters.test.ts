@@ -136,6 +136,7 @@ import { phindAdapter } from './phind-adapter';
 import { bentocloudAdapter } from './bentocloud-adapter';
 import { kakaoAdapter } from './kakao-adapter';
 import { nlpcloudAdapter } from './nlpcloud-adapter';
+import { cerebriumAdapter } from './cerebrium-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10815,6 +10816,80 @@ describe('Provider Adapters', () => {
 
     it('nlpcloudAdapter.type is \'nlpcloud\'', () => {
       expect(nlpcloudAdapter.type).toBe('nlpcloud');
+    });
+  });
+
+  describe('cerebriumAdapter', () => {
+    it('validates a valid Cerebrium API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'llama-3.3-70b-instruct' }] }) });
+
+      const result = await cerebriumAdapter.validateKey('test-cerebrium-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.inference.cerebrium.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-cerebrium-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with Cerebrium invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(cerebriumAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Cerebrium API key.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(cerebriumAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(cerebriumAdapter.validateKey('')).rejects.toThrow(
+        'Cerebrium API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await cerebriumAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await cerebriumAdapter.validateKey('my-cerebrium-key-abc');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-cerebrium-key-abc',
+          },
+        })
+      );
+    });
+
+    it('cerebriumAdapter.type is \'cerebrium\'', () => {
+      expect(cerebriumAdapter.type).toBe('cerebrium');
     });
   });
 });

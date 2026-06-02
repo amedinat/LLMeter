@@ -142,6 +142,7 @@ import { phindAdapter } from './phind-adapter';
 import { bentocloudAdapter } from './bentocloud-adapter';
 import { kakaoAdapter } from './kakao-adapter';
 import { nlpcloudAdapter } from './nlpcloud-adapter';
+import { cerebriumAdapter } from './cerebrium-adapter';
 
 /**
  * Provider adapter registry.
@@ -292,6 +293,7 @@ adapters.set('phind', phindAdapter);
 adapters.set('bentocloud', bentocloudAdapter);
 adapters.set('kakao', kakaoAdapter);
 adapters.set('nlpcloud', nlpcloudAdapter);
+adapters.set('cerebrium', cerebriumAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
