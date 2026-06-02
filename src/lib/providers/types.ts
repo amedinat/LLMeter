@@ -1307,4 +1307,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.bentoml.com',
     color: '#FF6B35',
   },
+  kakao: {
+    type: 'kakao',
+    name: 'Kakao AI',
+    description: 'KoGPT Korean language models — KakaoTalk (96% of South Korea, 53M MAU), first open-source Korean GPT-3 scale model, 4th Korean AI provider on LLMeter',
+    keyPrefix: '',
+    keyPlaceholder: 'your-kakao-rest-api-key',
+    helpUrl: 'https://developers.kakao.com',
+    color: '#FEE500',
+  },
 };

@@ -188,6 +188,7 @@ const ZERO_PROVIDERS = {
   siloai: 0,
   phind: 0,
   bentocloud: 0,
+  kakao: 0,
 };
 
 // --- Tests ---

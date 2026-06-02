@@ -134,6 +134,7 @@ import { vastAdapter } from './vast-adapter';
 import { siloaiAdapter } from './siloai-adapter';
 import { phindAdapter } from './phind-adapter';
 import { bentocloudAdapter } from './bentocloud-adapter';
+import { kakaoAdapter } from './kakao-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -10665,6 +10666,80 @@ describe('Provider Adapters', () => {
 
     it('bentocloudAdapter.type is \'bentocloud\'', () => {
       expect(bentocloudAdapter.type).toBe('bentocloud');
+    });
+  });
+
+  describe('kakaoAdapter', () => {
+    it('validates a valid Kakao API key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [{ id: 'kogpt-2.0-30b-chat' }] }) });
+
+      const result = await kakaoAdapter.validateKey('test-kakao-api-key');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.kakao.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-kakao-api-key' },
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('throws on 401 with Kakao invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        json: async () => ({ message: 'Unauthorized' }),
+      });
+
+      await expect(kakaoAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Kakao API key.'
+      );
+    });
+
+    it('throws on non-401 error with status message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+
+      await expect(kakaoAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(kakaoAdapter.validateKey('')).rejects.toThrow(
+        'Kakao REST API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await kakaoAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('sends Bearer token in Authorization header', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+      await kakaoAdapter.validateKey('my-kakao-key-xyz');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer my-kakao-key-xyz',
+          },
+        })
+      );
+    });
+
+    it('kakaoAdapter.type is \'kakao\'', () => {
+      expect(kakaoAdapter.type).toBe('kakao');
     });
   });
 });

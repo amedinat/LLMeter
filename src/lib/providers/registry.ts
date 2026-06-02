@@ -140,6 +140,7 @@ import { vastAdapter } from './vast-adapter';
 import { siloaiAdapter } from './siloai-adapter';
 import { phindAdapter } from './phind-adapter';
 import { bentocloudAdapter } from './bentocloud-adapter';
+import { kakaoAdapter } from './kakao-adapter';
 
 /**
  * Provider adapter registry.
@@ -288,6 +289,7 @@ adapters.set('vast', vastAdapter);
 adapters.set('siloai', siloaiAdapter);
 adapters.set('phind', phindAdapter);
 adapters.set('bentocloud', bentocloudAdapter);
+adapters.set('kakao', kakaoAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

@@ -2702,6 +2702,31 @@ const completion = await trackedPhind.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Phind
 );`;
 
+const sdkKakaoExample = `import OpenAI from 'openai';
+import LLMeter, { wrapKakao } from 'llmeter';
+
+// Kakao Corp (카카오, KOSPI: 035720) — Jeju-si, South Korea, founded 2010 by Brian Kim.
+// KakaoTalk: 53M monthly active users, 96% of South Korea — nation-scale communication.
+// KakaoBrain (2018): AI research subsidiary. KoGPT 1.0 (June 2021): first open-source
+// Korean GPT-3 scale model (6B params, 200B+ Korean tokens, Apache 2.0). Fourth Korean
+// AI provider on LLMeter after NAVER HyperCLOVA X, Upstage Solar, and EXAONE/LG AI.
+// KoGPT 2.0 6B Chat at $0.10/$0.30 — 96% cheaper than GPT-4o input.
+const kakao = new OpenAI({
+  apiKey: process.env.KAKAO_API_KEY,
+  baseURL: 'https://api.kakao.com/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedKakao = wrapKakao(kakao, llmeter);
+
+const completion = await trackedKakao.chat.completions.create(
+  {
+    model: 'kogpt-2.0-30b-chat', // or 'kogpt-1.0-6b-chat', 'llama-3.3-70b-instruct', 'mistral-7b-instruct', etc.
+    messages: [{ role: 'user', content: '안녕하세요! 한국어로 AI를 설명해 주세요.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Kakao
+);`;
+
 const sdkBentoCloudExample = `import OpenAI from 'openai';
 import LLMeter, { wrapBentoCloud } from 'llmeter';
 
@@ -2982,6 +3007,7 @@ export default function DocsPage() {
                 <TabsTrigger value="vast">Vast.ai</TabsTrigger>
                 <TabsTrigger value="phind">Phind</TabsTrigger>
                 <TabsTrigger value="bentocloud">BentoCloud</TabsTrigger>
+                <TabsTrigger value="kakao">Kakao AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4270,6 +4296,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. BentoCloud — San Francisco CA, founded 2019 by Chaoyu Yang (CEO, ex-Uber Machine Learning Platform team) and Li Yuchen (CTO). BentoML is the most widely adopted open-source ML model serving framework (7,000+ GitHub stars, production use at DoorDash, Snap, NVIDIA, Qualcomm). BentoCloud: managed inference platform serving 200+ ML models — unique &quot;open-source first, cloud optional&quot; approach. $23M raised from Sequoia Capital Southeast Asia, Rainfall Ventures (YC W20). 8 models: Llama 3.3 70B Instruct ($0.35/$0.55 — flagship, 86% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.50), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper GPT-4o), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct ($0.07/$0.07 sym — cheapest, 97% cheaper GPT-4o), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), Mixtral 8x7B Instruct ($0.28/$0.28 sym — MoE). 5 of 8 symmetric. Get your key at cloud.bentoml.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkBentoCloudExample} />
+              </TabsContent>
+              <TabsContent value="kakao" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Kakao AI client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Kakao Corp (카카오, KOSPI: 035720) — Jeju-si, South Korea, founded 2010 by Brian Kim (Kim Beom-su). KakaoTalk: 53M monthly active users, 96% of South Korea&apos;s population — the de facto communication infrastructure of an entire nation. KakaoBrain (2018): AI research subsidiary; KoGPT 1.0 (June 2021): first open-source Korean GPT-3 scale model (6B parameters, 200B+ Korean tokens, Apache 2.0). KoGPT 2.0 (2023): 30B parameter upgrade. Fourth Korean AI provider on LLMeter after NAVER HyperCLOVA X (Day 97), Upstage Solar, and EXAONE / LG AI Research (Day 120). 8 models: KoGPT 2.0 30B Chat ($0.28/$0.84 — premium Korean flagship, 89% cheaper than GPT-4o), KoGPT 2.0 6B Chat ($0.10/$0.30 — standard Korean, 96% cheaper), KoGPT 1.0 6B Chat ($0.08/$0.08 sym — budget Korean, Apache 2.0), KoGPT 1.0 6B ($0.06/$0.06 sym — base model), KoGPT 2.0 30B ($0.22/$0.22 sym — base 30B), Llama 3.3 70B Instruct ($0.38/$0.58 — hosted flagship), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper GPT-4o), Mistral 7B Instruct ($0.06/$0.06 sym — cheapest, 97% cheaper GPT-4o). 4 of 8 symmetric. Get your REST API key at developers.kakao.com.
+                </p>
+                <CodeBlock language="typescript" code={sdkKakaoExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
