@@ -11893,6 +11893,92 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
 
+  // ── Regolo.ai ──────────────────────────────────────────────────────────────────
+  // Regolo.ai (regolo.ai) — Italy. Launched March 2025 by Seeweb S.r.l.
+  // Parent: Seeweb S.r.l. (founded 1998) — part of DHH Group (Euronext Growth Milan: DHH.MI).
+  // Seeweb was the FIRST company to introduce cloud hosting in Italy (2009).
+  // Data centers in Frosinone (Lazio) and Milan — 100% Italian soil, no US CLOUD Act.
+  // FIRST Italian-sovereign AI inference provider on LLMeter.
+  // Italy is the 7th European country with sovereign AI inference on LLMeter:
+  //   Germany (IONOS, STACKIT, Aleph Alpha), France (Mistral, NLP Cloud, TextSynth, LightOn),
+  //   Switzerland (Infomaniak), Finland (Silo AI), Luxembourg (Infercom), UK (Stability AI).
+  // SECOND EUR-priced inference provider on LLMeter (after Infercom, Day 138).
+  // DHH Group is a publicly-traded Italian company — first listed Italian co. on LLMeter.
+  // OpenAI-compatible API at api.regolo.ai/v1.
+  // 3 of 8 models symmetric. All prices in USD converted from EUR at ~1.10 EUR/USD.
+  {
+    provider: 'regolo',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'phi-4',
+    display_name: 'Phi-4',
+    input_price_per_1m_tokens: 0.19,
+    output_price_per_1m_tokens: 0.39,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.33,
+    output_price_per_1m_tokens: 0.66,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.66,
+    output_price_per_1m_tokens: 2.97,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 1.10,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'regolo',
+    model_id: 'llama-3.1-405b-instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 2.20,
+    output_price_per_1m_tokens: 6.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12168,6 +12254,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     abacusai: [0.55, 0.75], // Llama 3.3 70B Instruct flagship on Abacus.AI (San Francisco 2019, Bindu Reddy ex-Google YouTube Recommendations PM, Arvind Govindarajan ex-Uber, $405M raised, first pre-LLM AutoML platform to become LLM inference provider on LLMeter)
     pinecone: [0.02, 0], // llama-text-embed-v2 flagship on Pinecone (San Francisco 2019, Edo Liberty ex-Head of Amazon AI, $138M a16z-backed, most widely adopted managed vector DB, first vector database company to offer standalone model inference on LLMeter, 5th embeddings provider)
     nexusflow: [0.10, 0.10], // gorilla-openfunctions-v2 flagship on NexusFlow (Berkeley CA 2023, Shishir Patil + Tianjun Zhang + Lianmin Zheng, UC Berkeley Sky Computing Lab, first open-source model to outperform GPT-4 on function calling, first purpose-built function-calling LLM inference provider on LLMeter)
+    regolo: [0.66, 2.97], // llama-3.3-70b-instruct flagship on Regolo.ai (Italy 2025, Seeweb S.r.l. — Italy's first cloud company 1998, DHH Group Euronext Growth Milan, first Italian-sovereign AI inference provider on LLMeter, EUR-priced GDPR-native)
   };
   return defaults[provider];
 }

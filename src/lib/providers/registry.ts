@@ -149,6 +149,7 @@ import { stackitAdapter } from './stackit-adapter';
 import { abacusaiAdapter } from './abacusai-adapter';
 import { pineconeAdapter } from './pinecone-adapter';
 import { nexusflowAdapter } from './nexusflow-adapter';
+import { regoloAdapter } from './regolo-adapter';
 
 /**
  * Provider adapter registry.
@@ -306,6 +307,7 @@ adapters.set('stackit', stackitAdapter);
 adapters.set('abacusai', abacusaiAdapter);
 adapters.set('pinecone', pineconeAdapter);
 adapters.set('nexusflow', nexusflowAdapter);
+adapters.set('regolo', regoloAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
