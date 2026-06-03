@@ -180,6 +180,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         stackit: 0,
         abacusai: 0,
         pinecone: 0,
+        nexusflow: 0,
+        regolo: 0,
       },
     };
   });

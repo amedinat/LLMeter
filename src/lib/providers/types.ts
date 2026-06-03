@@ -1388,4 +1388,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.nexusflow.ai',
     color: '#7C3AED',
   },
+  regolo: {
+    type: 'regolo',
+    name: 'Regolo.ai',
+    description: 'llama-3.1-8b-instruct ($0.09/$0.09 sym — ultra-budget 96% cheaper GPT-4o), mistral-7b-instruct ($0.11/$0.11 sym — EU-native standard), llama-3.3-70b-instruct ($0.66/$2.97 — flagship 82% cheaper GPT-4o), deepseek-r1 ($0.55/$2.20 — sovereign reasoning), qwen2.5-72b-instruct ($1.10/$1.10 sym — multilingual), llama-3.1-405b-instruct ($2.20/$6.60 — enterprise) — Italy 2025. Launched March 2025 by Seeweb S.r.l. (Italy\'s first cloud company, founded 1998, DHH Group Euronext Growth Milan). Data centers in Frosinone and Milan — 100% Italian sovereign infrastructure, no US CLOUD Act. FIRST Italian AI inference provider on LLMeter. Second EUR-priced provider on LLMeter. Italy is the 7th European country with sovereign AI inference on LLMeter.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-regolo-api-key',
+    helpUrl: 'https://docs.regolo.ai',
+    color: '#009246',
+  },
 };

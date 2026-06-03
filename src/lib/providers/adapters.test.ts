@@ -143,6 +143,7 @@ import { stackitAdapter } from './stackit-adapter';
 import { abacusaiAdapter } from './abacusai-adapter';
 import { pineconeAdapter } from './pinecone-adapter';
 import { nexusflowAdapter } from './nexusflow-adapter';
+import { regoloAdapter } from './regolo-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11293,6 +11294,59 @@ describe('Provider Adapters', () => {
 
     it('nexusflowAdapter.type is \'nexusflow\'', () => {
       expect(nexusflowAdapter.type).toBe('nexusflow');
+    });
+  });
+
+  describe('regoloAdapter', () => {
+    it('validateKey returns true for a valid Regolo.ai API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await regoloAdapter.validateKey('test-regolo-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.regolo.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-regolo-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(regoloAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Regolo.ai API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(regoloAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(regoloAdapter.validateKey('')).rejects.toThrow(
+        'Regolo.ai API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await regoloAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('regoloAdapter.type is \'regolo\'', () => {
+      expect(regoloAdapter.type).toBe('regolo');
     });
   });
 });
