@@ -196,6 +196,7 @@ const ZERO_PROVIDERS = {
   stackit: 0,
   abacusai: 0,
   pinecone: 0,
+  nexusflow: 0,
 };
 
 // --- Tests ---

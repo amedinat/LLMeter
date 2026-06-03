@@ -153,6 +153,7 @@ export { wrapInfomaniak } from './infomaniak.js';
 export { wrapStackit } from './stackit.js';
 export { wrapAbacusAI } from './abacusai.js';
 export { wrapPinecone } from './pinecone.js';
+export { wrapNexusFlow } from './nexusflow.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
