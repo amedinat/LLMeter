@@ -187,6 +187,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         modal: 0,
         hetzner: 0,
         gaianet: 0,
+        plamo: 0,
       },
     };
   });

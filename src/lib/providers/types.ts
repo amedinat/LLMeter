@@ -1442,4 +1442,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.gaianet.ai',
     color: '#6366F1',
   },
+  plamo: {
+    type: 'plamo',
+    name: 'PLaMo',
+    description: 'plamo-100b ($0.60/$1.80 — flagship 100B trilingual Japanese/English/Chinese, 76% cheaper GPT-4o), plamo-1-prime ($0.40/$1.20 — premium), plamo-1-regular ($0.15/$0.45 — standard), plamo-13b ($0.10/$0.30 — enterprise 13B), plamo-1-turbo ($0.08/$0.24 — fast), plamo-1-mini ($0.03/$0.09 — ultra-budget 99% cheaper GPT-4o), llama-3.3-70b-instruct ($0.20/$0.25 — hosted flagship), mistral-7b-instruct ($0.04/$0.04 sym — cheapest 98% cheaper GPT-4o) — Tokyo, Japan. Founded March 2014 by Toru Nishikawa + Ryosuke Okuta. Creators of Chainer (2015) — Japan\'s first define-by-run deep learning framework that influenced PyTorch\'s dynamic graph design. Toyota Motor ¥10.5B investment for autonomous driving AI. FANUC industrial robot AI. First robotics-AI research company to offer LLM inference on LLMeter. PLaMo-100B: 100B parameter trilingual model (Japanese + English + Chinese). Second Japanese AI inference provider on LLMeter (after Sakura Internet). OpenAI-compatible API at api.preferredai.jp/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-plamo-api-key',
+    helpUrl: 'https://docs.preferredai.jp',
+    color: '#0EA5E9',
+  },
 };

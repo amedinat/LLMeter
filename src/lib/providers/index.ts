@@ -16,3 +16,4 @@ export { herokuAdapter } from './heroku-adapter';
 export { predictionguardAdapter } from './predictionguard-adapter';
 export { modalAdapter } from './modal-adapter';
 export { hetznerAdapter } from './hetzner-adapter';
+export { plamoAdapter } from './plamo-adapter';

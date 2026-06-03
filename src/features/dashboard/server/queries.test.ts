@@ -203,6 +203,7 @@ const ZERO_PROVIDERS = {
   modal: 0,
   hetzner: 0,
   gaianet: 0,
+  plamo: 0,
 };
 
 // --- Tests ---
