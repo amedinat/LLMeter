@@ -1397,4 +1397,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.regolo.ai',
     color: '#009246',
   },
+  heroku: {
+    type: 'heroku',
+    name: 'Heroku Managed Inference',
+    description: 'claude-3-5-sonnet-20241022 ($3.00/$15.00 — Anthropic flagship), claude-3-haiku-20240307 ($0.25/$1.25 — budget 90% cheaper GPT-4o), meta-llama/Llama-3.3-70B-Instruct ($0.75/$0.90 — Meta flagship 70% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.18/$0.18 sym — budget 93% cheaper), cohere/command-r-plus ($3.00/$15.00 — multilingual enterprise), cohere/command-r ($0.50/$1.50 — standard) — San Francisco CA 2007. Founded by Adam Wiggins, James Lindenbaum, Orion Henry. Acquired by Salesforce $212M December 2010. Invented PaaS (Platform as a Service): git push heroku main, Heroku Buildpacks (standard for Dokku/Render/Railway/Fly.io), Heroku Dynos (original serverless compute). 7M+ developers, 600K+ deployed apps. Heroku Managed Inference (2024): OpenAI-compatible at us.inference.heroku.com/v1. FIRST PaaS pioneer to offer native LLM inference on LLMeter.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-heroku-api-key',
+    helpUrl: 'https://devcenter.heroku.com/articles/heroku-inference',
+    color: '#430098',
+  },
 };

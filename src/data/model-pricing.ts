@@ -11979,6 +11979,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
 
+  // ── Heroku Managed Inference (San Francisco CA 2007, Adam Wiggins + James Lindenbaum + Orion Henry, Salesforce $212M acquisition Dec 2010) ──
+  // First PaaS (Platform as a Service) pioneer to offer native LLM inference on LLMeter.
+  // Invented: git push heroku main deployment, Heroku Buildpacks (standard for Dokku/Render/Railway/Fly.io),
+  // Heroku Dynos (original serverless compute before Lambda/Kubernetes). 7M+ developers, 600K+ apps.
+  // Heroku Managed Inference (2024): OpenAI-compatible at us.inference.heroku.com/v1.
+  // Anthropic Claude, Meta Llama, Cohere models available. US + EU regions.
+  {
+    provider: 'heroku',
+    model_id: 'claude-3-5-sonnet-20241022',
+    display_name: 'Claude 3.5 Sonnet',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 15.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'claude-3-haiku-20240307',
+    display_name: 'Claude 3 Haiku',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 1.25,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'claude-3-opus-20240229',
+    display_name: 'Claude 3 Opus',
+    input_price_per_1m_tokens: 15.00,
+    output_price_per_1m_tokens: 75.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.75,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.70,
+    output_price_per_1m_tokens: 0.85,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'cohere/command-r-plus',
+    display_name: 'Command R+',
+    input_price_per_1m_tokens: 3.00,
+    output_price_per_1m_tokens: 15.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'heroku',
+    model_id: 'cohere/command-r',
+    display_name: 'Command R',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12255,6 +12334,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     pinecone: [0.02, 0], // llama-text-embed-v2 flagship on Pinecone (San Francisco 2019, Edo Liberty ex-Head of Amazon AI, $138M a16z-backed, most widely adopted managed vector DB, first vector database company to offer standalone model inference on LLMeter, 5th embeddings provider)
     nexusflow: [0.10, 0.10], // gorilla-openfunctions-v2 flagship on NexusFlow (Berkeley CA 2023, Shishir Patil + Tianjun Zhang + Lianmin Zheng, UC Berkeley Sky Computing Lab, first open-source model to outperform GPT-4 on function calling, first purpose-built function-calling LLM inference provider on LLMeter)
     regolo: [0.66, 2.97], // llama-3.3-70b-instruct flagship on Regolo.ai (Italy 2025, Seeweb S.r.l. — Italy's first cloud company 1998, DHH Group Euronext Growth Milan, first Italian-sovereign AI inference provider on LLMeter, EUR-priced GDPR-native)
+    heroku: [0.75, 0.90], // meta-llama/Llama-3.3-70B-Instruct flagship on Heroku Managed Inference (San Francisco 2007, Adam Wiggins — invented PaaS, git push heroku main, Heroku Buildpacks, Heroku Dynos, Salesforce $212M acquisition Dec 2010, first PaaS pioneer to offer native LLM inference on LLMeter)
   };
   return defaults[provider];
 }

@@ -12,3 +12,4 @@ export { internlmAdapter } from './internlm-adapter';
 export { targonAdapter } from './targon-adapter';
 export { tensorwaveAdapter } from './tensorwave-adapter';
 export { voyageAdapter } from './voyage-adapter';
+export { herokuAdapter } from './heroku-adapter';
