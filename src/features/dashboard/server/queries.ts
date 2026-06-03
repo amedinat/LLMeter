@@ -317,6 +317,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           regolo: 0,
           heroku: 0,
           predictionguard: 0,
+          modal: 0,
         }
       });
     }
@@ -493,6 +494,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           regolo: 0,
           heroku: 0,
           predictionguard: 0,
+          modal: 0,
         },
       }
     );

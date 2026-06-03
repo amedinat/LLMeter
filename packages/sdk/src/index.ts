@@ -157,6 +157,7 @@ export { wrapNexusFlow } from './nexusflow.js';
 export { wrapRegolo } from './regolo.js';
 export { wrapHeroku } from './heroku.js';
 export { wrapPredictionGuard } from './predictionguard.js';
+export { wrapModal } from './modal.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

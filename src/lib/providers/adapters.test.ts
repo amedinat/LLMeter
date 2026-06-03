@@ -146,6 +146,7 @@ import { nexusflowAdapter } from './nexusflow-adapter';
 import { regoloAdapter } from './regolo-adapter';
 import { herokuAdapter } from './heroku-adapter';
 import { predictionguardAdapter } from './predictionguard-adapter';
+import { modalAdapter } from './modal-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11474,6 +11475,69 @@ describe('Provider Adapters', () => {
 
       await expect(predictionguardAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Prediction Guard API key.'
+      );
+    });
+  });
+
+  describe('modalAdapter', () => {
+    it('validateKey returns true for a valid Modal API token', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await modalAdapter.validateKey('test-modal-api-token');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.modal.run/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-modal-api-token' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(modalAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Modal API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(modalAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(modalAdapter.validateKey('')).rejects.toThrow(
+        'Modal API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await modalAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('modalAdapter.type is \'modal\'', () => {
+      expect(modalAdapter.type).toBe('modal');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(modalAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Modal API key.'
       );
     });
   });

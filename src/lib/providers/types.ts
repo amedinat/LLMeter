@@ -1415,4 +1415,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.predictionguard.com',
     color: '#0ea5e9',
   },
+  modal: {
+    type: 'modal',
+    name: 'Modal Labs',
+    description: 'meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.50 — flagship, 86% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget, 97% cheaper), meta-llama/Llama-3.1-405B-Instruct ($1.80/$1.80 sym — enterprise), mistralai/Mistral-7B-Instruct-v0.3 ($0.06/$0.06 sym — cheapest, 97% cheaper), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.35/$0.35 sym — multilingual), deepseek-ai/DeepSeek-V3 ($0.16/$0.64 — open-source flagship) — New York City / San Francisco 2021. Founded by Erik Bernhardsson (formerly Spotify ML Platform VP — built Discover Weekly backend, created Luigi data pipeline framework). FIRST serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter. Container snapshot technology: cold start <1s. Pay-per-millisecond billing. Python-native infrastructure. $110M raised from a16z, Redpoint Ventures. OpenAI-compatible API at api.modal.run/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-modal-api-token',
+    helpUrl: 'https://modal.com/docs/guide/inference',
+    color: '#6d28d9',
+  },
 };

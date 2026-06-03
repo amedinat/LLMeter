@@ -12138,6 +12138,86 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+
+  // ── Modal Labs (New York City / San Francisco 2021) ──
+  // FIRST serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter.
+  // Founded by Erik Bernhardsson (formerly Spotify ML Platform VP — built Discover Weekly backend,
+  // created Luigi data pipeline framework). Container snapshots: cold start <1s.
+  // Pay-per-millisecond billing. Python-native infrastructure. $110M raised from a16z, Redpoint.
+  // OpenAI-compatible API at api.modal.run/v1.
+  {
+    provider: 'modal',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'meta-llama/Llama-3.1-405B-Instruct',
+    display_name: 'Llama 3.1 405B Instruct',
+    input_price_per_1m_tokens: 1.80,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'enterprise',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'modal',
+    model_id: 'deepseek-ai/DeepSeek-V3',
+    display_name: 'DeepSeek V3',
+    input_price_per_1m_tokens: 0.16,
+    output_price_per_1m_tokens: 0.64,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12416,6 +12496,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     regolo: [0.66, 2.97], // llama-3.3-70b-instruct flagship on Regolo.ai (Italy 2025, Seeweb S.r.l. — Italy's first cloud company 1998, DHH Group Euronext Growth Milan, first Italian-sovereign AI inference provider on LLMeter, EUR-priced GDPR-native)
     heroku: [0.75, 0.90], // meta-llama/Llama-3.3-70B-Instruct flagship on Heroku Managed Inference (San Francisco 2007, Adam Wiggins — invented PaaS, git push heroku main, Heroku Buildpacks, Heroku Dynos, Salesforce $212M acquisition Dec 2010, first PaaS pioneer to offer native LLM inference on LLMeter)
     predictionguard: [0.65, 0.80], // llama-3.1-70b-instruct flagship on Prediction Guard (Muncie Indiana 2021 — first HIPAA-eligible no-logging LLM inference provider on LLMeter, first Midwest-headquartered AI inference provider, SOC 2 Type II, BAA terms, healthcare/legal/financial regulated data)
+    modal: [0.35, 0.50], // meta-llama/Llama-3.3-70B-Instruct flagship on Modal Labs (New York City / SF 2021, Erik Bernhardsson ex-Spotify ML VP — Discover Weekly + Luigi, first serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter, cold start <1s container snapshots, pay-per-millisecond, $110M a16z + Redpoint)
   };
   return defaults[provider];
 }

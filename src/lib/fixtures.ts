@@ -184,6 +184,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         regolo: 0,
         heroku: 0,
         predictionguard: 0,
+        modal: 0,
       },
     };
   });

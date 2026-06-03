@@ -2775,6 +2775,32 @@ const completion = await trackedInfomaniak.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Infomaniak
 );`;
 
+const sdkModalExample = `import OpenAI from 'openai';
+import LLMeter, { wrapModal } from 'llmeter';
+
+// Modal Labs (modal.com) — New York City / San Francisco. Founded 2021.
+// Erik Bernhardsson (CEO) — formerly Spotify ML Platform VP, built Discover Weekly
+// backend, created Luigi data pipeline framework. FIRST serverless GPU compute
+// platform to offer OpenAI-compatible LLM inference on LLMeter.
+// Container snapshot technology: cold start <1s. Pay-per-millisecond billing.
+// $110M raised from a16z + Redpoint Ventures.
+// Llama 3.3 70B at $0.35/$0.50 — 86% cheaper than GPT-4o.
+const modal = new OpenAI({
+  apiKey: process.env.MODAL_API_KEY,
+  baseURL: 'https://api.modal.run/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedModal = wrapModal(modal, llmeter);
+
+const completion = await trackedModal.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'mistralai/Mistral-7B-Instruct-v0.3', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Explain serverless GPU cold start optimization.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Modal
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3108,6 +3134,7 @@ export default function DocsPage() {
                 <TabsTrigger value="cerebrium">Cerebrium</TabsTrigger>
                 <TabsTrigger value="tensoropera">TensorOpera</TabsTrigger>
                 <TabsTrigger value="infomaniak">Infomaniak</TabsTrigger>
+                <TabsTrigger value="modal">Modal Labs</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4436,6 +4463,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Infomaniak Network AG — Geneva, Switzerland. Founded 1994 by Serge Frech. Family-owned; never raised VC funding. Switzerland&apos;s largest independent web hosting company (100,000+ customers, CHF 90M+ revenue). <strong>First Swiss AI inference provider on LLMeter.</strong> 100% renewable energy (Swiss hydroelectric + solar), ISO 14001 environmental certification. Swiss Federal Act on Data Protection (nFADP) — stricter than EU GDPR in key provisions. Zero US CLOUD Act or Patriot Act exposure. Data stored exclusively in Infomaniak&apos;s own Geneva and Lausanne data centers. Switzerland now joins France, Germany, UK, Finland, and Luxembourg as EU/EEA sovereign AI inference hubs tracked in LLMeter. 8 models: Llama 3.3 70B Instruct ($0.40/$0.60 — flagship, 84% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.35/$0.55 — standard), Llama 3.1 8B Instruct ($0.10/$0.10 sym — budget, 96% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct ($0.08/$0.08 sym — cheapest, 97% cheaper), Mixtral 8x7B Instruct ($0.28/$0.28 sym — MoE), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.40/$0.40 sym — multilingual). 5 of 8 symmetric. Get your API key at manager.infomaniak.com.
                 </p>
                 <CodeBlock language="typescript" code={sdkInfomaniakExample} />
+              </TabsContent>
+              <TabsContent value="modal" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Modal client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Modal Labs — New York City / San Francisco, founded 2021 by Erik Bernhardsson (formerly Spotify ML Platform VP — built the infrastructure behind Discover Weekly, created Luigi data pipeline framework) and team. <strong>FIRST serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter.</strong> Modal&apos;s core product is serverless GPU compute: deploy any Python function on a GPU with a decorator, pay per millisecond. Container snapshot technology reduces cold start to &lt;1 second (vs 30-120s typical). $110M raised from Andreessen Horowitz and Redpoint Ventures. 8 models: Llama 3.3 70B Instruct ($0.35/$0.50 — flagship, 86% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.45 — standard), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct v0.3 ($0.06/$0.06 sym — cheapest, 97% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), DeepSeek V3 ($0.16/$0.64 — open-source flagship). 4 of 8 symmetric. Get your API token at modal.com/settings/api-tokens.
+                </p>
+                <CodeBlock language="typescript" code={sdkModalExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

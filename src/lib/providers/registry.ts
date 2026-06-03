@@ -152,6 +152,7 @@ import { nexusflowAdapter } from './nexusflow-adapter';
 import { regoloAdapter } from './regolo-adapter';
 import { herokuAdapter } from './heroku-adapter';
 import { predictionguardAdapter } from './predictionguard-adapter';
+import { modalAdapter } from './modal-adapter';
 
 /**
  * Provider adapter registry.
@@ -312,6 +313,7 @@ adapters.set('nexusflow', nexusflowAdapter);
 adapters.set('regolo', regoloAdapter);
 adapters.set('heroku', herokuAdapter);
 adapters.set('predictionguard', predictionguardAdapter);
+adapters.set('modal', modalAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

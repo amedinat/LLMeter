@@ -200,6 +200,7 @@ const ZERO_PROVIDERS = {
   regolo: 0,
   heroku: 0,
   predictionguard: 0,
+  modal: 0,
 };
 
 // --- Tests ---
