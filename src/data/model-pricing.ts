@@ -12302,6 +12302,90 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+  // ── GaiaNet (San Francisco / Singapore 2023) ──
+  // FIRST WebAssembly-based decentralized AI inference network on LLMeter.
+  // 8th decentralized AI compute network on LLMeter.
+  // Founded by Michael Yuan (co-creator of WasmEdge, CNCF WebAssembly runtime).
+  // Every other decentralized network uses Docker+CUDA for model execution;
+  // GaiaNet uniquely uses WasmEdge (WASM) — sandboxed, portable, reproducible
+  // inference that runs on any hardware from edge devices to GPU clusters.
+  // Each node can carry a custom knowledge base (RAG) + persona — specialist
+  // AI agents for legal, medical, educational, and coding workflows.
+  // $10M+ raised: Polychain Capital, IOSG Ventures.
+  // OpenAI-compatible API at api.gaianet.ai/v1.
+  {
+    provider: 'gaianet',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'llama-3.2-3b-instruct',
+    display_name: 'Llama 3.2 3B Instruct',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.02,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'phi-3-mini-4k-instruct',
+    display_name: 'Phi-3 Mini 4K Instruct',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.02,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'qwen2.5-7b-instruct',
+    display_name: 'Qwen 2.5 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'gemma-2-9b-it',
+    display_name: 'Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'gaianet',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12582,6 +12666,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     predictionguard: [0.65, 0.80], // llama-3.1-70b-instruct flagship on Prediction Guard (Muncie Indiana 2021 — first HIPAA-eligible no-logging LLM inference provider on LLMeter, first Midwest-headquartered AI inference provider, SOC 2 Type II, BAA terms, healthcare/legal/financial regulated data)
     modal: [0.35, 0.50], // meta-llama/Llama-3.3-70B-Instruct flagship on Modal Labs (New York City / SF 2021, Erik Bernhardsson ex-Spotify ML VP — Discover Weekly + Luigi, first serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter, cold start <1s container snapshots, pay-per-millisecond, $110M a16z + Redpoint)
     hetzner: [0.20, 0.30], // llama-3.3-70b-instruct flagship on Hetzner Cloud AI (Gunzenhausen Bavaria Germany 1997, Martin + Stephan Hetzner brothers, bootstrapped family-owned no VC, first bootstrapped founder-led German cloud provider on LLMeter, 60–70% below AWS/Azure/GCP, 1.5M+ servers deployed, GDPR-native no US CLOUD Act)
+    gaianet: [0.18, 0.18], // llama-3.3-70b-instruct symmetric flagship on GaiaNet (San Francisco / Singapore 2023, Michael Yuan co-creator of WasmEdge CNCF WebAssembly runtime, first WebAssembly-based decentralized AI inference network on LLMeter, 8th decentralized AI compute network, $10M+ Polychain Capital + IOSG Ventures, WasmEdge sandboxed portable inference)
   };
   return defaults[provider];
 }

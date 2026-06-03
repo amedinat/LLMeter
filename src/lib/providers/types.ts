@@ -1433,4 +1433,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.hetzner.cloud/ai-inference',
     color: '#D50C2D',
   },
+  gaianet: {
+    type: 'gaianet',
+    name: 'GaiaNet',
+    description: 'llama-3.3-70b-instruct ($0.18/$0.18 sym — flagship, 93% cheaper GPT-4o), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget, 98% cheaper), llama-3.2-3b-instruct ($0.02/$0.02 sym — ultra-compact, 99% cheaper), mistral-7b-instruct ($0.03/$0.03 sym — cheapest), phi-3-mini-4k-instruct ($0.02/$0.02 sym — ultra-budget SLM), qwen2.5-7b-instruct ($0.04/$0.04 sym — multilingual), gemma-2-9b-it ($0.05/$0.05 sym — Google open-source), deepseek-r1 ($0.15/$0.60 — reasoning) — San Francisco / Singapore 2023. Founded by Michael Yuan (co-creator of WasmEdge, the CNCF WebAssembly runtime). FIRST WebAssembly-based decentralized AI inference network on LLMeter. Every other decentralized network (io.net, Akash, Corcel, Heurist, NEAR, Targon, Prime Intellect) uses Docker+CUDA. GaiaNet nodes run models via WasmEdge sandboxing — portable, secure inference on any hardware. 8th decentralized AI compute network on LLMeter. Each node carries custom knowledge (RAG) + persona for specialist AI agents. $10M+ raised from Polychain Capital, IOSG Ventures. OpenAI-compatible API at api.gaianet.ai/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-gaianet-api-key',
+    helpUrl: 'https://docs.gaianet.ai',
+    color: '#6366F1',
+  },
 };

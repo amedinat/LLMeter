@@ -154,6 +154,7 @@ import { herokuAdapter } from './heroku-adapter';
 import { predictionguardAdapter } from './predictionguard-adapter';
 import { modalAdapter } from './modal-adapter';
 import { hetznerAdapter } from './hetzner-adapter';
+import { gaianetAdapter } from './gaianet-adapter';
 
 /**
  * Provider adapter registry.
@@ -316,6 +317,7 @@ adapters.set('heroku', herokuAdapter);
 adapters.set('predictionguard', predictionguardAdapter);
 adapters.set('modal', modalAdapter);
 adapters.set('hetzner', hetznerAdapter);
+adapters.set('gaianet', gaianetAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
