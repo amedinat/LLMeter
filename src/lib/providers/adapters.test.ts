@@ -142,6 +142,7 @@ import { infomaniakAdapter } from './infomaniak-adapter';
 import { stackitAdapter } from './stackit-adapter';
 import { abacusaiAdapter } from './abacusai-adapter';
 import { pineconeAdapter } from './pinecone-adapter';
+import { nexusflowAdapter } from './nexusflow-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11239,6 +11240,59 @@ describe('Provider Adapters', () => {
 
     it('pineconeAdapter.type is \'pinecone\'', () => {
       expect(pineconeAdapter.type).toBe('pinecone');
+    });
+  });
+
+  describe('nexusflowAdapter', () => {
+    it('validateKey returns true for a valid NexusFlow API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await nexusflowAdapter.validateKey('test-nexusflow-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.nexusflow.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-nexusflow-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(nexusflowAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NexusFlow API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(nexusflowAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(nexusflowAdapter.validateKey('')).rejects.toThrow(
+        'NexusFlow API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nexusflowAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('nexusflowAdapter.type is \'nexusflow\'', () => {
+      expect(nexusflowAdapter.type).toBe('nexusflow');
     });
   });
 });

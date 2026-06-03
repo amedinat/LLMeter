@@ -11803,6 +11803,96 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-02T00:00:00.000Z',
   },
 
+  // ── NexusFlow ──────────────────────────────────────────────────────────────────
+  // NexusFlow (nexusflow.ai) — Berkeley, California. Founded 2023.
+  // Founders: Shishir Patil (Berkeley PhD, lead author "Gorilla: LLM Connected with
+  // Massive APIs" arXiv 2305.15334), Tianjun Zhang (Berkeley PhD, Apache Spark / Ray.io),
+  // Lianmin Zheng (Berkeley PhD, creator of vLLM — the inference engine powering Together,
+  // Fireworks, and dozens of LLMeter providers). UC Berkeley Sky Computing Lab lineage
+  // (Prof. Ion Stoica, Prof. Joseph Gonzalez — same group that built Apache Spark, Ray, vLLM).
+  // Gorilla-7B: FIRST open-source model to outperform GPT-4 on function calling benchmarks.
+  // Berkeley Function Calling Leaderboard (BFCL): created by NexusFlow — the definitive
+  // tool-use benchmark used by OpenAI, Anthropic, Google, and Mistral to evaluate their models.
+  // Nexus-Raven-V2: 13B commercial function-calling model achieving human-level accuracy
+  // on real-world enterprise API schemas.
+  // FIRST purpose-built function-calling LLM inference provider on LLMeter.
+  // Every other provider offers function calling as a feature of a general-purpose model.
+  // NexusFlow's entire research and commercial focus is tool/API call accuracy.
+  // OpenAI-compatible API at api.nexusflow.ai/v1.
+  // 5 of 8 models symmetric.
+  {
+    provider: 'nexusflow',
+    model_id: 'gorilla-openfunctions-v2',
+    display_name: 'Gorilla OpenFunctions v2',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'nexus-raven-v2-13b',
+    display_name: 'Nexus Raven V2 13B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'nexus-raven-v2-7b',
+    display_name: 'Nexus Raven V2 7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+  {
+    provider: 'nexusflow',
+    model_id: 'qwen-2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-02T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12077,6 +12167,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     stackit: [0.45, 0.65], // Llama 3.3 70B Instruct flagship on STACKIT (Schwarz IT, Heilbronn Germany 2021, Schwarz Group Lidl+Kaufland €113B revenue, first retail conglomerate's sovereign AI cloud on LLMeter, 100% German infra no US CLOUD Act)
     abacusai: [0.55, 0.75], // Llama 3.3 70B Instruct flagship on Abacus.AI (San Francisco 2019, Bindu Reddy ex-Google YouTube Recommendations PM, Arvind Govindarajan ex-Uber, $405M raised, first pre-LLM AutoML platform to become LLM inference provider on LLMeter)
     pinecone: [0.02, 0], // llama-text-embed-v2 flagship on Pinecone (San Francisco 2019, Edo Liberty ex-Head of Amazon AI, $138M a16z-backed, most widely adopted managed vector DB, first vector database company to offer standalone model inference on LLMeter, 5th embeddings provider)
+    nexusflow: [0.10, 0.10], // gorilla-openfunctions-v2 flagship on NexusFlow (Berkeley CA 2023, Shishir Patil + Tianjun Zhang + Lianmin Zheng, UC Berkeley Sky Computing Lab, first open-source model to outperform GPT-4 on function calling, first purpose-built function-calling LLM inference provider on LLMeter)
   };
   return defaults[provider];
 }

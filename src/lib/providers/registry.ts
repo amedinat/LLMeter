@@ -148,6 +148,7 @@ import { infomaniakAdapter } from './infomaniak-adapter';
 import { stackitAdapter } from './stackit-adapter';
 import { abacusaiAdapter } from './abacusai-adapter';
 import { pineconeAdapter } from './pinecone-adapter';
+import { nexusflowAdapter } from './nexusflow-adapter';
 
 /**
  * Provider adapter registry.
@@ -304,6 +305,7 @@ adapters.set('infomaniak', infomaniakAdapter);
 adapters.set('stackit', stackitAdapter);
 adapters.set('abacusai', abacusaiAdapter);
 adapters.set('pinecone', pineconeAdapter);
+adapters.set('nexusflow', nexusflowAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

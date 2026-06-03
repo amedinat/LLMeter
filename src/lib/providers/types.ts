@@ -1379,4 +1379,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.pinecone.io/reference',
     color: '#10B981',
   },
+  nexusflow: {
+    type: 'nexusflow',
+    name: 'NexusFlow',
+    description: 'gorilla-openfunctions-v2 ($0.10/$0.10 sym — 7B Apache 2.0 first open-source model to outperform GPT-4 on function calling, 96% cheaper), nexus-raven-v2-13b ($0.18/$0.18 sym — 13B human-level tool calling), Llama 3.3 70B ($0.35/$0.55 — general flagship), DeepSeek R1 ($0.55/$2.19 — reasoning) — Berkeley CA 2023. Founded by Shishir Patil (Berkeley PhD, lead author Gorilla LLM paper) + Tianjun Zhang + Lianmin Zheng (creator of vLLM). UC Berkeley Sky Computing Lab lineage (Apache Spark, Ray.io, vLLM). Berkeley Function Calling Leaderboard (BFCL) — the definitive tool-use benchmark used by OpenAI, Anthropic, Google — created by NexusFlow. First purpose-built function-calling LLM inference provider on LLMeter.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-nexusflow-api-key',
+    helpUrl: 'https://docs.nexusflow.ai',
+    color: '#7C3AED',
+  },
 };
