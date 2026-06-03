@@ -1424,4 +1424,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://modal.com/docs/guide/inference',
     color: '#6d28d9',
   },
+  hetzner: {
+    type: 'hetzner',
+    name: 'Hetzner Cloud AI',
+    description: 'llama-3.3-70b-instruct ($0.20/$0.30 — flagship, 92% cheaper GPT-4o), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget, 98% cheaper), mistral-7b-instruct ($0.03/$0.03 sym — cheapest 98% cheaper), deepseek-r1 ($0.35/$1.40 — reasoning), qwen2.5-72b-instruct ($0.20/$0.20 sym — multilingual), mixtral-8x7b-instruct ($0.18/$0.18 sym — MoE), phi-4 ($0.08/$0.16 — Microsoft SLM) — Gunzenhausen Bavaria Germany 1997. Founded by Martin Hetzner + Stephan Hetzner (brothers). Bootstrapped, family-owned, no VC. FIRST bootstrapped founder-led German cloud provider on LLMeter. Every other German provider (IONOS/1&1, STACKIT/Schwarz Group) is a corporate subsidiary. Known for pricing 60–70% below AWS/Azure/GCP. 1.5M+ servers deployed. GDPR/German privacy, no US CLOUD Act. OpenAI-compatible API at inference.hetzner.cloud/v1.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-hetzner-api-token',
+    helpUrl: 'https://docs.hetzner.cloud/ai-inference',
+    color: '#D50C2D',
+  },
 };

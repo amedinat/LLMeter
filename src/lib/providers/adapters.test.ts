@@ -147,6 +147,7 @@ import { regoloAdapter } from './regolo-adapter';
 import { herokuAdapter } from './heroku-adapter';
 import { predictionguardAdapter } from './predictionguard-adapter';
 import { modalAdapter } from './modal-adapter';
+import { hetznerAdapter } from './hetzner-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11538,6 +11539,69 @@ describe('Provider Adapters', () => {
 
       await expect(modalAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Modal API key.'
+      );
+    });
+  });
+
+  describe('hetznerAdapter', () => {
+    it('validateKey returns true for a valid Hetzner API token', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await hetznerAdapter.validateKey('test-hetzner-api-token');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://inference.hetzner.cloud/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-hetzner-api-token' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid token message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(hetznerAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid Hetzner API token.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(hetznerAdapter.validateKey('some-token')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api token is empty with missing token message', async () => {
+      await expect(hetznerAdapter.validateKey('')).rejects.toThrow(
+        'Hetzner API token is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await hetznerAdapter.fetchUsage(
+        'test-token',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('hetznerAdapter.type is \'hetzner\'', () => {
+      expect(hetznerAdapter.type).toBe('hetzner');
+    });
+
+    it('throws for a 403 response with forbidden token message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(hetznerAdapter.validateKey('bad-token')).rejects.toThrow(
+        'Invalid Hetzner API token.'
       );
     });
   });

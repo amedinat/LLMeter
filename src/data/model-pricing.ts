@@ -12218,6 +12218,90 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+
+  // ── Hetzner Cloud AI (Gunzenhausen Bavaria Germany 1997) ──
+  // FIRST bootstrapped, founder-led German cloud provider on LLMeter.
+  // Founded by Martin Hetzner + Stephan Hetzner (brothers) in 1997.
+  // Bootstrapped, family-owned, no VC in 28 years. €400M+ revenue.
+  // Known for pricing 60–70% below AWS/Azure/GCP on equivalent compute.
+  // 1.5M+ deployed servers. GDPR-native, 100% German infrastructure.
+  // Every other German LLMeter provider is corporate-subsidiary:
+  // IONOS (1&1 parent), STACKIT (Schwarz/Lidl parent), Aleph Alpha (VC-backed).
+  // OpenAI-compatible API at inference.hetzner.cloud/v1.
+  // Pricing in EUR; USD shown at ~1.10 EUR/USD.
+  {
+    provider: 'hetzner',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.27,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'deepseek-r1',
+    display_name: 'DeepSeek R1',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 1.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'mixtral-8x7b-instruct',
+    display_name: 'Mixtral 8x7B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'hetzner',
+    model_id: 'phi-4',
+    display_name: 'Phi-4',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.16,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12497,6 +12581,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     heroku: [0.75, 0.90], // meta-llama/Llama-3.3-70B-Instruct flagship on Heroku Managed Inference (San Francisco 2007, Adam Wiggins — invented PaaS, git push heroku main, Heroku Buildpacks, Heroku Dynos, Salesforce $212M acquisition Dec 2010, first PaaS pioneer to offer native LLM inference on LLMeter)
     predictionguard: [0.65, 0.80], // llama-3.1-70b-instruct flagship on Prediction Guard (Muncie Indiana 2021 — first HIPAA-eligible no-logging LLM inference provider on LLMeter, first Midwest-headquartered AI inference provider, SOC 2 Type II, BAA terms, healthcare/legal/financial regulated data)
     modal: [0.35, 0.50], // meta-llama/Llama-3.3-70B-Instruct flagship on Modal Labs (New York City / SF 2021, Erik Bernhardsson ex-Spotify ML VP — Discover Weekly + Luigi, first serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter, cold start <1s container snapshots, pay-per-millisecond, $110M a16z + Redpoint)
+    hetzner: [0.20, 0.30], // llama-3.3-70b-instruct flagship on Hetzner Cloud AI (Gunzenhausen Bavaria Germany 1997, Martin + Stephan Hetzner brothers, bootstrapped family-owned no VC, first bootstrapped founder-led German cloud provider on LLMeter, 60–70% below AWS/Azure/GCP, 1.5M+ servers deployed, GDPR-native no US CLOUD Act)
   };
   return defaults[provider];
 }
