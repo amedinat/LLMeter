@@ -318,6 +318,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           heroku: 0,
           predictionguard: 0,
           modal: 0,
+          hetzner: 0,
+          gaianet: 0,
         }
       });
     }
@@ -495,6 +497,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           heroku: 0,
           predictionguard: 0,
           modal: 0,
+          hetzner: 0,
+          gaianet: 0,
         },
       }
     );

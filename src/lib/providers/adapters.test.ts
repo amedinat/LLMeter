@@ -148,6 +148,7 @@ import { herokuAdapter } from './heroku-adapter';
 import { predictionguardAdapter } from './predictionguard-adapter';
 import { modalAdapter } from './modal-adapter';
 import { hetznerAdapter } from './hetzner-adapter';
+import { gaianetAdapter } from './gaianet-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11602,6 +11603,69 @@ describe('Provider Adapters', () => {
 
       await expect(hetznerAdapter.validateKey('bad-token')).rejects.toThrow(
         'Invalid Hetzner API token.'
+      );
+    });
+  });
+
+  describe('gaianetAdapter', () => {
+    it('validateKey returns true for a valid GaiaNet API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await gaianetAdapter.validateKey('test-gaianet-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.gaianet.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-gaianet-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(gaianetAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid GaiaNet API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(gaianetAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(gaianetAdapter.validateKey('')).rejects.toThrow(
+        'GaiaNet API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await gaianetAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('gaianetAdapter.type is \'gaianet\'', () => {
+      expect(gaianetAdapter.type).toBe('gaianet');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(gaianetAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid GaiaNet API key.'
       );
     });
   });
