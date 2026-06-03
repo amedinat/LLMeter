@@ -153,6 +153,7 @@ import { regoloAdapter } from './regolo-adapter';
 import { herokuAdapter } from './heroku-adapter';
 import { predictionguardAdapter } from './predictionguard-adapter';
 import { modalAdapter } from './modal-adapter';
+import { hetznerAdapter } from './hetzner-adapter';
 
 /**
  * Provider adapter registry.
@@ -314,6 +315,7 @@ adapters.set('regolo', regoloAdapter);
 adapters.set('heroku', herokuAdapter);
 adapters.set('predictionguard', predictionguardAdapter);
 adapters.set('modal', modalAdapter);
+adapters.set('hetzner', hetznerAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
