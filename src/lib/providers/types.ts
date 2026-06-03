@@ -1406,4 +1406,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://devcenter.heroku.com/articles/heroku-inference',
     color: '#430098',
   },
+  predictionguard: {
+    type: 'predictionguard',
+    name: 'Prediction Guard',
+    description: 'Hermes-2-Pro-Llama-3-8B ($0.20/$0.20 sym — NousResearch Llama 3 fine-tune, function calling), Hermes-2-Pro-Mistral-7B ($0.14/$0.14 sym — structured output), Neural-Chat-7B ($0.14/$0.14 sym — Intel-optimized), deepseek-coder-6.7b-instruct ($0.14/$0.14 sym — code specialist), llama-3.1-8b-instruct ($0.20/$0.20 sym — Meta Llama 3.1), llama-3.1-70b-instruct ($0.65/$0.80 — flagship enterprise), Llama-3.2-11B-Vision-Instruct ($0.26/$0.26 sym — multimodal), llava-1.5-7b-hf ($0.14/$0.14 sym — vision-language) — Muncie Indiana 2021. FIRST HIPAA-eligible no-logging LLM inference provider on LLMeter. FIRST Midwest-headquartered AI inference provider on LLMeter. Every prompt processed under HIPAA BAA terms — never logged, never used for training. SOC 2 Type II certified. Target: healthcare, legal, financial institutions with regulated data. OpenAI-compatible API at api.predictionguard.com.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-predictionguard-api-key',
+    helpUrl: 'https://docs.predictionguard.com',
+    color: '#0ea5e9',
+  },
 };

@@ -316,6 +316,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nexusflow: 0,
           regolo: 0,
           heroku: 0,
+          predictionguard: 0,
         }
       });
     }
@@ -491,6 +492,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nexusflow: 0,
           regolo: 0,
           heroku: 0,
+          predictionguard: 0,
         },
       }
     );

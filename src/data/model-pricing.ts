@@ -12058,6 +12058,86 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+
+  // ── Prediction Guard (Muncie Indiana 2021) ──
+  // FIRST HIPAA-eligible, no-logging LLM inference provider on LLMeter.
+  // FIRST Midwest-headquartered AI inference provider on LLMeter.
+  // Every prompt processed under HIPAA BAA terms — never logged, never used for training.
+  // SOC 2 Type II certified. Target: healthcare, legal, financial institutions with regulated data.
+  // OpenAI-compatible API at api.predictionguard.com.
+  {
+    provider: 'predictionguard',
+    model_id: 'Hermes-2-Pro-Llama-3-8B',
+    display_name: 'Hermes 2 Pro Llama 3 8B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'Hermes-2-Pro-Mistral-7B',
+    display_name: 'Hermes 2 Pro Mistral 7B',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'Neural-Chat-7B',
+    display_name: 'Neural Chat 7B',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'deepseek-coder-6.7b-instruct',
+    display_name: 'DeepSeek Coder 6.7B Instruct',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.65,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'Llama-3.2-11B-Vision-Instruct',
+    display_name: 'Llama 3.2 11B Vision Instruct',
+    input_price_per_1m_tokens: 0.26,
+    output_price_per_1m_tokens: 0.26,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'predictionguard',
+    model_id: 'llava-1.5-7b-hf',
+    display_name: 'LLaVA 1.5 7B',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12335,6 +12415,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nexusflow: [0.10, 0.10], // gorilla-openfunctions-v2 flagship on NexusFlow (Berkeley CA 2023, Shishir Patil + Tianjun Zhang + Lianmin Zheng, UC Berkeley Sky Computing Lab, first open-source model to outperform GPT-4 on function calling, first purpose-built function-calling LLM inference provider on LLMeter)
     regolo: [0.66, 2.97], // llama-3.3-70b-instruct flagship on Regolo.ai (Italy 2025, Seeweb S.r.l. — Italy's first cloud company 1998, DHH Group Euronext Growth Milan, first Italian-sovereign AI inference provider on LLMeter, EUR-priced GDPR-native)
     heroku: [0.75, 0.90], // meta-llama/Llama-3.3-70B-Instruct flagship on Heroku Managed Inference (San Francisco 2007, Adam Wiggins — invented PaaS, git push heroku main, Heroku Buildpacks, Heroku Dynos, Salesforce $212M acquisition Dec 2010, first PaaS pioneer to offer native LLM inference on LLMeter)
+    predictionguard: [0.65, 0.80], // llama-3.1-70b-instruct flagship on Prediction Guard (Muncie Indiana 2021 — first HIPAA-eligible no-logging LLM inference provider on LLMeter, first Midwest-headquartered AI inference provider, SOC 2 Type II, BAA terms, healthcare/legal/financial regulated data)
   };
   return defaults[provider];
 }

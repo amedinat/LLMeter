@@ -145,6 +145,7 @@ import { pineconeAdapter } from './pinecone-adapter';
 import { nexusflowAdapter } from './nexusflow-adapter';
 import { regoloAdapter } from './regolo-adapter';
 import { herokuAdapter } from './heroku-adapter';
+import { predictionguardAdapter } from './predictionguard-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11410,6 +11411,69 @@ describe('Provider Adapters', () => {
 
       await expect(herokuAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Heroku API key.'
+      );
+    });
+  });
+
+  describe('predictionguardAdapter', () => {
+    it('validateKey returns true for a valid Prediction Guard API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await predictionguardAdapter.validateKey('test-pg-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.predictionguard.com/models',
+        expect.objectContaining({
+          headers: { 'x-api-key': 'test-pg-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(predictionguardAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Prediction Guard API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(predictionguardAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(predictionguardAdapter.validateKey('')).rejects.toThrow(
+        'Prediction Guard API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await predictionguardAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('predictionguardAdapter.type is \'predictionguard\'', () => {
+      expect(predictionguardAdapter.type).toBe('predictionguard');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(predictionguardAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Prediction Guard API key.'
       );
     });
   });

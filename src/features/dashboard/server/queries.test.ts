@@ -199,6 +199,7 @@ const ZERO_PROVIDERS = {
   nexusflow: 0,
   regolo: 0,
   heroku: 0,
+  predictionguard: 0,
 };
 
 // --- Tests ---

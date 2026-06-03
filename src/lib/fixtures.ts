@@ -183,6 +183,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         nexusflow: 0,
         regolo: 0,
         heroku: 0,
+        predictionguard: 0,
       },
     };
   });
