@@ -12386,6 +12386,88 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+  // ── PLaMo (Preferred Networks, Inc.) ─────────────────────────────────────
+  // Tokyo, Japan. Founded March 2014 by Toru Nishikawa (CEO) + Ryosuke Okuta (CTO).
+  // Creators of Chainer (2015) — Japan's first define-by-run deep learning framework
+  // that influenced PyTorch's dynamic graph design (acknowledged by Soumith Chintala).
+  // Toyota Motor ¥10.5B investment for autonomous driving AI. FANUC industrial robots.
+  // First robotics-AI research company to offer LLM inference on LLMeter.
+  // Second Japanese AI inference provider on LLMeter (after Sakura Internet).
+  // PLaMo-100B: 100B parameter trilingual model (Japanese + English + Chinese).
+  // OpenAI-compatible API at api.preferredai.jp/v1.
+  {
+    provider: 'plamo',
+    model_id: 'plamo-100b',
+    display_name: 'PLaMo 100B',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'plamo-1-prime',
+    display_name: 'PLaMo-1 Prime',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 1.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'plamo-1-regular',
+    display_name: 'PLaMo-1 Regular',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'plamo-13b',
+    display_name: 'PLaMo 13B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'plamo-1-turbo',
+    display_name: 'PLaMo-1 Turbo',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.24,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'plamo-1-mini',
+    display_name: 'PLaMo-1 Mini',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.25,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'plamo',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12667,6 +12749,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     modal: [0.35, 0.50], // meta-llama/Llama-3.3-70B-Instruct flagship on Modal Labs (New York City / SF 2021, Erik Bernhardsson ex-Spotify ML VP — Discover Weekly + Luigi, first serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter, cold start <1s container snapshots, pay-per-millisecond, $110M a16z + Redpoint)
     hetzner: [0.20, 0.30], // llama-3.3-70b-instruct flagship on Hetzner Cloud AI (Gunzenhausen Bavaria Germany 1997, Martin + Stephan Hetzner brothers, bootstrapped family-owned no VC, first bootstrapped founder-led German cloud provider on LLMeter, 60–70% below AWS/Azure/GCP, 1.5M+ servers deployed, GDPR-native no US CLOUD Act)
     gaianet: [0.18, 0.18], // llama-3.3-70b-instruct symmetric flagship on GaiaNet (San Francisco / Singapore 2023, Michael Yuan co-creator of WasmEdge CNCF WebAssembly runtime, first WebAssembly-based decentralized AI inference network on LLMeter, 8th decentralized AI compute network, $10M+ Polychain Capital + IOSG Ventures, WasmEdge sandboxed portable inference)
+    plamo: [0.60, 1.80], // plamo-100b flagship on PLaMo (Preferred Networks Tokyo Japan March 2014, Toru Nishikawa + Ryosuke Okuta, creators of Chainer 2015 first define-by-run deep learning framework that influenced PyTorch dynamic graphs, Toyota ¥10.5B autonomous driving investment, FANUC industrial robots, first robotics-AI research company on LLMeter, second Japanese AI inference provider, PLaMo-100B 100B trilingual Japanese/English/Chinese)
   };
   return defaults[provider];
 }

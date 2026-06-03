@@ -149,6 +149,7 @@ import { predictionguardAdapter } from './predictionguard-adapter';
 import { modalAdapter } from './modal-adapter';
 import { hetznerAdapter } from './hetzner-adapter';
 import { gaianetAdapter } from './gaianet-adapter';
+import { plamoAdapter } from './plamo-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11666,6 +11667,69 @@ describe('Provider Adapters', () => {
 
       await expect(gaianetAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid GaiaNet API key.'
+      );
+    });
+  });
+
+  describe('plamoAdapter', () => {
+    it('validateKey returns true for a valid PLaMo API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await plamoAdapter.validateKey('test-plamo-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.preferredai.jp/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-plamo-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(plamoAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid PLaMo API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(plamoAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(plamoAdapter.validateKey('')).rejects.toThrow(
+        'PLaMo API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await plamoAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('plamoAdapter.type is \'plamo\'', () => {
+      expect(plamoAdapter.type).toBe('plamo');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(plamoAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid PLaMo API key.'
       );
     });
   });

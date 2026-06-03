@@ -155,6 +155,7 @@ import { predictionguardAdapter } from './predictionguard-adapter';
 import { modalAdapter } from './modal-adapter';
 import { hetznerAdapter } from './hetzner-adapter';
 import { gaianetAdapter } from './gaianet-adapter';
+import { plamoAdapter } from './plamo-adapter';
 
 /**
  * Provider adapter registry.
@@ -318,6 +319,7 @@ adapters.set('predictionguard', predictionguardAdapter);
 adapters.set('modal', modalAdapter);
 adapters.set('hetzner', hetznerAdapter);
 adapters.set('gaianet', gaianetAdapter);
+adapters.set('plamo', plamoAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
