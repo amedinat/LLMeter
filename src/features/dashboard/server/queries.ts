@@ -315,6 +315,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           pinecone: 0,
           nexusflow: 0,
           regolo: 0,
+          heroku: 0,
         }
       });
     }
@@ -489,6 +490,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           pinecone: 0,
           nexusflow: 0,
           regolo: 0,
+          heroku: 0,
         },
       }
     );

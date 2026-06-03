@@ -198,6 +198,7 @@ const ZERO_PROVIDERS = {
   pinecone: 0,
   nexusflow: 0,
   regolo: 0,
+  heroku: 0,
 };
 
 // --- Tests ---

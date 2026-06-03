@@ -144,6 +144,7 @@ import { abacusaiAdapter } from './abacusai-adapter';
 import { pineconeAdapter } from './pinecone-adapter';
 import { nexusflowAdapter } from './nexusflow-adapter';
 import { regoloAdapter } from './regolo-adapter';
+import { herokuAdapter } from './heroku-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11347,6 +11348,69 @@ describe('Provider Adapters', () => {
 
     it('regoloAdapter.type is \'regolo\'', () => {
       expect(regoloAdapter.type).toBe('regolo');
+    });
+  });
+
+  describe('herokuAdapter', () => {
+    it('validateKey returns true for a valid Heroku API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await herokuAdapter.validateKey('test-heroku-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://us.inference.heroku.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-heroku-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(herokuAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Heroku API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(herokuAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(herokuAdapter.validateKey('')).rejects.toThrow(
+        'Heroku API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await herokuAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('herokuAdapter.type is \'heroku\'', () => {
+      expect(herokuAdapter.type).toBe('heroku');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(herokuAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Heroku API key.'
+      );
     });
   });
 });
