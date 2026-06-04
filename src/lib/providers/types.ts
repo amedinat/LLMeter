@@ -1469,4 +1469,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://lightning.ai/docs/inference',
     color: '#792EE5',
   },
+  eternalai: {
+    type: 'eternalai',
+    name: 'EternalAI',
+    description: "llama-3.3-70b-instruct ($0.20/$0.20 sym — Bitcoin-inscribed flagship 92% cheaper GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 93% cheaper GPT-4o), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget 98% cheaper GPT-4o), mistral-7b-instruct ($0.02/$0.02 sym — cheapest 99% cheaper GPT-4o), deepseek-r1 ($0.45/$1.80 — reasoning Bitcoin-secured on-chain), qwen2.5-72b-instruct ($0.18/$0.18 sym — multilingual), gemma-2-9b-it ($0.05/$0.05 sym — Google open-source), phi-3.5-mini-instruct ($0.03/$0.03 sym — Microsoft SLM ultra-budget) — San Francisco, CA. Founded 2024. FIRST Bitcoin-native AI inference network on LLMeter. Model weights inscribed permanently onto the Bitcoin blockchain via Ordinals protocol — censorship-resistant, immutable, verifiable. Every other decentralized inference network (Akash/Cosmos, Heurist/ETH, NEAR AI, Corcel/Bittensor, GaiaNet/WebAssembly) uses blockchain only for payments/incentives while storing weights on traditional servers. EternalAI stores model artifacts ON Bitcoin. 10th decentralized AI compute network on LLMeter. OpenAI-compatible API at api.eternalai.org/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-eternalai-api-key',
+    helpUrl: 'https://docs.eternalai.org',
+    color: '#F7931A',
+  },
 };
