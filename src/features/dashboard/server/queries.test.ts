@@ -208,6 +208,7 @@ const ZERO_PROVIDERS = {
   lightningai: 0,
   eternalai: 0,
   sakanaai: 0,
+  e2enetworks: 0,
 };
 
 // --- Tests ---

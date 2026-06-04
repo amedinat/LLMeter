@@ -154,6 +154,7 @@ import { saladAdapter } from './salad-adapter';
 import { lightningaiAdapter } from './lightningai-adapter';
 import { eternalaiAdapter } from './eternalai-adapter';
 import { sakanaaiAdapter } from './sakanaai-adapter';
+import { e2enetworksAdapter } from './e2enetworks-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11980,6 +11981,66 @@ describe('Provider Adapters', () => {
       });
       await expect(sakanaaiAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Sakana AI API key.'
+      );
+    });
+  });
+
+  describe('e2enetworksAdapter', () => {
+    it('validateKey returns true for a valid E2E Networks API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await e2enetworksAdapter.validateKey('test-e2enetworks-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.tir.e2enetworks.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-e2enetworks-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 unauthorized response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(e2enetworksAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid E2E Networks API key.'
+      );
+    });
+
+    it('throws for a non-401/403 error response with message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Server error' }),
+      });
+      await expect(e2enetworksAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws for an empty API key', async () => {
+      await expect(e2enetworksAdapter.validateKey('')).rejects.toThrow(
+        'E2E Networks API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array (no public billing API)', async () => {
+      const records = await e2enetworksAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-04')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("e2enetworksAdapter.type is 'e2enetworks'", () => {
+      expect(e2enetworksAdapter.type).toBe('e2enetworks');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(e2enetworksAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid E2E Networks API key.'
       );
     });
   });

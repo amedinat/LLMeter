@@ -165,6 +165,7 @@ export { wrapSalad } from './salad.js';
 export { wrapLightningAI } from './lightningai.js';
 export { wrapEternalAI } from './eternalai.js';
 export { wrapSakanaAI } from './sakanaai.js';
+export { wrapE2ENetworks } from './e2enetworks.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -2801,6 +2801,31 @@ const completion = await trackedModal.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Modal
 );`;
 
+const sdkE2ENetworksExample = `import OpenAI from 'openai';
+import LLMeter, { wrapE2ENetworks } from 'llmeter';
+
+// E2E Networks TIR (tir.e2enetworks.com) — New Delhi, India. Founded 2009.
+// Founded by Tarun Dua (CEO). NSE-listed (NSE: E2ENETWORKS) — India's first
+// publicly-listed GPU cloud company. FIRST Indian cloud infrastructure company
+// on LLMeter (vs model companies Krutrim and Sarvam AI). TIR (Train-Infer-Release):
+// H100/A100 GPU clusters in Indian data centers for DPDP and RBI data localization.
+// Llama 3.3 70B at $0.18/1M — 93% cheaper than GPT-4o. 7/8 models symmetric.
+const e2e = new OpenAI({
+  apiKey: process.env.E2ENETWORKS_API_KEY,
+  baseURL: 'https://api.tir.e2enetworks.com/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedE2E = wrapE2ENetworks(e2e, llmeter);
+
+const completion = await trackedE2E.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'deepseek-ai/DeepSeek-R1', 'Qwen/Qwen2.5-72B-Instruct', etc.
+    messages: [{ role: 'user', content: 'Explain India\\'s National AI Mission.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to E2E Networks
+);`;
+
 const sdkSakanaAIExample = `import OpenAI from 'openai';
 import LLMeter, { wrapSakanaAI } from 'llmeter';
 
@@ -3161,6 +3186,7 @@ export default function DocsPage() {
                 <TabsTrigger value="infomaniak">Infomaniak</TabsTrigger>
                 <TabsTrigger value="modal">Modal Labs</TabsTrigger>
                 <TabsTrigger value="sakanaai">Sakana AI</TabsTrigger>
+                <TabsTrigger value="e2enetworks">E2E Networks</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4497,6 +4523,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Modal Labs — New York City / San Francisco, founded 2021 by Erik Bernhardsson (formerly Spotify ML Platform VP — built the infrastructure behind Discover Weekly, created Luigi data pipeline framework) and team. <strong>FIRST serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter.</strong> Modal&apos;s core product is serverless GPU compute: deploy any Python function on a GPU with a decorator, pay per millisecond. Container snapshot technology reduces cold start to &lt;1 second (vs 30-120s typical). $110M raised from Andreessen Horowitz and Redpoint Ventures. 8 models: Llama 3.3 70B Instruct ($0.35/$0.50 — flagship, 86% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.45 — standard), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct v0.3 ($0.06/$0.06 sym — cheapest, 97% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), DeepSeek V3 ($0.16/$0.64 — open-source flagship). 4 of 8 symmetric. Get your API token at modal.com/settings/api-tokens.
                 </p>
                 <CodeBlock language="typescript" code={sdkModalExample} />
+              </TabsContent>
+              <TabsContent value="e2enetworks" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the E2E Networks TIR client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. E2E Networks Limited (NSE: E2ENETWORKS) — New Delhi, India, founded 2009 by Tarun Dua (CEO). <strong>FIRST publicly-listed Indian GPU cloud company on LLMeter.</strong> <strong>FIRST Indian cloud infrastructure company on LLMeter</strong> (distinct from model companies Krutrim, founded by Bhavish Aggarwal/Ola, and Sarvam AI, Indian language research). TIR (Train-Infer-Release): OpenAI-compatible inference from H100/A100 GPU clusters in Indian data centers — keeps inference within Indian jurisdiction for DPDP (Digital Personal Data Protection Act, 2023) and RBI data localization compliance. Supported by India&apos;s National AI Mission (₹10,372 crore, ~$1.24B USD, 2024 allocation). 8 models: meta-llama/Llama-3.3-70B-Instruct ($0.18/$0.18 sym — flagship, 93% cheaper than GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.16/$0.16 sym — standard, 94% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.03/$0.03 sym — budget, 99% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.02/$0.02 sym — cheapest, 99% cheaper), deepseek-ai/DeepSeek-R1 ($0.30/$1.20 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.20/$0.20 sym — multilingual), google/Gemma-2-9B-IT ($0.04/$0.04 sym — Google open-source), microsoft/Phi-4 ($0.07/$0.07 sym — Microsoft SLM). 7 of 8 symmetric. Get your API token at tir.e2enetworks.com/console/api-keys.
+                </p>
+                <CodeBlock language="typescript" code={sdkE2ENetworksExample} />
               </TabsContent>
               <TabsContent value="sakanaai" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

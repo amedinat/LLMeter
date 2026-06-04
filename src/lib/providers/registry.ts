@@ -160,6 +160,7 @@ import { saladAdapter } from './salad-adapter';
 import { lightningaiAdapter } from './lightningai-adapter';
 import { eternalaiAdapter } from './eternalai-adapter';
 import { sakanaaiAdapter } from './sakanaai-adapter';
+import { e2enetworksAdapter } from './e2enetworks-adapter';
 
 /**
  * Provider adapter registry.
@@ -328,6 +329,7 @@ adapters.set('salad', saladAdapter);
 adapters.set('lightningai', lightningaiAdapter);
 adapters.set('eternalai', eternalaiAdapter);
 adapters.set('sakanaai', sakanaaiAdapter);
+adapters.set('e2enetworks', e2enetworksAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
