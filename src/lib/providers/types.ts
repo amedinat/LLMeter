@@ -1514,4 +1514,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.poolside.ai',
     color: '#0EA5E9',
   },
+  koyeb: {
+    type: 'koyeb',
+    name: 'Koyeb',
+    description: "meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.50 — flagship nearest-node routed 89% cheaper GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.24/$0.40 — standard 70B 90% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest 98% cheaper GPT-4o), deepseek-ai/DeepSeek-R1 ($0.45/$1.80 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.28/$0.28 sym — multilingual), google/Gemma-2-9B-IT ($0.06/$0.06 sym — Google open-source), mistralai/Mixtral-8x7B-Instruct-v0.1 ($0.20/$0.20 sym — MoE). 5/8 symmetric — Koyeb (koyeb.com), Paris, France. Founded 2019 by Edouard Bonlieu (CEO, ex-Streamroot CDN acquired by Limelight Networks) and Yann Léger (CTO, distributed-systems engineer). FIRST multi-continent edge AI inference network on LLMeter. Every other inference provider serves from a fixed geographic origin. Koyeb routes each request to the nearest GPU node (Paris, NYC, Frankfurt, Singapore, Sydney) — cutting TTFT by 40–80ms for cross-continental workloads. 5th French AI inference provider on LLMeter after Mistral AI, TextSynth, LightOn AI, and NLP Cloud. $10M raised from Alven Capital (Paris VC — BlaBlaCar, Malt, Doctrine.fr). OpenAI-compatible API at ai.koyeb.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-koyeb-api-key',
+    helpUrl: 'https://www.koyeb.com/docs/ai-inference',
+    color: '#0891B2',
+  },
 };
