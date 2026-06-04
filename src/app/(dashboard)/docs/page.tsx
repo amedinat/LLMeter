@@ -2851,6 +2851,34 @@ const completion = await trackedSakana.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Sakana AI
 );`;
 
+const sdkNTTExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNTT } from 'llmeter';
+
+// NTT Group (Nippon Telegraph and Telephone Corporation) — Tokyo, Japan. TSE: 9432.
+// Founded 1952, privatized 1985. ~$112B USD revenue, ~300,000 employees.
+// FIRST Japanese telecommunications company on LLMeter.
+// FIRST G7 national telecommunications company LLM on LLMeter.
+// 4th Japanese AI inference provider (after Sakura Internet Day 106, PLaMo Day 158,
+// Sakana AI Day 162). tsuzumi (つづみ/鼓): proprietary enterprise LLM, announced
+// March 2024. Named after traditional Japanese hand drum. 7B params, runs on RTX 4090
+// class hardware — edge-deployable, not H100-only. Trained with knowledge from 12+
+// enterprise industries. NTT DOCOMO: 89M+ subscribers. tsuzumi-7b at $0.12/1M symmetric.
+const ntt = new OpenAI({
+  apiKey: process.env.NTT_API_KEY,
+  baseURL: 'https://api.tsuzumi.ntt.com/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedNTT = wrapNTT(ntt, llmeter);
+
+const completion = await trackedNTT.chat.completions.create(
+  {
+    model: 'tsuzumi-7b', // or 'tsuzumi-13b', 'tsuzumi-light', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: '日本のAI産業について教えてください。' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NTT
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3187,6 +3215,7 @@ export default function DocsPage() {
                 <TabsTrigger value="modal">Modal Labs</TabsTrigger>
                 <TabsTrigger value="sakanaai">Sakana AI</TabsTrigger>
                 <TabsTrigger value="e2enetworks">E2E Networks</TabsTrigger>
+                <TabsTrigger value="ntt">NTT tsuzumi</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4531,6 +4560,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. E2E Networks Limited (NSE: E2ENETWORKS) — New Delhi, India, founded 2009 by Tarun Dua (CEO). <strong>FIRST publicly-listed Indian GPU cloud company on LLMeter.</strong> <strong>FIRST Indian cloud infrastructure company on LLMeter</strong> (distinct from model companies Krutrim, founded by Bhavish Aggarwal/Ola, and Sarvam AI, Indian language research). TIR (Train-Infer-Release): OpenAI-compatible inference from H100/A100 GPU clusters in Indian data centers — keeps inference within Indian jurisdiction for DPDP (Digital Personal Data Protection Act, 2023) and RBI data localization compliance. Supported by India&apos;s National AI Mission (₹10,372 crore, ~$1.24B USD, 2024 allocation). 8 models: meta-llama/Llama-3.3-70B-Instruct ($0.18/$0.18 sym — flagship, 93% cheaper than GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.16/$0.16 sym — standard, 94% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.03/$0.03 sym — budget, 99% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.02/$0.02 sym — cheapest, 99% cheaper), deepseek-ai/DeepSeek-R1 ($0.30/$1.20 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.20/$0.20 sym — multilingual), google/Gemma-2-9B-IT ($0.04/$0.04 sym — Google open-source), microsoft/Phi-4 ($0.07/$0.07 sym — Microsoft SLM). 7 of 8 symmetric. Get your API token at tir.e2enetworks.com/console/api-keys.
                 </p>
                 <CodeBlock language="typescript" code={sdkE2ENetworksExample} />
+              </TabsContent>
+              <TabsContent value="ntt" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the NTT tsuzumi client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. NTT Group (Nippon Telegraph and Telephone Corporation) — Tokyo, Japan. TSE: 9432. Founded 1952 as a state-owned monopoly, privatized 1985. ~$112B USD revenue, ~300,000 employees, 190+ countries. <strong>FIRST Japanese telecommunications company on LLMeter.</strong> <strong>FIRST G7 national telecommunications company&apos;s LLM on LLMeter</strong> (AT&amp;T, Deutsche Telekom, Orange, BT, Telecom Italia all built AI capabilities but did not develop proprietary LLMs for public inference). <strong>4th Japanese AI inference provider on LLMeter</strong> (after Sakura Internet Day 106, PLaMo/Preferred Networks Day 158, Sakana AI Day 162). tsuzumi (つづみ/鼓): NTT&apos;s enterprise LLM announced March 2024, named after the traditional Japanese hand drum. 7B parameters trained with structured knowledge from 12+ enterprise industries (telecommunications, healthcare, finance, retail, manufacturing, logistics, energy, public sector). Designed to run on RTX 4090 class hardware — deployable at telco edge, not H100-only. NTT DOCOMO: 89M+ subscribers, Japan&apos;s largest carrier. NTT Data: $21B IT services, 57 countries. 8 models: tsuzumi-7b ($0.12/$0.12 sym — enterprise Japanese flagship, 95% cheaper than GPT-4o), tsuzumi-7b-v2 ($0.15/$0.15 sym — updated with expanded industry knowledge, 94% cheaper), tsuzumi-light ($0.05/$0.05 sym — ultra-compact edge variant, 98% cheaper), tsuzumi-13b ($0.28/$0.28 sym — enterprise 13B, 89% cheaper), meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.55 — general flagship, 86% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget, 97% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest, 98% cheaper), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning). 6 of 8 symmetric. Get your API token at developer.ntt.com/tsuzumi/console.
+                </p>
+                <CodeBlock language="typescript" code={sdkNTTExample} />
               </TabsContent>
               <TabsContent value="sakanaai" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

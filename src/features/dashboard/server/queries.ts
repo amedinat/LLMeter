@@ -326,6 +326,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           eternalai: 0,
           sakanaai: 0,
           e2enetworks: 0,
+          ntt: 0,
         }
       });
     }
@@ -511,6 +512,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           eternalai: 0,
           sakanaai: 0,
           e2enetworks: 0,
+          ntt: 0,
         },
       }
     );
