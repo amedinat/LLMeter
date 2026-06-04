@@ -328,6 +328,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           e2enetworks: 0,
           ntt: 0,
           poolside: 0,
+          koyeb: 0,
         }
       });
     }
@@ -515,6 +516,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           e2enetworks: 0,
           ntt: 0,
           poolside: 0,
+          koyeb: 0,
         },
       }
     );

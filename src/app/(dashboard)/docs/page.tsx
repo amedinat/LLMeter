@@ -2906,6 +2906,30 @@ const completion = await trackedPoolside.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Poolside
 );`;
 
+const sdkKoyebExample = `import OpenAI from 'openai';
+import LLMeter, { wrapKoyeb } from 'llmeter';
+
+// Koyeb (koyeb.com) — Paris, France. Founded 2019 by Edouard Bonlieu (CEO)
+// and Yann Léger (CTO). FIRST multi-continent edge AI inference network on
+// LLMeter. Routes each request to the nearest GPU node: Paris, NYC,
+// Frankfurt, Singapore, Sydney. 5th French AI inference provider on LLMeter.
+// meta-llama/Llama-3.3-70B-Instruct at $0.28/$0.50 — 89% cheaper than GPT-4o.
+const koyeb = new OpenAI({
+  apiKey: process.env.KOYEB_API_KEY,
+  baseURL: 'https://ai.koyeb.com/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedKoyeb = wrapKoyeb(koyeb, llmeter);
+
+const completion = await trackedKoyeb.chat.completions.create(
+  {
+    model: 'meta-llama/Llama-3.3-70B-Instruct', // or 'Qwen/Qwen2.5-72B-Instruct', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Which Koyeb region will serve this request?' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Koyeb
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3244,6 +3268,7 @@ export default function DocsPage() {
                 <TabsTrigger value="e2enetworks">E2E Networks</TabsTrigger>
                 <TabsTrigger value="ntt">NTT tsuzumi</TabsTrigger>
                 <TabsTrigger value="poolside">Poolside AI</TabsTrigger>
+                <TabsTrigger value="koyeb">Koyeb</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4604,6 +4629,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Poolside AI (poolside.ai) — San Francisco, CA, founded 2023 by Jason Warner (CEO, former SVP of Technology at GitHub — ran all of GitHub&apos;s engineering including the team that shipped GitHub Copilot, the world&apos;s most widely used AI pair programmer with 1.3M+ paying developers; former VP of Engineering at Canonical/Ubuntu) and Eiso Kant (CPO, co-founder of Athenian engineering analytics). <strong>FIRST enterprise software development-only AI research lab on LLMeter.</strong> Every other provider on LLMeter offers code generation as a feature of a general-purpose model. Poolside is the only organization whose entire model training pipeline, research agenda, and product roadmap is dedicated to one domain: software development. The Malibu model family is trained exclusively on permissively-licensed code (MIT, Apache 2.0, BSD) to give enterprise legal teams clean IP provenance — critical for financial institutions, defense contractors, and healthcare systems that have faced copyright litigation concerns with other AI coding tools. $500M raised from Salesforce Ventures, NVIDIA, Samsung Next, and Amazon at ~$3B+ valuation. Jeff Dean (former Google AI Chief Scientist, inventor of MapReduce, TensorFlow, and Transformer training infrastructure) is an investor. 8 models: poolside-malibu-70b ($0.80/$0.80 sym — enterprise code flagship, 68% cheaper than GPT-4o), poolside-malibu-13b ($0.20/$0.20 sym — efficient code model, 92% cheaper), poolside-malibu-7b ($0.08/$0.08 sym — fast lightweight code, 97% cheaper), meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.55 — general flagship, 86% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget, 97% cheaper), deepseek-ai/DeepSeek-Coder-V2-Instruct ($0.27/$1.10 — code competitor, 89% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.07/$0.07 sym — cheapest, 97% cheaper), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning). 5 of 8 symmetric. Get your API key at app.poolside.ai/settings/api-keys.
                 </p>
                 <CodeBlock language="typescript" code={sdkPoolsideExample} />
+              </TabsContent>
+              <TabsContent value="koyeb" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Koyeb client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Koyeb (koyeb.com) — Paris, France. Founded 2019 by Edouard Bonlieu (CEO, ex-Streamroot CDN) and Yann Léger (CTO, distributed-systems engineer). <strong>FIRST multi-continent edge AI inference network on LLMeter.</strong> Every other inference provider on LLMeter serves from a fixed geographic origin (Together AI: Palo Alto, CA; Groq: Dallas, TX; Fireworks: San Francisco, CA; Mistral: Paris). Koyeb routes each request to the nearest GPU node — Paris (CDG), New York City, Frankfurt, Singapore, or Sydney — cutting time-to-first-token by 40–80ms for cross-continental workloads at no additional charge. <strong>5th French AI inference provider on LLMeter</strong> (after Mistral AI, TextSynth, LightOn AI, NLP Cloud). $10M raised from Alven Capital (Paris VC — BlaBlaCar, Malt, Doctrine.fr) and others. 8 models: meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.50 — flagship nearest-node routed, 89% cheaper than GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.24/$0.40 — standard 70B, 90% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget, 97% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest, 98% cheaper), deepseek-ai/DeepSeek-R1 ($0.45/$1.80 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.28/$0.28 sym — multilingual), google/Gemma-2-9B-IT ($0.06/$0.06 sym — Google open-source), mistralai/Mixtral-8x7B-Instruct-v0.1 ($0.20/$0.20 sym — MoE). 5 of 8 symmetric. Get your API key at app.koyeb.com/settings/api-access.
+                </p>
+                <CodeBlock language="typescript" code={sdkKoyebExample} />
               </TabsContent>
               <TabsContent value="sakanaai" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

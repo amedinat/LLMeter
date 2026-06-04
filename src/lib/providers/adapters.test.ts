@@ -157,6 +157,7 @@ import { sakanaaiAdapter } from './sakanaai-adapter';
 import { e2enetworksAdapter } from './e2enetworks-adapter';
 import { nttAdapter } from './ntt-adapter';
 import { poolsideAdapter } from './poolside-adapter';
+import { koyebAdapter } from './koyeb-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12163,6 +12164,66 @@ describe('Provider Adapters', () => {
       });
       await expect(poolsideAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Poolside API key.'
+      );
+    });
+  });
+
+  describe('koyebAdapter', () => {
+    it('validates a good key by calling GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ object: 'list', data: [] }) });
+      const result = await koyebAdapter.validateKey('test-koyeb-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://ai.koyeb.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-koyeb-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(koyebAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Koyeb API key.'
+      );
+    });
+
+    it('throws on server error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+      await expect(koyebAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(koyebAdapter.validateKey('')).rejects.toThrow(
+        'Koyeb API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await koyebAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-04')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("koyebAdapter.type is 'koyeb'", () => {
+      expect(koyebAdapter.type).toBe('koyeb');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(koyebAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Koyeb API key.'
       );
     });
   });
