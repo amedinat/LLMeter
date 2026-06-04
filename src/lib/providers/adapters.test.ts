@@ -150,6 +150,7 @@ import { modalAdapter } from './modal-adapter';
 import { hetznerAdapter } from './hetzner-adapter';
 import { gaianetAdapter } from './gaianet-adapter';
 import { plamoAdapter } from './plamo-adapter';
+import { saladAdapter } from './salad-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11730,6 +11731,69 @@ describe('Provider Adapters', () => {
 
       await expect(plamoAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid PLaMo API key.'
+      );
+    });
+  });
+
+  describe('saladAdapter', () => {
+    it('validateKey returns true for a valid Salad API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ object: 'list', data: [] }) });
+      const result = await saladAdapter.validateKey('test-salad-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.salad.com/api/public/inference/v1/models',
+        expect.objectContaining({
+          headers: { 'Salad-Api-Key': 'test-salad-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 response with invalid key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({ error: { message: 'Unauthorized' } }),
+      });
+
+      await expect(saladAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Salad API key.'
+      );
+    });
+
+    it('throws for a 500 response with server error message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Internal Server Error' }),
+      });
+
+      await expect(saladAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when api key is empty with missing key message', async () => {
+      await expect(saladAdapter.validateKey('')).rejects.toThrow(
+        'Salad API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await saladAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-30')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it('saladAdapter.type is \'salad\'', () => {
+      expect(saladAdapter.type).toBe('salad');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+
+      await expect(saladAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Salad API key.'
       );
     });
   });

@@ -204,6 +204,7 @@ const ZERO_PROVIDERS = {
   hetzner: 0,
   gaianet: 0,
   plamo: 0,
+  salad: 0,
 };
 
 // --- Tests ---
