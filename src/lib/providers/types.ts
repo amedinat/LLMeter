@@ -1487,4 +1487,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://api.sakana.ai/docs',
     color: '#0F766E',
   },
+  e2enetworks: {
+    type: 'e2enetworks',
+    name: 'E2E Networks TIR',
+    description: "meta-llama/Llama-3.3-70B-Instruct ($0.18/$0.18 sym — flagship 93% cheaper GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.16/$0.16 sym — standard 94% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.03/$0.03 sym — budget 99% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.02/$0.02 sym — cheapest 99% cheaper GPT-4o), deepseek-ai/DeepSeek-R1 ($0.30/$1.20 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.20/$0.20 sym — multilingual), google/Gemma-2-9B-IT ($0.04/$0.04 sym — Google open-source), microsoft/Phi-4 ($0.07/$0.07 sym — Microsoft SLM). 7/8 symmetric — New Delhi, India. Founded 2009 by Tarun Dua (CEO). FIRST publicly-listed Indian GPU cloud company on LLMeter (NSE: E2ENETWORKS). FIRST Indian cloud infrastructure company on LLMeter (vs model companies Krutrim and Sarvam AI). TIR (Train-Infer-Release) AI cloud platform with H100/A100 clusters in Indian data centers — inference stays within Indian jurisdiction for DPDP and RBI data localization compliance. Supported by India's National AI Mission (₹10,372 crore ~$1.24B USD, 2024). OpenAI-compatible API at api.tir.e2enetworks.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-e2enetworks-api-key',
+    helpUrl: 'https://tir.e2enetworks.com/docs/api',
+    color: '#1B3D6F',
+  },
 };

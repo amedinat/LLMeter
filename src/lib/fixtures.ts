@@ -192,6 +192,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         lightningai: 0,
         eternalai: 0,
         sakanaai: 0,
+        e2enetworks: 0,
       },
     };
   });

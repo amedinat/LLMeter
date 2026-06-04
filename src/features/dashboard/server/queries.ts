@@ -325,6 +325,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           lightningai: 0,
           eternalai: 0,
           sakanaai: 0,
+          e2enetworks: 0,
         }
       });
     }
@@ -509,6 +510,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           lightningai: 0,
           eternalai: 0,
           sakanaai: 0,
+          e2enetworks: 0,
         },
       }
     );
