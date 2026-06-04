@@ -2879,6 +2879,33 @@ const completion = await trackedNTT.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to NTT
 );`;
 
+const sdkPoolsideExample = `import OpenAI from 'openai';
+import LLMeter, { wrapPoolside } from 'llmeter';
+
+// Poolside AI (poolside.ai) — San Francisco, CA. Founded 2023 by Jason Warner
+// (CEO, former SVP of Technology at GitHub — ran the team that shipped GitHub
+// Copilot, 1.3M+ paying developers; former VP Engineering at Canonical/Ubuntu)
+// and Eiso Kant (CPO). FIRST enterprise software development-only AI research
+// lab on LLMeter. Malibu model family trained exclusively on permissively-
+// licensed code (MIT, Apache 2.0, BSD) for clean IP provenance. $500M raised
+// from Salesforce Ventures, NVIDIA, Samsung Next, Amazon at ~$3B+ valuation.
+// poolside-malibu-70b at $0.80/1M symmetric — 68% cheaper than GPT-4o.
+const poolside = new OpenAI({
+  apiKey: process.env.POOLSIDE_API_KEY,
+  baseURL: 'https://api.poolside.ai/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedPoolside = wrapPoolside(poolside, llmeter);
+
+const completion = await trackedPoolside.chat.completions.create(
+  {
+    model: 'poolside-malibu-70b', // or 'poolside-malibu-13b', 'poolside-malibu-7b', 'deepseek-ai/DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: 'Write a TypeScript function to safely parse JSON with error handling.' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Poolside
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3216,6 +3243,7 @@ export default function DocsPage() {
                 <TabsTrigger value="sakanaai">Sakana AI</TabsTrigger>
                 <TabsTrigger value="e2enetworks">E2E Networks</TabsTrigger>
                 <TabsTrigger value="ntt">NTT tsuzumi</TabsTrigger>
+                <TabsTrigger value="poolside">Poolside AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4568,6 +4596,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. NTT Group (Nippon Telegraph and Telephone Corporation) — Tokyo, Japan. TSE: 9432. Founded 1952 as a state-owned monopoly, privatized 1985. ~$112B USD revenue, ~300,000 employees, 190+ countries. <strong>FIRST Japanese telecommunications company on LLMeter.</strong> <strong>FIRST G7 national telecommunications company&apos;s LLM on LLMeter</strong> (AT&amp;T, Deutsche Telekom, Orange, BT, Telecom Italia all built AI capabilities but did not develop proprietary LLMs for public inference). <strong>4th Japanese AI inference provider on LLMeter</strong> (after Sakura Internet Day 106, PLaMo/Preferred Networks Day 158, Sakana AI Day 162). tsuzumi (つづみ/鼓): NTT&apos;s enterprise LLM announced March 2024, named after the traditional Japanese hand drum. 7B parameters trained with structured knowledge from 12+ enterprise industries (telecommunications, healthcare, finance, retail, manufacturing, logistics, energy, public sector). Designed to run on RTX 4090 class hardware — deployable at telco edge, not H100-only. NTT DOCOMO: 89M+ subscribers, Japan&apos;s largest carrier. NTT Data: $21B IT services, 57 countries. 8 models: tsuzumi-7b ($0.12/$0.12 sym — enterprise Japanese flagship, 95% cheaper than GPT-4o), tsuzumi-7b-v2 ($0.15/$0.15 sym — updated with expanded industry knowledge, 94% cheaper), tsuzumi-light ($0.05/$0.05 sym — ultra-compact edge variant, 98% cheaper), tsuzumi-13b ($0.28/$0.28 sym — enterprise 13B, 89% cheaper), meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.55 — general flagship, 86% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget, 97% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest, 98% cheaper), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning). 6 of 8 symmetric. Get your API token at developer.ntt.com/tsuzumi/console.
                 </p>
                 <CodeBlock language="typescript" code={sdkNTTExample} />
+              </TabsContent>
+              <TabsContent value="poolside" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Poolside AI client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Poolside AI (poolside.ai) — San Francisco, CA, founded 2023 by Jason Warner (CEO, former SVP of Technology at GitHub — ran all of GitHub&apos;s engineering including the team that shipped GitHub Copilot, the world&apos;s most widely used AI pair programmer with 1.3M+ paying developers; former VP of Engineering at Canonical/Ubuntu) and Eiso Kant (CPO, co-founder of Athenian engineering analytics). <strong>FIRST enterprise software development-only AI research lab on LLMeter.</strong> Every other provider on LLMeter offers code generation as a feature of a general-purpose model. Poolside is the only organization whose entire model training pipeline, research agenda, and product roadmap is dedicated to one domain: software development. The Malibu model family is trained exclusively on permissively-licensed code (MIT, Apache 2.0, BSD) to give enterprise legal teams clean IP provenance — critical for financial institutions, defense contractors, and healthcare systems that have faced copyright litigation concerns with other AI coding tools. $500M raised from Salesforce Ventures, NVIDIA, Samsung Next, and Amazon at ~$3B+ valuation. Jeff Dean (former Google AI Chief Scientist, inventor of MapReduce, TensorFlow, and Transformer training infrastructure) is an investor. 8 models: poolside-malibu-70b ($0.80/$0.80 sym — enterprise code flagship, 68% cheaper than GPT-4o), poolside-malibu-13b ($0.20/$0.20 sym — efficient code model, 92% cheaper), poolside-malibu-7b ($0.08/$0.08 sym — fast lightweight code, 97% cheaper), meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.55 — general flagship, 86% cheaper), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget, 97% cheaper), deepseek-ai/DeepSeek-Coder-V2-Instruct ($0.27/$1.10 — code competitor, 89% cheaper), mistralai/Mistral-7B-Instruct-v0.3 ($0.07/$0.07 sym — cheapest, 97% cheaper), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning). 5 of 8 symmetric. Get your API key at app.poolside.ai/settings/api-keys.
+                </p>
+                <CodeBlock language="typescript" code={sdkPoolsideExample} />
               </TabsContent>
               <TabsContent value="sakanaai" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

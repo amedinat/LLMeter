@@ -1505,4 +1505,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.ntt.com/tsuzumi/docs',
     color: '#003087',
   },
+  poolside: {
+    type: 'poolside',
+    name: 'Poolside AI',
+    description: "poolside-malibu-70b ($0.80/$0.80 sym — enterprise code flagship license-clean training 68% cheaper GPT-4o), poolside-malibu-13b ($0.20/$0.20 sym — efficient enterprise code 92% cheaper GPT-4o), poolside-malibu-7b ($0.08/$0.08 sym — fast lightweight code 97% cheaper GPT-4o), meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.55 — general flagship 86% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget 97% cheaper GPT-4o), deepseek-ai/DeepSeek-Coder-V2-Instruct ($0.27/$1.10 — code competitor 89% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.07/$0.07 sym — cheapest 97% cheaper GPT-4o), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning). 5/8 symmetric — Poolside AI (poolside.ai), San Francisco CA. Founded 2023 by Jason Warner (CEO, former SVP of Technology at GitHub — ran all of GitHub's engineering including the team that shipped GitHub Copilot, world's most widely used AI pair programmer 1.3M+ paying developers; former VP Engineering Canonical/Ubuntu) and Eiso Kant (CPO, co-founder Athenian engineering analytics, developer intelligence at source{d}). FIRST enterprise software development-only AI research lab on LLMeter. Malibu model family: trained exclusively on permissively-licensed code (MIT, Apache 2.0, BSD) for clean IP provenance. $500M raised from Salesforce Ventures, NVIDIA, Samsung Next, Amazon at ~$3B+ valuation. Jeff Dean (former Google AI Chief Scientist, inventor MapReduce + TensorFlow + Transformer training infrastructure) investor. OpenAI-compatible API at api.poolside.ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-poolside-api-key',
+    helpUrl: 'https://docs.poolside.ai',
+    color: '#0EA5E9',
+  },
 };

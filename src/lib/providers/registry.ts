@@ -162,6 +162,7 @@ import { eternalaiAdapter } from './eternalai-adapter';
 import { sakanaaiAdapter } from './sakanaai-adapter';
 import { e2enetworksAdapter } from './e2enetworks-adapter';
 import { nttAdapter } from './ntt-adapter';
+import { poolsideAdapter } from './poolside-adapter';
 
 /**
  * Provider adapter registry.
@@ -332,6 +333,7 @@ adapters.set('eternalai', eternalaiAdapter);
 adapters.set('sakanaai', sakanaaiAdapter);
 adapters.set('e2enetworks', e2enetworksAdapter);
 adapters.set('ntt', nttAdapter);
+adapters.set('poolside', poolsideAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
