@@ -12306,6 +12306,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+
+  // EternalAI (eternalai.org) — San Francisco, CA. Founded 2024.
+  // FIRST Bitcoin-native AI inference network on LLMeter.
+  // Model weights inscribed permanently onto Bitcoin blockchain via Ordinals protocol.
+  // OpenAI-compatible API at api.eternalai.org/v1.
+  {
+    provider: 'eternalai',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'EternalAI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'EternalAI: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'EternalAI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'EternalAI: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.02,
+    output_price_per_1m_tokens: 0.02,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'deepseek-r1',
+    display_name: 'EternalAI: DeepSeek R1',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'EternalAI: Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'gemma-2-9b-it',
+    display_name: 'EternalAI: Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+  {
+    provider: 'eternalai',
+    model_id: 'phi-3.5-mini-instruct',
+    display_name: 'EternalAI: Phi-3.5 Mini Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-03T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12589,7 +12667,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     gaianet: [0.18, 0.18], // llama-3.3-70b-instruct symmetric flagship on GaiaNet (San Francisco / Singapore 2023, Michael Yuan co-creator of WasmEdge CNCF WebAssembly runtime, first WebAssembly-based decentralized AI inference network on LLMeter, 8th decentralized AI compute network, $10M+ Polychain Capital + IOSG Ventures, WasmEdge sandboxed portable inference)
     plamo: [0.60, 1.80], // plamo-100b flagship on PLaMo (Preferred Networks Tokyo Japan March 2014, Toru Nishikawa + Ryosuke Okuta, creators of Chainer 2015 first define-by-run deep learning framework that influenced PyTorch dynamic graphs, Toyota ¥10.5B autonomous driving investment, FANUC industrial robots, first robotics-AI research company on LLMeter, second Japanese AI inference provider, PLaMo-100B 100B trilingual Japanese/English/Chinese)
     salad: [0.15, 0.15], // llama-3.3-70b-instruct symmetric flagship on SaladCloud
-    lightningai: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on Lightning AI (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
+    lightningai: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on Lightning AI
+    eternalai: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on EternalAI (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
   };
   return defaults[provider];
 }

@@ -158,6 +158,7 @@ import { gaianetAdapter } from './gaianet-adapter';
 import { plamoAdapter } from './plamo-adapter';
 import { saladAdapter } from './salad-adapter';
 import { lightningaiAdapter } from './lightningai-adapter';
+import { eternalaiAdapter } from './eternalai-adapter';
 
 /**
  * Provider adapter registry.
@@ -324,6 +325,7 @@ adapters.set('gaianet', gaianetAdapter);
 adapters.set('plamo', plamoAdapter);
 adapters.set('salad', saladAdapter);
 adapters.set('lightningai', lightningaiAdapter);
+adapters.set('eternalai', eternalaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

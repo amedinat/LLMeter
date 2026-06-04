@@ -152,6 +152,7 @@ import { gaianetAdapter } from './gaianet-adapter';
 import { plamoAdapter } from './plamo-adapter';
 import { saladAdapter } from './salad-adapter';
 import { lightningaiAdapter } from './lightningai-adapter';
+import { eternalaiAdapter } from './eternalai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11858,6 +11859,66 @@ describe('Provider Adapters', () => {
 
       await expect(lightningaiAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Lightning AI API key.'
+      );
+    });
+  });
+
+  describe('eternalaiAdapter', () => {
+    it('validateKey returns true for a valid EternalAI API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await eternalaiAdapter.validateKey('test-eternalai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.eternalai.org/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-eternalai-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 unauthorized response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(eternalaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid EternalAI API key.'
+      );
+    });
+
+    it('throws for a non-401/403 error response with message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Server error' }),
+      });
+      await expect(eternalaiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws for an empty API key', async () => {
+      await expect(eternalaiAdapter.validateKey('')).rejects.toThrow(
+        'EternalAI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array (no public billing API)', async () => {
+      const records = await eternalaiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-03')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("eternalaiAdapter.type is 'eternalai'", () => {
+      expect(eternalaiAdapter.type).toBe('eternalai');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(eternalaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid EternalAI API key.'
       );
     });
   });

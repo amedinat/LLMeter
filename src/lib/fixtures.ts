@@ -190,6 +190,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         plamo: 0,
         salad: 0,
         lightningai: 0,
+        eternalai: 0,
       },
     };
   });
