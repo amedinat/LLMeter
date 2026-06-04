@@ -12620,6 +12620,88 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-04T00:00:00.000Z',
   },
 
+  // ── Poolside AI (San Francisco CA 2023) ───────────────────────────────────
+  // FIRST enterprise software development-only AI research lab on LLMeter.
+  // Jason Warner (CEO, former SVP of Technology at GitHub — ran engineering
+  // for GitHub Copilot, 1.3M+ paying developers; former VP Engineering
+  // Canonical/Ubuntu) + Eiso Kant (CPO). $500M raised from Salesforce
+  // Ventures, NVIDIA, Samsung Next, Amazon at ~$3B+ valuation.
+  // Malibu model family: trained exclusively on permissively-licensed code
+  // (MIT, Apache 2.0, BSD) for clean enterprise IP provenance.
+  // OpenAI-compatible API at api.poolside.ai/v1.
+  {
+    provider: 'poolside',
+    model_id: 'poolside-malibu-70b',
+    display_name: 'Poolside Malibu 70B',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'poolside-malibu-13b',
+    display_name: 'Poolside Malibu 13B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'poolside-malibu-7b',
+    display_name: 'Poolside Malibu 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Poolside: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Poolside: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'deepseek-ai/DeepSeek-Coder-V2-Instruct',
+    display_name: 'Poolside: DeepSeek Coder V2 Instruct',
+    input_price_per_1m_tokens: 0.27,
+    output_price_per_1m_tokens: 1.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'Poolside: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.07,
+    output_price_per_1m_tokens: 0.07,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'poolside',
+    model_id: 'deepseek-ai/DeepSeek-R1',
+    display_name: 'Poolside: DeepSeek R1',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 2.19,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12907,7 +12989,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     eternalai: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on EternalAI
     sakanaai: [0.25, 0.40], // Llama-3.3-70B-Instruct flagship on Sakana AI
     e2enetworks: [0.18, 0.18], // meta-llama/Llama-3.3-70B-Instruct symmetric flagship on E2E Networks TIR
-    ntt: [0.12, 0.12], // tsuzumi-7b symmetric flagship on NTT Group tsuzumi (Tokyo Japan 1952/1985 TSE:9432, FIRST Japanese telecommunications company on LLMeter, FIRST G7 national telco LLM on LLMeter, tsuzumi 7B enterprise LLM edge-deployable RTX 4090, 4th Japanese AI inference provider) (New Delhi India 2009, Tarun Dua CEO, NSE-listed FIRST publicly-listed Indian GPU cloud company on LLMeter, FIRST Indian cloud infrastructure company on LLMeter, TIR AI cloud platform H100/A100 Indian data centers, India's National AI Mission ₹10,372 crore $1.24B USD 2024, DPDP and RBI data localization compliance) (Tokyo Japan 2023, Llion Jones co-author Attention Is All You Need + David Ha ex-Google Brain Director, FIRST evolutionary AI company on LLMeter, THIRD Japanese AI inference provider) (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
+    ntt: [0.12, 0.12], // tsuzumi-7b symmetric flagship on NTT Group tsuzumi
+    poolside: [0.80, 0.80], // poolside-malibu-70b symmetric flagship on Poolside AI (San Francisco CA 2023, Jason Warner ex-GitHub SVP Technology ran Copilot launch, first enterprise software development-only AI research lab on LLMeter, Malibu trained exclusively on permissively-licensed code, $500M Salesforce Ventures + NVIDIA + Samsung Next + Amazon, ~$3B+ valuation) (Tokyo Japan 1952/1985 TSE:9432, FIRST Japanese telecommunications company on LLMeter, FIRST G7 national telco LLM on LLMeter, tsuzumi 7B enterprise LLM edge-deployable RTX 4090, 4th Japanese AI inference provider) (New Delhi India 2009, Tarun Dua CEO, NSE-listed FIRST publicly-listed Indian GPU cloud company on LLMeter, FIRST Indian cloud infrastructure company on LLMeter, TIR AI cloud platform H100/A100 Indian data centers, India's National AI Mission ₹10,372 crore $1.24B USD 2024, DPDP and RBI data localization compliance) (Tokyo Japan 2023, Llion Jones co-author Attention Is All You Need + David Ha ex-Google Brain Director, FIRST evolutionary AI company on LLMeter, THIRD Japanese AI inference provider) (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
   };
   return defaults[provider];
 }
