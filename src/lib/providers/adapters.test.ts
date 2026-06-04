@@ -155,6 +155,7 @@ import { lightningaiAdapter } from './lightningai-adapter';
 import { eternalaiAdapter } from './eternalai-adapter';
 import { sakanaaiAdapter } from './sakanaai-adapter';
 import { e2enetworksAdapter } from './e2enetworks-adapter';
+import { nttAdapter } from './ntt-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12041,6 +12042,66 @@ describe('Provider Adapters', () => {
       });
       await expect(e2enetworksAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid E2E Networks API key.'
+      );
+    });
+  });
+
+  describe('nttAdapter', () => {
+    it('validates a correct NTT API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await nttAdapter.validateKey('test-ntt-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.tsuzumi.ntt.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-ntt-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(nttAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NTT API key.'
+      );
+    });
+
+    it('throws on non-401 error with status code', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({}),
+      });
+      await expect(nttAdapter.validateKey('some-key')).rejects.toThrow(
+        'NTT API returned 500'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(nttAdapter.validateKey('')).rejects.toThrow(
+        'NTT API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nttAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-04')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("nttAdapter.type is 'ntt'", () => {
+      expect(nttAdapter.type).toBe('ntt');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(nttAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NTT API key.'
       );
     });
   });

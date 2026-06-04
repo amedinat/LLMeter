@@ -161,6 +161,7 @@ import { lightningaiAdapter } from './lightningai-adapter';
 import { eternalaiAdapter } from './eternalai-adapter';
 import { sakanaaiAdapter } from './sakanaai-adapter';
 import { e2enetworksAdapter } from './e2enetworks-adapter';
+import { nttAdapter } from './ntt-adapter';
 
 /**
  * Provider adapter registry.
@@ -330,6 +331,7 @@ adapters.set('lightningai', lightningaiAdapter);
 adapters.set('eternalai', eternalaiAdapter);
 adapters.set('sakanaai', sakanaaiAdapter);
 adapters.set('e2enetworks', e2enetworksAdapter);
+adapters.set('ntt', nttAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

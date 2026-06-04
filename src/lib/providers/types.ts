@@ -1496,4 +1496,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://tir.e2enetworks.com/docs/api',
     color: '#1B3D6F',
   },
+  ntt: {
+    type: 'ntt',
+    name: 'NTT tsuzumi',
+    description: "tsuzumi-7b ($0.12/$0.12 sym — enterprise Japanese flagship edge-deployable RTX 4090 95% cheaper GPT-4o), tsuzumi-7b-v2 ($0.15/$0.15 sym — updated tsuzumi expanded industry knowledge 94% cheaper GPT-4o), tsuzumi-light ($0.05/$0.05 sym — ultra-compact edge variant telco base stations 98% cheaper GPT-4o), tsuzumi-13b ($0.28/$0.28 sym — enterprise 13B enhanced reasoning 89% cheaper GPT-4o), meta-llama/Llama-3.3-70B-Instruct ($0.35/$0.55 — general flagship 86% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.07/$0.07 sym — budget 97% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest 98% cheaper GPT-4o), deepseek-ai/DeepSeek-R1 ($0.55/$2.19 — reasoning). 6/8 symmetric — NTT Group (Nippon Telegraph and Telephone Corporation), Tokyo Japan. TSE: 9432. Founded 1952, privatized 1985. FIRST Japanese telecommunications company on LLMeter. FIRST G7 national telecommunications company LLM on LLMeter. 4th Japanese AI inference provider (after Sakura Internet Day 106, PLaMo Day 158, Sakana AI Day 162). tsuzumi (つづみ/鼓): NTT's proprietary enterprise LLM announced March 2024. Named after traditional Japanese hand drum. 7B parameters trained with structured knowledge from 12+ enterprise industries (telco, healthcare, finance, retail, manufacturing). Runs on RTX 4090 class hardware — first edge-deployable enterprise LLM on LLMeter. ~$112B USD revenue, ~300,000 employees. NTT DOCOMO 89M+ subscribers. OpenAI-compatible API at api.tsuzumi.ntt.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-ntt-api-key',
+    helpUrl: 'https://developer.ntt.com/tsuzumi/docs',
+    color: '#003087',
+  },
 };
