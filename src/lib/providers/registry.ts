@@ -157,6 +157,7 @@ import { hetznerAdapter } from './hetzner-adapter';
 import { gaianetAdapter } from './gaianet-adapter';
 import { plamoAdapter } from './plamo-adapter';
 import { saladAdapter } from './salad-adapter';
+import { lightningaiAdapter } from './lightningai-adapter';
 
 /**
  * Provider adapter registry.
@@ -322,6 +323,7 @@ adapters.set('hetzner', hetznerAdapter);
 adapters.set('gaianet', gaianetAdapter);
 adapters.set('plamo', plamoAdapter);
 adapters.set('salad', saladAdapter);
+adapters.set('lightningai', lightningaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
