@@ -1460,4 +1460,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.salad.com',
     color: '#16A34A',
   },
+  lightningai: {
+    type: 'lightningai',
+    name: 'Lightning AI',
+    description: "meta-llama/Llama-3.3-70B-Instruct ($0.25/$0.40 — PyTorch-native flagship 90% cheaper GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.22/$0.32 — standard 91% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.05/$0.05 sym — budget 98% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.04/$0.04 sym — cheapest 98% cheaper GPT-4o), deepseek-ai/DeepSeek-R1 ($0.50/$2.00 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.25/$0.25 sym — multilingual), google/Gemma-2-9B-IT ($0.05/$0.05 sym — Google open-source), microsoft/Phi-4 ($0.10/$0.10 sym — Microsoft SLM) — San Francisco CA + NYC, 2019. Founded by William Falcon (CEO, creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, adopted by Apple Meta Google Goldman Sachs NASA) and Luca Antiga (CTO, PyTorch core contributor, co-creator PyTorch DataLoader). $58M from Coatue, Bain Capital, Index Ventures, NVIDIA, First Round Capital. FIRST open-source ML framework creator to offer commercial AI inference on LLMeter. FIRST PyTorch-native inference platform on LLMeter. Lightning AI Studio: cloud GPU IDE + serverless inference on H100 clusters. Lit-LLM + Lit-GPT open-source inference and training stack (Apache 2.0). OpenAI-compatible API at api.lightning.ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-lightning-ai-api-key',
+    helpUrl: 'https://lightning.ai/docs/inference',
+    color: '#792EE5',
+  },
 };

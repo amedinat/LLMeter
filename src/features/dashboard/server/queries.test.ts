@@ -205,6 +205,7 @@ const ZERO_PROVIDERS = {
   gaianet: 0,
   plamo: 0,
   salad: 0,
+  lightningai: 0,
 };
 
 // --- Tests ---

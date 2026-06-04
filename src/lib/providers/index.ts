@@ -18,3 +18,4 @@ export { modalAdapter } from './modal-adapter';
 export { hetznerAdapter } from './hetzner-adapter';
 export { plamoAdapter } from './plamo-adapter';
 export { saladAdapter } from './salad-adapter';
+export { lightningaiAdapter } from './lightningai-adapter';
