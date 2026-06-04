@@ -153,6 +153,7 @@ import { plamoAdapter } from './plamo-adapter';
 import { saladAdapter } from './salad-adapter';
 import { lightningaiAdapter } from './lightningai-adapter';
 import { eternalaiAdapter } from './eternalai-adapter';
+import { sakanaaiAdapter } from './sakanaai-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -11919,6 +11920,66 @@ describe('Provider Adapters', () => {
       });
       await expect(eternalaiAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid EternalAI API key.'
+      );
+    });
+  });
+
+  describe('sakanaaiAdapter', () => {
+    it('validateKey returns true for a valid Sakana AI API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await sakanaaiAdapter.validateKey('test-sakanaai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.sakana.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-sakanaai-api-key' },
+        })
+      );
+    });
+
+    it('throws for a 401 unauthorized response', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(sakanaaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Sakana AI API key.'
+      );
+    });
+
+    it('throws for a non-401/403 error response with message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ message: 'Server error' }),
+      });
+      await expect(sakanaaiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws for an empty API key', async () => {
+      await expect(sakanaaiAdapter.validateKey('')).rejects.toThrow(
+        'Sakana AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array (no public billing API)', async () => {
+      const records = await sakanaaiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-04')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("sakanaaiAdapter.type is 'sakanaai'", () => {
+      expect(sakanaaiAdapter.type).toBe('sakanaai');
+    });
+
+    it('throws for a 403 response with forbidden key message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(sakanaaiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Sakana AI API key.'
       );
     });
   });

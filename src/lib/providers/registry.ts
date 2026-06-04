@@ -159,6 +159,7 @@ import { plamoAdapter } from './plamo-adapter';
 import { saladAdapter } from './salad-adapter';
 import { lightningaiAdapter } from './lightningai-adapter';
 import { eternalaiAdapter } from './eternalai-adapter';
+import { sakanaaiAdapter } from './sakanaai-adapter';
 
 /**
  * Provider adapter registry.
@@ -326,6 +327,7 @@ adapters.set('plamo', plamoAdapter);
 adapters.set('salad', saladAdapter);
 adapters.set('lightningai', lightningaiAdapter);
 adapters.set('eternalai', eternalaiAdapter);
+adapters.set('sakanaai', sakanaaiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

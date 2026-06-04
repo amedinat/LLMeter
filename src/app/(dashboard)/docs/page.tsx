@@ -2801,6 +2801,31 @@ const completion = await trackedModal.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Modal
 );`;
 
+const sdkSakanaAIExample = `import OpenAI from 'openai';
+import LLMeter, { wrapSakanaAI } from 'llmeter';
+
+// Sakana AI (sakana.ai) — Tokyo, Japan. Founded 2023.
+// Founded by Llion Jones (CTO, co-author of "Attention Is All You Need" — the
+// 2017 Transformer paper with 110,000+ citations underpinning every major LLM)
+// and David Ha (CEO, former Head of Google Brain Tokyo, ex-Research Director DeepMind).
+// FIRST evolutionary AI company on LLMeter. THIRD Japanese AI inference provider.
+// EvoLLM-JP-v1-7B: Japanese LLM via evolutionary model merging — 96% cheaper GPT-4o.
+const sakana = new OpenAI({
+  apiKey: process.env.SAKANAAI_API_KEY,
+  baseURL: 'https://api.sakana.ai/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedSakana = wrapSakanaAI(sakana, llmeter);
+
+const completion = await trackedSakana.chat.completions.create(
+  {
+    model: 'EvoLLM-JP-v1-7B', // or 'Llama-3.3-70B-Instruct', 'DeepSeek-R1', etc.
+    messages: [{ role: 'user', content: '進化的AIについて説明してください。' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Sakana AI
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3135,6 +3160,7 @@ export default function DocsPage() {
                 <TabsTrigger value="tensoropera">TensorOpera</TabsTrigger>
                 <TabsTrigger value="infomaniak">Infomaniak</TabsTrigger>
                 <TabsTrigger value="modal">Modal Labs</TabsTrigger>
+                <TabsTrigger value="sakanaai">Sakana AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4471,6 +4497,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Modal Labs — New York City / San Francisco, founded 2021 by Erik Bernhardsson (formerly Spotify ML Platform VP — built the infrastructure behind Discover Weekly, created Luigi data pipeline framework) and team. <strong>FIRST serverless GPU compute platform to offer OpenAI-compatible LLM inference on LLMeter.</strong> Modal&apos;s core product is serverless GPU compute: deploy any Python function on a GPU with a decorator, pay per millisecond. Container snapshot technology reduces cold start to &lt;1 second (vs 30-120s typical). $110M raised from Andreessen Horowitz and Redpoint Ventures. 8 models: Llama 3.3 70B Instruct ($0.35/$0.50 — flagship, 86% cheaper than GPT-4o), Llama 3.1 70B Instruct ($0.30/$0.45 — standard), Llama 3.1 8B Instruct ($0.07/$0.07 sym — budget, 97% cheaper), Llama 3.1 405B Instruct ($1.80/$1.80 sym — enterprise), Mistral 7B Instruct v0.3 ($0.06/$0.06 sym — cheapest, 97% cheaper), DeepSeek R1 ($0.55/$2.19 — reasoning), Qwen 2.5 72B Instruct ($0.35/$0.35 sym — multilingual), DeepSeek V3 ($0.16/$0.64 — open-source flagship). 4 of 8 symmetric. Get your API token at modal.com/settings/api-tokens.
                 </p>
                 <CodeBlock language="typescript" code={sdkModalExample} />
+              </TabsContent>
+              <TabsContent value="sakanaai" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Sakana AI client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Sakana AI — Tokyo, Japan, founded 2023 by Llion Jones (CTO, co-author of <em>&quot;Attention Is All You Need&quot;</em> — the 2017 Transformer paper with 110,000+ citations that underpins GPT-4, Claude, Gemini, and LLaMA) and David Ha (CEO, former Head of Google Brain Tokyo and Research Director at Google DeepMind). <strong>FIRST evolutionary AI company on LLMeter.</strong> <strong>THIRD Japanese AI inference provider</strong> (after Sakura Internet Day 106, PLaMo Day 158). Sakana AI uses evolutionary algorithms and nature-inspired techniques to build AI: Evolutionary Model Merging discovers optimal ways to combine existing model checkpoints without training from scratch. EvoLLM-JP models outperform conventionally trained same-size models on Japanese benchmarks (JCommonSenseQA, JNLI, MARC-ja, JSQuAD) at a fraction of the compute cost. 8 models: EvoLLM-JP-v1-7B ($0.10/$0.10 sym — Japanese evolutionary flagship, 96% cheaper than GPT-4o), EvoLLM-JP-A-v1-7B ($0.12/$0.12 sym — enhanced Japanese, 95% cheaper), EvoVLM-JP-v1-7B ($0.15/$0.15 sym — Japanese vision-language), Llama-3.3-70B-Instruct ($0.25/$0.40 — general flagship, 90% cheaper), Llama-3.1-8B-Instruct ($0.05/$0.05 sym — budget, 98% cheaper), Mistral-7B-Instruct ($0.04/$0.04 sym — cheapest, 98% cheaper), DeepSeek-R1 ($0.50/$2.00 — reasoning), Qwen2.5-72B-Instruct ($0.20/$0.20 sym — multilingual). 6 of 8 symmetric. Get your API token at sakana.ai/settings/api-keys.
+                </p>
+                <CodeBlock language="typescript" code={sdkSakanaAIExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

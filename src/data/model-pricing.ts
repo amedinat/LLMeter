@@ -12384,6 +12384,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-03T00:00:00.000Z',
   },
 
+
+  // Sakana AI (sakana.ai) — Tokyo, Japan. Founded 2023.
+  // FIRST evolutionary AI company on LLMeter.
+  // Founded by Llion Jones (co-author of Attention Is All You Need) + David Ha (ex-Google Brain).
+  // OpenAI-compatible API at api.sakana.ai/v1.
+  {
+    provider: 'sakanaai',
+    model_id: 'EvoLLM-JP-v1-7B',
+    display_name: 'Sakana AI: EvoLLM-JP v1 7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'EvoLLM-JP-A-v1-7B',
+    display_name: 'Sakana AI: EvoLLM-JP A v1 7B',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'EvoVLM-JP-v1-7B',
+    display_name: 'Sakana AI: EvoVLM-JP v1 7B',
+    input_price_per_1m_tokens: 0.15,
+    output_price_per_1m_tokens: 0.15,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'Llama-3.3-70B-Instruct',
+    display_name: 'Sakana AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'Llama-3.1-8B-Instruct',
+    display_name: 'Sakana AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'Mistral-7B-Instruct',
+    display_name: 'Sakana AI: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'DeepSeek-R1',
+    display_name: 'Sakana AI: DeepSeek R1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'sakanaai',
+    model_id: 'Qwen2.5-72B-Instruct',
+    display_name: 'Sakana AI: Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -12668,7 +12746,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     plamo: [0.60, 1.80], // plamo-100b flagship on PLaMo (Preferred Networks Tokyo Japan March 2014, Toru Nishikawa + Ryosuke Okuta, creators of Chainer 2015 first define-by-run deep learning framework that influenced PyTorch dynamic graphs, Toyota ¥10.5B autonomous driving investment, FANUC industrial robots, first robotics-AI research company on LLMeter, second Japanese AI inference provider, PLaMo-100B 100B trilingual Japanese/English/Chinese)
     salad: [0.15, 0.15], // llama-3.3-70b-instruct symmetric flagship on SaladCloud
     lightningai: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on Lightning AI
-    eternalai: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on EternalAI (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
+    eternalai: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on EternalAI
+    sakanaai: [0.25, 0.40], // Llama-3.3-70B-Instruct flagship on Sakana AI (Tokyo Japan 2023, Llion Jones co-author Attention Is All You Need + David Ha ex-Google Brain Director, FIRST evolutionary AI company on LLMeter, THIRD Japanese AI inference provider) (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
   };
   return defaults[provider];
 }

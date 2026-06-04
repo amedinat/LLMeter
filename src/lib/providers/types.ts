@@ -1478,4 +1478,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.eternalai.org',
     color: '#F7931A',
   },
+  sakanaai: {
+    type: 'sakanaai',
+    name: 'Sakana AI',
+    description: "EvoLLM-JP-v1-7B ($0.10/$0.10 sym — Japanese evolutionary LLM flagship 96% cheaper GPT-4o), EvoLLM-JP-A-v1-7B ($0.12/$0.12 sym — enhanced Japanese 95% cheaper GPT-4o), EvoVLM-JP-v1-7B ($0.15/$0.15 sym — Japanese vision-language), Llama-3.3-70B-Instruct ($0.25/$0.40 — general flagship 90% cheaper GPT-4o), Llama-3.1-8B-Instruct ($0.05/$0.05 sym — budget 98% cheaper GPT-4o), Mistral-7B-Instruct ($0.04/$0.04 sym — cheapest 98% cheaper GPT-4o), DeepSeek-R1 ($0.50/$2.00 — reasoning), Qwen2.5-72B-Instruct ($0.20/$0.20 sym — multilingual) — Tokyo, Japan. Founded 2023. FIRST evolutionary AI company on LLMeter. Founded by Llion Jones (CTO, co-author of 'Attention Is All You Need' 2017 Transformer paper — 110,000+ citations, underpins every major LLM) and David Ha (CEO, former Head of Google Brain Tokyo, former Research Director at Google DeepMind). EvoLLM-JP: Japanese LLM built via evolutionary model merging — combines Mistral/Llama/ELYZA weights without training from scratch, outperforms conventionally trained same-size models on Japanese benchmarks. THIRD Japanese AI inference provider on LLMeter (after Sakura Internet Day 106, PLaMo Day 158). OpenAI-compatible API at api.sakana.ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sakanaai-api-key',
+    helpUrl: 'https://api.sakana.ai/docs',
+    color: '#0F766E',
+  },
 };

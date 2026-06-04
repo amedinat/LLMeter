@@ -207,6 +207,7 @@ const ZERO_PROVIDERS = {
   salad: 0,
   lightningai: 0,
   eternalai: 0,
+  sakanaai: 0,
 };
 
 // --- Tests ---
