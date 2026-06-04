@@ -22,7 +22,7 @@ describe('wrapAbacusAI', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never);
+    const tracked = wrapAbacusAI(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.3-70b-instruct', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapAbacusAI', () => {
       usage: { prompt_tokens: 20, completion_tokens: 10 },
     });
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never);
+    const tracked = wrapAbacusAI(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'mistral-7b-instruct', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapAbacusAI', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'llama-3.1-8b-instruct' });
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never);
+    const tracked = wrapAbacusAI(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.1-8b-instruct', messages: [] });
 
@@ -65,7 +65,7 @@ describe('wrapAbacusAI', () => {
   it('removes llmeter_customer_id from options before forwarding', async () => {
     const client = makeMockClient({ model: 'deepseek-r1', usage: { prompt_tokens: 5, completion_tokens: 5 } });
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never);
+    const tracked = wrapAbacusAI(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'deepseek-r1', messages: [] },
@@ -84,7 +84,7 @@ describe('wrapAbacusAI', () => {
       usage: { prompt_tokens: 30, completion_tokens: 15 },
     });
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never, 'acme_corp');
+    const tracked = wrapAbacusAI(client, tracker as never, 'acme_corp');
 
     await tracked.chat.completions.create({ model: 'mixtral-8x7b-instruct', messages: [] });
 
@@ -99,7 +99,7 @@ describe('wrapAbacusAI', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never);
+    const tracked = wrapAbacusAI(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -110,7 +110,7 @@ describe('wrapAbacusAI', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapAbacusAI(client as never, tracker as never);
+    const tracked = wrapAbacusAI(client, tracker as never);
 
     const params = { model: 'llama-3.1-405b-instruct', messages: [{ role: 'user', content: 'test' }], temperature: 0.7 };
     await tracked.chat.completions.create(params);

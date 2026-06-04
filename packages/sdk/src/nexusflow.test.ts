@@ -22,7 +22,7 @@ describe('wrapNexusFlow', () => {
       usage: { prompt_tokens: 120, completion_tokens: 60 },
     });
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never);
+    const tracked = wrapNexusFlow(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'gorilla-openfunctions-v2', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapNexusFlow', () => {
       usage: { prompt_tokens: 80, completion_tokens: 40 },
     });
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never);
+    const tracked = wrapNexusFlow(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'nexus-raven-v2-13b', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapNexusFlow', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'llama-3.1-8b-instruct' });
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never);
+    const tracked = wrapNexusFlow(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.1-8b-instruct', messages: [] });
 
@@ -68,7 +68,7 @@ describe('wrapNexusFlow', () => {
       usage: { prompt_tokens: 50, completion_tokens: 25 },
     });
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never);
+    const tracked = wrapNexusFlow(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'deepseek-r1', messages: [] },
@@ -87,7 +87,7 @@ describe('wrapNexusFlow', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never, 'my_agent_pipeline');
+    const tracked = wrapNexusFlow(client, tracker as never, 'my_agent_pipeline');
 
     await tracked.chat.completions.create({ model: 'llama-3.3-70b-instruct', messages: [] });
 
@@ -102,7 +102,7 @@ describe('wrapNexusFlow', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never);
+    const tracked = wrapNexusFlow(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -113,7 +113,7 @@ describe('wrapNexusFlow', () => {
       usage: { prompt_tokens: 300, completion_tokens: 150 },
     });
     const tracker = makeTracker();
-    const tracked = wrapNexusFlow(client as never, tracker as never);
+    const tracked = wrapNexusFlow(client, tracker as never);
 
     const params = {
       model: 'nexus-raven-v2-7b',

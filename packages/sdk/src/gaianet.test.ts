@@ -22,7 +22,7 @@ describe('wrapGaiaNet', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never);
+    const tracked = wrapGaiaNet(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.3-70b-instruct', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapGaiaNet', () => {
       usage: { prompt_tokens: 80, completion_tokens: 40 },
     });
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never);
+    const tracked = wrapGaiaNet(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'llama-3.1-8b-instruct', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapGaiaNet', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'mistral-7b-instruct' });
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never);
+    const tracked = wrapGaiaNet(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'mistral-7b-instruct', messages: [] });
 
@@ -68,7 +68,7 @@ describe('wrapGaiaNet', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never);
+    const tracked = wrapGaiaNet(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'deepseek-r1', messages: [] },
@@ -87,7 +87,7 @@ describe('wrapGaiaNet', () => {
       usage: { prompt_tokens: 150, completion_tokens: 75 },
     });
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never, 'gaianet_app');
+    const tracked = wrapGaiaNet(client, tracker as never, 'gaianet_app');
 
     await tracked.chat.completions.create({ model: 'gemma-2-9b-it', messages: [] });
 
@@ -102,7 +102,7 @@ describe('wrapGaiaNet', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never);
+    const tracked = wrapGaiaNet(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -113,7 +113,7 @@ describe('wrapGaiaNet', () => {
       usage: { prompt_tokens: 300, completion_tokens: 150 },
     });
     const tracker = makeTracker();
-    const tracked = wrapGaiaNet(client as never, tracker as never);
+    const tracked = wrapGaiaNet(client, tracker as never);
 
     const params = {
       model: 'llama-3.2-3b-instruct',

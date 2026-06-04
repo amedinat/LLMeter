@@ -22,7 +22,7 @@ describe('wrapHeroku', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never);
+    const tracked = wrapHeroku(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'meta-llama/Llama-3.3-70B-Instruct', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapHeroku', () => {
       usage: { prompt_tokens: 80, completion_tokens: 40 },
     });
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never);
+    const tracked = wrapHeroku(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'claude-3-5-sonnet-20241022', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapHeroku', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'meta-llama/Llama-3.1-8B-Instruct' });
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never);
+    const tracked = wrapHeroku(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'meta-llama/Llama-3.1-8B-Instruct', messages: [] });
 
@@ -68,7 +68,7 @@ describe('wrapHeroku', () => {
       usage: { prompt_tokens: 50, completion_tokens: 200 },
     });
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never);
+    const tracked = wrapHeroku(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'cohere/command-r-plus', messages: [] },
@@ -87,7 +87,7 @@ describe('wrapHeroku', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never, 'salesforce_app');
+    const tracked = wrapHeroku(client, tracker as never, 'salesforce_app');
 
     await tracked.chat.completions.create({ model: 'claude-3-haiku-20240307', messages: [] });
 
@@ -102,7 +102,7 @@ describe('wrapHeroku', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never);
+    const tracked = wrapHeroku(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -113,7 +113,7 @@ describe('wrapHeroku', () => {
       usage: { prompt_tokens: 300, completion_tokens: 150 },
     });
     const tracker = makeTracker();
-    const tracked = wrapHeroku(client as never, tracker as never);
+    const tracked = wrapHeroku(client, tracker as never);
 
     const params = {
       model: 'meta-llama/Llama-3.1-70B-Instruct',

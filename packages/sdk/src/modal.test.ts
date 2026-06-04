@@ -22,7 +22,7 @@ describe('wrapModal', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never);
+    const tracked = wrapModal(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'meta-llama/Llama-3.3-70B-Instruct', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapModal', () => {
       usage: { prompt_tokens: 80, completion_tokens: 40 },
     });
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never);
+    const tracked = wrapModal(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'meta-llama/Llama-3.1-8B-Instruct', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapModal', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'mistralai/Mistral-7B-Instruct-v0.3' });
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never);
+    const tracked = wrapModal(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'mistralai/Mistral-7B-Instruct-v0.3', messages: [] });
 
@@ -68,7 +68,7 @@ describe('wrapModal', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never);
+    const tracked = wrapModal(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'deepseek-ai/DeepSeek-R1', messages: [] },
@@ -87,7 +87,7 @@ describe('wrapModal', () => {
       usage: { prompt_tokens: 150, completion_tokens: 75 },
     });
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never, 'modal_app');
+    const tracked = wrapModal(client, tracker as never, 'modal_app');
 
     await tracked.chat.completions.create({ model: 'Qwen/Qwen2.5-72B-Instruct', messages: [] });
 
@@ -102,7 +102,7 @@ describe('wrapModal', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never);
+    const tracked = wrapModal(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -113,7 +113,7 @@ describe('wrapModal', () => {
       usage: { prompt_tokens: 300, completion_tokens: 150 },
     });
     const tracker = makeTracker();
-    const tracked = wrapModal(client as never, tracker as never);
+    const tracked = wrapModal(client, tracker as never);
 
     const params = {
       model: 'meta-llama/Llama-3.1-405B-Instruct',

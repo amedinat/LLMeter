@@ -22,7 +22,7 @@ describe('wrapTensorOpera', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never);
+    const tracked = wrapTensorOpera(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.3-70b-instruct', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapTensorOpera', () => {
       usage: { prompt_tokens: 20, completion_tokens: 10 },
     });
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never);
+    const tracked = wrapTensorOpera(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'mistral-7b-instruct', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapTensorOpera', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'llama-3.1-8b-instruct' });
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never);
+    const tracked = wrapTensorOpera(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.1-8b-instruct', messages: [] });
 
@@ -65,7 +65,7 @@ describe('wrapTensorOpera', () => {
   it('removes llmeter_customer_id from options before forwarding', async () => {
     const client = makeMockClient({ model: 'deepseek-r1', usage: { prompt_tokens: 5, completion_tokens: 5 } });
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never);
+    const tracked = wrapTensorOpera(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'deepseek-r1', messages: [] },
@@ -84,7 +84,7 @@ describe('wrapTensorOpera', () => {
       usage: { prompt_tokens: 30, completion_tokens: 15 },
     });
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never, 'default_tenant');
+    const tracked = wrapTensorOpera(client, tracker as never, 'default_tenant');
 
     await tracked.chat.completions.create({ model: 'qwen2.5-72b-instruct', messages: [] });
 
@@ -99,7 +99,7 @@ describe('wrapTensorOpera', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never);
+    const tracked = wrapTensorOpera(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -107,7 +107,7 @@ describe('wrapTensorOpera', () => {
   it('forwards params to underlying client unchanged', async () => {
     const client = makeMockClient({ model: 'mixtral-8x7b-instruct', usage: { prompt_tokens: 40, completion_tokens: 20 } });
     const tracker = makeTracker();
-    const tracked = wrapTensorOpera(client as never, tracker as never);
+    const tracked = wrapTensorOpera(client, tracker as never);
 
     const params = { model: 'mixtral-8x7b-instruct', messages: [{ role: 'user', content: 'Hi' }], temperature: 0.7 };
     await tracked.chat.completions.create(params as never);

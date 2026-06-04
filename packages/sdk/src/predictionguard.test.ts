@@ -22,7 +22,7 @@ describe('wrapPredictionGuard', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never);
+    const tracked = wrapPredictionGuard(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'llama-3.1-8b-instruct', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapPredictionGuard', () => {
       usage: { prompt_tokens: 80, completion_tokens: 40 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never);
+    const tracked = wrapPredictionGuard(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'Hermes-2-Pro-Llama-3-8B', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapPredictionGuard', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'Neural-Chat-7B' });
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never);
+    const tracked = wrapPredictionGuard(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'Neural-Chat-7B', messages: [] });
 
@@ -68,7 +68,7 @@ describe('wrapPredictionGuard', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never);
+    const tracked = wrapPredictionGuard(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'llama-3.1-70b-instruct', messages: [] },
@@ -87,7 +87,7 @@ describe('wrapPredictionGuard', () => {
       usage: { prompt_tokens: 150, completion_tokens: 75 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never, 'clinical_app');
+    const tracked = wrapPredictionGuard(client, tracker as never, 'clinical_app');
 
     await tracked.chat.completions.create({ model: 'deepseek-coder-6.7b-instruct', messages: [] });
 
@@ -102,7 +102,7 @@ describe('wrapPredictionGuard', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never);
+    const tracked = wrapPredictionGuard(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -113,7 +113,7 @@ describe('wrapPredictionGuard', () => {
       usage: { prompt_tokens: 300, completion_tokens: 150 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPredictionGuard(client as never, tracker as never);
+    const tracked = wrapPredictionGuard(client, tracker as never);
 
     const params = {
       model: 'Llama-3.2-11B-Vision-Instruct',

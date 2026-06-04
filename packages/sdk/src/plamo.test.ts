@@ -22,7 +22,7 @@ describe('wrapPLaMo', () => {
       usage: { prompt_tokens: 100, completion_tokens: 50 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never);
+    const tracked = wrapPLaMo(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'plamo-100b', messages: [] });
 
@@ -40,7 +40,7 @@ describe('wrapPLaMo', () => {
       usage: { prompt_tokens: 80, completion_tokens: 40 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never);
+    const tracked = wrapPLaMo(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'plamo-1-prime', messages: [] },
@@ -55,7 +55,7 @@ describe('wrapPLaMo', () => {
   it('does not track when usage is missing', async () => {
     const client = makeMockClient({ model: 'plamo-1-mini' });
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never);
+    const tracked = wrapPLaMo(client, tracker as never);
 
     await tracked.chat.completions.create({ model: 'plamo-1-mini', messages: [] });
 
@@ -68,7 +68,7 @@ describe('wrapPLaMo', () => {
       usage: { prompt_tokens: 200, completion_tokens: 100 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never);
+    const tracked = wrapPLaMo(client, tracker as never);
 
     await tracked.chat.completions.create(
       { model: 'plamo-1-turbo', messages: [] },
@@ -87,7 +87,7 @@ describe('wrapPLaMo', () => {
       usage: { prompt_tokens: 150, completion_tokens: 75 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never, 'plamo_app');
+    const tracked = wrapPLaMo(client, tracker as never, 'plamo_app');
 
     await tracked.chat.completions.create({ model: 'plamo-1-regular', messages: [] });
 
@@ -102,7 +102,7 @@ describe('wrapPLaMo', () => {
       models: { list: vi.fn() },
     };
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never);
+    const tracked = wrapPLaMo(client, tracker as never);
 
     expect((tracked as typeof client).models).toBe(client.models);
   });
@@ -113,7 +113,7 @@ describe('wrapPLaMo', () => {
       usage: { prompt_tokens: 300, completion_tokens: 150 },
     });
     const tracker = makeTracker();
-    const tracked = wrapPLaMo(client as never, tracker as never);
+    const tracked = wrapPLaMo(client, tracker as never);
 
     const params = {
       model: 'llama-3.3-70b-instruct',
