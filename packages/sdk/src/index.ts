@@ -161,6 +161,7 @@ export { wrapModal } from './modal.js';
 export { wrapHetzner } from './hetzner.js';
 export { wrapGaiaNet } from './gaianet.js';
 export { wrapPLaMo } from './plamo.js';
+export { wrapSalad } from './salad.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

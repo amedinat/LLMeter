@@ -1451,4 +1451,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.preferredai.jp',
     color: '#0EA5E9',
   },
+  salad: {
+    type: 'salad',
+    name: 'SaladCloud',
+    description: 'llama-3.3-70b-instruct ($0.15/$0.15 sym — flagship 94% cheaper GPT-4o), llama-3.1-70b-instruct ($0.13/$0.13 sym — standard 95% cheaper), llama-3.1-8b-instruct ($0.03/$0.03 sym — budget 99% cheaper GPT-4o), mistral-7b-instruct ($0.02/$0.02 sym — cheapest 99% cheaper GPT-4o), deepseek-r1 ($0.40/$1.60 — reasoning consumer GPU pricing), qwen2.5-72b-instruct ($0.15/$0.15 sym — multilingual), gemma-2-9b-it ($0.04/$0.04 sym — Google open-source), phi-3.5-mini-instruct ($0.03/$0.03 sym — Microsoft SLM ultra-budget) — Denver, Colorado. Founded 2018 by Josh Ong (CEO) + Brooks Townsend (CTO). FIRST consumer gaming GPU network for AI inference on LLMeter. 1M+ idle gaming PCs (GeForce RTX 3060–4090, Radeon RX) enrolled as distributed compute. Every other decentralized network uses data center or professional hardware — Salad is the only one using consumer gaming GPUs exclusively. 9th decentralized AI compute network on LLMeter. FIRST Denver / Rocky Mountain AI inference provider on LLMeter. 60–80% below cloud GPU pricing due to idle consumer hardware economics. $3.5M seed from Initialized Capital (Garry Tan, now YC president) + Baseline Ventures. OpenAI-compatible API at api.salad.com/api/public/inference/v1. Auth: Salad-Api-Key header.',
+    keyPrefix: '',
+    keyPlaceholder: 'your-salad-api-key',
+    helpUrl: 'https://docs.salad.com',
+    color: '#16A34A',
+  },
 };
