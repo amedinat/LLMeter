@@ -4,6 +4,7 @@ const TEST_EMAIL = process.env.E2E_TEST_EMAIL || '';
 const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || '';
 
 test('debug layout widths', async ({ page }) => {
+  test.skip(!TEST_EMAIL || !TEST_PASSWORD, 'Requires E2E_TEST_EMAIL and E2E_TEST_PASSWORD');
   await page.setViewportSize({ width: 375, height: 812 });
 
   // Login first

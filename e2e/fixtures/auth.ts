@@ -1,4 +1,4 @@
-import { test as base, expect, type Page } from '@playwright/test';
+import { test as base, expect, type Page, type TestInfo } from '@playwright/test';
 
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
 const TEST_EMAIL = process.env.E2E_TEST_EMAIL || '';
@@ -20,11 +20,15 @@ export async function login(page: Page) {
 
 /**
  * Playwright fixture that provides a pre-authenticated page.
- * Skips the entire suite if E2E credentials are missing.
+ * Skips the test if E2E_TEST_EMAIL / E2E_TEST_PASSWORD are not set.
  */
 /* eslint-disable react-hooks/rules-of-hooks */
 export const test = base.extend<{ authedPage: Page }>({
-  authedPage: async ({ page }, use) => {
+  authedPage: async ({ page }, use, testInfo: TestInfo) => {
+    if (!TEST_EMAIL || !TEST_PASSWORD) {
+      testInfo.skip(true, 'Requires E2E_TEST_EMAIL and E2E_TEST_PASSWORD');
+      return;
+    }
     await login(page);
     await use(page);
   },
