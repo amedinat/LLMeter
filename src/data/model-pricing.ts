@@ -13014,6 +13014,161 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-05T00:00:00.000Z',
   },
 
+  // KT Cloud AI (KT Corporation, kt.com) — Seoul, South Korea. Founded 1981.
+  // FIRST South Korean telecommunications company on LLMeter.
+  // SECOND Asian national telecommunications company LLM on LLMeter (after NTT Group Japan Day 164).
+  // OpenAI-compatible API at api.ktcloud.com/ai/v1.
+  {
+    provider: 'ktcloud',
+    model_id: 'midm-2.0',
+    display_name: 'KT Cloud AI: midm-2.0',
+    input_price_per_1m_tokens: 0.30,
+    output_price_per_1m_tokens: 0.30,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'midm-2.0-lite',
+    display_name: 'KT Cloud AI: midm-2.0-lite',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'meta-llama/llama-3.3-70b-instruct',
+    display_name: 'KT Cloud AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'meta-llama/llama-3.1-70b-instruct',
+    display_name: 'KT Cloud AI: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'meta-llama/llama-3.1-8b-instruct',
+    display_name: 'KT Cloud AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'mistralai/mistral-7b-instruct-v0.3',
+    display_name: 'KT Cloud AI: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'deepseek-ai/deepseek-r1',
+    display_name: 'KT Cloud AI: DeepSeek R1',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ktcloud',
+    model_id: 'qwen/qwen2.5-72b-instruct',
+    display_name: 'KT Cloud AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
+  // China Telecom CTyun AI (中国电信天翼云) — Beijing, China. Founded 2002.
+  // FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter.
+  // THIRD East Asian national telecommunications company on LLMeter (after NTT Japan Day 164, KT Korea Day 170).
+  // TeleChat model family — open-source, Tele-AI/Hugging Face, Apache 2.0.
+  // OpenAI-compatible API at api.ctcloud.cn/openai/v1.
+  {
+    provider: 'ctyun',
+    model_id: 'telechat-12b',
+    display_name: 'CTyun AI: TeleChat-12B',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'telechat-7b',
+    display_name: 'CTyun AI: TeleChat-7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'telechat2-35b',
+    display_name: 'CTyun AI: TeleChat2-35B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'telechat2-115b',
+    display_name: 'CTyun AI: TeleChat2-115B',
+    input_price_per_1m_tokens: 0.80,
+    output_price_per_1m_tokens: 0.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'CTyun AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'CTyun AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'deepseek-v3',
+    display_name: 'CTyun AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'ctyun',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'CTyun AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13308,6 +13463,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     datacrunch: [0.22, 0.22], // llama-3.3-70b-instruct symmetric flagship on DataCrunch
     beam: [0.32, 0.55], // llama-3.3-70b-instruct flagship on Beam (beam.cloud Boston MA 2021, Stephen Hays + Chris Tsang, FIRST Python-native serverless ML-first GPU inference platform on LLMeter, $20M Benchmark + Felicis + YC W21, Python @beam.endpoint() decorator model, cold start <2s on A10G)
     ktcloud: [0.22, 0.35], // meta-llama/Llama-3.3-70B-Instruct flagship on KT Cloud AI (KT Corporation Seoul South Korea 1981, NYSE:KT KOSPI:030200, ~₩25T revenue ~$18B USD, FIRST South Korean telecommunications company on LLMeter, SECOND Asian national telco LLM after NTT Japan Day 164, midm-2.0 42B flagship Korean enterprise LLM PIPA-compliant CSAP-certified)
+    ctyun: [0.35, 0.35], // telechat2-35b flagship on China Telecom CTyun AI (中国电信天翼云, NYSE: CHA HKEX: 0728, ~$70B USD revenue, 390M+ fixed broadband subscribers, FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter, THIRD East Asian national telco after NTT Japan Day 164 and KT Korea Day 170)
   };
   return defaults[provider];
 }

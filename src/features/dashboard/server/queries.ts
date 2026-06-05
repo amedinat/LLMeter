@@ -332,6 +332,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nosana: 0,
           datacrunch: 0,
           beam: 0,
+          ktcloud: 0,
+          ctyun: 0,
         }
       });
     }
@@ -523,6 +525,8 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           nosana: 0,
           datacrunch: 0,
           beam: 0,
+          ktcloud: 0,
+          ctyun: 0,
         },
       }
     );
