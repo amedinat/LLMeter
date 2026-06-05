@@ -170,6 +170,7 @@ import { beamAdapter } from './beam-adapter';
 import { ktcloudAdapter } from './ktcloud-adapter';
 import { ctyunAdapter } from './ctyun-adapter';
 import { chinamobileAdapter } from './chinamobile-adapter';
+import { chinaunicomAdapter } from './chinaunicom-adapter';
 
 /**
  * Provider adapter registry.
@@ -348,6 +349,7 @@ adapters.set('beam', beamAdapter);
 adapters.set('ktcloud', ktcloudAdapter);
 adapters.set('ctyun', ctyunAdapter);
 adapters.set('chinamobile', chinamobileAdapter);
+adapters.set('chinaunicom', chinaunicomAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

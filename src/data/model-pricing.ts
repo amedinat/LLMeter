@@ -13169,6 +13169,84 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-05T00:00:00.000Z',
   },
 
+  // China Unicom AI (中国联通元景大模型) — Beijing, China. Founded 1994.
+  // FIRST mixed-ownership Chinese state-owned enterprise AI provider on LLMeter.
+  // COMPLETES China Big Three telco set on LLMeter (after China Telecom Day 171, China Mobile Day 172).
+  // YuanJing (元景) model family — developed by China Unicom Research Institute (中国联通研究院).
+  // OpenAI-compatible API at api.ai.chinaunicom.cn/v1.
+  {
+    provider: 'chinaunicom',
+    model_id: 'yuanjing-lite',
+    display_name: 'China Unicom AI: YuanJing Lite',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'yuanjing-standard',
+    display_name: 'China Unicom AI: YuanJing Standard',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'yuanjing-pro',
+    display_name: 'China Unicom AI: YuanJing Pro',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'yuanjing-plus',
+    display_name: 'China Unicom AI: YuanJing Plus',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'China Unicom AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'China Unicom AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'deepseek-v3',
+    display_name: 'China Unicom AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinaunicom',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'China Unicom AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
   // China Mobile Jiutian AI (中国移动九天大模型) — Beijing, China. Founded 1997.
   // FIRST Chinese mobile carrier on LLMeter.
   // FOURTH East Asian national telecommunications company on LLMeter (after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171).
@@ -13543,6 +13621,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     beam: [0.32, 0.55], // llama-3.3-70b-instruct flagship on Beam (beam.cloud Boston MA 2021, Stephen Hays + Chris Tsang, FIRST Python-native serverless ML-first GPU inference platform on LLMeter, $20M Benchmark + Felicis + YC W21, Python @beam.endpoint() decorator model, cold start <2s on A10G)
     ktcloud: [0.22, 0.35], // meta-llama/Llama-3.3-70B-Instruct flagship on KT Cloud AI (KT Corporation Seoul South Korea 1981, NYSE:KT KOSPI:030200, ~₩25T revenue ~$18B USD, FIRST South Korean telecommunications company on LLMeter, SECOND Asian national telco LLM after NTT Japan Day 164, midm-2.0 42B flagship Korean enterprise LLM PIPA-compliant CSAP-certified)
     ctyun: [0.35, 0.35], // telechat2-35b flagship on China Telecom CTyun AI (中国电信天翼云, NYSE: CHA HKEX: 0728, ~$70B USD revenue, 390M+ fixed broadband subscribers, FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter, THIRD East Asian national telco after NTT Japan Day 164 and KT Korea Day 170)
+    chinaunicom: [0.28, 0.28], // yuanjing-pro symmetric flagship on China Unicom AI (中国联通元景, NYSE: CHU HKEX: 0762, ~$49B USD revenue, 320M+ mobile subscribers, FIRST mixed-ownership Chinese SOE AI provider on LLMeter, COMPLETES China Big Three telco set after China Telecom Day 171 + China Mobile Day 172, $11.7B mixed ownership Alibaba+Tencent+Baidu+JD+Didi 2017)
     chinamobile: [0.14, 0.14], // jiutian-13b symmetric flagship on China Mobile Jiutian AI (中国移动九天, NYSE: CHL HKEX: 0941, ~$150B USD revenue, 990M+ mobile subscribers world's largest mobile carrier, FIRST Chinese mobile carrier on LLMeter, FOURTH East Asian national telco after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171)
   };
   return defaults[provider];

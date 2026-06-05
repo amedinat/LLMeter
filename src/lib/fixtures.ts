@@ -202,6 +202,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         ktcloud: 0,
         ctyun: 0,
         chinamobile: 0,
+        chinaunicom: 0,
       },
     };
   });
