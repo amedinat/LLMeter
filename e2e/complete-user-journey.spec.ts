@@ -75,7 +75,10 @@ base.describe('Signup Flow', () => {
       await baseExpect(page.locator('#magic-email')).toHaveAttribute('required', '');
     });
 
-    base('submitting magic link shows confirmation', async ({ page }) => {
+    // S6 (2026-06-05): skip en CI — dispara un OTP real contra Supabase de produccion en cada
+    // corrida; con @example.com Supabase lo rate-limita/rechaza => flaky. El render del form ya
+    // lo cubre el test de arriba. Reactivar solo con backend mockeado o entorno de staging.
+    base.skip('submitting magic link shows confirmation', async ({ page }) => {
       await page.goto(`${BASE_URL}/login`);
 
       const uniqueEmail = `e2e-magic-${Date.now()}@example.com`;
