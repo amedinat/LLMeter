@@ -158,6 +158,7 @@ import { e2enetworksAdapter } from './e2enetworks-adapter';
 import { nttAdapter } from './ntt-adapter';
 import { poolsideAdapter } from './poolside-adapter';
 import { koyebAdapter } from './koyeb-adapter';
+import { nosanaAdapter } from './nosana-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12224,6 +12225,66 @@ describe('Provider Adapters', () => {
       });
       await expect(koyebAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Koyeb API key.'
+      );
+    });
+  });
+
+  describe('nosanaAdapter', () => {
+    it('validates a good key by calling GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ object: 'list', data: [] }) });
+      const result = await nosanaAdapter.validateKey('test-nosana-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.nosana.io/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-nosana-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(nosanaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Nosana API key.'
+      );
+    });
+
+    it('throws on server error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+      await expect(nosanaAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(nosanaAdapter.validateKey('')).rejects.toThrow(
+        'Nosana API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await nosanaAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-04')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("nosanaAdapter.type is 'nosana'", () => {
+      expect(nosanaAdapter.type).toBe('nosana');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(nosanaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Nosana API key.'
       );
     });
   });

@@ -1523,4 +1523,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://www.koyeb.com/docs/ai-inference',
     color: '#0891B2',
   },
+  nosana: {
+    type: 'nosana',
+    name: 'Nosana',
+    description: "llama-3.3-70b-instruct ($0.20/$0.20 sym — flagship 92% cheaper GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 70B 93% cheaper GPT-4o), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget 98% cheaper GPT-4o), mistral-7b-instruct ($0.03/$0.03 sym — cheapest 99% cheaper GPT-4o), deepseek-r1 ($0.40/$1.60 — reasoning), qwen2.5-72b-instruct ($0.18/$0.18 sym — multilingual), gemma-2-9b-it ($0.05/$0.05 sym — Google open-source), deepseek-v3 ($0.20/$0.20 sym — DeepSeek flagship). 6/8 symmetric — Nosana (nosana.io), Amsterdam Netherlands. Founded 2021 by Jesse Eisses (CEO) and Sjoerd Dijkstra (CTO). FIRST Dutch / Netherlands AI inference provider on LLMeter. 11th decentralized AI compute network on LLMeter (after io.net/Solana, Akash/Cosmos, Corcel/Bittensor, Heurist/ETH-ZK, NEAR AI, Targon/Bittensor, Prime Intellect, GaiaNet/WebAssembly, SaladCloud/gaming-GPUs, EternalAI/Bitcoin-Ordinals). Solana-native GPU marketplace: GPU contributors stake NOS tokens to join, earn NOS by serving inference; sub-second Solana finality (400ms blocks, ~65k TPS) for transparent on-chain job dispatch and settlement. Amsterdam headquarters benefits from AMS-IX internet exchange — Europe's largest by traffic volume (14+ Tbps peak, 1,000+ connected networks). OpenAI-compatible API at api.nosana.io/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-nosana-api-key',
+    helpUrl: 'https://docs.nosana.io/inference/api',
+    color: '#8B5CF6',
+  },
 };

@@ -212,6 +212,7 @@ const ZERO_PROVIDERS = {
   ntt: 0,
   poolside: 0,
   koyeb: 0,
+  nosana: 0,
 };
 
 // --- Tests ---
