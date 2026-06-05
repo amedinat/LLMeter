@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone Acquired by Mintlify? Switch to LLMeter — Open-Source Alternative',
+  title: 'Helicone Acquired by Mintlify (March 2026) — What It Means',
   description:
-    'Helicone is now Mintlify-owned and in maintenance mode (no new features confirmed). LLMeter is the active open-source alternative — read-only API keys, zero-code setup, migrate in 30 seconds. Free tier.',
+    'Yes — Mintlify acquired Helicone in March 2026 and active development has stopped (security & bug fixes only). What it means for the 16,000+ orgs on Helicone, and the actively-maintained open-source alternatives for LLM cost tracking.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone Acquired by Mintlify? Switch to LLMeter',
+    title: 'Helicone Acquired by Mintlify (March 2026): What It Means',
     description:
-      'Helicone is in maintenance mode after Mintlify acquisition. LLMeter is the active open-source alternative — read-only API keys, no SDK, free tier.',
+      'Mintlify acquired Helicone in March 2026; active development has stopped. What it means for users — and the actively-maintained open-source alternatives.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone Acquired by Mintlify? Switch to LLMeter',
+    title: 'Helicone Acquired by Mintlify (March 2026): What It Means',
     description:
-      'Helicone is in maintenance mode after Mintlify acquisition. LLMeter is the active open-source alternative — read-only API keys, no SDK, free tier.',
+      'Mintlify acquired Helicone in March 2026; active development has stopped. What it means for users — and the actively-maintained open-source alternatives.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
@@ -142,7 +142,7 @@ export default function MigrateHelicone() {
         <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
             <Badge variant="secondary" className="rounded-2xl px-4 py-1.5 text-sm">
-              Helicone &rarr; LLMeter Migration Guide
+              Helicone &times; Mintlify &middot; March 2026
             </Badge>
             <h1 className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               Helicone is in{' '}
