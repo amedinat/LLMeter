@@ -197,6 +197,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         poolside: 0,
         koyeb: 0,
         nosana: 0,
+        datacrunch: 0,
       },
     };
   });

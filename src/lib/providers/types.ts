@@ -1532,4 +1532,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.nosana.io/inference/api',
     color: '#8B5CF6',
   },
+  datacrunch: {
+    type: 'datacrunch',
+    name: 'DataCrunch',
+    description: "llama-3.3-70b-instruct ($0.22/$0.22 sym — flagship 91% cheaper GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 70B 93% cheaper GPT-4o), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget 98% cheaper GPT-4o), mistral-7b-instruct ($0.03/$0.03 sym — cheapest 99% cheaper GPT-4o), deepseek-r1 ($0.42/$1.68 — reasoning EU inference), qwen2.5-72b-instruct ($0.20/$0.20 sym — multilingual), gemma-2-9b-it ($0.06/$0.06 sym — Google open-source), phi-3-mini-128k-instruct ($0.03/$0.03 sym — 128k context). 6/8 symmetric — DataCrunch (datacrunch.io), Helsinki, Finland. Founded 2019. FIRST Finnish AI inference provider on LLMeter. FIRST Nordic-exclusive AI inference provider on LLMeter. EU-sovereign H100/A100 GPU cloud: GDPR-native Finnish Tier III data centers, no US CLOUD Act jurisdiction, natural air cooling, sub-€0.07/kWh electricity. Home of Linux (Linus Torvalds), Nokia, Supercell. OpenAI-compatible API at api.datacrunch.io/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-datacrunch-api-key',
+    helpUrl: 'https://datacrunch.io/docs',
+    color: '#0284C7',
+  },
 };
