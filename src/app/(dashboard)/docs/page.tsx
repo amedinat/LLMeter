@@ -2930,6 +2930,30 @@ const completion = await trackedKoyeb.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Koyeb
 );`;
 
+const sdkNosanaExample = `import OpenAI from 'openai';
+import LLMeter, { wrapNosana } from 'llmeter';
+
+// Nosana (nosana.io) — Amsterdam, Netherlands. Founded 2021 by Jesse Eisses
+// (CEO) and Sjoerd Dijkstra (CTO). FIRST Dutch / Netherlands AI inference
+// provider on LLMeter. 11th decentralized AI compute network on LLMeter.
+// Solana-native GPU marketplace: NOS token staking, sub-second on-chain
+// settlement. llama-3.3-70b-instruct at $0.20/$0.20 sym — 92% cheaper GPT-4o.
+const nosana = new OpenAI({
+  apiKey: process.env.NOSANA_API_KEY,
+  baseURL: 'https://api.nosana.io/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedNosana = wrapNosana(nosana, llmeter);
+
+const completion = await trackedNosana.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'deepseek-r1', 'qwen2.5-72b-instruct', etc.
+    messages: [{ role: 'user', content: 'Hallo uit Amsterdam!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Nosana
+);`;
+
 const sdkCerebriumExample = `import OpenAI from 'openai';
 import LLMeter, { wrapCerebrium } from 'llmeter';
 
@@ -3269,6 +3293,7 @@ export default function DocsPage() {
                 <TabsTrigger value="ntt">NTT tsuzumi</TabsTrigger>
                 <TabsTrigger value="poolside">Poolside AI</TabsTrigger>
                 <TabsTrigger value="koyeb">Koyeb</TabsTrigger>
+                <TabsTrigger value="nosana">Nosana</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4645,6 +4670,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Sakana AI — Tokyo, Japan, founded 2023 by Llion Jones (CTO, co-author of <em>&quot;Attention Is All You Need&quot;</em> — the 2017 Transformer paper with 110,000+ citations that underpins GPT-4, Claude, Gemini, and LLaMA) and David Ha (CEO, former Head of Google Brain Tokyo and Research Director at Google DeepMind). <strong>FIRST evolutionary AI company on LLMeter.</strong> <strong>THIRD Japanese AI inference provider</strong> (after Sakura Internet Day 106, PLaMo Day 158). Sakana AI uses evolutionary algorithms and nature-inspired techniques to build AI: Evolutionary Model Merging discovers optimal ways to combine existing model checkpoints without training from scratch. EvoLLM-JP models outperform conventionally trained same-size models on Japanese benchmarks (JCommonSenseQA, JNLI, MARC-ja, JSQuAD) at a fraction of the compute cost. 8 models: EvoLLM-JP-v1-7B ($0.10/$0.10 sym — Japanese evolutionary flagship, 96% cheaper than GPT-4o), EvoLLM-JP-A-v1-7B ($0.12/$0.12 sym — enhanced Japanese, 95% cheaper), EvoVLM-JP-v1-7B ($0.15/$0.15 sym — Japanese vision-language), Llama-3.3-70B-Instruct ($0.25/$0.40 — general flagship, 90% cheaper), Llama-3.1-8B-Instruct ($0.05/$0.05 sym — budget, 98% cheaper), Mistral-7B-Instruct ($0.04/$0.04 sym — cheapest, 98% cheaper), DeepSeek-R1 ($0.50/$2.00 — reasoning), Qwen2.5-72B-Instruct ($0.20/$0.20 sym — multilingual). 6 of 8 symmetric. Get your API token at sakana.ai/settings/api-keys.
                 </p>
                 <CodeBlock language="typescript" code={sdkSakanaAIExample} />
+              </TabsContent>
+              <TabsContent value="nosana" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the Nosana client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. Nosana (nosana.io) — Amsterdam, Netherlands. Founded 2021 by Jesse Eisses (CEO) and Sjoerd Dijkstra (CTO). <strong>FIRST Dutch / Netherlands AI inference provider on LLMeter.</strong> <strong>11th decentralized AI compute network on LLMeter</strong> (after io.net/Solana, Akash/Cosmos, Corcel/Bittensor, Heurist/ETH-ZK, NEAR AI, Targon/Bittensor, Prime Intellect, GaiaNet/WebAssembly, SaladCloud/gaming-GPUs, EternalAI/Bitcoin-Ordinals). Solana-native GPU marketplace: GPU contributors stake NOS tokens to join and earn by serving inference; sub-second Solana finality (400ms blocks, ~65k TPS) enables transparent on-chain job dispatch and settlement. Amsterdam headquarters benefits from AMS-IX internet exchange — Europe&apos;s largest by traffic volume (14+ Tbps peak, 1,000+ connected networks). 8 models: llama-3.3-70b-instruct ($0.20/$0.20 sym — flagship, 92% cheaper than GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 70B, 93% cheaper), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget, 98% cheaper), mistral-7b-instruct ($0.03/$0.03 sym — cheapest, 99% cheaper), deepseek-r1 ($0.40/$1.60 — reasoning), qwen2.5-72b-instruct ($0.18/$0.18 sym — multilingual), gemma-2-9b-it ($0.05/$0.05 sym — Google open-source), deepseek-v3 ($0.20/$0.20 sym — DeepSeek flagship). 6 of 8 symmetric. Get your API key at app.nosana.io/settings/api-keys.
+                </p>
+                <CodeBlock language="typescript" code={sdkNosanaExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
