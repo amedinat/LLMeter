@@ -167,6 +167,7 @@ import { koyebAdapter } from './koyeb-adapter';
 import { nosanaAdapter } from './nosana-adapter';
 import { datacrunchAdapter } from './datacrunch-adapter';
 import { beamAdapter } from './beam-adapter';
+import { ktcloudAdapter } from './ktcloud-adapter';
 
 /**
  * Provider adapter registry.
@@ -342,6 +343,7 @@ adapters.set('koyeb', koyebAdapter);
 adapters.set('nosana', nosanaAdapter);
 adapters.set('datacrunch', datacrunchAdapter);
 adapters.set('beam', beamAdapter);
+adapters.set('ktcloud', ktcloudAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

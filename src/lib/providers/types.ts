@@ -1541,4 +1541,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://datacrunch.io/docs',
     color: '#0284C7',
   },
+  beam: {
+    type: 'beam',
+    name: 'Beam',
+    description: "llama-3.3-70b-instruct ($0.32/$0.55 — flagship 87% cheaper GPT-4o), llama-3.1-70b-instruct ($0.28/$0.45 — standard 89% cheaper GPT-4o), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), mistral-7b-instruct ($0.05/$0.05 sym — cheapest 98% cheaper GPT-4o), deepseek-r1 ($0.50/$2.00 — reasoning), qwen2.5-72b-instruct ($0.28/$0.28 sym — multilingual), gemma-2-9b-it ($0.06/$0.06 sym — Google open-source), phi-4 ($0.10/$0.10 sym — Microsoft SLM). 5/8 symmetric — Beam (beam.cloud), Boston MA / Remote. Founded 2021 by Stephen Hays (CEO) and Chris Tsang (CTO). FIRST Python-native serverless ML-first GPU inference platform on LLMeter. Python @beam.endpoint() decorators — no Dockerfile, no Kubernetes. Pre-caches container images and model weights for cold starts under 2 seconds on A10G GPUs. $20M raised from Benchmark Capital, Felicis Ventures, YC W21. OpenAI-compatible API at api.beam.cloud/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-beam-api-key',
+    helpUrl: 'https://docs.beam.cloud',
+    color: '#F59E0B',
+  },
+  ktcloud: {
+    type: 'ktcloud',
+    name: 'KT Cloud AI',
+    description: "midm-2.0 ($0.30/$0.30 sym — 42B flagship Korean enterprise LLM 88% cheaper GPT-4o PIPA-compliant training corpus), midm-2.0-lite ($0.08/$0.08 sym — compact 7B efficient Korean model 97% cheaper GPT-4o edge-deployable), meta-llama/Llama-3.3-70B-Instruct ($0.22/$0.35 — general flagship 91% cheaper GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.18/$0.28 — standard 70B 93% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.05/$0.05 sym — budget 98% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.04/$0.04 sym — cheapest 98% cheaper GPT-4o), deepseek-ai/DeepSeek-R1 ($0.45/$1.80 — reasoning), Qwen/Qwen2.5-72B-Instruct ($0.22/$0.22 sym — multilingual CJK). 5/8 symmetric — KT Corporation (kt.com), Seoul, South Korea. Founded 1981 as Korea Telecommunications Authority, privatised 2002. NYSE: KT, KOSPI: 030200. ~₩25T revenue (~$18B USD), 50M+ wireless subscribers. FIRST South Korean telecommunications company on LLMeter. SECOND Asian national telecommunications company LLM on LLMeter (after NTT Group Japan Day 164). midm (믿음 — trust): KT's 42B parameter enterprise LLM trained for Korean finance, healthcare, public sector, and telecoms. PIPA-compliant, CSAP-certified for Korean public sector. OpenAI-compatible API at api.ktcloud.com/ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-ktcloud-api-key',
+    helpUrl: 'https://cloud.kt.com/docs/ai/inference',
+    color: '#EF4444',
+  },
 };

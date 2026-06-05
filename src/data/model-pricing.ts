@@ -13307,6 +13307,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     nosana: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on Nosana
     datacrunch: [0.22, 0.22], // llama-3.3-70b-instruct symmetric flagship on DataCrunch
     beam: [0.32, 0.55], // llama-3.3-70b-instruct flagship on Beam (beam.cloud Boston MA 2021, Stephen Hays + Chris Tsang, FIRST Python-native serverless ML-first GPU inference platform on LLMeter, $20M Benchmark + Felicis + YC W21, Python @beam.endpoint() decorator model, cold start <2s on A10G)
+    ktcloud: [0.22, 0.35], // meta-llama/Llama-3.3-70B-Instruct flagship on KT Cloud AI (KT Corporation Seoul South Korea 1981, NYSE:KT KOSPI:030200, ~₩25T revenue ~$18B USD, FIRST South Korean telecommunications company on LLMeter, SECOND Asian national telco LLM after NTT Japan Day 164, midm-2.0 42B flagship Korean enterprise LLM PIPA-compliant CSAP-certified)
   };
   return defaults[provider];
 }
