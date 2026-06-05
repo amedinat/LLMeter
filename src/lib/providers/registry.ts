@@ -166,6 +166,7 @@ import { poolsideAdapter } from './poolside-adapter';
 import { koyebAdapter } from './koyeb-adapter';
 import { nosanaAdapter } from './nosana-adapter';
 import { datacrunchAdapter } from './datacrunch-adapter';
+import { beamAdapter } from './beam-adapter';
 
 /**
  * Provider adapter registry.
@@ -340,6 +341,7 @@ adapters.set('poolside', poolsideAdapter);
 adapters.set('koyeb', koyebAdapter);
 adapters.set('nosana', nosanaAdapter);
 adapters.set('datacrunch', datacrunchAdapter);
+adapters.set('beam', beamAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

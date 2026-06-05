@@ -12938,6 +12938,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-04T00:00:00.000Z',
   },
 
+  // Beam (beam.cloud) — Boston, MA / Remote. Founded 2021.
+  // FIRST Python-native serverless ML-first GPU inference platform on LLMeter.
+  // OpenAI-compatible API at api.beam.cloud/v1.
+  {
+    provider: 'beam',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Beam: llama-3.3-70b-instruct',
+    input_price_per_1m_tokens: 0.32,
+    output_price_per_1m_tokens: 0.55,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'Beam: llama-3.1-70b-instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Beam: llama-3.1-8b-instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'Beam: mistral-7b-instruct',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'deepseek-r1',
+    display_name: 'Beam: deepseek-r1',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 2.00,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Beam: qwen2.5-72b-instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'gemma-2-9b-it',
+    display_name: 'Beam: gemma-2-9b-it',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'beam',
+    model_id: 'phi-4',
+    display_name: 'Beam: phi-4',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13229,7 +13305,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     poolside: [0.80, 0.80], // poolside-malibu-70b symmetric flagship on Poolside AI
     koyeb: [0.28, 0.50], // meta-llama/Llama-3.3-70B-Instruct flagship on Koyeb
     nosana: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on Nosana
-    datacrunch: [0.22, 0.22], // llama-3.3-70b-instruct symmetric flagship on DataCrunch (Helsinki Finland 2019, Stefan Sas + Arto Vuori, FIRST Finnish AI inference provider on LLMeter, FIRST Nordic-exclusive AI inference provider on LLMeter, H100/A100 EU sovereign GPU cloud, GDPR-native Finnish data centers, free air cooling sub-€0.07/kWh electricity, home of Linux Linus Torvalds + Nokia + Supercell) (Amsterdam Netherlands 2021, Jesse Eisses + Sjoerd Dijkstra, FIRST Dutch AI inference provider on LLMeter, 11th decentralized AI compute network on LLMeter, Solana-native GPU marketplace NOS token staking) (Paris France 2019, Edouard Bonlieu + Yann Léger, first multi-continent edge AI inference network on LLMeter — nearest-node routing Paris/NYC/Frankfurt/Singapore/Sydney, 5th French AI inference provider, $10M Alven Capital) (San Francisco CA 2023, Jason Warner ex-GitHub SVP Technology ran Copilot launch, first enterprise software development-only AI research lab on LLMeter, Malibu trained exclusively on permissively-licensed code, $500M Salesforce Ventures + NVIDIA + Samsung Next + Amazon, ~$3B+ valuation) (Tokyo Japan 1952/1985 TSE:9432, FIRST Japanese telecommunications company on LLMeter, FIRST G7 national telco LLM on LLMeter, tsuzumi 7B enterprise LLM edge-deployable RTX 4090, 4th Japanese AI inference provider) (New Delhi India 2009, Tarun Dua CEO, NSE-listed FIRST publicly-listed Indian GPU cloud company on LLMeter, FIRST Indian cloud infrastructure company on LLMeter, TIR AI cloud platform H100/A100 Indian data centers, India's National AI Mission ₹10,372 crore $1.24B USD 2024, DPDP and RBI data localization compliance) (Tokyo Japan 2023, Llion Jones co-author Attention Is All You Need + David Ha ex-Google Brain Director, FIRST evolutionary AI company on LLMeter, THIRD Japanese AI inference provider) (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
+    datacrunch: [0.22, 0.22], // llama-3.3-70b-instruct symmetric flagship on DataCrunch
+    beam: [0.32, 0.55], // llama-3.3-70b-instruct flagship on Beam (beam.cloud Boston MA 2021, Stephen Hays + Chris Tsang, FIRST Python-native serverless ML-first GPU inference platform on LLMeter, $20M Benchmark + Felicis + YC W21, Python @beam.endpoint() decorator model, cold start <2s on A10G)
   };
   return defaults[provider];
 }

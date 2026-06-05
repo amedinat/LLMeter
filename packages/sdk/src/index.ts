@@ -171,6 +171,7 @@ export { wrapPoolside } from './poolside.js';
 export { wrapKoyeb } from './koyeb.js';
 export { wrapNosana } from './nosana.js';
 export { wrapDataCrunch } from './datacrunch.js';
+export { wrapBeam } from './beam.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
