@@ -171,6 +171,7 @@ import { ktcloudAdapter } from './ktcloud-adapter';
 import { ctyunAdapter } from './ctyun-adapter';
 import { chinamobileAdapter } from './chinamobile-adapter';
 import { chinaunicomAdapter } from './chinaunicom-adapter';
+import { huaweiAdapter } from './huawei-adapter';
 
 /**
  * Provider adapter registry.
@@ -350,6 +351,7 @@ adapters.set('ktcloud', ktcloudAdapter);
 adapters.set('ctyun', ctyunAdapter);
 adapters.set('chinamobile', chinamobileAdapter);
 adapters.set('chinaunicom', chinaunicomAdapter);
+adapters.set('huawei', huaweiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

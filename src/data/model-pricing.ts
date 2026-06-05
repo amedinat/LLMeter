@@ -13247,6 +13247,86 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-05T00:00:00.000Z',
   },
 
+  // Huawei Cloud Pangu (华为云盘古大模型) — Shenzhen, China. Founded 1987 by Ren Zhengfei.
+  // FIRST Chinese hardware company on LLMeter (all others are internet/software/SOE).
+  // FIRST company on LLMeter to manufacture its own AI training chips (Ascend 910B) used for training their own LLM.
+  // FIRST 100% employee-owned (non-listed) tech giant on LLMeter (no IPO, no VC, no external shareholders).
+  // FIRST company on LLMeter on the US Commerce Department Entity List (May 2019 BIS).
+  // PanguWeather: Nature vol 619 July 2023 — FIRST weather-prediction LLM on LLMeter, first AI model to outperform all NWP systems globally.
+  // OpenAI-compatible API at api.modelfarm.cn/v1 (Huawei Cloud AI Gallery / ModelArts).
+  {
+    provider: 'huawei',
+    model_id: 'pangu-lite',
+    display_name: 'Huawei Cloud: Pangu Lite',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'pangu-standard',
+    display_name: 'Huawei Cloud: Pangu Standard',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'pangu-pro',
+    display_name: 'Huawei Cloud: Pangu Pro',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'pangu-ultra',
+    display_name: 'Huawei Cloud: Pangu Ultra',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 0.50,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'Huawei Cloud: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'Huawei Cloud: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'deepseek-v3',
+    display_name: 'Huawei Cloud: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'huawei',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Huawei Cloud: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
   // China Mobile Jiutian AI (中国移动九天大模型) — Beijing, China. Founded 1997.
   // FIRST Chinese mobile carrier on LLMeter.
   // FOURTH East Asian national telecommunications company on LLMeter (after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171).
@@ -13623,6 +13703,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ctyun: [0.35, 0.35], // telechat2-35b flagship on China Telecom CTyun AI (中国电信天翼云, NYSE: CHA HKEX: 0728, ~$70B USD revenue, 390M+ fixed broadband subscribers, FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter, THIRD East Asian national telco after NTT Japan Day 164 and KT Korea Day 170)
     chinaunicom: [0.28, 0.28], // yuanjing-pro symmetric flagship on China Unicom AI (中国联通元景, NYSE: CHU HKEX: 0762, ~$49B USD revenue, 320M+ mobile subscribers, FIRST mixed-ownership Chinese SOE AI provider on LLMeter, COMPLETES China Big Three telco set after China Telecom Day 171 + China Mobile Day 172, $11.7B mixed ownership Alibaba+Tencent+Baidu+JD+Didi 2017)
     chinamobile: [0.14, 0.14], // jiutian-13b symmetric flagship on China Mobile Jiutian AI (中国移动九天, NYSE: CHL HKEX: 0941, ~$150B USD revenue, 990M+ mobile subscribers world's largest mobile carrier, FIRST Chinese mobile carrier on LLMeter, FOURTH East Asian national telco after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171)
+    huawei: [0.28, 0.28], // pangu-pro symmetric flagship on Huawei Cloud Pangu AI (华为云盘古, ~$99B USD revenue FY2024, ~200,000 employees, Fortune Global 500 #49, FIRST Chinese hardware company on LLMeter, FIRST company on US Entity List on LLMeter, FIRST 100% employee-owned non-listed tech giant on LLMeter, trained on Ascend 910B chips, Day 174)
   };
   return defaults[provider];
 }
