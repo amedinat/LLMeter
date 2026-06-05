@@ -163,6 +163,7 @@ import { datacrunchAdapter } from './datacrunch-adapter';
 import { beamAdapter } from './beam-adapter';
 import { ktcloudAdapter } from './ktcloud-adapter';
 import { ctyunAdapter } from './ctyun-adapter';
+import { chinamobileAdapter } from './chinamobile-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12529,6 +12530,66 @@ describe('Provider Adapters', () => {
       });
       await expect(ctyunAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid CTyun API key.'
+      );
+    });
+  });
+
+  describe('chinamobileAdapter', () => {
+    it('validates a correct API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await chinamobileAdapter.validateKey('test-chinamobile-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.jiutian.chinamobile.com/openai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-chinamobile-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(chinamobileAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid China Mobile API key.'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(chinamobileAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(chinamobileAdapter.validateKey('')).rejects.toThrow(
+        'China Mobile API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await chinamobileAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-05')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("chinamobileAdapter.type is 'chinamobile'", () => {
+      expect(chinamobileAdapter.type).toBe('chinamobile');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(chinamobileAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid China Mobile API key.'
       );
     });
   });

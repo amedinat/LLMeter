@@ -334,6 +334,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           beam: 0,
           ktcloud: 0,
           ctyun: 0,
+          chinamobile: 0,
         }
       });
     }
@@ -527,6 +528,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           beam: 0,
           ktcloud: 0,
           ctyun: 0,
+          chinamobile: 0,
         },
       }
     );

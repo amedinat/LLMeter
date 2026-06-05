@@ -1568,4 +1568,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://cloud.kt.com/docs/ai/inference',
     color: '#EF4444',
   },
+  chinamobile: {
+    type: 'chinamobile',
+    name: 'China Mobile Jiutian AI',
+    description: "jiutian-6b ($0.06/$0.06 sym — 6B edge model 97% cheaper GPT-4o 5G NOC diagnostics), jiutian-13b ($0.14/$0.14 sym — 13B flagship enterprise 94% cheaper GPT-4o), jiutian-13b-v2 ($0.18/$0.18 sym — updated 13B enhanced reasoning 93% cheaper GPT-4o), jiutian-multimodal ($0.22/$0.22 sym — text+vision 91% cheaper GPT-4o 5G slice config), llama-3.3-70b-instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 8/8 symmetric — China Mobile (中国移动, NYSE: CHL, HKEX: 0941), Beijing, China. Founded 1997. 990M+ mobile subscribers (world's largest mobile carrier), 285M+ fixed broadband, CNY 1.09T revenue (~$150B USD). FIRST Chinese mobile carrier on LLMeter. FOURTH East Asian national telco on LLMeter (after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171). LARGEST mobile carrier on Earth by subscribers on LLMeter. Jiutian (九天 — Nine Skies): developed by China Mobile Research Institute, trained on 26+ years of telecom network data, 990M+ customer service interactions via 10086 hotline. OpenAI-compatible API at api.jiutian.chinamobile.com/openai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-chinamobile-api-key',
+    helpUrl: 'https://jiutian.10086.cn',
+    color: '#16A34A',
+  },
 };

@@ -13169,6 +13169,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-05T00:00:00.000Z',
   },
 
+  // China Mobile Jiutian AI (中国移动九天大模型) — Beijing, China. Founded 1997.
+  // FIRST Chinese mobile carrier on LLMeter.
+  // FOURTH East Asian national telecommunications company on LLMeter (after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171).
+  // LARGEST mobile carrier on Earth by subscribers on LLMeter — 990M+ mobile subscribers.
+  // Jiutian (九天) model family — developed by China Mobile Research Institute (中国移动研究院).
+  // OpenAI-compatible API at api.jiutian.chinamobile.com/openai/v1.
+  {
+    provider: 'chinamobile',
+    model_id: 'jiutian-6b',
+    display_name: 'China Mobile Jiutian AI: Jiutian-6B',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'jiutian-13b',
+    display_name: 'China Mobile Jiutian AI: Jiutian-13B',
+    input_price_per_1m_tokens: 0.14,
+    output_price_per_1m_tokens: 0.14,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'jiutian-13b-v2',
+    display_name: 'China Mobile Jiutian AI: Jiutian-13B-V2',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'jiutian-multimodal',
+    display_name: 'China Mobile Jiutian AI: Jiutian Multimodal',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'China Mobile Jiutian AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'China Mobile Jiutian AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'deepseek-v3',
+    display_name: 'China Mobile Jiutian AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'chinamobile',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'China Mobile Jiutian AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13464,6 +13543,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     beam: [0.32, 0.55], // llama-3.3-70b-instruct flagship on Beam (beam.cloud Boston MA 2021, Stephen Hays + Chris Tsang, FIRST Python-native serverless ML-first GPU inference platform on LLMeter, $20M Benchmark + Felicis + YC W21, Python @beam.endpoint() decorator model, cold start <2s on A10G)
     ktcloud: [0.22, 0.35], // meta-llama/Llama-3.3-70B-Instruct flagship on KT Cloud AI (KT Corporation Seoul South Korea 1981, NYSE:KT KOSPI:030200, ~₩25T revenue ~$18B USD, FIRST South Korean telecommunications company on LLMeter, SECOND Asian national telco LLM after NTT Japan Day 164, midm-2.0 42B flagship Korean enterprise LLM PIPA-compliant CSAP-certified)
     ctyun: [0.35, 0.35], // telechat2-35b flagship on China Telecom CTyun AI (中国电信天翼云, NYSE: CHA HKEX: 0728, ~$70B USD revenue, 390M+ fixed broadband subscribers, FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter, THIRD East Asian national telco after NTT Japan Day 164 and KT Korea Day 170)
+    chinamobile: [0.14, 0.14], // jiutian-13b symmetric flagship on China Mobile Jiutian AI (中国移动九天, NYSE: CHL HKEX: 0941, ~$150B USD revenue, 990M+ mobile subscribers world's largest mobile carrier, FIRST Chinese mobile carrier on LLMeter, FOURTH East Asian national telco after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171)
   };
   return defaults[provider];
 }
