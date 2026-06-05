@@ -3103,6 +3103,29 @@ const completion = await trackedInfercom.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Infercom
 );`;
 
+const sdkCTyunExample = `import OpenAI from 'openai';
+import LLMeter, { wrapCTyun } from 'llmeter';
+
+// China Telecom CTyun AI (中国电信天翼云) — Beijing, China. Founded 2002.
+// FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter.
+// THIRD East Asian national telco on LLMeter (after NTT Japan, KT Korea).
+// telechat-12b at $0.14/$0.14 sym — 94% cheaper than GPT-4o.
+const ctyun = new OpenAI({
+  apiKey: process.env.CTYUN_API_KEY,
+  baseURL: 'https://api.ctcloud.cn/openai/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedCTyun = wrapCTyun(ctyun, llmeter);
+
+const completion = await trackedCTyun.chat.completions.create(
+  {
+    model: 'telechat-12b', // or 'telechat2-35b', 'llama-3.3-70b-instruct', etc.
+    messages: [{ role: 'user', content: '你好，中国电信天翼云 TeleChat!' }],
+  },
+  { llmeter_customer_id: 'customer_456' } // stripped before forwarding to CTyun
+);`;
+
 const sdkManualExample = `// After getting a response from any LLM API
 llmeter.track({
   model: 'mistral-large-latest',
@@ -3318,6 +3341,7 @@ export default function DocsPage() {
                 <TabsTrigger value="koyeb">Koyeb</TabsTrigger>
                 <TabsTrigger value="nosana">Nosana</TabsTrigger>
                 <TabsTrigger value="datacrunch">DataCrunch</TabsTrigger>
+                <TabsTrigger value="ctyun">CTyun AI</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4710,6 +4734,13 @@ export default function DocsPage() {
                   once and every call is tracked automatically. DataCrunch (datacrunch.io) — Helsinki, Finland. Founded 2019 by Stefan Sas (CEO) and Arto Vuori (CTO). <strong>FIRST Finnish AI inference provider on LLMeter.</strong> <strong>FIRST Nordic-exclusive AI inference provider on LLMeter.</strong> European GPU cloud built on H100/A100 clusters in Finnish Tier III data centers: fully GDPR-compliant, no US CLOUD Act jurisdiction, free natural air-cooling climate, sub-€0.07/kWh electricity from hydroelectric and nuclear sources. Finland is home to Linux (Linus Torvalds was born in Helsinki), Nokia (pioneered mobile telephony), Supercell (Clash of Clans, $5.1B Tencent acquisition), and Aalto University — one of Europe&apos;s leading AI research institutions. 8 models: llama-3.3-70b-instruct ($0.22/$0.22 sym — flagship, 91% cheaper than GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 70B, 93% cheaper), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget, 98% cheaper), mistral-7b-instruct ($0.03/$0.03 sym — cheapest, 99% cheaper), deepseek-r1 ($0.42/$1.68 — reasoning, EU inference), qwen2.5-72b-instruct ($0.20/$0.20 sym — multilingual), gemma-2-9b-it ($0.06/$0.06 sym — Google open-source), phi-3-mini-128k-instruct ($0.03/$0.03 sym — 128k context). 6 of 8 symmetric. Get your API key at cloud.datacrunch.io/dashboard/api-access-tokens.
                 </p>
                 <CodeBlock language="typescript" code={sdkDataCrunchExample} />
+              </TabsContent>
+              <TabsContent value="ctyun" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap your CTyun AI client with <code className="rounded bg-muted px-1.5 py-0.5">wrapCTyun()</code>{' '}
+                  once and every call is tracked automatically. China Telecom (中国电信, NYSE: CHA, HKEX: 0728) — Beijing, China. Founded 2002 when China&apos;s telecom sector was restructured. <strong>FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter.</strong> <strong>THIRD East Asian national telecommunications company on LLMeter</strong> (after NTT Group Japan Day 164 and KT Corporation Korea Day 170). CTyun (天翼云): China Telecom&apos;s cloud platform — second-largest in China after Alibaba Cloud, 700,000+ government and enterprise customers. 390M+ fixed broadband subscribers, 400M+ mobile subscribers, CNY 500B+ revenue (~$70B USD). TeleChat: open-source Chinese LLM (Tele-AI/Hugging Face, Apache 2.0) developed by China Telecom AI Research Institute (中国电信人工智能研究院). TeleChat-12B outperforms GPT-3.5 Turbo on Chinese telecoms-specific benchmarks. 8 models: telechat-12b ($0.14/$0.14 sym — 12B flagship Chinese enterprise LLM, 94% cheaper than GPT-4o), telechat-7b ($0.08/$0.08 sym — 7B standard, 97% cheaper), telechat2-35b ($0.35/$0.35 sym — next-gen 35B enterprise, 86% cheaper), telechat2-115b ($0.80/$0.80 sym — large-scale enterprise 115B), llama-3.3-70b-instruct ($0.28/$0.28 sym — general flagship, 89% cheaper), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget, 97% cheaper), deepseek-v3 ($0.18/$0.18 sym — cost-effective), qwen2.5-72b-instruct ($0.22/$0.22 sym — Alibaba multilingual CJK). 8 of 8 symmetric. Get your API key at console.ctyun.cn/ai.
+                </p>
+                <CodeBlock language="typescript" code={sdkCTyunExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">

@@ -200,6 +200,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         datacrunch: 0,
         beam: 0,
         ktcloud: 0,
+        ctyun: 0,
       },
     };
   });

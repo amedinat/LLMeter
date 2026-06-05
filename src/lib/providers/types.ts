@@ -1550,6 +1550,15 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://docs.beam.cloud',
     color: '#F59E0B',
   },
+  ctyun: {
+    type: 'ctyun',
+    name: 'China Telecom CTyun AI',
+    description: "telechat-12b ($0.14/$0.14 sym — 12B flagship Chinese enterprise LLM 94% cheaper GPT-4o PIPA-equivalent telecoms corpus), telechat-7b ($0.08/$0.08 sym — 7B standard 97% cheaper GPT-4o), telechat2-35b ($0.35/$0.35 sym — next-gen 35B enterprise 86% cheaper), telechat2-115b ($0.80/$0.80 sym — large-scale enterprise 115B), llama-3.3-70b-instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget 97% cheaper), deepseek-v3 ($0.18/$0.18 sym — cost-effective), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 8/8 symmetric — China Telecom (中国电信, NYSE: CHA, HKEX: 0728), Beijing, China. Founded 2002. 390M+ fixed broadband subscribers, 400M+ mobile subscribers, CNY 500B+ revenue (~$70B USD). CTyun (天翼云): China Telecom's cloud platform, second-largest in China after Alibaba Cloud. FIRST mainland Chinese state-owned telecommunications enterprise on LLMeter. THIRD East Asian national telco on LLMeter (after NTT Japan Day 164 and KT Korea Day 170). TeleChat: open-source Chinese LLM (Tele-AI/Hugging Face, Apache 2.0) developed by China Telecom AI Research Institute. OpenAI-compatible API at api.ctcloud.cn/openai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-ctyun-api-key',
+    helpUrl: 'https://console.ctyun.cn/ai',
+    color: '#1D4ED8',
+  },
   ktcloud: {
     type: 'ktcloud',
     name: 'KT Cloud AI',

@@ -215,6 +215,8 @@ const ZERO_PROVIDERS = {
   nosana: 0,
   datacrunch: 0,
   beam: 0,
+  ktcloud: 0,
+  ctyun: 0,
 };
 
 // --- Tests ---
