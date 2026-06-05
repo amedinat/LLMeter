@@ -2930,6 +2930,29 @@ const completion = await trackedKoyeb.chat.completions.create(
   { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to Koyeb
 );`;
 
+const sdkDataCrunchExample = `import OpenAI from 'openai';
+import LLMeter, { wrapDataCrunch } from 'llmeter';
+
+// DataCrunch (datacrunch.io) — Helsinki, Finland. Founded 2019.
+// FIRST Finnish / Nordic AI inference provider on LLMeter.
+// EU-sovereign H100/A100 GPU cloud. GDPR-native Finnish data centers.
+// llama-3.3-70b-instruct at $0.22/$0.22 sym — 91% cheaper than GPT-4o.
+const datacrunch = new OpenAI({
+  apiKey: process.env.DATACRUNCH_API_KEY,
+  baseURL: 'https://api.datacrunch.io/v1',
+});
+
+const llmeter = new LLMeter({ apiKey: process.env.LLMETER_API_KEY });
+const trackedDataCrunch = wrapDataCrunch(datacrunch, llmeter);
+
+const completion = await trackedDataCrunch.chat.completions.create(
+  {
+    model: 'llama-3.3-70b-instruct', // or 'deepseek-r1', 'qwen2.5-72b-instruct', etc.
+    messages: [{ role: 'user', content: 'Terveisiä Helsingistä!' }],
+  },
+  { llmeter_customer_id: 'user_abc123' } // stripped before forwarding to DataCrunch
+);`;
+
 const sdkNosanaExample = `import OpenAI from 'openai';
 import LLMeter, { wrapNosana } from 'llmeter';
 
@@ -3294,6 +3317,7 @@ export default function DocsPage() {
                 <TabsTrigger value="poolside">Poolside AI</TabsTrigger>
                 <TabsTrigger value="koyeb">Koyeb</TabsTrigger>
                 <TabsTrigger value="nosana">Nosana</TabsTrigger>
+                <TabsTrigger value="datacrunch">DataCrunch</TabsTrigger>
                 <TabsTrigger value="manual">Any provider</TabsTrigger>
               </TabsList>
               <TabsContent value="quickstart" className="mt-4">
@@ -4678,6 +4702,14 @@ export default function DocsPage() {
                   once and every call is tracked automatically. Nosana (nosana.io) — Amsterdam, Netherlands. Founded 2021 by Jesse Eisses (CEO) and Sjoerd Dijkstra (CTO). <strong>FIRST Dutch / Netherlands AI inference provider on LLMeter.</strong> <strong>11th decentralized AI compute network on LLMeter</strong> (after io.net/Solana, Akash/Cosmos, Corcel/Bittensor, Heurist/ETH-ZK, NEAR AI, Targon/Bittensor, Prime Intellect, GaiaNet/WebAssembly, SaladCloud/gaming-GPUs, EternalAI/Bitcoin-Ordinals). Solana-native GPU marketplace: GPU contributors stake NOS tokens to join and earn by serving inference; sub-second Solana finality (400ms blocks, ~65k TPS) enables transparent on-chain job dispatch and settlement. Amsterdam headquarters benefits from AMS-IX internet exchange — Europe&apos;s largest by traffic volume (14+ Tbps peak, 1,000+ connected networks). 8 models: llama-3.3-70b-instruct ($0.20/$0.20 sym — flagship, 92% cheaper than GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 70B, 93% cheaper), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget, 98% cheaper), mistral-7b-instruct ($0.03/$0.03 sym — cheapest, 99% cheaper), deepseek-r1 ($0.40/$1.60 — reasoning), qwen2.5-72b-instruct ($0.18/$0.18 sym — multilingual), gemma-2-9b-it ($0.05/$0.05 sym — Google open-source), deepseek-v3 ($0.20/$0.20 sym — DeepSeek flagship). 6 of 8 symmetric. Get your API key at app.nosana.io/settings/api-keys.
                 </p>
                 <CodeBlock language="typescript" code={sdkNosanaExample} />
+              </TabsContent>
+              <TabsContent value="datacrunch" className="mt-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  Wrap the DataCrunch client&apos;s{' '}
+                  <code className="rounded bg-muted px-1.5 py-0.5">chat.completions.create</code>{' '}
+                  once and every call is tracked automatically. DataCrunch (datacrunch.io) — Helsinki, Finland. Founded 2019 by Stefan Sas (CEO) and Arto Vuori (CTO). <strong>FIRST Finnish AI inference provider on LLMeter.</strong> <strong>FIRST Nordic-exclusive AI inference provider on LLMeter.</strong> European GPU cloud built on H100/A100 clusters in Finnish Tier III data centers: fully GDPR-compliant, no US CLOUD Act jurisdiction, free natural air-cooling climate, sub-€0.07/kWh electricity from hydroelectric and nuclear sources. Finland is home to Linux (Linus Torvalds was born in Helsinki), Nokia (pioneered mobile telephony), Supercell (Clash of Clans, $5.1B Tencent acquisition), and Aalto University — one of Europe&apos;s leading AI research institutions. 8 models: llama-3.3-70b-instruct ($0.22/$0.22 sym — flagship, 91% cheaper than GPT-4o), llama-3.1-70b-instruct ($0.18/$0.18 sym — standard 70B, 93% cheaper), llama-3.1-8b-instruct ($0.04/$0.04 sym — budget, 98% cheaper), mistral-7b-instruct ($0.03/$0.03 sym — cheapest, 99% cheaper), deepseek-r1 ($0.42/$1.68 — reasoning, EU inference), qwen2.5-72b-instruct ($0.20/$0.20 sym — multilingual), gemma-2-9b-it ($0.06/$0.06 sym — Google open-source), phi-3-mini-128k-instruct ($0.03/$0.03 sym — 128k context). 6 of 8 symmetric. Get your API key at cloud.datacrunch.io/dashboard/api-access-tokens.
+                </p>
+                <CodeBlock language="typescript" code={sdkDataCrunchExample} />
               </TabsContent>
               <TabsContent value="manual" className="mt-4">
                 <p className="text-sm text-muted-foreground mb-3">
