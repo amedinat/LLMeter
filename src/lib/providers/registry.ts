@@ -165,6 +165,7 @@ import { nttAdapter } from './ntt-adapter';
 import { poolsideAdapter } from './poolside-adapter';
 import { koyebAdapter } from './koyeb-adapter';
 import { nosanaAdapter } from './nosana-adapter';
+import { datacrunchAdapter } from './datacrunch-adapter';
 
 /**
  * Provider adapter registry.
@@ -338,6 +339,7 @@ adapters.set('ntt', nttAdapter);
 adapters.set('poolside', poolsideAdapter);
 adapters.set('koyeb', koyebAdapter);
 adapters.set('nosana', nosanaAdapter);
+adapters.set('datacrunch', datacrunchAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

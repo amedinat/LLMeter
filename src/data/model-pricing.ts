@@ -12862,6 +12862,82 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-04T00:00:00.000Z',
   },
 
+  // DataCrunch (datacrunch.io) — Helsinki, Finland. Founded 2019.
+  // FIRST Finnish / Nordic AI inference provider on LLMeter.
+  // OpenAI-compatible API at api.datacrunch.io/v1.
+  {
+    provider: 'datacrunch',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'DataCrunch: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'llama-3.1-70b-instruct',
+    display_name: 'DataCrunch: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'DataCrunch: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.04,
+    output_price_per_1m_tokens: 0.04,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'mistral-7b-instruct',
+    display_name: 'DataCrunch: Mistral 7B Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'deepseek-r1',
+    display_name: 'DataCrunch: DeepSeek R1',
+    input_price_per_1m_tokens: 0.42,
+    output_price_per_1m_tokens: 1.68,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'DataCrunch: Qwen 2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'gemma-2-9b-it',
+    display_name: 'DataCrunch: Gemma 2 9B IT',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+  {
+    provider: 'datacrunch',
+    model_id: 'phi-3-mini-128k-instruct',
+    display_name: 'DataCrunch: Phi-3 Mini 128k Instruct',
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.03,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-04T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13152,7 +13228,8 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     ntt: [0.12, 0.12], // tsuzumi-7b symmetric flagship on NTT Group tsuzumi
     poolside: [0.80, 0.80], // poolside-malibu-70b symmetric flagship on Poolside AI
     koyeb: [0.28, 0.50], // meta-llama/Llama-3.3-70B-Instruct flagship on Koyeb
-    nosana: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on Nosana (Amsterdam Netherlands 2021, Jesse Eisses + Sjoerd Dijkstra, FIRST Dutch AI inference provider on LLMeter, 11th decentralized AI compute network on LLMeter, Solana-native GPU marketplace NOS token staking) (Paris France 2019, Edouard Bonlieu + Yann Léger, first multi-continent edge AI inference network on LLMeter — nearest-node routing Paris/NYC/Frankfurt/Singapore/Sydney, 5th French AI inference provider, $10M Alven Capital) (San Francisco CA 2023, Jason Warner ex-GitHub SVP Technology ran Copilot launch, first enterprise software development-only AI research lab on LLMeter, Malibu trained exclusively on permissively-licensed code, $500M Salesforce Ventures + NVIDIA + Samsung Next + Amazon, ~$3B+ valuation) (Tokyo Japan 1952/1985 TSE:9432, FIRST Japanese telecommunications company on LLMeter, FIRST G7 national telco LLM on LLMeter, tsuzumi 7B enterprise LLM edge-deployable RTX 4090, 4th Japanese AI inference provider) (New Delhi India 2009, Tarun Dua CEO, NSE-listed FIRST publicly-listed Indian GPU cloud company on LLMeter, FIRST Indian cloud infrastructure company on LLMeter, TIR AI cloud platform H100/A100 Indian data centers, India's National AI Mission ₹10,372 crore $1.24B USD 2024, DPDP and RBI data localization compliance) (Tokyo Japan 2023, Llion Jones co-author Attention Is All You Need + David Ha ex-Google Brain Director, FIRST evolutionary AI company on LLMeter, THIRD Japanese AI inference provider) (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
+    nosana: [0.20, 0.20], // llama-3.3-70b-instruct symmetric flagship on Nosana
+    datacrunch: [0.22, 0.22], // llama-3.3-70b-instruct symmetric flagship on DataCrunch (Helsinki Finland 2019, Stefan Sas + Arto Vuori, FIRST Finnish AI inference provider on LLMeter, FIRST Nordic-exclusive AI inference provider on LLMeter, H100/A100 EU sovereign GPU cloud, GDPR-native Finnish data centers, free air cooling sub-€0.07/kWh electricity, home of Linux Linus Torvalds + Nokia + Supercell) (Amsterdam Netherlands 2021, Jesse Eisses + Sjoerd Dijkstra, FIRST Dutch AI inference provider on LLMeter, 11th decentralized AI compute network on LLMeter, Solana-native GPU marketplace NOS token staking) (Paris France 2019, Edouard Bonlieu + Yann Léger, first multi-continent edge AI inference network on LLMeter — nearest-node routing Paris/NYC/Frankfurt/Singapore/Sydney, 5th French AI inference provider, $10M Alven Capital) (San Francisco CA 2023, Jason Warner ex-GitHub SVP Technology ran Copilot launch, first enterprise software development-only AI research lab on LLMeter, Malibu trained exclusively on permissively-licensed code, $500M Salesforce Ventures + NVIDIA + Samsung Next + Amazon, ~$3B+ valuation) (Tokyo Japan 1952/1985 TSE:9432, FIRST Japanese telecommunications company on LLMeter, FIRST G7 national telco LLM on LLMeter, tsuzumi 7B enterprise LLM edge-deployable RTX 4090, 4th Japanese AI inference provider) (New Delhi India 2009, Tarun Dua CEO, NSE-listed FIRST publicly-listed Indian GPU cloud company on LLMeter, FIRST Indian cloud infrastructure company on LLMeter, TIR AI cloud platform H100/A100 Indian data centers, India's National AI Mission ₹10,372 crore $1.24B USD 2024, DPDP and RBI data localization compliance) (Tokyo Japan 2023, Llion Jones co-author Attention Is All You Need + David Ha ex-Google Brain Director, FIRST evolutionary AI company on LLMeter, THIRD Japanese AI inference provider) (San Francisco CA 2024, first Bitcoin-native AI inference network on LLMeter, model weights inscribed permanently on Bitcoin blockchain via Ordinals protocol, censorship-resistant immutable AI models, 10th decentralized AI compute network on LLMeter) (San Francisco CA + NYC 2019, William Falcon creator of PyTorch Lightning 27K+ GitHub stars Linux Foundation project, Luca Antiga PyTorch core contributor, $58M Coatue + Bain Capital + Index Ventures + NVIDIA, first open-source ML framework creator to offer commercial AI inference on LLMeter, first PyTorch-native inference platform) (Denver Colorado 2018, Josh Ong + Brooks Townsend, first consumer gaming GPU network for AI inference on LLMeter — 1M+ idle gaming PCs GeForce RTX 3060–4090, 9th decentralized AI compute network, first Denver / Rocky Mountain AI inference provider, 60–80% below cloud GPU pricing, $3.5M seed Initialized Capital Garry Tan now YC president + Baseline Ventures)
   };
   return defaults[provider];
 }
