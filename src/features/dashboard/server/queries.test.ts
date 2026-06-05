@@ -218,6 +218,7 @@ const ZERO_PROVIDERS = {
   ktcloud: 0,
   ctyun: 0,
   chinamobile: 0,
+  chinaunicom: 0,
 };
 
 // --- Tests ---

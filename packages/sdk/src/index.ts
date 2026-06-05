@@ -175,6 +175,7 @@ export { wrapBeam } from './beam.js';
 export { wrapKTCloud } from './ktcloud.js';
 export { wrapCTyun } from './ctyun.js';
 export { wrapChinaMobile } from './chinamobile.js';
+export { wrapChinaUnicom } from './chinaunicom.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

@@ -1577,4 +1577,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://jiutian.10086.cn',
     color: '#16A34A',
   },
+  chinaunicom: {
+    type: 'chinaunicom',
+    name: 'China Unicom AI',
+    description: "yuanjing-lite ($0.04/$0.04 sym — 7B edge model 98% cheaper GPT-4o 5G NOC diagnostics), yuanjing-standard ($0.12/$0.12 sym — 13B enterprise 95% cheaper GPT-4o), yuanjing-pro ($0.28/$0.28 sym — 35B flagship 89% cheaper GPT-4o), yuanjing-plus ($0.40/$0.40 sym — 72B reasoning 84% cheaper GPT-4o), llama-3.3-70b-instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 8/8 symmetric — China Unicom (中国联通, NYSE: CHU, HKEX: 0762), Beijing, China. Founded 1994. 320M+ mobile subscribers, CNY 355B+ revenue (~$49B USD). FIRST mixed-ownership Chinese state-owned enterprise AI provider on LLMeter (Alibaba $1.56B + Tencent $1.17B + Baidu $700M + JD.com $730M + Didi $730M, $11.7B total 2017). COMPLETES China Big Three telco set on LLMeter (after China Telecom Day 171, China Mobile Day 172). YuanJing (元景 — Prime Scenery): developed by China Unicom Research Institute, trained on 30+ years telecom operational data, 5G SA network records, joint training data from Alibaba Cloud and Tencent Cloud. OpenAI-compatible API at api.ai.chinaunicom.cn/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-chinaunicom-api-key',
+    helpUrl: 'https://ai.chinaunicom.cn',
+    color: '#DC2626',
+  },
 };
