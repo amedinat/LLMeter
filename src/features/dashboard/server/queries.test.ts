@@ -219,6 +219,7 @@ const ZERO_PROVIDERS = {
   ctyun: 0,
   chinamobile: 0,
   chinaunicom: 0,
+  huawei: 0,
 };
 
 // --- Tests ---

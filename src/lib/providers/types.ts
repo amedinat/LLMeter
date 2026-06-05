@@ -1586,4 +1586,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://ai.chinaunicom.cn',
     color: '#DC2626',
   },
+  huawei: {
+    type: 'huawei',
+    name: 'Huawei Cloud',
+    description: "pangu-lite ($0.06/$0.06 sym — 7B lightweight edge model 97% cheaper GPT-4o Ascend 310P edge-deployable), pangu-standard ($0.14/$0.14 sym — 13B enterprise standard 94% cheaper GPT-4o), pangu-pro ($0.28/$0.28 sym — 38B flagship general-purpose 89% cheaper GPT-4o), pangu-ultra ($0.50/$0.50 sym — 72B reasoning and knowledge 81% cheaper GPT-4o), llama-3.3-70b-instruct ($0.28/$0.28 sym — general Open Source flagship 89% cheaper GPT-4o), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget Open Source 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 8/8 symmetric — Huawei Technologies Co., Ltd. (华为技术有限公司), Shenzhen, China. Founded 1987 by Ren Zhengfei. ~$99B USD revenue FY2024, ~200,000 employees, Fortune Global 500 #49 (2024). FIRST 100% employee-owned (non-listed) tech giant on LLMeter — no IPO, no external shareholders, ESOP virtual restricted shares. FIRST company on LLMeter on the US Commerce Department Entity List (May 2019 BIS). FIRST Chinese hardware company on LLMeter. FIRST company on LLMeter to manufacture its own AI training chips (Ascend 910B) used to train its own LLM. Pangu 盘古大模型: trained exclusively on Ascend 910 series chips. PanguWeather: Nature vol 619 July 2023 — first AI model to outperform all NWP systems globally on 10-day forecast accuracy, 2,000+ citations. OpenAI-compatible API at api.modelfarm.cn/v1 (Huawei Cloud AI Gallery / ModelArts). Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-huawei-cloud-api-key',
+    helpUrl: 'https://console.huaweicloud.com/modelarts',
+    color: '#CF0A2C',
+  },
 };
