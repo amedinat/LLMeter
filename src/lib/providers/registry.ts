@@ -169,6 +169,7 @@ import { datacrunchAdapter } from './datacrunch-adapter';
 import { beamAdapter } from './beam-adapter';
 import { ktcloudAdapter } from './ktcloud-adapter';
 import { ctyunAdapter } from './ctyun-adapter';
+import { chinamobileAdapter } from './chinamobile-adapter';
 
 /**
  * Provider adapter registry.
@@ -346,6 +347,7 @@ adapters.set('datacrunch', datacrunchAdapter);
 adapters.set('beam', beamAdapter);
 adapters.set('ktcloud', ktcloudAdapter);
 adapters.set('ctyun', ctyunAdapter);
+adapters.set('chinamobile', chinamobileAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

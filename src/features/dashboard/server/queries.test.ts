@@ -217,6 +217,7 @@ const ZERO_PROVIDERS = {
   beam: 0,
   ktcloud: 0,
   ctyun: 0,
+  chinamobile: 0,
 };
 
 // --- Tests ---
