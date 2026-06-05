@@ -161,6 +161,7 @@ import { koyebAdapter } from './koyeb-adapter';
 import { nosanaAdapter } from './nosana-adapter';
 import { datacrunchAdapter } from './datacrunch-adapter';
 import { beamAdapter } from './beam-adapter';
+import { ktcloudAdapter } from './ktcloud-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12407,6 +12408,66 @@ describe('Provider Adapters', () => {
       });
       await expect(beamAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Beam API key.'
+      );
+    });
+  });
+
+  describe('ktcloudAdapter', () => {
+    it('validates a good key by calling GET /ai/v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ object: 'list', data: [] }) });
+      const result = await ktcloudAdapter.validateKey('test-ktcloud-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.ktcloud.com/ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-ktcloud-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(ktcloudAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid KT Cloud API key.'
+      );
+    });
+
+    it('throws on server error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal Server Error' } }),
+      });
+      await expect(ktcloudAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal Server Error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(ktcloudAdapter.validateKey('')).rejects.toThrow(
+        'KT Cloud API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await ktcloudAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-05')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("ktcloudAdapter.type is 'ktcloud'", () => {
+      expect(ktcloudAdapter.type).toBe('ktcloud');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(ktcloudAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid KT Cloud API key.'
       );
     });
   });
