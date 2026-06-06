@@ -172,6 +172,7 @@ import { ctyunAdapter } from './ctyun-adapter';
 import { chinamobileAdapter } from './chinamobile-adapter';
 import { chinaunicomAdapter } from './chinaunicom-adapter';
 import { huaweiAdapter } from './huawei-adapter';
+import { sealionAdapter } from './sealion-adapter';
 
 /**
  * Provider adapter registry.
@@ -352,6 +353,7 @@ adapters.set('ctyun', ctyunAdapter);
 adapters.set('chinamobile', chinamobileAdapter);
 adapters.set('chinaunicom', chinaunicomAdapter);
 adapters.set('huawei', huaweiAdapter);
+adapters.set('sealion', sealionAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

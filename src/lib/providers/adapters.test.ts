@@ -166,6 +166,7 @@ import { ctyunAdapter } from './ctyun-adapter';
 import { chinamobileAdapter } from './chinamobile-adapter';
 import { chinaunicomAdapter } from './chinaunicom-adapter';
 import { huaweiAdapter } from './huawei-adapter';
+import { sealionAdapter } from './sealion-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12712,6 +12713,66 @@ describe('Provider Adapters', () => {
       });
       await expect(huaweiAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Huawei Cloud API key.'
+      );
+    });
+  });
+
+  describe('sealionAdapter', () => {
+    it('validates a correct API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await sealionAdapter.validateKey('test-sealion-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.sea-lion.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-sealion-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(sealionAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI Singapore SEA-LION API key.'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(sealionAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(sealionAdapter.validateKey('')).rejects.toThrow(
+        'AI Singapore SEA-LION API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await sealionAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-05')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("sealionAdapter.type is 'sealion'", () => {
+      expect(sealionAdapter.type).toBe('sealion');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(sealionAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid AI Singapore SEA-LION API key.'
       );
     });
   });

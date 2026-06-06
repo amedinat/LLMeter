@@ -220,6 +220,7 @@ const ZERO_PROVIDERS = {
   chinamobile: 0,
   chinaunicom: 0,
   huawei: 0,
+  sealion: 0,
 };
 
 // --- Tests ---

@@ -1595,4 +1595,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.huaweicloud.com/modelarts',
     color: '#CF0A2C',
   },
+  sealion: {
+    type: 'sealion',
+    name: 'AI Singapore (SEA-LION)',
+    description: "sea-lion-7b-instruct ($0.06/$0.06 sym — 7B flagship SEA model 981B token pretraining 11 SEA langs 97% cheaper GPT-4o), sea-lionv2.1-8b-instruct ($0.08/$0.08 sym — 8B v2.1 improved RLHF 96% cheaper GPT-4o), sea-lionv3-8b-instruct ($0.10/$0.10 sym — 8B v3 latest 32K ctx 96% cheaper GPT-4o), gemma-sea-lion-9b-it ($0.08/$0.08 sym — Gemma2 9B SEA fine-tune Google+AISG collab 97% cheaper GPT-4o), llama-3.1-8b-instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), llama-3.3-70b-instruct ($0.25/$0.40 — general flagship 90% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-7b-instruct ($0.06/$0.06 sym — multilingual CJK). 7/8 symmetric — AI Singapore (AISG), Singapore. Established May 2017 by National Research Foundation (NRF) + Infocomm Media Development Authority (IMDA). Funded S$500M+. FIRST Singapore AI provider on LLMeter. FIRST government-backed national AI programme on LLMeter. FIRST Southeast Asian sovereign AI model provider on LLMeter. FIRST model covering 11 Southeast Asian languages on LLMeter: English, Chinese, Malay/Indonesian, Thai, Vietnamese, Filipino, Burmese, Khmer, Tamil, Javanese, Sundanese. ASEAN: 700M+ speakers, $3.6T GDP. SEA-LION v1 (Nov 2023): 981B token pretraining — largest SEA language corpus ever assembled. SEA-LION v3 (2025): 32K context, Llama-3 architecture. Gemma-SEA-LION-9B-IT: Google DeepMind + AISG collaboration. OpenAI-compatible API at api.sea-lion.ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sea-lion-api-key',
+    helpUrl: 'https://sea-lion.ai',
+    color: '#E63946',
+  },
 };
