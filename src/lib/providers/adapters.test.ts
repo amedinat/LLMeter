@@ -167,6 +167,7 @@ import { chinamobileAdapter } from './chinamobile-adapter';
 import { chinaunicomAdapter } from './chinaunicom-adapter';
 import { huaweiAdapter } from './huawei-adapter';
 import { sealionAdapter } from './sealion-adapter';
+import { sktelecomAdapter } from './sktelecom-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12773,6 +12774,66 @@ describe('Provider Adapters', () => {
       });
       await expect(sealionAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid AI Singapore SEA-LION API key.'
+      );
+    });
+  });
+
+  describe('sktelecomAdapter', () => {
+    it('validates a correct API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await sktelecomAdapter.validateKey('test-sktelecom-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.sktai.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-sktelecom-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(sktelecomAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid SK Telecom A. API key.'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(sktelecomAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(sktelecomAdapter.validateKey('')).rejects.toThrow(
+        'SK Telecom A. API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await sktelecomAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("sktelecomAdapter.type is 'sktelecom'", () => {
+      expect(sktelecomAdapter.type).toBe('sktelecom');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(sktelecomAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid SK Telecom A. API key.'
       );
     });
   });

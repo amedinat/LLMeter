@@ -1604,4 +1604,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://sea-lion.ai',
     color: '#E63946',
   },
+  sktelecom: {
+    type: 'sktelecom',
+    name: 'SK Telecom A.',
+    description: "a-dot-7b ($0.08/$0.08 sym — 7B A. flagship Korean mobile AI 95% cheaper GPT-4o CDMA pioneer telco data), a-dot-13b ($0.18/$0.18 sym — 13B A. enterprise Korean AI 93% cheaper GPT-4o), a-dot-70b ($0.40/$0.40 sym — 70B A. flagship enterprise 84% cheaper GPT-4o), a-dot-reasoning ($0.60/$2.40 — reasoning chain-of-thought Korean enterprise), meta-llama/Llama-3.3-70B-Instruct ($0.25/$0.40 — general flagship 90% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest 98% cheaper GPT-4o), Qwen/Qwen2.5-72B-Instruct ($0.22/$0.22 sym — multilingual CJK). 6/8 symmetric — SK Telecom Co., Ltd. (에스케이텔레콤), Seoul, South Korea. Founded 1984 as Korea Mobile Telecom (KMT). NYSE: SKM, KOSPI: 017670. ~₩18T revenue (~$13B USD). 32M+ subscribers — South Korea's #1 carrier. FIRST South Korean mobile-dominant carrier on LLMeter. FIRST Anthropic strategic investor on LLMeter ($100M invested March 2023). SECOND South Korean telco on LLMeter (after KT Day 170). World's FIRST commercial CDMA network (January 1996). A. (에이닷): SKT's AI assistant launched 2022. Part of SK Group (SK Hynix, SK Holdings). OpenAI-compatible API at api.sktai.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sktelecom-api-key',
+    helpUrl: 'https://developers.sktelecom.com/ai',
+    color: '#FF6600',
+  },
 };

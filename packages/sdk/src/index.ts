@@ -178,6 +178,7 @@ export { wrapChinaMobile } from './chinamobile.js';
 export { wrapChinaUnicom } from './chinaunicom.js';
 export { wrapHuawei } from './huawei.js';
 export { wrapSeaLion } from './sealion.js';
+export { wrapSKTelecom } from './sktelecom.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
