@@ -5,6 +5,10 @@ const TEST_EMAIL = process.env.E2E_TEST_EMAIL || '';
 const TEST_PASSWORD = process.env.E2E_TEST_PASSWORD || '';
 
 test.describe('Dashboard Access (Production)', () => {
+  // All tests here require a real authenticated session. Skip when CI secrets
+  // are absent so the suite stays green until E2E_TEST_EMAIL/PASSWORD are set.
+  test.skip(!TEST_EMAIL || !TEST_PASSWORD, 'Requires E2E_TEST_EMAIL and E2E_TEST_PASSWORD');
+
   test('should login and see dashboard with data', async ({ page }) => {
     // Go to login
     await page.goto(`${PROD_URL}/login`);

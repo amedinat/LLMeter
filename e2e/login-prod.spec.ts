@@ -40,6 +40,10 @@ test.describe('Production Login Flow', () => {
   });
 
   test('should login with valid credentials and reach dashboard', async ({ page }) => {
+    // Only this test needs real credentials; the page-load and invalid-credential
+    // tests above run without secrets. Skip when CI secrets are absent.
+    test.skip(!TEST_EMAIL || !TEST_PASSWORD, 'Requires E2E_TEST_EMAIL and E2E_TEST_PASSWORD');
+
     await page.goto(`${PROD_URL}/login`);
     await page.getByRole('tab', { name: 'Password' }).click();
 
