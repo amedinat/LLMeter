@@ -13569,6 +13569,89 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
 
+  // SoftBank AI (SB Intuitions) — Day 177, provider #175.
+  // SoftBank Group Corp. (ソフトバンクグループ株式会社), Tokyo, Japan.
+  // Founded 1981 by Masayoshi Son. TSE: 9984 (Group), TSE: 9434 (Corp).
+  // ~¥7T revenue (~$47B USD, FY2024), Fortune Global 500 #36 (2024). ~65,000 employees.
+  // FIRST Japanese conglomerate on LLMeter.
+  // FIRST company with majority ownership of Arm Holdings on LLMeter (acquired 2016 for $32B, retained ~90% after NASDAQ:ARM IPO September 2023).
+  // FIRST SoftBank Vision Fund operator on LLMeter ($98.6B SVF1 + $56B SVF2, 500+ portfolio companies).
+  // Stargate AI co-founder: $500B US AI infrastructure initiative with OpenAI, Oracle, MGX.
+  // SB Intuitions (est. 2023): SARASHINA (さらしな) Japanese LLM fine-tuned from Llama 3 on 40B+ Japanese tokens.
+  // OpenAI-compatible API at api.sbintuitions.co.jp/v1.
+  {
+    provider: 'softbank',
+    model_id: 'sarashina2-7b',
+    display_name: 'SoftBank AI: SARASHINA2 7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'sarashina2-13b',
+    display_name: 'SoftBank AI: SARASHINA2 13B',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'sarashina2-70b',
+    display_name: 'SoftBank AI: SARASHINA2 70B',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'sarashina2-70b-instruct',
+    display_name: 'SoftBank AI: SARASHINA2 70B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 0.90,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'meta-llama/Llama-3.1-70B-Instruct',
+    display_name: 'SoftBank AI: Llama 3.1 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'SoftBank AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'SoftBank AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'softbank',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'SoftBank AI: Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13869,6 +13952,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     huawei: [0.28, 0.28], // pangu-pro symmetric flagship on Huawei Cloud Pangu AI (华为云盘古, ~$99B USD revenue FY2024, ~200,000 employees, Fortune Global 500 #49, FIRST Chinese hardware company on LLMeter, FIRST company on US Entity List on LLMeter, FIRST 100% employee-owned non-listed tech giant on LLMeter, trained on Ascend 910B chips, Day 174)
     sealion: [0.25, 0.40], // llama-3.3-70b-instruct flagship on AI Singapore SEA-LION (AISG Singapore 2017, NRF+IMDA national AI programme, FIRST Singapore AI provider on LLMeter, FIRST government-backed national AI programme on LLMeter, FIRST SEA sovereign AI model provider, 11 Southeast Asian languages, 981B token pretraining corpus, Day 175)
     sktelecom: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on SK Telecom A. (에스케이텔레콤, Seoul South Korea 1984, NYSE:SKM KOSPI:017670, ~₩18T revenue ~$13B USD, 32M+ subscribers South Korea's #1 carrier, FIRST South Korean mobile-dominant carrier on LLMeter, FIRST Anthropic strategic investor on LLMeter $100M March 2023, World's FIRST commercial CDMA network January 1996, Day 176)
+    softbank: [0.25, 0.40], // meta-llama/Llama-3.1-70B-Instruct flagship on SoftBank AI / SB Intuitions (ソフトバンクグループ, Tokyo Japan 1981, TSE:9984 Group TSE:9434 Corp, ~¥7T revenue ~$47B USD FY2024, Fortune Global 500 #36, FIRST Japanese conglomerate on LLMeter, FIRST company with majority ownership of Arm Holdings on LLMeter NASDAQ:ARM ~90%, FIRST SoftBank Vision Fund operator on LLMeter $98.6B SVF1+$56B SVF2 500+ portfolio companies including OpenAI, Stargate AI co-founder $500B US AI infra, SARASHINA Japanese LLM, Day 177)
   };
   return defaults[provider];
 }

@@ -1613,4 +1613,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developers.sktelecom.com/ai',
     color: '#FF6600',
   },
+  softbank: {
+    type: 'softbank',
+    name: 'SoftBank AI',
+    description: "sarashina2-7b ($0.10/$0.10 sym — 7B Japanese-optimized Llama3 base 96% cheaper GPT-4o), sarashina2-13b ($0.20/$0.20 sym — 13B Japanese general-purpose 92% cheaper GPT-4o), sarashina2-70b ($0.45/$0.45 sym — 70B Japanese flagship base 83% cheaper GPT-4o), sarashina2-70b-instruct ($0.55/$0.90 — 70B Japanese instruct RLHF-tuned 79% cheaper GPT-4o), meta-llama/Llama-3.1-70B-Instruct ($0.25/$0.40 — general flagship 90% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), Qwen/Qwen2.5-72B-Instruct ($0.22/$0.22 sym — multilingual CJK 91% cheaper GPT-4o), mistralai/Mistral-7B-Instruct-v0.3 ($0.05/$0.05 sym — cheapest 98% cheaper GPT-4o). 5/8 symmetric — SoftBank Group Corp. (ソフトバンクグループ株式会社), Tokyo, Japan. Founded 1981 by Masayoshi Son. TSE: 9984 (Group), TSE: 9434 (Corp). ~¥7T revenue (~$47B USD, FY2024), Fortune Global 500 #36 (2024). FIRST Japanese conglomerate on LLMeter. FIRST company with majority ownership of Arm Holdings on LLMeter (acquired Arm 2016 for $32B, retained ~90% after NASDAQ:ARM IPO September 2023). FIRST SoftBank Vision Fund operator on LLMeter ($98.6B SVF1 + $56B SVF2, 500+ portfolio companies including OpenAI). Stargate AI co-founder ($500B US AI infrastructure with OpenAI + Oracle + MGX). SB Intuitions (est. 2023): SARASHINA (さらしな) Japanese LLM fine-tuned from Llama 3 on 40B+ Japanese tokens, top Japanese benchmarks at release. OpenAI-compatible API at api.sbintuitions.co.jp/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-softbank-ai-api-key',
+    helpUrl: 'https://platform.sbintuitions.co.jp/docs',
+    color: '#FF4500',
+  },
 };

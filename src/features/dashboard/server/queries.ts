@@ -339,6 +339,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           huawei: 0,
           sealion: 0,
           sktelecom: 0,
+          softbank: 0,
         }
       });
     }
@@ -537,6 +538,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           huawei: 0,
           sealion: 0,
           sktelecom: 0,
+          softbank: 0,
         },
       }
     );

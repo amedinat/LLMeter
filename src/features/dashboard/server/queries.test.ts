@@ -222,6 +222,7 @@ const ZERO_PROVIDERS = {
   huawei: 0,
   sealion: 0,
   sktelecom: 0,
+  softbank: 0,
 };
 
 // --- Tests ---
