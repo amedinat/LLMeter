@@ -1,7 +1,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Minus, CalendarClock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { forecastSpend } from '@/lib/forecasting';
