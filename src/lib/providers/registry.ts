@@ -173,6 +173,7 @@ import { chinamobileAdapter } from './chinamobile-adapter';
 import { chinaunicomAdapter } from './chinaunicom-adapter';
 import { huaweiAdapter } from './huawei-adapter';
 import { sealionAdapter } from './sealion-adapter';
+import { sktelecomAdapter } from './sktelecom-adapter';
 
 /**
  * Provider adapter registry.
@@ -354,6 +355,7 @@ adapters.set('chinamobile', chinamobileAdapter);
 adapters.set('chinaunicom', chinaunicomAdapter);
 adapters.set('huawei', huaweiAdapter);
 adapters.set('sealion', sealionAdapter);
+adapters.set('sktelecom', sktelecomAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

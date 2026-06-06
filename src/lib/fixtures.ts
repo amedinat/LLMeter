@@ -205,6 +205,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         chinaunicom: 0,
         huawei: 0,
         sealion: 0,
+        sktelecom: 0,
       },
     };
   });

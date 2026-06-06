@@ -221,6 +221,7 @@ const ZERO_PROVIDERS = {
   chinaunicom: 0,
   huawei: 0,
   sealion: 0,
+  sktelecom: 0,
 };
 
 // --- Tests ---

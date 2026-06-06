@@ -13485,6 +13485,90 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-05T00:00:00.000Z',
   },
 
+  // ── SK Telecom A. (에이닷) — Day 176, provider #174 ──────────────────────────────
+  // SK Telecom Co., Ltd. (에스케이텔레콤), Seoul, South Korea.
+  // Founded 1984 as Korea Mobile Telecom (KMT). NYSE: SKM, KOSPI: 017670.
+  // ~₩18T revenue (~$13B USD, FY2024), ~22,000 employees.
+  // 32M+ mobile subscribers — South Korea's #1 carrier.
+  // FIRST South Korean mobile-dominant carrier on LLMeter.
+  // FIRST Anthropic strategic investor on LLMeter ($100M invested March 2023).
+  // SECOND South Korean telco on LLMeter (after KT Day 170).
+  // World's FIRST commercial CDMA network operator (January 1996).
+  // A. (에이닷): SKT's AI assistant launched 2022.
+  // OpenAI-compatible API at api.sktai.com/v1.
+  {
+    provider: 'sktelecom',
+    model_id: 'a-dot-7b',
+    display_name: 'SK Telecom A.: A. 7B',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'a-dot-13b',
+    display_name: 'SK Telecom A.: A. 13B',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'a-dot-70b',
+    display_name: 'SK Telecom A.: A. 70B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'a-dot-reasoning',
+    display_name: 'SK Telecom A.: A. Reasoning',
+    input_price_per_1m_tokens: 0.60,
+    output_price_per_1m_tokens: 2.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'SK Telecom A.: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'SK Telecom A.: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'mistralai/Mistral-7B-Instruct-v0.3',
+    display_name: 'SK Telecom A.: Mistral 7B Instruct v0.3',
+    input_price_per_1m_tokens: 0.05,
+    output_price_per_1m_tokens: 0.05,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sktelecom',
+    model_id: 'Qwen/Qwen2.5-72B-Instruct',
+    display_name: 'SK Telecom A.: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13784,6 +13868,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     chinamobile: [0.14, 0.14], // jiutian-13b symmetric flagship on China Mobile Jiutian AI (中国移动九天, NYSE: CHL HKEX: 0941, ~$150B USD revenue, 990M+ mobile subscribers world's largest mobile carrier, FIRST Chinese mobile carrier on LLMeter, FOURTH East Asian national telco after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171)
     huawei: [0.28, 0.28], // pangu-pro symmetric flagship on Huawei Cloud Pangu AI (华为云盘古, ~$99B USD revenue FY2024, ~200,000 employees, Fortune Global 500 #49, FIRST Chinese hardware company on LLMeter, FIRST company on US Entity List on LLMeter, FIRST 100% employee-owned non-listed tech giant on LLMeter, trained on Ascend 910B chips, Day 174)
     sealion: [0.25, 0.40], // llama-3.3-70b-instruct flagship on AI Singapore SEA-LION (AISG Singapore 2017, NRF+IMDA national AI programme, FIRST Singapore AI provider on LLMeter, FIRST government-backed national AI programme on LLMeter, FIRST SEA sovereign AI model provider, 11 Southeast Asian languages, 981B token pretraining corpus, Day 175)
+    sktelecom: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on SK Telecom A. (에스케이텔레콤, Seoul South Korea 1984, NYSE:SKM KOSPI:017670, ~₩18T revenue ~$13B USD, 32M+ subscribers South Korea's #1 carrier, FIRST South Korean mobile-dominant carrier on LLMeter, FIRST Anthropic strategic investor on LLMeter $100M March 2023, World's FIRST commercial CDMA network January 1996, Day 176)
   };
   return defaults[provider];
 }
