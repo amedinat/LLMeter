@@ -209,6 +209,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         sktelecom: 0,
         softbank: 0,
         rakuten: 0,
+        fujitsu: 0,
       },
     };
   });

@@ -171,6 +171,7 @@ import { sealionAdapter } from './sealion-adapter';
 import { sktelecomAdapter } from './sktelecom-adapter';
 import { softbankAdapter } from './softbank-adapter';
 import { rakutenAdapter } from './rakuten-adapter';
+import { fujitsuAdapter } from './fujitsu-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13017,6 +13018,66 @@ describe('Provider Adapters', () => {
       });
       await expect(rakutenAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Rakuten AI API key.'
+      );
+    });
+  });
+
+  describe('fujitsuAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await fujitsuAdapter.validateKey('test-fujitsu-ai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.fujitsu.com/ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-fujitsu-ai-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(fujitsuAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Fujitsu AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(fujitsuAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(fujitsuAdapter.validateKey('')).rejects.toThrow(
+        'Fujitsu AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await fujitsuAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("fujitsuAdapter.type is 'fujitsu'", () => {
+      expect(fujitsuAdapter.type).toBe('fujitsu');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(fujitsuAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Fujitsu AI API key.'
       );
     });
   });
