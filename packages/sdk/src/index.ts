@@ -181,6 +181,9 @@ export { wrapNEC } from './nec.js';
 export { wrapSeaLion } from './sealion.js';
 export { wrapSKTelecom } from './sktelecom.js';
 export { wrapSoftBank } from './softbank.js';
+export { wrapRakuten } from './rakuten.js';
+export { wrapFujitsu } from './fujitsu.js';
+export { wrapKDDI } from './kddi.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

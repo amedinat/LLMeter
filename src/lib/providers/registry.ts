@@ -178,6 +178,7 @@ import { sktelecomAdapter } from './sktelecom-adapter';
 import { softbankAdapter } from './softbank-adapter';
 import { rakutenAdapter } from './rakuten-adapter';
 import { fujitsuAdapter } from './fujitsu-adapter';
+import { kddiAdapter } from './kddi-adapter';
 
 /**
  * Provider adapter registry.
@@ -364,6 +365,7 @@ adapters.set('sktelecom', sktelecomAdapter);
 adapters.set('softbank', softbankAdapter);
 adapters.set('rakuten', rakutenAdapter);
 adapters.set('fujitsu', fujitsuAdapter);
+adapters.set('kddi', kddiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

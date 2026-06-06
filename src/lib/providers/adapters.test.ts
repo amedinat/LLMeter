@@ -172,6 +172,7 @@ import { sktelecomAdapter } from './sktelecom-adapter';
 import { softbankAdapter } from './softbank-adapter';
 import { rakutenAdapter } from './rakuten-adapter';
 import { fujitsuAdapter } from './fujitsu-adapter';
+import { kddiAdapter } from './kddi-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13078,6 +13079,66 @@ describe('Provider Adapters', () => {
       });
       await expect(fujitsuAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Fujitsu AI API key.'
+      );
+    });
+  });
+
+  describe('kddiAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await kddiAdapter.validateKey('test-kddi-ai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.llm.kddi.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-kddi-ai-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(kddiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid KDDI AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(kddiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(kddiAdapter.validateKey('')).rejects.toThrow(
+        'KDDI AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await kddiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("kddiAdapter.type is 'kddi'", () => {
+      expect(kddiAdapter.type).toBe('kddi');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(kddiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid KDDI AI API key.'
       );
     });
   });
