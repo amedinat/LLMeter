@@ -177,6 +177,7 @@ export { wrapCTyun } from './ctyun.js';
 export { wrapChinaMobile } from './chinamobile.js';
 export { wrapChinaUnicom } from './chinaunicom.js';
 export { wrapHuawei } from './huawei.js';
+export { wrapNEC } from './nec.js';
 export { wrapSeaLion } from './sealion.js';
 export { wrapSKTelecom } from './sktelecom.js';
 export { wrapSoftBank } from './softbank.js';

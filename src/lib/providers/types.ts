@@ -1595,6 +1595,15 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://console.huaweicloud.com/modelarts',
     color: '#CF0A2C',
   },
+  nec: {
+    type: 'nec',
+    name: 'NEC cotomi',
+    description: "cotomi-light ($0.08/$0.08 sym — 7B Japanese LLM 97% cheaper GPT-4o edge-deployable NEC face-recognition AI), cotomi-pro ($0.35/$0.35 sym — 70B Japanese enterprise LLM 86% cheaper GPT-4o government/finance/healthcare), cotomi-pro-instruct ($0.45/$1.50 — 70B RLHF instruction-tuned flagship 82% cheaper GPT-4o), cotomi-pro-vision ($0.35/$0.35 sym — 70B multimodal text+document-image 86% cheaper GPT-4o), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — NEC Corporation (日本電気株式会社), Tokyo, Japan. Founded July 17, 1899 by Kunihiko Iwadare + Western Electric. TSE: 6701. ~¥3.4T revenue (~$23B USD, FY2024), ~110,000 employees. FIRST company founded in the 19th century on LLMeter (125+ years old, 1899). FIRST Japanese IT/computer manufacturer on LLMeter (all others are telcos, cloud hosts, or research labs). FIRST NEC face recognition company on LLMeter — NeoFace ranked #1 by NIST FRVT for 1M+ identity accuracy, deployed at Interpol, Japan passport control, Tokyo 2020 Olympics, Singapore Changi Airport. Japan's largest IT contractor — every major Japanese ministry runs NEC systems. Built Japan's first transistor computer (NEAC 2201, 1958), PC-8001 (1979), PC-9801 (1982). cotomi (コトミ — 言葉の美 kotoba no bi 'beauty of words'): Japanese enterprise LLM for government, finance, healthcare, manufacturing. 6th Japanese AI inference provider on LLMeter. OpenAI-compatible API at api.cotomi.nec-cloud.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-nec-cotomi-api-key',
+    helpUrl: 'https://cotomi.nec-cloud.com/docs',
+    color: '#003087',
+  },
   sealion: {
     type: 'sealion',
     name: 'AI Singapore (SEA-LION)',

@@ -13580,6 +13580,78 @@ const MODEL_CATALOG: ModelPricing[] = [
   // SB Intuitions (est. 2023): SARASHINA (さらしな) Japanese LLM fine-tuned from Llama 3 on 40B+ Japanese tokens.
   // OpenAI-compatible API at api.sbintuitions.co.jp/v1.
   {
+    provider: 'nec',
+    model_id: 'cotomi-light',
+    display_name: 'NEC cotomi Light',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'cotomi-pro',
+    display_name: 'NEC cotomi Pro',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'cotomi-pro-instruct',
+    display_name: 'NEC cotomi Pro Instruct',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 1.50,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'cotomi-pro-vision',
+    display_name: 'NEC cotomi Pro Vision',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'NEC cotomi: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'NEC cotomi: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'deepseek-v3',
+    display_name: 'NEC cotomi: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'nec',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'NEC cotomi: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
     provider: 'softbank',
     model_id: 'sarashina2-7b',
     display_name: 'SoftBank AI: SARASHINA2 7B',
@@ -13950,6 +14022,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     chinaunicom: [0.28, 0.28], // yuanjing-pro symmetric flagship on China Unicom AI (中国联通元景, NYSE: CHU HKEX: 0762, ~$49B USD revenue, 320M+ mobile subscribers, FIRST mixed-ownership Chinese SOE AI provider on LLMeter, COMPLETES China Big Three telco set after China Telecom Day 171 + China Mobile Day 172, $11.7B mixed ownership Alibaba+Tencent+Baidu+JD+Didi 2017)
     chinamobile: [0.14, 0.14], // jiutian-13b symmetric flagship on China Mobile Jiutian AI (中国移动九天, NYSE: CHL HKEX: 0941, ~$150B USD revenue, 990M+ mobile subscribers world's largest mobile carrier, FIRST Chinese mobile carrier on LLMeter, FOURTH East Asian national telco after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171)
     huawei: [0.28, 0.28], // pangu-pro symmetric flagship on Huawei Cloud Pangu AI (华为云盘古, ~$99B USD revenue FY2024, ~200,000 employees, Fortune Global 500 #49, FIRST Chinese hardware company on LLMeter, FIRST company on US Entity List on LLMeter, FIRST 100% employee-owned non-listed tech giant on LLMeter, trained on Ascend 910B chips, Day 174)
+    nec: [0.45, 1.50], // cotomi-pro-instruct flagship on NEC Corporation cotomi (日本電気株式会社, Tokyo Japan TSE:6701 1899, FIRST company founded in the 19th century on LLMeter 125+ years old, FIRST Japanese IT/computer manufacturer on LLMeter, FIRST NEC face recognition company on LLMeter NeoFace #1 NIST FRVT, Japan's largest IT contractor, built Japan's first transistor computer NEAC 2201 1958, Day 178)
     sealion: [0.25, 0.40], // llama-3.3-70b-instruct flagship on AI Singapore SEA-LION (AISG Singapore 2017, NRF+IMDA national AI programme, FIRST Singapore AI provider on LLMeter, FIRST government-backed national AI programme on LLMeter, FIRST SEA sovereign AI model provider, 11 Southeast Asian languages, 981B token pretraining corpus, Day 175)
     sktelecom: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on SK Telecom A. (에스케이텔레콤, Seoul South Korea 1984, NYSE:SKM KOSPI:017670, ~₩18T revenue ~$13B USD, 32M+ subscribers South Korea's #1 carrier, FIRST South Korean mobile-dominant carrier on LLMeter, FIRST Anthropic strategic investor on LLMeter $100M March 2023, World's FIRST commercial CDMA network January 1996, Day 176)
     softbank: [0.25, 0.40], // meta-llama/Llama-3.1-70B-Instruct flagship on SoftBank AI / SB Intuitions (ソフトバンクグループ, Tokyo Japan 1981, TSE:9984 Group TSE:9434 Corp, ~¥7T revenue ~$47B USD FY2024, Fortune Global 500 #36, FIRST Japanese conglomerate on LLMeter, FIRST company with majority ownership of Arm Holdings on LLMeter NASDAQ:ARM ~90%, FIRST SoftBank Vision Fund operator on LLMeter $98.6B SVF1+$56B SVF2 500+ portfolio companies including OpenAI, Stargate AI co-founder $500B US AI infra, SARASHINA Japanese LLM, Day 177)
