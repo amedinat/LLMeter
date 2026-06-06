@@ -13797,6 +13797,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
+  {
+    provider: 'fujitsu',
+    model_id: 'takane-7b',
+    display_name: 'Fujitsu Takane 7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'takane-7b-instruct',
+    display_name: 'Fujitsu Takane 7B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'takane-34b',
+    display_name: 'Fujitsu Takane 34B',
+    input_price_per_1m_tokens: 0.40,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'takane-34b-instruct',
+    display_name: 'Fujitsu Takane 34B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 1.80,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Fujitsu AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Fujitsu AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'deepseek-v3',
+    display_name: 'Fujitsu AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'fujitsu',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Fujitsu AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
 
 ];
 
@@ -14101,6 +14173,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     sktelecom: [0.25, 0.40], // meta-llama/Llama-3.3-70B-Instruct flagship on SK Telecom A. (에스케이텔레콤, Seoul South Korea 1984, NYSE:SKM KOSPI:017670, ~₩18T revenue ~$13B USD, 32M+ subscribers South Korea's #1 carrier, FIRST South Korean mobile-dominant carrier on LLMeter, FIRST Anthropic strategic investor on LLMeter $100M March 2023, World's FIRST commercial CDMA network January 1996, Day 176)
     softbank: [0.25, 0.40], // meta-llama/Llama-3.1-70B-Instruct flagship on SoftBank AI / SB Intuitions (ソフトバンクグループ, Tokyo Japan 1981, TSE:9984 Group TSE:9434 Corp, ~¥7T revenue ~$47B USD FY2024, Fortune Global 500 #36, FIRST Japanese conglomerate on LLMeter, FIRST company with majority ownership of Arm Holdings on LLMeter NASDAQ:ARM ~90%, FIRST SoftBank Vision Fund operator on LLMeter $98.6B SVF1+$56B SVF2 500+ portfolio companies including OpenAI, Stargate AI co-founder $500B US AI infra, SARASHINA Japanese LLM, Day 177)
     rakuten: [0.35, 0.35], // rakutenai-35b-instruct flagship on Rakuten AI (楽天グループ, Tokyo Japan TSE:4755 1997, Hiroshi Mikitani Harvard MBA, ~¥2.0T revenue ~$14B USD FY2024, FIRST Japanese e-commerce company on LLMeter, FIRST company to run Japan's largest e-commerce + mobile carrier + bank + offer LLM inference on LLMeter, RakutenAI-7B Apache 2.0 first open-source Japanese LLM from e-commerce company, 7th Japanese AI inference provider, Day 179)
+    fujitsu: [0.40, 0.40], // takane-34b flagship on Fujitsu AI Kozuchi (富士通株式会社, Minato Tokyo Japan TSE:6702 1935, ~¥3.7T revenue ~$25B USD FY2024, Fortune Global 500 #341, FIRST Japanese supercomputer company on LLMeter, built Fugaku 富岳 world's #1 TOP500 supercomputer June 2020-June 2021 442 petaflops A64FX Arm CPU, FIRST company with TOP500 #1 supercomputer to offer LLM inference on LLMeter, FIRST company to achieve world's fastest supercomputer with Arm-based CPUs on LLMeter, Takane LLM たかね high peak summit trained on Fugaku-class A64FX HPC infra, 8th Japanese AI inference provider, Day 180)
   };
   return defaults[provider];
 }

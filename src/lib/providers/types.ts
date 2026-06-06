@@ -1640,4 +1640,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://ai.rakuten.co.jp/docs',
     color: '#BF0000',
   },
+  fujitsu: {
+    type: 'fujitsu',
+    name: 'Fujitsu AI (Kozuchi)',
+    description: "takane-7b ($0.10/$0.10 sym — 7B Japanese enterprise LLM 96% cheaper GPT-4o), takane-7b-instruct ($0.12/$0.12 sym — 7B instruction-tuned 95% cheaper GPT-4o), takane-34b ($0.40/$0.40 sym — 34B enterprise flagship 84% cheaper GPT-4o), takane-34b-instruct ($0.55/$1.80 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Fujitsu Limited (富士通株式会社), Minato, Tokyo, Japan. Founded June 20, 1935. TSE: 6702. ~¥3.7T revenue (~$25B USD, FY2024), ~120,000 employees. Fortune Global 500 #341 (2024). FIRST Japanese supercomputer company on LLMeter. Built Fugaku (富岳), world's #1 fastest supercomputer on TOP500 list June 2020 to June 2021 (442 petaflops). Fugaku runs on Fujitsu's proprietary A64FX Arm-based CPUs — the ONLY TOP500 #1 system in the 21st century not based on x86 or GPU accelerators. FIRST company with a TOP500 #1 supercomputer to offer LLM inference on LLMeter. FIRST company to achieve world's fastest supercomputer with Arm-based CPUs on LLMeter. Kozuchi (コヅチ) enterprise AI platform; Takane (たかね — 'high peak / summit') LLM family trained on Fugaku-class A64FX HPC infrastructure. 8th Japanese AI inference provider on LLMeter (after Sakura Internet Day 106, PLaMo Day 158, Sakana AI Day 162, NTT Day 164, SoftBank Day 177, NEC Day 178, Rakuten Day 179). OpenAI-compatible API at api.fujitsu.com/ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-fujitsu-ai-api-key',
+    helpUrl: 'https://kozuchi.fujitsu.com/docs',
+    color: '#FF0000',
+  },
 };

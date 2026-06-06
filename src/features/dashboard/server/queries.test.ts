@@ -225,6 +225,7 @@ const ZERO_PROVIDERS = {
   sktelecom: 0,
   softbank: 0,
   rakuten: 0,
+  fujitsu: 0,
 };
 
 // --- Tests ---
