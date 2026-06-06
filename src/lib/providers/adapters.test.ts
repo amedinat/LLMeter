@@ -170,6 +170,7 @@ import { necAdapter } from './nec-adapter';
 import { sealionAdapter } from './sealion-adapter';
 import { sktelecomAdapter } from './sktelecom-adapter';
 import { softbankAdapter } from './softbank-adapter';
+import { rakutenAdapter } from './rakuten-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12956,6 +12957,66 @@ describe('Provider Adapters', () => {
       });
       await expect(necAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid NEC cotomi API key.'
+      );
+    });
+  });
+
+  describe('rakutenAdapter', () => {
+    it('validates a correct API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await rakutenAdapter.validateKey('test-rakuten-ai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.ai.rakuten.co.jp/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-rakuten-ai-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(rakutenAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Rakuten AI API key.'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(rakutenAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(rakutenAdapter.validateKey('')).rejects.toThrow(
+        'Rakuten AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await rakutenAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("rakutenAdapter.type is 'rakuten'", () => {
+      expect(rakutenAdapter.type).toBe('rakuten');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(rakutenAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Rakuten AI API key.'
       );
     });
   });

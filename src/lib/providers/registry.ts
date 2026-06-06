@@ -176,6 +176,7 @@ import { necAdapter } from './nec-adapter';
 import { sealionAdapter } from './sealion-adapter';
 import { sktelecomAdapter } from './sktelecom-adapter';
 import { softbankAdapter } from './softbank-adapter';
+import { rakutenAdapter } from './rakuten-adapter';
 
 /**
  * Provider adapter registry.
@@ -360,6 +361,7 @@ adapters.set('nec', necAdapter);
 adapters.set('sealion', sealionAdapter);
 adapters.set('sktelecom', sktelecomAdapter);
 adapters.set('softbank', softbankAdapter);
+adapters.set('rakuten', rakutenAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

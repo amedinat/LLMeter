@@ -224,6 +224,7 @@ const ZERO_PROVIDERS = {
   sealion: 0,
   sktelecom: 0,
   softbank: 0,
+  rakuten: 0,
 };
 
 // --- Tests ---

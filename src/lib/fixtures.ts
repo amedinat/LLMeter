@@ -208,6 +208,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         sealion: 0,
         sktelecom: 0,
         softbank: 0,
+        rakuten: 0,
       },
     };
   });

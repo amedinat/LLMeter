@@ -1631,4 +1631,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://platform.sbintuitions.co.jp/docs',
     color: '#FF4500',
   },
+  rakuten: {
+    type: 'rakuten',
+    name: 'Rakuten AI',
+    description: "rakutenai-7b ($0.08/$0.08 sym — 7B Apache 2.0 Japanese base LLM 97% cheaper GPT-4o), rakutenai-7b-instruct ($0.10/$0.10 sym — 7B instruction-tuned 96% cheaper GPT-4o), rakutenai-7b-chat ($0.12/$0.12 sym — 7B RLHF customer-service chat 95% cheaper GPT-4o), rakutenai-35b-instruct ($0.35/$0.35 sym — 35B Japanese enterprise flagship 86% cheaper GPT-4o), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 8/8 symmetric — Rakuten Group, Inc. (楽天グループ株式会社), Tokyo, Japan. Founded February 7, 1997 by Hiroshi Mikitani (Harvard Business School MBA '93). TSE: 4755. ~¥2.0T revenue (~$14B USD, FY2024). FIRST Japanese e-commerce company on LLMeter. FIRST company to simultaneously run Japan's largest e-commerce marketplace (Rakuten Ichiba, ¥6T GMV) + a mobile carrier (Rakuten Mobile, Japan's 4th carrier, cloud-native Open RAN) + a bank (Rakuten Bank, 14M+ accounts) AND offer LLM inference on LLMeter. FIRST open-source Apache 2.0 Japanese LLM from an e-commerce company on LLMeter — RakutenAI-7B (February 2024): 7B parameter Mistral-based model, top Japanese NLP benchmarks (JCommonsenseMorality, JMMLU, JAQKET). Rakuten Group spans e-commerce, fintech, mobile, streaming, travel, sports (Vissel Kobe FC, 25% Golden State Warriors ownership, FC Barcelona kit sponsor 2017-2022). 7th Japanese AI inference provider on LLMeter (after Sakura Internet Day 106, PLaMo Day 158, Sakana AI Day 162, NTT Day 164, SoftBank Day 177, NEC Day 178). OpenAI-compatible API at api.ai.rakuten.co.jp/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-rakuten-ai-api-key',
+    helpUrl: 'https://ai.rakuten.co.jp/docs',
+    color: '#BF0000',
+  },
 };
