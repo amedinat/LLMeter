@@ -184,6 +184,7 @@ export { wrapSoftBank } from './softbank.js';
 export { wrapRakuten } from './rakuten.js';
 export { wrapFujitsu } from './fujitsu.js';
 export { wrapKDDI } from './kddi.js';
+export { wrapHitachi } from './hitachi.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
