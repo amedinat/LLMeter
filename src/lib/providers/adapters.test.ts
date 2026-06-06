@@ -168,6 +168,7 @@ import { chinaunicomAdapter } from './chinaunicom-adapter';
 import { huaweiAdapter } from './huawei-adapter';
 import { sealionAdapter } from './sealion-adapter';
 import { sktelecomAdapter } from './sktelecom-adapter';
+import { softbankAdapter } from './softbank-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -12834,6 +12835,66 @@ describe('Provider Adapters', () => {
       });
       await expect(sktelecomAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid SK Telecom A. API key.'
+      );
+    });
+  });
+
+  describe('softbankAdapter', () => {
+    it('validates a correct API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await softbankAdapter.validateKey('test-softbank-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.sbintuitions.co.jp/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-softbank-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(softbankAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid SoftBank AI API key.'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(softbankAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(softbankAdapter.validateKey('')).rejects.toThrow(
+        'SoftBank AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await softbankAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("softbankAdapter.type is 'softbank'", () => {
+      expect(softbankAdapter.type).toBe('softbank');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(softbankAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid SoftBank AI API key.'
       );
     });
   });
