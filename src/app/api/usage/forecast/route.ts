@@ -3,11 +3,6 @@ import { createClient } from '@/lib/supabase/server';
 import { forecastSpend } from '@/lib/forecasting';
 import type { DailyPoint } from '@/lib/forecasting';
 
-const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
-function isValidDate(v: string) {
-  return DATE_REGEX.test(v) && !isNaN(new Date(v).getTime());
-}
-
 /**
  * GET /api/usage/forecast
  *
