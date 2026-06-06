@@ -173,6 +173,7 @@ import { softbankAdapter } from './softbank-adapter';
 import { rakutenAdapter } from './rakuten-adapter';
 import { fujitsuAdapter } from './fujitsu-adapter';
 import { kddiAdapter } from './kddi-adapter';
+import { hitachiAdapter } from './hitachi-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13139,6 +13140,66 @@ describe('Provider Adapters', () => {
       });
       await expect(kddiAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid KDDI AI API key.'
+      );
+    });
+  });
+
+  describe('hitachiAdapter', () => {
+    it('validates a good key via GET /ai/v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await hitachiAdapter.validateKey('test-hitachi-lumada-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.lumada.hitachi.com/ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-hitachi-lumada-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(hitachiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Hitachi Lumada AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(hitachiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(hitachiAdapter.validateKey('')).rejects.toThrow(
+        'Hitachi Lumada AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await hitachiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("hitachiAdapter.type is 'hitachi'", () => {
+      expect(hitachiAdapter.type).toBe('hitachi');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(hitachiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Hitachi Lumada AI API key.'
       );
     });
   });

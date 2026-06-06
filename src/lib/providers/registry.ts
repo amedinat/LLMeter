@@ -179,6 +179,7 @@ import { softbankAdapter } from './softbank-adapter';
 import { rakutenAdapter } from './rakuten-adapter';
 import { fujitsuAdapter } from './fujitsu-adapter';
 import { kddiAdapter } from './kddi-adapter';
+import { hitachiAdapter } from './hitachi-adapter';
 
 /**
  * Provider adapter registry.
@@ -366,6 +367,7 @@ adapters.set('softbank', softbankAdapter);
 adapters.set('rakuten', rakutenAdapter);
 adapters.set('fujitsu', fujitsuAdapter);
 adapters.set('kddi', kddiAdapter);
+adapters.set('hitachi', hitachiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

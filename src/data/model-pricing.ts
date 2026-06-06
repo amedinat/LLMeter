@@ -13941,6 +13941,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
+  {
+    provider: 'hitachi',
+    model_id: 'hai-7b',
+    display_name: 'Hitachi HAI 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'hai-7b-instruct',
+    display_name: 'Hitachi HAI 7B Instruct',
+    input_price_per_1m_tokens: 0.12,
+    output_price_per_1m_tokens: 0.12,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'hai-70b',
+    display_name: 'Hitachi HAI 70B',
+    input_price_per_1m_tokens: 0.35,
+    output_price_per_1m_tokens: 0.35,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'hai-70b-instruct',
+    display_name: 'Hitachi HAI 70B Instruct',
+    input_price_per_1m_tokens: 0.50,
+    output_price_per_1m_tokens: 1.60,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Hitachi Lumada: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Hitachi Lumada: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'deepseek-v3',
+    display_name: 'Hitachi Lumada: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'hitachi',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Hitachi Lumada: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
 
 ];
 
@@ -14247,6 +14319,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     rakuten: [0.35, 0.35], // rakutenai-35b-instruct flagship on Rakuten AI (楽天グループ, Tokyo Japan TSE:4755 1997, Hiroshi Mikitani Harvard MBA, ~¥2.0T revenue ~$14B USD FY2024, FIRST Japanese e-commerce company on LLMeter, FIRST company to run Japan's largest e-commerce + mobile carrier + bank + offer LLM inference on LLMeter, RakutenAI-7B Apache 2.0 first open-source Japanese LLM from e-commerce company, 7th Japanese AI inference provider, Day 179)
     fujitsu: [0.40, 0.40], // takane-34b flagship on Fujitsu AI Kozuchi (富士通株式会社, Minato Tokyo Japan TSE:6702 1935, ~¥3.7T revenue ~$25B USD FY2024, Fortune Global 500 #341, FIRST Japanese supercomputer company on LLMeter, built Fugaku 富岳 world's #1 TOP500 supercomputer June 2020-June 2021 442 petaflops A64FX Arm CPU, FIRST company with TOP500 #1 supercomputer to offer LLM inference on LLMeter, FIRST company to achieve world's fastest supercomputer with Arm-based CPUs on LLMeter, Takane LLM たかね high peak summit trained on Fugaku-class A64FX HPC infra, 8th Japanese AI inference provider, Day 180)
     kddi: [0.35, 0.35], // mugen-35b-instruct symmetric flagship on KDDI Corporation au (KDDI株式会社, Chiyoda Tokyo Japan TSE:9433 2000, ~¥5.8T revenue ~$40B USD FY2024, ~37M au subscribers Japan's 2nd mobile carrier, COMPLETES Japan's Big Three mobile carrier set after NTT Group Day 164 and SoftBank Day 177, DDI founded 1984 by Kyocera's Kazuo Inamori as Japan's FIRST private long-distance carrier, Mugen AI 無限AI unlimited data AI, Day 181)
+    hitachi: [0.50, 1.60], // hai-70b-instruct flagship on Hitachi Lumada AI (日立製作所, Chiyoda Tokyo Japan TSE:6501 1910, ~¥9.7T revenue ~$65B USD FY2024, Fortune Global 500 #80, ~280,000 employees, FIRST Japanese industrial systems company on LLMeter, FIRST Japanese company to build Shinkansen AND UK IEP high-speed trains on LLMeter, FIRST Japanese company with $65B+ revenue among non-telco LLMeter providers, Lumada AI/IoT platform ¥3.5T+ revenue, HAI Hitachi Artificial Intelligence, 10th Japanese AI inference provider, Day 182)
   };
   return defaults[provider];
 }
