@@ -13406,6 +13406,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-05T00:00:00.000Z',
   },
 
+  // AI Singapore (AISG) SEA-LION — Singapore. Established 2017.
+  // FIRST Singapore AI provider on LLMeter.
+  // FIRST government-backed national AI programme on LLMeter (NRF + IMDA mandate).
+  // FIRST Southeast Asian sovereign AI model provider on LLMeter.
+  // FIRST model covering 11 Southeast Asian languages on LLMeter.
+  // OpenAI-compatible API at api.sea-lion.ai/v1.
+  {
+    provider: 'sealion',
+    model_id: 'sea-lion-7b-instruct',
+    display_name: 'SEA-LION: SEA-LION 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'sea-lionv2.1-8b-instruct',
+    display_name: 'SEA-LION: SEA-LION v2.1 8B Instruct',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'sea-lionv3-8b-instruct',
+    display_name: 'SEA-LION: SEA-LION v3 8B Instruct',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'gemma-sea-lion-9b-it',
+    display_name: 'SEA-LION: Gemma SEA-LION 9B IT',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'llama-3.1-8b-instruct',
+    display_name: 'SEA-LION: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'llama-3.3-70b-instruct',
+    display_name: 'SEA-LION: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.25,
+    output_price_per_1m_tokens: 0.40,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'deepseek-v3',
+    display_name: 'SEA-LION: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+  {
+    provider: 'sealion',
+    model_id: 'qwen2.5-7b-instruct',
+    display_name: 'SEA-LION: Qwen2.5 7B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-05T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -13704,6 +13783,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     chinaunicom: [0.28, 0.28], // yuanjing-pro symmetric flagship on China Unicom AI (中国联通元景, NYSE: CHU HKEX: 0762, ~$49B USD revenue, 320M+ mobile subscribers, FIRST mixed-ownership Chinese SOE AI provider on LLMeter, COMPLETES China Big Three telco set after China Telecom Day 171 + China Mobile Day 172, $11.7B mixed ownership Alibaba+Tencent+Baidu+JD+Didi 2017)
     chinamobile: [0.14, 0.14], // jiutian-13b symmetric flagship on China Mobile Jiutian AI (中国移动九天, NYSE: CHL HKEX: 0941, ~$150B USD revenue, 990M+ mobile subscribers world's largest mobile carrier, FIRST Chinese mobile carrier on LLMeter, FOURTH East Asian national telco after NTT Japan Day 164, KT Korea Day 170, China Telecom Day 171)
     huawei: [0.28, 0.28], // pangu-pro symmetric flagship on Huawei Cloud Pangu AI (华为云盘古, ~$99B USD revenue FY2024, ~200,000 employees, Fortune Global 500 #49, FIRST Chinese hardware company on LLMeter, FIRST company on US Entity List on LLMeter, FIRST 100% employee-owned non-listed tech giant on LLMeter, trained on Ascend 910B chips, Day 174)
+    sealion: [0.25, 0.40], // llama-3.3-70b-instruct flagship on AI Singapore SEA-LION (AISG Singapore 2017, NRF+IMDA national AI programme, FIRST Singapore AI provider on LLMeter, FIRST government-backed national AI programme on LLMeter, FIRST SEA sovereign AI model provider, 11 Southeast Asian languages, 981B token pretraining corpus, Day 175)
   };
   return defaults[provider];
 }
