@@ -166,6 +166,7 @@ import { ctyunAdapter } from './ctyun-adapter';
 import { chinamobileAdapter } from './chinamobile-adapter';
 import { chinaunicomAdapter } from './chinaunicom-adapter';
 import { huaweiAdapter } from './huawei-adapter';
+import { necAdapter } from './nec-adapter';
 import { sealionAdapter } from './sealion-adapter';
 import { sktelecomAdapter } from './sktelecom-adapter';
 import { softbankAdapter } from './softbank-adapter';
@@ -12895,6 +12896,66 @@ describe('Provider Adapters', () => {
       });
       await expect(softbankAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid SoftBank AI API key.'
+      );
+    });
+  });
+
+  describe('necAdapter', () => {
+    it('validates a correct API key', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await necAdapter.validateKey('test-nec-cotomi-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.cotomi.nec-cloud.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-nec-cotomi-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(necAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NEC cotomi API key.'
+      );
+    });
+
+    it('throws on non-401 error with API message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(necAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when API key is empty', async () => {
+      await expect(necAdapter.validateKey('')).rejects.toThrow(
+        'NEC cotomi API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns empty array', async () => {
+      const records = await necAdapter.fetchUsage(
+        'any-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("necAdapter.type is 'nec'", () => {
+      expect(necAdapter.type).toBe('nec');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(necAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid NEC cotomi API key.'
       );
     });
   });
