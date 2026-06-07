@@ -219,6 +219,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         canon: 0,
         mitsubishi: 0,
         toshiba: 0,
+        kyocera: 0,
       },
     };
   });
