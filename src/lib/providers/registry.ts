@@ -182,6 +182,7 @@ import { kddiAdapter } from './kddi-adapter';
 import { hitachiAdapter } from './hitachi-adapter';
 import { samsungAdapter } from './samsung-adapter';
 import { sonyAdapter } from './sony-adapter';
+import { panasonicAdapter } from './panasonic-adapter';
 
 /**
  * Provider adapter registry.
@@ -372,6 +373,7 @@ adapters.set('kddi', kddiAdapter);
 adapters.set('hitachi', hitachiAdapter);
 adapters.set('samsung', samsungAdapter);
 adapters.set('sony', sonyAdapter);
+adapters.set('panasonic', panasonicAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);

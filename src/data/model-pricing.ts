@@ -14172,6 +14172,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
 
+  // ── Panasonic AI (パナソニックホールディングス株式会社, Kadoma Osaka Japan TSE:6752 1918) ──
+  // Day 185, provider #183 — 2026-06-06
+  // FIRST Japanese home appliances company on LLMeter.
+  // FIRST EV battery manufacturer on LLMeter — Panasonic Energy: sole 2170 cell supplier for Tesla Gigafactory Nevada since 2017.
+  // FIRST company headquartered outside Tokyo among Japanese LLMeter providers (Kadoma, Osaka Prefecture).
+  // 12th Japanese AI inference provider on LLMeter.
+  {
+    provider: 'panasonic',
+    model_id: 'kairos-7b',
+    display_name: 'Panasonic KAIROS 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'kairos-7b-instruct',
+    display_name: 'Panasonic KAIROS 7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'kairos-34b',
+    display_name: 'Panasonic KAIROS 34B',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'kairos-34b-instruct',
+    display_name: 'Panasonic KAIROS 34B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 1.75,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Panasonic AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Panasonic AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'deepseek-v3',
+    display_name: 'Panasonic AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'panasonic',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Panasonic AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -14480,6 +14559,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     hitachi: [0.50, 1.60], // hai-70b-instruct flagship on Hitachi Lumada AI (日立製作所, Chiyoda Tokyo Japan TSE:6501 1910, ~¥9.7T revenue ~$65B USD FY2024, Fortune Global 500 #80, ~280,000 employees, FIRST Japanese industrial systems company on LLMeter, FIRST Japanese company to build Shinkansen AND UK IEP high-speed trains on LLMeter, FIRST Japanese company with $65B+ revenue among non-telco LLMeter providers, Lumada AI/IoT platform ¥3.5T+ revenue, HAI Hitachi Artificial Intelligence, 10th Japanese AI inference provider, Day 182)
     samsung: [0.70, 2.20], // gauss-language-ultra flagship on Samsung AI (삼성전자주식회사, Suwon South Korea KOSPI:005930 1969, ~KRW 300.87T revenue ~$220B USD FY2024, Fortune Global 500 #15, ~267,000 employees, FIRST Korean electronics conglomerate on LLMeter, FIRST company to manufacture smartphone chips AND offer LLM inference on LLMeter, FIRST company to ship Galaxy AI on 100M+ devices on LLMeter, Samsung Gauss named after Carl Friedrich Gauss, 7th Korean AI inference provider, Day 183)
     sony: [0.42, 1.35], // sony-creative-70b flagship on Sony AI (ソニーグループ株式会社, Minato Tokyo Japan TSE:6758 1946, ~¥13.02T revenue ~$87B USD FY2024, Fortune Global 500 #76, ~110,000 employees, FIRST Japanese entertainment company on LLMeter, FIRST company to defeat world champions in a racing simulator AND offer LLM inference on LLMeter Gran Turismo Sophy Nature 2022, FIRST company to manufacture CMOS image sensors for smartphones AND offer LLM inference on LLMeter ~50% global smartphone sensor market share Sony Semiconductor Solutions, 11th Japanese AI inference provider, Day 184)
+    panasonic: [0.55, 1.75], // kairos-34b-instruct flagship on Panasonic AI (パナソニックホールディングス株式会社, Kadoma Osaka Japan TSE:6752 1918, ~¥8.496T revenue ~$57B USD FY2024, Fortune Global 500 #99, ~228,000 employees, FIRST Japanese home appliances company on LLMeter, FIRST EV battery manufacturer on LLMeter Panasonic Energy sole 2170 cell supplier for Tesla Gigafactory Nevada 1.5B+ cells shipped, KAIROS AI enterprise LLM platform, 12th Japanese AI inference provider, Day 185)
   };
   return defaults[provider];
 }

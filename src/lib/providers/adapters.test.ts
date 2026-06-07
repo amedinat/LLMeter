@@ -176,6 +176,7 @@ import { kddiAdapter } from './kddi-adapter';
 import { hitachiAdapter } from './hitachi-adapter';
 import { samsungAdapter } from './samsung-adapter';
 import { sonyAdapter } from './sony-adapter';
+import { panasonicAdapter } from './panasonic-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13322,6 +13323,66 @@ describe('Provider Adapters', () => {
       });
       await expect(sonyAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Sony AI API key.'
+      );
+    });
+  });
+
+  describe('panasonicAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await panasonicAdapter.validateKey('test-panasonic-ai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.panasonic.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-panasonic-ai-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(panasonicAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Panasonic AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(panasonicAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(panasonicAdapter.validateKey('')).rejects.toThrow(
+        'Panasonic AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await panasonicAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("panasonicAdapter.type is 'panasonic'", () => {
+      expect(panasonicAdapter.type).toBe('panasonic');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(panasonicAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Panasonic AI API key.'
       );
     });
   });

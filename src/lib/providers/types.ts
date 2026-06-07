@@ -1685,4 +1685,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.sony.com/develop/ai/docs',
     color: '#000000',
   },
+  panasonic: {
+    type: 'panasonic',
+    name: 'Panasonic AI',
+    description: "kairos-7b ($0.09/$0.09 sym — 7B Japanese+English appliance/IoT LLM 96% cheaper GPT-4o), kairos-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned 95% cheaper GPT-4o), kairos-34b ($0.38/$0.38 sym — 34B enterprise flagship 85% cheaper GPT-4o), kairos-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Panasonic Holdings Corporation (パナソニックホールディングス株式会社), Kadoma, Osaka, Japan. Founded March 7, 1918 by Konosuke Matsushita (松下幸之助). TSE: 6752. ~¥8.496T revenue (~$57B USD, FY2024), Fortune Global 500 #99, ~228,000 employees. FIRST Japanese home appliances company on LLMeter. FIRST EV battery manufacturer on LLMeter — Panasonic Energy: sole 2170 cylindrical cell supplier for Tesla Gigafactory Nevada since 2017 (every US-built Model 3 + Model Y), 1.5B+ cells shipped. 12th Japanese AI inference provider. KAIROS AI: real-time enterprise LLM platform extended from Panasonic's KAIROS live production switcher brand. OpenAI-compatible API at api.panasonic.ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-panasonic-ai-api-key',
+    helpUrl: 'https://developer.panasonic.com/ai/docs',
+    color: '#0046BE',
+  },
 };
