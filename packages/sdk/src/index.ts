@@ -193,6 +193,7 @@ export { wrapCanon } from './canon.js';
 export { wrapMitsubishi } from './mitsubishi.js';
 export { wrapToshiba } from './toshiba.js';
 export { wrapKyocera } from './kyocera.js';
+export { wrapDenso } from './denso.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';

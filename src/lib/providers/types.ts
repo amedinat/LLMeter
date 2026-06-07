@@ -1739,4 +1739,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.kyocera.com/ai/docs',
     color: '#CC0000',
   },
+  denso: {
+    type: 'denso',
+    name: 'Denso HARNESS AI',
+    description: "harness-7b ($0.09/$0.09 sym — 7B Japanese+English automotive AI 96% cheaper GPT-4o), harness-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned HARNESS 95% cheaper GPT-4o), harness-34b ($0.38/$0.38 sym — 34B enterprise flagship 85% cheaper GPT-4o), harness-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Denso Corporation (株式会社デンソー), Kariya, Aichi, Japan. Founded December 16, 1949 as Nippon Denso Co., Ltd. (spun off from Toyota). TSE: 6902. ~¥7.1T revenue (~$48B USD, FY2024). ~170,000 employees. Fortune Global 500 #171 (2024). FIRST automotive parts manufacturer on LLMeter — world's largest pure-play automotive supplier; Denso components in Toyota, Honda, BMW, Mercedes, Volkswagen, Ford, GM. FIRST company to invent QR codes AND offer LLM inference on LLMeter — Masahiro Hara invented QR code at Nippon Denso 1994 to track Toyota assembly parts; ISO/IEC 18004:2000; 45 billion scans/day globally (Statista 2023); Denso Wave made spec royalty-free 2000; every WeChat Pay, Alipay, UPI, Line Pay transaction; every COVID vaccination certificate; every restaurant menu worldwide. FIRST Toyota Group company to offer LLM inference on LLMeter. FIRST company to manufacture ECUs for all major automakers AND offer LLM inference on LLMeter — 3B+ Denso ECUs in vehicles globally. HARNESS AI platform (api.harness.denso.com/v1). 18th Japanese AI inference provider. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-denso-harness-api-key',
+    helpUrl: 'https://developer.denso.com/ai/docs',
+    color: '#003082',
+  },
 };

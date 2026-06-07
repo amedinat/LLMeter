@@ -182,6 +182,7 @@ import { canonAdapter } from './canon-adapter';
 import { mitsubishiAdapter } from './mitsubishi-adapter';
 import { toshibaAdapter } from './toshiba-adapter';
 import { kyoceraAdapter } from './kyocera-adapter';
+import { densoAdapter } from './denso-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13688,6 +13689,66 @@ describe('Provider Adapters', () => {
       });
       await expect(kyoceraAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Kyocera AI API key.'
+      );
+    });
+  });
+
+  describe('densoAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await densoAdapter.validateKey('test-denso-harness-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.harness.denso.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-denso-harness-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(densoAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Denso HARNESS AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(densoAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(densoAdapter.validateKey('')).rejects.toThrow(
+        'Denso HARNESS AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await densoAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-07')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("densoAdapter.type is 'denso'", () => {
+      expect(densoAdapter.type).toBe('denso');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(densoAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Denso HARNESS AI API key.'
       );
     });
   });
