@@ -159,6 +159,7 @@ export default function HomePage() {
               <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
               <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
               <Link href="/demo" className="transition-colors hover:text-foreground/80 text-foreground/60">Demo</Link>
+              <Link href="/compare" className="transition-colors hover:text-foreground/80 text-foreground/60">Compare</Link>
               <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
               <Link href="/blog" className="transition-colors hover:text-foreground/80 text-foreground/60">Blog</Link>
               <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
