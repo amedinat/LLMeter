@@ -183,6 +183,7 @@ import { mitsubishiAdapter } from './mitsubishi-adapter';
 import { toshibaAdapter } from './toshiba-adapter';
 import { kyoceraAdapter } from './kyocera-adapter';
 import { densoAdapter } from './denso-adapter';
+import { hondaAdapter } from './honda-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13749,6 +13750,66 @@ describe('Provider Adapters', () => {
       });
       await expect(densoAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Denso HARNESS AI API key.'
+      );
+    });
+  });
+
+  describe('hondaAdapter', () => {
+    it('validates a key successfully', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await hondaAdapter.validateKey('test-honda-asimo-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.asimo.ai.honda.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-honda-asimo-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(hondaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Honda ASIMO AI API key.'
+      );
+    });
+
+    it('throws on non-auth error with provider message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Internal error' } }),
+      });
+      await expect(hondaAdapter.validateKey('some-key')).rejects.toThrow(
+        'Internal error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(hondaAdapter.validateKey('')).rejects.toThrow(
+        'Honda ASIMO AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await hondaAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-07')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("hondaAdapter.type is 'honda'", () => {
+      expect(hondaAdapter.type).toBe('honda');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(hondaAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Honda ASIMO AI API key.'
       );
     });
   });

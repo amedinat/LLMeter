@@ -1748,4 +1748,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.denso.com/ai/docs',
     color: '#003082',
   },
+  honda: {
+    type: 'honda',
+    name: 'Honda ASIMO AI',
+    description: "asimo-7b ($0.09/$0.09 sym — 7B Japanese+English mobility/robotics AI 96% cheaper GPT-4o), asimo-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned ASIMO AI 95% cheaper GPT-4o), asimo-34b ($0.38/$0.38 sym — 34B enterprise flagship 85% cheaper GPT-4o), asimo-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Honda Motor Co., Ltd. (本田技研工業株式会社), Minato-ku, Tokyo, Japan. Founded September 24, 1948 by Soichiro Honda (本田宗一郎) and Takeo Fujisawa (藤沢武夫). TSE: 7267, NYSE: HMC. ~¥20.4T revenue (~$136B USD, FY2024). ~197,000 employees. Fortune Global 500 #24 (2024). FIRST Japanese automaker (vehicle OEM) on LLMeter — Denso Day 191 is a parts supplier; Honda is the FIRST company on LLMeter that designs, manufactures, and sells finished motor vehicles under its own brand. FIRST world's largest motorcycle manufacturer on LLMeter — 20.7M motorcycles FY2024 (~30% global share); Honda Super Cub (1958) world's best-selling motorised vehicle in history at 100M+ units. FIRST company to develop a bipedal humanoid robot AND offer LLM inference on LLMeter — ASIMO (Advanced Step in Innovative MObility) unveiled October 31 2000; world's first humanoid robot capable of climbing stairs and running (2004, 6 km/h), preceded Boston Dynamics Atlas by 13 years. FIRST company to manufacture commercial aircraft, automobiles, AND motorcycles AND offer LLM inference on LLMeter — HondaJet HA-420, world's best-selling light business jet 2018–2021 (GAMA); HF120 turbofan FAA-certified 2013. FIRST company to win Formula 1 World Championships as engine supplier across four separate eras on LLMeter. ASIMO AI platform (api.asimo.ai.honda.com/v1). 19th Japanese AI inference provider. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-honda-asimo-api-key',
+    helpUrl: 'https://developer.honda.com/ai/docs',
+    color: '#CC0000',
+  },
 };
