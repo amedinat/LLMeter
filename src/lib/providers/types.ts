@@ -1712,4 +1712,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.canon/ai/docs',
     color: '#CC0000',
   },
+  mitsubishi: {
+    type: 'mitsubishi',
+    name: 'Mitsubishi Electric MAISART AI',
+    description: "maisart-7b ($0.09/$0.09 sym — 7B Japanese+English factory/industrial AI 96% cheaper GPT-4o), maisart-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned MAISART AI 95% cheaper GPT-4o), maisart-34b ($0.38/$0.38 sym — 34B enterprise flagship 85% cheaper GPT-4o), maisart-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Mitsubishi Electric Corporation (三菱電機株式会社), Chiyoda-ku, Tokyo, Japan. Founded January 15, 1921. TSE: 6503. ~¥5.47T revenue (~$36.5B USD, FY2024). ~140,000 employees. Fortune Global 500 #171 (2024). FIRST Japanese power semiconductor manufacturer on LLMeter — SiC/IGBT modules in Shinkansen E5/E6/E7/N700S traction inverters, Tesla Model 3/Y drivetrains, Vestas offshore wind turbines. FIRST Japanese defense electronics manufacturer on LLMeter — J/FPS-5 phased-array BMD radar, F-2 fire-control radar, Aegis FCS-3A, Patriot PAC-3 uplink. FIRST Japanese elevator manufacturer on LLMeter — Tokyo Skytree, One World Trade Center NYC, Petronas Towers; MELS-50X world's fastest elevator 20.5 m/s. FIRST Mitsubishi Group keiretsu company to offer LLM inference on LLMeter. MAISART AI platform (api.maisart.mitsubishielectric.com/v1). 15th Japanese AI inference provider. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-mitsubishi-maisart-api-key',
+    helpUrl: 'https://developer.mitsubishielectric.com/ai/docs',
+    color: '#E60012',
+  },
 };
