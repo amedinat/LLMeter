@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { safeRedirect } from '@/lib/security';
 import { sendWelcomeEmail } from '@/lib/email/send-billing';
 import { pulseTrack } from '@/lib/saas-pulse';
+import { cookies } from 'next/headers';
 
 function getRedirectBase(request: Request, origin: string): string {
   const forwardedHost = request.headers.get('x-forwarded-host');
@@ -31,7 +32,27 @@ async function maybeSendWelcomeEmail(supabase: Awaited<ReturnType<typeof createC
       sendWelcomeEmail({ email: user.email!, name }).catch((err) =>
         console.error('[auth/callback] Failed to send welcome email:', err)
       );
-      pulseTrack('signup', { user_ref: user.id, metadata: { source: 'email' } });
+      // First-touch attribution: persist where the user came from (utm/referrer/
+      // landing) onto their auth metadata + the signup event. Best-effort, never
+      // blocks login. Read by the AttributionTracker cookie set on first visit.
+      let attribution: Record<string, string> | null = null;
+      try {
+        const cookieStore = await cookies();
+        const raw = cookieStore.get('llm_attr')?.value;
+        if (raw && !user.user_metadata?.first_touch_attribution) {
+          attribution = JSON.parse(decodeURIComponent(raw));
+          await supabase.auth.updateUser({ data: { first_touch_attribution: attribution } });
+        }
+      } catch (err) {
+        console.error('[auth/callback] Failed to persist attribution:', err);
+      }
+      pulseTrack('signup', {
+        user_ref: user.id,
+        metadata: {
+          source: attribution?.utm_source || attribution?.ref || 'email',
+          ...(attribution ?? {}),
+        },
+      });
     }
   } catch (err) {
     console.error('[auth/callback] Error in maybeSendWelcomeEmail:', err);

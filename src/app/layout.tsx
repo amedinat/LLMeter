@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import { AttributionTracker } from "@/components/attribution-tracker";
 import "./globals.css";
 
 const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
@@ -129,6 +130,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster richColors position="top-right" />
+        <AttributionTracker />
         <Analytics />
       </body>
     </html>
