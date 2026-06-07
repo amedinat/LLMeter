@@ -1676,4 +1676,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.samsung.com/ai/gauss/docs',
     color: '#1428A0',
   },
+  sony: {
+    type: 'sony',
+    name: 'Sony AI',
+    description: "sony-foundation-7b ($0.09/$0.09 sym — 7B Japanese+English foundation model 96% cheaper GPT-4o), sony-foundation-70b ($0.32/$0.32 sym — 70B enterprise flagship 87% cheaper GPT-4o), sony-creative-7b ($0.10/$0.10 sym — 7B creative/entertainment AI 96% cheaper GPT-4o), sony-creative-70b ($0.42/$1.35 — 70B multimodal creative flagship 84% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 6/8 symmetric — Sony Group Corporation (ソニーグループ株式会社), Minato, Tokyo, Japan. Founded May 7, 1946 by Masaru Ibuka + Akio Morita. TSE: 6758. NYSE: SONY. ~¥13.02T revenue (~$87B USD, FY2024), Fortune Global 500 #76, ~110,000 employees. FIRST Japanese entertainment company on LLMeter. FIRST company to defeat world champions in a racing simulator AND offer LLM inference on LLMeter (Gran Turismo Sophy, Nature 2022). FIRST company to manufacture CMOS image sensors for smartphones AND offer LLM inference on LLMeter (~50% global market share). 11th Japanese AI inference provider. OpenAI-compatible API at api.ai.sony.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sony-ai-api-key',
+    helpUrl: 'https://developer.sony.com/develop/ai/docs',
+    color: '#000000',
+  },
 };

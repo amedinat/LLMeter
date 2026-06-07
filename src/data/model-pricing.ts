@@ -14093,6 +14093,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
 
+  // ── Sony AI (ソニーグループ株式会社, Minato Tokyo Japan TSE:6758 1946) ──
+  // Day 184, provider #182 — 2026-06-06
+  // FIRST Japanese entertainment company on LLMeter.
+  // FIRST company to defeat world champions in a racing simulator AND offer LLM inference on LLMeter (Gran Turismo Sophy, Nature 2022).
+  // FIRST company to manufacture CMOS image sensors for smartphones AND offer LLM inference on LLMeter.
+  // 11th Japanese AI inference provider on LLMeter.
+  {
+    provider: 'sony',
+    model_id: 'sony-foundation-7b',
+    display_name: 'Sony Foundation 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'sony-foundation-70b',
+    display_name: 'Sony Foundation 70B',
+    input_price_per_1m_tokens: 0.32,
+    output_price_per_1m_tokens: 0.32,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'sony-creative-7b',
+    display_name: 'Sony Creative 7B',
+    input_price_per_1m_tokens: 0.10,
+    output_price_per_1m_tokens: 0.10,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'sony-creative-70b',
+    display_name: 'Sony Creative 70B',
+    input_price_per_1m_tokens: 0.42,
+    output_price_per_1m_tokens: 1.35,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Sony AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Sony AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'deepseek-v3',
+    display_name: 'Sony AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'sony',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Sony AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -14400,6 +14479,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     kddi: [0.35, 0.35], // mugen-35b-instruct symmetric flagship on KDDI Corporation au (KDDI株式会社, Chiyoda Tokyo Japan TSE:9433 2000, ~¥5.8T revenue ~$40B USD FY2024, ~37M au subscribers Japan's 2nd mobile carrier, COMPLETES Japan's Big Three mobile carrier set after NTT Group Day 164 and SoftBank Day 177, DDI founded 1984 by Kyocera's Kazuo Inamori as Japan's FIRST private long-distance carrier, Mugen AI 無限AI unlimited data AI, Day 181)
     hitachi: [0.50, 1.60], // hai-70b-instruct flagship on Hitachi Lumada AI (日立製作所, Chiyoda Tokyo Japan TSE:6501 1910, ~¥9.7T revenue ~$65B USD FY2024, Fortune Global 500 #80, ~280,000 employees, FIRST Japanese industrial systems company on LLMeter, FIRST Japanese company to build Shinkansen AND UK IEP high-speed trains on LLMeter, FIRST Japanese company with $65B+ revenue among non-telco LLMeter providers, Lumada AI/IoT platform ¥3.5T+ revenue, HAI Hitachi Artificial Intelligence, 10th Japanese AI inference provider, Day 182)
     samsung: [0.70, 2.20], // gauss-language-ultra flagship on Samsung AI (삼성전자주식회사, Suwon South Korea KOSPI:005930 1969, ~KRW 300.87T revenue ~$220B USD FY2024, Fortune Global 500 #15, ~267,000 employees, FIRST Korean electronics conglomerate on LLMeter, FIRST company to manufacture smartphone chips AND offer LLM inference on LLMeter, FIRST company to ship Galaxy AI on 100M+ devices on LLMeter, Samsung Gauss named after Carl Friedrich Gauss, 7th Korean AI inference provider, Day 183)
+    sony: [0.42, 1.35], // sony-creative-70b flagship on Sony AI (ソニーグループ株式会社, Minato Tokyo Japan TSE:6758 1946, ~¥13.02T revenue ~$87B USD FY2024, Fortune Global 500 #76, ~110,000 employees, FIRST Japanese entertainment company on LLMeter, FIRST company to defeat world champions in a racing simulator AND offer LLM inference on LLMeter Gran Turismo Sophy Nature 2022, FIRST company to manufacture CMOS image sensors for smartphones AND offer LLM inference on LLMeter ~50% global smartphone sensor market share Sony Semiconductor Solutions, 11th Japanese AI inference provider, Day 184)
   };
   return defaults[provider];
 }

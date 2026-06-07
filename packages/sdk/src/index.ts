@@ -186,6 +186,7 @@ export { wrapFujitsu } from './fujitsu.js';
 export { wrapKDDI } from './kddi.js';
 export { wrapHitachi } from './hitachi.js';
 export { wrapSamsung } from './samsung.js';
+export { wrapSony } from './sony.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
