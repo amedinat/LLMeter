@@ -158,6 +158,7 @@ export default function HomePage() {
               <Link href="/#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
               <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
               <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
+              <Link href="/demo" className="transition-colors hover:text-foreground/80 text-foreground/60">Demo</Link>
               <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
               <Link href="/blog" className="transition-colors hover:text-foreground/80 text-foreground/60">Blog</Link>
               <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
@@ -215,7 +216,7 @@ export default function HomePage() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/pricing">See Pricing</Link>
+                <Link href="/demo">See it live — no signup</Link>
               </Button>
               <Button size="lg" variant="ghost" className="text-muted-foreground hover:text-foreground" asChild>
                 <Link href="https://github.com/amedinat/LLMeter" target="_blank">GitHub</Link>
@@ -588,6 +589,9 @@ export default function HomePage() {
                   Start Monitoring for Free
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/demo">See the live demo</Link>
               </Button>
             </div>
             <p className="text-xs text-muted-foreground/60">No credit card required. Free plan never expires.</p>
