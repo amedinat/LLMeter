@@ -1,0 +1,43 @@
+name: Build gate
+
+# Catches broken builds (incl. incomplete provider integrations that skip
+# PROVIDER_META / by_provider wiring and break the TypeScript step) BEFORE
+# they merge. `next build` runs `tsc` type-checking, so this gate is the
+# typecheck gate too.
+#
+# No secrets / env vars are required: env access in the app is lazy (inside
+# route handlers and functions), so a hermetic `pnpm build` with no .env
+# files and no env vars succeeds. Verified 2026-06-06.
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (next build — includes TypeScript type-check)
+        run: pnpm build
