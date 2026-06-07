@@ -354,6 +354,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           toshiba: 0,
           kyocera: 0,
           denso: 0,
+          honda: 0,
         }
       });
     }
@@ -567,6 +568,7 @@ export async function getDailySpend(days = 30): Promise<DailySpend[]> {
           toshiba: 0,
           kyocera: 0,
           denso: 0,
+          honda: 0,
         },
       }
     );

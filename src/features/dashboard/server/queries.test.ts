@@ -237,6 +237,7 @@ const ZERO_PROVIDERS = {
   toshiba: 0,
   kyocera: 0,
   denso: 0,
+  honda: 0,
 };
 
 // --- Tests ---
