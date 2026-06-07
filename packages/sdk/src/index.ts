@@ -191,6 +191,7 @@ export { wrapPanasonic } from './panasonic.js';
 export { wrapSharp } from './sharp.js';
 export { wrapCanon } from './canon.js';
 export { wrapMitsubishi } from './mitsubishi.js';
+export { wrapToshiba } from './toshiba.js';
 
 // Default export for ergonomic usage: `import LLMeter from 'llmeter'`
 export { LLMeter as default } from './client.js';
