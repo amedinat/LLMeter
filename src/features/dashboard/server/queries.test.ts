@@ -229,6 +229,7 @@ const ZERO_PROVIDERS = {
   kddi: 0,
   hitachi: 0,
   samsung: 0,
+  sony: 0,
 };
 
 // --- Tests ---
