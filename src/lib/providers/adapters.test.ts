@@ -179,6 +179,7 @@ import { sonyAdapter } from './sony-adapter';
 import { panasonicAdapter } from './panasonic-adapter';
 import { sharpAdapter } from './sharp-adapter';
 import { canonAdapter } from './canon-adapter';
+import { mitsubishiAdapter } from './mitsubishi-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13505,6 +13506,66 @@ describe('Provider Adapters', () => {
       });
       await expect(canonAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Canon MYRIAD AI API key.'
+      );
+    });
+  });
+
+  describe('mitsubishiAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await mitsubishiAdapter.validateKey('test-mitsubishi-maisart-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.maisart.mitsubishielectric.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-mitsubishi-maisart-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(mitsubishiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Mitsubishi Electric MAISART AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(mitsubishiAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(mitsubishiAdapter.validateKey('')).rejects.toThrow(
+        'Mitsubishi Electric MAISART AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await mitsubishiAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-07')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("mitsubishiAdapter.type is 'mitsubishi'", () => {
+      expect(mitsubishiAdapter.type).toBe('mitsubishi');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(mitsubishiAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Mitsubishi Electric MAISART AI API key.'
       );
     });
   });

@@ -217,6 +217,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         panasonic: 0,
         sharp: 0,
         canon: 0,
+        mitsubishi: 0,
       },
     };
   });

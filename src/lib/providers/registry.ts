@@ -185,6 +185,7 @@ import { sonyAdapter } from './sony-adapter';
 import { panasonicAdapter } from './panasonic-adapter';
 import { sharpAdapter } from './sharp-adapter';
 import { canonAdapter } from './canon-adapter';
+import { mitsubishiAdapter } from './mitsubishi-adapter';
 
 /**
  * Provider adapter registry.
@@ -378,6 +379,7 @@ adapters.set('sony', sonyAdapter);
 adapters.set('panasonic', panasonicAdapter);
 adapters.set('sharp', sharpAdapter);
 adapters.set('canon', canonAdapter);
+adapters.set('mitsubishi', mitsubishiAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
