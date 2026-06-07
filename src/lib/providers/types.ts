@@ -1649,4 +1649,22 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://kozuchi.fujitsu.com/docs',
     color: '#FF0000',
   },
+  kddi: {
+    type: 'kddi',
+    name: 'KDDI AI (Mugen)',
+    description: "mugen-7b ($0.08/$0.08 sym — 7B Japanese base LLM 97% cheaper GPT-4o), mugen-7b-instruct ($0.10/$0.10 sym — 7B instruction-tuned 96% cheaper GPT-4o), mugen-13b ($0.16/$0.16 sym — 13B Japanese general-purpose 94% cheaper GPT-4o), mugen-35b-instruct ($0.35/$0.35 sym — 35B Japanese enterprise flagship 86% cheaper GPT-4o), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 8/8 symmetric — KDDI Corporation (KDDI株式会社, au), Chiyoda, Tokyo, Japan. KDDI formed 2000; roots in DDI founded 1984 by Kyocera's Kazuo Inamori as Japan's FIRST private long-distance carrier. TSE: 9433. ~¥5.8T revenue (~$40B USD, FY2024). ~37M au subscribers, Japan's 2nd mobile carrier. COMPLETES Japan's Big Three mobile carrier set on LLMeter after NTT Group (Day 164) and SoftBank (Day 177). Mugen AI (無限AI). 9th Japanese AI inference provider on LLMeter. OpenAI-compatible API at api.llm.kddi.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-kddi-ai-api-key',
+    helpUrl: 'https://developer.kddi.com/ai/docs',
+    color: '#EB5505',
+  },
+  hitachi: {
+    type: 'hitachi',
+    name: 'Hitachi Lumada AI',
+    description: "hai-7b ($0.09/$0.09 sym — 7B Japanese base LLM 96% cheaper GPT-4o), hai-7b-instruct ($0.12/$0.12 sym — 7B instruction-tuned 95% cheaper GPT-4o), hai-70b ($0.35/$0.35 sym — 70B Japanese flagship base 86% cheaper GPT-4o), hai-70b-instruct ($0.50/$1.60 — 70B RLHF enterprise flagship 80% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Hitachi, Ltd. (日立製作所), Chiyoda, Tokyo, Japan. Founded 1910 by Namihei Odaira. TSE: 6501. ~¥9.7T revenue (~$65B USD, FY2024), Fortune Global 500 #80, ~280,000 employees. FIRST Japanese industrial systems company on LLMeter. FIRST Japanese company to build both the Shinkansen and UK IEP high-speed trains on LLMeter. FIRST Japanese company with $65B+ revenue among non-telco LLMeter providers. Lumada AI/IoT platform (¥3.5T+ revenue). HAI (Hitachi Artificial Intelligence). 10th Japanese AI inference provider on LLMeter. OpenAI-compatible API at api.lumada.hitachi.com/ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-hitachi-lumada-api-key',
+    helpUrl: 'https://developer.hitachi.com/lumada/ai/docs',
+    color: '#CC0000',
+  },
 };

@@ -226,6 +226,8 @@ const ZERO_PROVIDERS = {
   softbank: 0,
   rakuten: 0,
   fujitsu: 0,
+  kddi: 0,
+  hitachi: 0,
 };
 
 // --- Tests ---

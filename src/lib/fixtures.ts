@@ -210,6 +210,8 @@ export function generateDailySpend(days = 30): DailySpend[] {
         softbank: 0,
         rakuten: 0,
         fujitsu: 0,
+        kddi: 0,
+        hitachi: 0,
       },
     };
   });
