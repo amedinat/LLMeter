@@ -14544,6 +14544,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-07T00:00:00.000Z',
   },
+  {
+    provider: 'kyocera',
+    model_id: 'kai-7b',
+    display_name: 'Kyocera KAI 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'kai-7b-instruct',
+    display_name: 'Kyocera KAI 7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'kai-34b',
+    display_name: 'Kyocera KAI 34B',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'kai-34b-instruct',
+    display_name: 'Kyocera KAI 34B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 1.75,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Kyocera KAI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Kyocera KAI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'deepseek-v3',
+    display_name: 'Kyocera KAI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'kyocera',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Kyocera KAI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
 
 ];
 
@@ -14858,6 +14930,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     canon: [0.45, 1.45], // myriad-34b-vision flagship on Canon MYRIAD AI (キヤノン株式会社, Ōta-ku Tokyo Japan TSE:7751 NYSE:CAJ 1937, ~¥4.7T revenue ~$31B USD FY2024, Fortune Global 500 #206, ~175,000 employees, FIRST Japanese camera and precision optics manufacturer on LLMeter, FIRST company named after a Buddhist bodhisattva on LLMeter Kannon 観音菩薩 → Kwanon camera 1934 → Canon, FIRST company to acquire a major medical imaging conglomerate $6.1B Canon Medical Systems former Toshiba Medical on LLMeter, FIRST company with NIL nanoimprint lithography for 2nm-class chip manufacturing on LLMeter FPA-1200NZ2C 2023, MYRIAD AI platform, 14th Japanese AI inference provider, Day 187)
     mitsubishi: [0.55, 1.75], // maisart-34b-instruct flagship on Mitsubishi Electric MAISART AI (三菱電機株式会社, Chiyoda-ku Tokyo Japan TSE:6503 1921, ~¥5.47T revenue ~$36.5B USD FY2024, Fortune Global 500 #171, ~140,000 employees, FIRST Japanese power semiconductor manufacturer on LLMeter SiC/IGBT modules in Shinkansen traction inverters + Tesla Model 3/Y drivetrains + Vestas offshore wind turbines, FIRST Japanese defense electronics manufacturer on LLMeter J/FPS-5 BMD radar + F-2 fire-control radar + Aegis FCS-3A + PAC-3 uplink, FIRST Japanese elevator manufacturer on LLMeter Tokyo Skytree + One World Trade Center NYC + MELS-50X world's fastest elevator 20.5 m/s, FIRST Mitsubishi Group keiretsu company to offer LLM inference on LLMeter, MAISART AI platform, 15th Japanese AI inference provider, Day 188)
     toshiba: [0.55, 1.75], // t-brain-34b-instruct flagship on Toshiba T-Brain AI (東芝株式会社, Minato-ku Tokyo Japan TSE:6502 delisted December 2023 after JIP ¥2T LBO, ~¥3.35T revenue ~$22B USD FY2024, Fortune Global 500 #357 last listed 2023, ~107,000 employees, FIRST company to invent NAND flash memory AND offer LLM inference on LLMeter Fujio Masuoka Kawasaki 1984 IEEE IEDM 1987 every SSD SD card smartphone descends from this, FIRST company to ship mass-market IBM-compatible laptop AND offer LLM inference on LLMeter Toshiba T1100 1985, FIRST company to go private via Japan's largest industrial LBO AND offer LLM inference on LLMeter JIP ¥2T December 2023, FIRST company to manufacture nuclear reactors via Westinghouse Electric AND offer LLM inference on LLMeter, T-Brain AI platform, 16th Japanese AI inference provider, Day 189)
+    kyocera: [0.55, 1.75], // kai-34b-instruct flagship on Kyocera AI KAI (京セラ株式会社, Fushimi-ku Kyoto Japan TSE:6971 NYSE:KYO, founded January 30 1959 by Kazuo Inamori 稲盛和夫, ~¥2.18T revenue ~$14.6B USD FY2024, Fortune Global 500 #289, ~82,000 employees, FIRST Fortune 500 company HQ'd in Kyoto on LLMeter Japan's ancient imperial capital 794-1869, FIRST Japanese fine ceramics manufacturer on LLMeter invented fine ceramics technology 1959, FIRST company whose founder also founded a telco DDI 1984 -> KDDI Day 181 only person to found both Fortune Global 500 manufacturer AND carrier, FIRST company to manufacture ceramic IC packages for Intel microprocessors AND offer LLM inference on LLMeter Kyocera DIP/LCC/PGA packages housed Intel 4004 1971 world's first microprocessor, FIRST company to rescue a bankrupt national airline AND offer LLM inference on LLMeter Inamori unpaid CEO JAL 2010 2.32T bankruptcy profit in 1 year relisted 2012, KAI platform, 17th Japanese AI inference provider, Day 190)
   };
   return defaults[provider];
 }

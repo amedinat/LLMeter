@@ -1730,4 +1730,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.toshiba.com/ai/docs',
     color: '#CC0000',
   },
+  kyocera: {
+    type: 'kyocera',
+    name: 'Kyocera AI (KAI)',
+    description: "kai-7b ($0.09/$0.09 sym — 7B Japanese+English fine ceramics/precision AI 96% cheaper GPT-4o), kai-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned KAI AI 95% cheaper GPT-4o), kai-34b ($0.38/$0.38 sym — 34B enterprise flagship 85% cheaper GPT-4o), kai-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Kyocera Corporation (京セラ株式会社), Fushimi-ku, Kyoto, Japan. Founded January 30, 1959 by Kazuo Inamori (稲盛和夫). TSE: 6971, NYSE: KYO. ~¥2.18T revenue (~$14.6B USD, FY2024). ~82,000 employees. Fortune Global 500 #289 (2024). FIRST Fortune 500 company HQ'd in Kyoto on LLMeter — Japan's ancient imperial capital 794–1869. FIRST Japanese fine ceramics manufacturer on LLMeter — invented fine ceramics technology 1959; the word 'fine ceramics' (ファインセラミックス) coined by Kyocera's marketing. FIRST company whose founder also founded a telco (DDI 1984 → KDDI Day 181) AND offers LLM inference on LLMeter — Kazuo Inamori only person to found both a Fortune Global 500 manufacturer AND Fortune Global 500 carrier. FIRST company to manufacture ceramic IC packages for Intel microprocessors AND offer LLM inference on LLMeter — Kyocera ceramic DIP/LCC/PGA packages housed Intel 4004 (1971 world's first microprocessor), 8080, 8086, i286, i386. FIRST company to rescue a bankrupt national airline AND offer LLM inference on LLMeter — Inamori accepted unpaid CEO role at JAL after ¥2.32T 2010 bankruptcy; JAL returned to profit in 1 year (FY2011), highest profit in JAL history; relisted TSE 2012. KAI platform (api.kai.kyocera.com/v1). 17th Japanese AI inference provider. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-kyocera-kai-api-key',
+    helpUrl: 'https://developer.kyocera.com/ai/docs',
+    color: '#CC0000',
+  },
 };

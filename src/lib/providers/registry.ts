@@ -187,6 +187,7 @@ import { sharpAdapter } from './sharp-adapter';
 import { canonAdapter } from './canon-adapter';
 import { mitsubishiAdapter } from './mitsubishi-adapter';
 import { toshibaAdapter } from './toshiba-adapter';
+import { kyoceraAdapter } from './kyocera-adapter';
 
 /**
  * Provider adapter registry.
@@ -382,6 +383,7 @@ adapters.set('sharp', sharpAdapter);
 adapters.set('canon', canonAdapter);
 adapters.set('mitsubishi', mitsubishiAdapter);
 adapters.set('toshiba', toshibaAdapter);
+adapters.set('kyocera', kyoceraAdapter);
 
 export function registerAdapter(adapter: ProviderAdapter) {
   adapters.set(adapter.type, adapter);
