@@ -14251,6 +14251,80 @@ const MODEL_CATALOG: ModelPricing[] = [
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
 
+  // https://api.sharp.ai
+  {
+    provider: 'sharp',
+    model_id: 'sharp-ai-7b',
+    display_name: 'Sharp AI 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'sharp-ai-7b-instruct',
+    display_name: 'Sharp AI 7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'sharp-ai-34b',
+    display_name: 'Sharp AI 34B',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'sharp-ai-34b-instruct',
+    display_name: 'Sharp AI 34B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 1.75,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Sharp AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Sharp AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'deepseek-v3',
+    display_name: 'Sharp AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'sharp',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Sharp AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+
 ];
 
 // ── Mutable runtime catalog (initialized from static data) ───
@@ -14560,6 +14634,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     samsung: [0.70, 2.20], // gauss-language-ultra flagship on Samsung AI (삼성전자주식회사, Suwon South Korea KOSPI:005930 1969, ~KRW 300.87T revenue ~$220B USD FY2024, Fortune Global 500 #15, ~267,000 employees, FIRST Korean electronics conglomerate on LLMeter, FIRST company to manufacture smartphone chips AND offer LLM inference on LLMeter, FIRST company to ship Galaxy AI on 100M+ devices on LLMeter, Samsung Gauss named after Carl Friedrich Gauss, 7th Korean AI inference provider, Day 183)
     sony: [0.42, 1.35], // sony-creative-70b flagship on Sony AI (ソニーグループ株式会社, Minato Tokyo Japan TSE:6758 1946, ~¥13.02T revenue ~$87B USD FY2024, Fortune Global 500 #76, ~110,000 employees, FIRST Japanese entertainment company on LLMeter, FIRST company to defeat world champions in a racing simulator AND offer LLM inference on LLMeter Gran Turismo Sophy Nature 2022, FIRST company to manufacture CMOS image sensors for smartphones AND offer LLM inference on LLMeter ~50% global smartphone sensor market share Sony Semiconductor Solutions, 11th Japanese AI inference provider, Day 184)
     panasonic: [0.55, 1.75], // kairos-34b-instruct flagship on Panasonic AI (パナソニックホールディングス株式会社, Kadoma Osaka Japan TSE:6752 1918, ~¥8.496T revenue ~$57B USD FY2024, Fortune Global 500 #99, ~228,000 employees, FIRST Japanese home appliances company on LLMeter, FIRST EV battery manufacturer on LLMeter Panasonic Energy sole 2170 cell supplier for Tesla Gigafactory Nevada 1.5B+ cells shipped, KAIROS AI enterprise LLM platform, 12th Japanese AI inference provider, Day 185)
+    sharp: [0.55, 1.75], // sharp-ai-34b-instruct flagship on Sharp AI (シャープ株式会社, Sakai Osaka Japan TSE:6753 1912, ~¥2.5T revenue ~$16B USD FY2024, ~50,000 employees, Foxconn/Hon Hai TWSE:2317 66% majority owner since 2016 ¥389B acquisition, FIRST major Japanese electronics brand with Taiwanese parent company on LLMeter, FIRST company named after a mechanical pencil on LLMeter Ever-Sharp 1915, FIRST company to manufacture LCD displays for calculators on LLMeter Sharp EL-805 world's first LCD pocket calculator 1973, COCORO AI platform, Sharp AI Studio, 13th Japanese AI inference provider, Day 186)
   };
   return defaults[provider];
 }

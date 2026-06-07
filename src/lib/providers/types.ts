@@ -1694,4 +1694,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.panasonic.com/ai/docs',
     color: '#0046BE',
   },
+  sharp: {
+    type: 'sharp',
+    name: 'Sharp AI',
+    description: "sharp-ai-7b ($0.09/$0.09 sym — 7B Japanese+English home/IoT LLM 96% cheaper GPT-4o), sharp-ai-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned COCORO AI 95% cheaper GPT-4o), sharp-ai-34b ($0.38/$0.38 sym — 34B enterprise AQUOS display AI flagship 85% cheaper GPT-4o), sharp-ai-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 6/8 symmetric — Sharp Corporation (シャープ株式会社), Sakai, Osaka, Japan. Founded September 15, 1912 by Tokuji Hayakawa (早川徳次). TSE: 6753. ~¥2.5T revenue (~$16B USD, FY2024). ~50,000 employees. FIRST major Japanese electronics brand with a Taiwanese parent company on LLMeter — Foxconn (Hon Hai, TWSE:2317) acquired 66% in 2016 for ¥389B ($3.5B). FIRST company named after a mechanical pencil AND offering LLM inference on LLMeter (Ever-Sharp pencil, 1915). FIRST company to manufacture LCD displays for calculators on LLMeter (Sharp EL-805, world's first LCD pocket calculator, 1973). COCORO AI (こころ) platform. Sharp AI Studio developer API. 13th Japanese AI inference provider. OpenAI-compatible API at api.sharp.ai/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-sharp-ai-api-key',
+    helpUrl: 'https://developer.sharp.ai/docs',
+    color: '#E20714',
+  },
 };
