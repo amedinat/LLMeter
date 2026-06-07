@@ -1721,4 +1721,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.mitsubishielectric.com/ai/docs',
     color: '#E60012',
   },
+  toshiba: {
+    type: 'toshiba',
+    name: 'Toshiba T-Brain AI',
+    description: "t-brain-7b ($0.09/$0.09 sym — 7B Japanese+English industrial AI 96% cheaper GPT-4o), t-brain-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned T-Brain AI 95% cheaper GPT-4o), t-brain-34b ($0.40/$0.40 sym — 34B enterprise flagship 84% cheaper GPT-4o), t-brain-34b-instruct ($0.55/$1.75 — 34B RLHF flagship 78% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Toshiba Corporation (東芝株式会社), Minato-ku, Tokyo, Japan. Founded January 4, 1875 (as Tanaka Seizo-sho by Hisashige Tanaka). TSE: 6502 (delisted December 2023 after JIP ¥2T/$13.5B LBO). ~¥3.35T revenue (~$22B USD, FY2024). ~107,000 employees. Fortune Global 500 #357 (2023). FIRST company to invent NAND flash memory AND offer LLM inference on LLMeter — Fujio Masuoka, Toshiba Kawasaki R&D lab, 1984; presented IEEE IEDM 1987; every SSD, SD card, smartphone, data centre flash array descends from this invention. FIRST company to ship a mass-market IBM-compatible laptop AND offer LLM inference on LLMeter — Toshiba T1100, 1985; defined the laptop form factor. FIRST company to go private via Japan's largest industrial LBO AND offer LLM inference on LLMeter — JIP ¥2T buyout December 2023, TSE delisted after 74 years. FIRST company to manufacture nuclear reactors via Westinghouse Electric AND offer LLM inference on LLMeter — acquired Westinghouse 2006, AP1000 reactors in US/China, sold 2018. T-Brain AI platform (api.t-brain.toshiba.com/v1). 16th Japanese AI inference provider. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-toshiba-tbrain-api-key',
+    helpUrl: 'https://developer.toshiba.com/ai/docs',
+    color: '#CC0000',
+  },
 };

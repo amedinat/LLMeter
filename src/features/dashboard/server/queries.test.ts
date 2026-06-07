@@ -234,6 +234,7 @@ const ZERO_PROVIDERS = {
   sharp: 0,
   canon: 0,
   mitsubishi: 0,
+  toshiba: 0,
 };
 
 // --- Tests ---
