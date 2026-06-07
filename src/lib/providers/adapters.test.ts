@@ -177,6 +177,7 @@ import { hitachiAdapter } from './hitachi-adapter';
 import { samsungAdapter } from './samsung-adapter';
 import { sonyAdapter } from './sony-adapter';
 import { panasonicAdapter } from './panasonic-adapter';
+import { sharpAdapter } from './sharp-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13383,6 +13384,66 @@ describe('Provider Adapters', () => {
       });
       await expect(panasonicAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Panasonic AI API key.'
+      );
+    });
+  });
+
+  describe('sharpAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await sharpAdapter.validateKey('test-sharp-ai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.sharp.ai/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-sharp-ai-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(sharpAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Sharp AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(sharpAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(sharpAdapter.validateKey('')).rejects.toThrow(
+        'Sharp AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await sharpAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-07')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("sharpAdapter.type is 'sharp'", () => {
+      expect(sharpAdapter.type).toBe('sharp');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(sharpAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Sharp AI API key.'
       );
     });
   });
