@@ -232,6 +232,7 @@ const ZERO_PROVIDERS = {
   sony: 0,
   panasonic: 0,
   sharp: 0,
+  canon: 0,
 };
 
 // --- Tests ---

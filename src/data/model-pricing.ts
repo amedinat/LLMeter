@@ -14324,6 +14324,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-07T00:00:00.000Z',
   },
+  {
+    provider: 'canon',
+    model_id: 'myriad-7b',
+    display_name: 'Canon MYRIAD 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'myriad-7b-instruct',
+    display_name: 'Canon MYRIAD 7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'myriad-34b',
+    display_name: 'Canon MYRIAD 34B',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'myriad-34b-vision',
+    display_name: 'Canon MYRIAD 34B Vision',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 1.45,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Canon MYRIAD: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Canon MYRIAD: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'deepseek-v3',
+    display_name: 'Canon MYRIAD: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'canon',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Canon MYRIAD: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
 
 ];
 
@@ -14635,6 +14707,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     sony: [0.42, 1.35], // sony-creative-70b flagship on Sony AI (ソニーグループ株式会社, Minato Tokyo Japan TSE:6758 1946, ~¥13.02T revenue ~$87B USD FY2024, Fortune Global 500 #76, ~110,000 employees, FIRST Japanese entertainment company on LLMeter, FIRST company to defeat world champions in a racing simulator AND offer LLM inference on LLMeter Gran Turismo Sophy Nature 2022, FIRST company to manufacture CMOS image sensors for smartphones AND offer LLM inference on LLMeter ~50% global smartphone sensor market share Sony Semiconductor Solutions, 11th Japanese AI inference provider, Day 184)
     panasonic: [0.55, 1.75], // kairos-34b-instruct flagship on Panasonic AI (パナソニックホールディングス株式会社, Kadoma Osaka Japan TSE:6752 1918, ~¥8.496T revenue ~$57B USD FY2024, Fortune Global 500 #99, ~228,000 employees, FIRST Japanese home appliances company on LLMeter, FIRST EV battery manufacturer on LLMeter Panasonic Energy sole 2170 cell supplier for Tesla Gigafactory Nevada 1.5B+ cells shipped, KAIROS AI enterprise LLM platform, 12th Japanese AI inference provider, Day 185)
     sharp: [0.55, 1.75], // sharp-ai-34b-instruct flagship on Sharp AI (シャープ株式会社, Sakai Osaka Japan TSE:6753 1912, ~¥2.5T revenue ~$16B USD FY2024, ~50,000 employees, Foxconn/Hon Hai TWSE:2317 66% majority owner since 2016 ¥389B acquisition, FIRST major Japanese electronics brand with Taiwanese parent company on LLMeter, FIRST company named after a mechanical pencil on LLMeter Ever-Sharp 1915, FIRST company to manufacture LCD displays for calculators on LLMeter Sharp EL-805 world's first LCD pocket calculator 1973, COCORO AI platform, Sharp AI Studio, 13th Japanese AI inference provider, Day 186)
+    canon: [0.45, 1.45], // myriad-34b-vision flagship on Canon MYRIAD AI (キヤノン株式会社, Ōta-ku Tokyo Japan TSE:7751 NYSE:CAJ 1937, ~¥4.7T revenue ~$31B USD FY2024, Fortune Global 500 #206, ~175,000 employees, FIRST Japanese camera and precision optics manufacturer on LLMeter, FIRST company named after a Buddhist bodhisattva on LLMeter Kannon 観音菩薩 → Kwanon camera 1934 → Canon, FIRST company to acquire a major medical imaging conglomerate $6.1B Canon Medical Systems former Toshiba Medical on LLMeter, FIRST company with NIL nanoimprint lithography for 2nm-class chip manufacturing on LLMeter FPA-1200NZ2C 2023, MYRIAD AI platform, 14th Japanese AI inference provider, Day 187)
   };
   return defaults[provider];
 }

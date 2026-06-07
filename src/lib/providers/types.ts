@@ -1703,4 +1703,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.sharp.ai/docs',
     color: '#E20714',
   },
+  canon: {
+    type: 'canon',
+    name: 'Canon MYRIAD AI',
+    description: "myriad-7b ($0.09/$0.09 sym — 7B Japanese+English document/optics LLM 96% cheaper GPT-4o), myriad-7b-instruct ($0.11/$0.11 sym — 7B instruction-tuned MYRIAD AI 95% cheaper GPT-4o), myriad-34b ($0.38/$0.38 sym — 34B enterprise flagship 85% cheaper GPT-4o), myriad-34b-vision ($0.45/$1.45 — 34B multimodal vision document+medical AI 83% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 7/8 symmetric — Canon Inc. (キヤノン株式会社), Ōta-ku, Tokyo, Japan. Founded August 10, 1937 by Goro Yoshida (吉田五郎) and Saburo Uchida (内田三郎). TSE: 7751. NYSE: CAJ. ~¥4.7T revenue (~$31B USD, FY2024). ~175,000 employees. Fortune Global 500 #206 (2024). FIRST Japanese camera and precision optics manufacturer on LLMeter. FIRST company named after a Buddhist bodhisattva on LLMeter — named after Kannon (観音菩薩), the Bodhisattva of mercy; first camera prototype (1934) called 'Kwanon'. FIRST company to acquire a major medical imaging conglomerate ($6.1B) AND offer LLM inference on LLMeter — Canon Medical Systems (former Toshiba Medical), world's #2 medical imaging company. FIRST company with nanoimprint lithography (NIL) for 2nm-class chip manufacturing on LLMeter — FPA-1200NZ2C (2023), credible ASML EUV alternative. MYRIAD AI platform (api.myriad.canon/v1, Canon's own .canon gTLD). 14th Japanese AI inference provider. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-canon-myriad-api-key',
+    helpUrl: 'https://developer.canon/ai/docs',
+    color: '#CC0000',
+  },
 };
