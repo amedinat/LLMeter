@@ -180,6 +180,7 @@ export default async function PricingPage({
               <Link href="/#how-it-works" className="transition-colors hover:text-foreground/80 text-foreground/60">How It Works</Link>
               <Link href="/#features" className="transition-colors hover:text-foreground/80 text-foreground/60">Features</Link>
               <Link href="/models" className="transition-colors hover:text-foreground/80 text-foreground/60">Model Pricing</Link>
+              <Link href="/demo" className="transition-colors hover:text-foreground/80 text-foreground/60">Demo</Link>
               <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground">Pricing</Link>
               <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
             </nav>
