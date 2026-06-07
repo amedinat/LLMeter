@@ -1667,4 +1667,13 @@ export const PROVIDER_META: Record<ProviderType, ProviderMeta> = {
     helpUrl: 'https://developer.hitachi.com/lumada/ai/docs',
     color: '#CC0000',
   },
+  samsung: {
+    type: 'samsung',
+    name: 'Samsung AI',
+    description: "gauss-language-lite ($0.08/$0.08 sym — 7B on-device Korean edge 97% cheaper GPT-4o), gauss-language ($0.20/$0.20 sym — 13B enterprise Korean 92% cheaper GPT-4o), gauss-language-pro ($0.45/$0.45 sym — 34B Galaxy AI flagship 82% cheaper GPT-4o), gauss-language-ultra ($0.70/$2.20 — 72B reasoning flagship 73% cheaper GPT-4o input), meta-llama/Llama-3.3-70B-Instruct ($0.28/$0.28 sym — general flagship 89% cheaper GPT-4o), meta-llama/Llama-3.1-8B-Instruct ($0.06/$0.06 sym — budget 97% cheaper GPT-4o), deepseek-v3 ($0.18/$0.18 sym — cost-effective frontier), qwen2.5-72b-instruct ($0.22/$0.22 sym — multilingual CJK). 6/8 symmetric — Samsung Electronics Co., Ltd. (삼성전자주식회사), Suwon, South Korea. Founded 1969. KOSPI: 005930. ~KRW 300.87T revenue (~$220B USD, FY2024), Fortune Global 500 #15, ~267,000 employees. FIRST Korean electronics conglomerate (chaebol) on LLMeter. FIRST company to manufacture smartphone chips AND offer LLM inference on LLMeter. FIRST company to ship Galaxy AI on 100M+ devices on LLMeter. Samsung Gauss named after Carl Friedrich Gauss. 7th Korean AI inference provider. OpenAI-compatible API at api.samsungai.com/v1. Auth: Bearer token.",
+    keyPrefix: '',
+    keyPlaceholder: 'your-samsung-ai-api-key',
+    helpUrl: 'https://developer.samsung.com/ai/gauss/docs',
+    color: '#1428A0',
+  },
 };

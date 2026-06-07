@@ -228,6 +228,7 @@ const ZERO_PROVIDERS = {
   fujitsu: 0,
   kddi: 0,
   hitachi: 0,
+  samsung: 0,
 };
 
 // --- Tests ---

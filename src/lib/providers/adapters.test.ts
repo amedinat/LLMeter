@@ -174,6 +174,7 @@ import { rakutenAdapter } from './rakuten-adapter';
 import { fujitsuAdapter } from './fujitsu-adapter';
 import { kddiAdapter } from './kddi-adapter';
 import { hitachiAdapter } from './hitachi-adapter';
+import { samsungAdapter } from './samsung-adapter';
 
 // Mock fetch
 const fetchMock = vi.fn();
@@ -13200,6 +13201,66 @@ describe('Provider Adapters', () => {
       });
       await expect(hitachiAdapter.validateKey('bad-key')).rejects.toThrow(
         'Invalid Hitachi Lumada AI API key.'
+      );
+    });
+  });
+
+  describe('samsungAdapter', () => {
+    it('validates a good key via GET /v1/models', async () => {
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ data: [] }) });
+      const result = await samsungAdapter.validateKey('test-samsung-ai-api-key');
+      expect(result).toBe(true);
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://api.samsungai.com/v1/models',
+        expect.objectContaining({
+          headers: { Authorization: 'Bearer test-samsung-ai-api-key' },
+        })
+      );
+    });
+
+    it('throws on 401 with a helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 401, json: async () => ({}),
+      });
+      await expect(samsungAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Samsung AI API key.'
+      );
+    });
+
+    it('throws on non-401 API error', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 500, json: async () => ({ error: { message: 'Server error' } }),
+      });
+      await expect(samsungAdapter.validateKey('some-key')).rejects.toThrow(
+        'Server error'
+      );
+    });
+
+    it('throws when key is empty', async () => {
+      await expect(samsungAdapter.validateKey('')).rejects.toThrow(
+        'Samsung AI API key is missing.'
+      );
+    });
+
+    it('fetchUsage returns an empty array', async () => {
+      const records = await samsungAdapter.fetchUsage(
+        'test-key',
+        new Date('2026-06-01'),
+        new Date('2026-06-06')
+      );
+      expect(records).toEqual([]);
+    });
+
+    it("samsungAdapter.type is 'samsung'", () => {
+      expect(samsungAdapter.type).toBe('samsung');
+    });
+
+    it('throws on 403 with helpful message', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false, status: 403, json: async () => ({ error: { message: 'Forbidden' } }),
+      });
+      await expect(samsungAdapter.validateKey('bad-key')).rejects.toThrow(
+        'Invalid Samsung AI API key.'
       );
     });
   });

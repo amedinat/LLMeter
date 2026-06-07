@@ -14013,6 +14013,85 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-06T00:00:00.000Z',
   },
+  // ── Samsung AI (Samsung Gauss) — Day 183, provider #181 ─────────────────────────────
+  // Samsung Electronics Co., Ltd. (삼성전자주식회사) — Suwon, Gyeonggi-do, South Korea.
+  // KOSPI: 005930. ~KRW 300.87T revenue (~$220B USD, FY2024). Fortune Global 500 #15.
+  // FIRST Korean electronics conglomerate (chaebol) on LLMeter.
+  // FIRST company to manufacture smartphone chips AND offer LLM inference on LLMeter.
+  // FIRST company to ship Galaxy AI on 100M+ devices on LLMeter.
+  // 7th Korean AI inference provider on LLMeter.
+  {
+    provider: 'samsung',
+    model_id: 'gauss-language-lite',
+    display_name: 'Samsung Gauss Language Lite',
+    input_price_per_1m_tokens: 0.08,
+    output_price_per_1m_tokens: 0.08,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'gauss-language',
+    display_name: 'Samsung Gauss Language',
+    input_price_per_1m_tokens: 0.20,
+    output_price_per_1m_tokens: 0.20,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'gauss-language-pro',
+    display_name: 'Samsung Gauss Language Pro',
+    input_price_per_1m_tokens: 0.45,
+    output_price_per_1m_tokens: 0.45,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'gauss-language-ultra',
+    display_name: 'Samsung Gauss Language Ultra',
+    input_price_per_1m_tokens: 0.70,
+    output_price_per_1m_tokens: 2.20,
+    capability_tier: 'premium',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Samsung AI: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Samsung AI: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'budget',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'deepseek-v3',
+    display_name: 'Samsung AI: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
+  {
+    provider: 'samsung',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Samsung AI: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-06T00:00:00.000Z',
+  },
 
 ];
 
@@ -14320,6 +14399,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     fujitsu: [0.40, 0.40], // takane-34b flagship on Fujitsu AI Kozuchi (富士通株式会社, Minato Tokyo Japan TSE:6702 1935, ~¥3.7T revenue ~$25B USD FY2024, Fortune Global 500 #341, FIRST Japanese supercomputer company on LLMeter, built Fugaku 富岳 world's #1 TOP500 supercomputer June 2020-June 2021 442 petaflops A64FX Arm CPU, FIRST company with TOP500 #1 supercomputer to offer LLM inference on LLMeter, FIRST company to achieve world's fastest supercomputer with Arm-based CPUs on LLMeter, Takane LLM たかね high peak summit trained on Fugaku-class A64FX HPC infra, 8th Japanese AI inference provider, Day 180)
     kddi: [0.35, 0.35], // mugen-35b-instruct symmetric flagship on KDDI Corporation au (KDDI株式会社, Chiyoda Tokyo Japan TSE:9433 2000, ~¥5.8T revenue ~$40B USD FY2024, ~37M au subscribers Japan's 2nd mobile carrier, COMPLETES Japan's Big Three mobile carrier set after NTT Group Day 164 and SoftBank Day 177, DDI founded 1984 by Kyocera's Kazuo Inamori as Japan's FIRST private long-distance carrier, Mugen AI 無限AI unlimited data AI, Day 181)
     hitachi: [0.50, 1.60], // hai-70b-instruct flagship on Hitachi Lumada AI (日立製作所, Chiyoda Tokyo Japan TSE:6501 1910, ~¥9.7T revenue ~$65B USD FY2024, Fortune Global 500 #80, ~280,000 employees, FIRST Japanese industrial systems company on LLMeter, FIRST Japanese company to build Shinkansen AND UK IEP high-speed trains on LLMeter, FIRST Japanese company with $65B+ revenue among non-telco LLMeter providers, Lumada AI/IoT platform ¥3.5T+ revenue, HAI Hitachi Artificial Intelligence, 10th Japanese AI inference provider, Day 182)
+    samsung: [0.70, 2.20], // gauss-language-ultra flagship on Samsung AI (삼성전자주식회사, Suwon South Korea KOSPI:005930 1969, ~KRW 300.87T revenue ~$220B USD FY2024, Fortune Global 500 #15, ~267,000 employees, FIRST Korean electronics conglomerate on LLMeter, FIRST company to manufacture smartphone chips AND offer LLM inference on LLMeter, FIRST company to ship Galaxy AI on 100M+ devices on LLMeter, Samsung Gauss named after Carl Friedrich Gauss, 7th Korean AI inference provider, Day 183)
   };
   return defaults[provider];
 }

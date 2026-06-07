@@ -212,6 +212,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         fujitsu: 0,
         kddi: 0,
         hitachi: 0,
+        samsung: 0,
       },
     };
   });
