@@ -230,6 +230,7 @@ const ZERO_PROVIDERS = {
   hitachi: 0,
   samsung: 0,
   sony: 0,
+  panasonic: 0,
 };
 
 // --- Tests ---
