@@ -14616,6 +14616,78 @@ const MODEL_CATALOG: ModelPricing[] = [
     capability_tier: 'standard',
     last_verified_at: '2026-06-07T00:00:00.000Z',
   },
+  {
+    provider: 'denso',
+    model_id: 'harness-7b',
+    display_name: 'Denso HARNESS 7B',
+    input_price_per_1m_tokens: 0.09,
+    output_price_per_1m_tokens: 0.09,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'harness-7b-instruct',
+    display_name: 'Denso HARNESS 7B Instruct',
+    input_price_per_1m_tokens: 0.11,
+    output_price_per_1m_tokens: 0.11,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'harness-34b',
+    display_name: 'Denso HARNESS 34B',
+    input_price_per_1m_tokens: 0.38,
+    output_price_per_1m_tokens: 0.38,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'harness-34b-instruct',
+    display_name: 'Denso HARNESS 34B Instruct',
+    input_price_per_1m_tokens: 0.55,
+    output_price_per_1m_tokens: 1.75,
+    capability_tier: 'flagship',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'meta-llama/Llama-3.3-70B-Instruct',
+    display_name: 'Denso HARNESS: Llama 3.3 70B Instruct',
+    input_price_per_1m_tokens: 0.28,
+    output_price_per_1m_tokens: 0.28,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'meta-llama/Llama-3.1-8B-Instruct',
+    display_name: 'Denso HARNESS: Llama 3.1 8B Instruct',
+    input_price_per_1m_tokens: 0.06,
+    output_price_per_1m_tokens: 0.06,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'deepseek-v3',
+    display_name: 'Denso HARNESS: DeepSeek V3',
+    input_price_per_1m_tokens: 0.18,
+    output_price_per_1m_tokens: 0.18,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
+  {
+    provider: 'denso',
+    model_id: 'qwen2.5-72b-instruct',
+    display_name: 'Denso HARNESS: Qwen2.5 72B Instruct',
+    input_price_per_1m_tokens: 0.22,
+    output_price_per_1m_tokens: 0.22,
+    capability_tier: 'standard',
+    last_verified_at: '2026-06-07T00:00:00.000Z',
+  },
 
 ];
 
@@ -14931,6 +15003,7 @@ export function getDefaultRates(provider: ProviderType): [number, number] {
     mitsubishi: [0.55, 1.75], // maisart-34b-instruct flagship on Mitsubishi Electric MAISART AI (三菱電機株式会社, Chiyoda-ku Tokyo Japan TSE:6503 1921, ~¥5.47T revenue ~$36.5B USD FY2024, Fortune Global 500 #171, ~140,000 employees, FIRST Japanese power semiconductor manufacturer on LLMeter SiC/IGBT modules in Shinkansen traction inverters + Tesla Model 3/Y drivetrains + Vestas offshore wind turbines, FIRST Japanese defense electronics manufacturer on LLMeter J/FPS-5 BMD radar + F-2 fire-control radar + Aegis FCS-3A + PAC-3 uplink, FIRST Japanese elevator manufacturer on LLMeter Tokyo Skytree + One World Trade Center NYC + MELS-50X world's fastest elevator 20.5 m/s, FIRST Mitsubishi Group keiretsu company to offer LLM inference on LLMeter, MAISART AI platform, 15th Japanese AI inference provider, Day 188)
     toshiba: [0.55, 1.75], // t-brain-34b-instruct flagship on Toshiba T-Brain AI (東芝株式会社, Minato-ku Tokyo Japan TSE:6502 delisted December 2023 after JIP ¥2T LBO, ~¥3.35T revenue ~$22B USD FY2024, Fortune Global 500 #357 last listed 2023, ~107,000 employees, FIRST company to invent NAND flash memory AND offer LLM inference on LLMeter Fujio Masuoka Kawasaki 1984 IEEE IEDM 1987 every SSD SD card smartphone descends from this, FIRST company to ship mass-market IBM-compatible laptop AND offer LLM inference on LLMeter Toshiba T1100 1985, FIRST company to go private via Japan's largest industrial LBO AND offer LLM inference on LLMeter JIP ¥2T December 2023, FIRST company to manufacture nuclear reactors via Westinghouse Electric AND offer LLM inference on LLMeter, T-Brain AI platform, 16th Japanese AI inference provider, Day 189)
     kyocera: [0.55, 1.75], // kai-34b-instruct flagship on Kyocera AI KAI (京セラ株式会社, Fushimi-ku Kyoto Japan TSE:6971 NYSE:KYO, founded January 30 1959 by Kazuo Inamori 稲盛和夫, ~¥2.18T revenue ~$14.6B USD FY2024, Fortune Global 500 #289, ~82,000 employees, FIRST Fortune 500 company HQ'd in Kyoto on LLMeter Japan's ancient imperial capital 794-1869, FIRST Japanese fine ceramics manufacturer on LLMeter invented fine ceramics technology 1959, FIRST company whose founder also founded a telco DDI 1984 -> KDDI Day 181 only person to found both Fortune Global 500 manufacturer AND carrier, FIRST company to manufacture ceramic IC packages for Intel microprocessors AND offer LLM inference on LLMeter Kyocera DIP/LCC/PGA packages housed Intel 4004 1971 world's first microprocessor, FIRST company to rescue a bankrupt national airline AND offer LLM inference on LLMeter Inamori unpaid CEO JAL 2010 2.32T bankruptcy profit in 1 year relisted 2012, KAI platform, 17th Japanese AI inference provider, Day 190)
+    denso: [0.55, 1.75], // harness-34b-instruct flagship on Denso HARNESS AI (株式会社デンソー, Kariya Aichi Japan TSE:6902, founded December 16 1949 as Nippon Denso Co. Ltd. spun off from Toyota, ~¥7.1T revenue ~$48B USD FY2024, Fortune Global 500 #171, ~170,000 employees, FIRST automotive parts manufacturer on LLMeter world's largest pure-play automotive supplier, FIRST company to invent QR codes AND offer LLM inference on LLMeter Masahiro Hara Nippon Denso 1994 ISO/IEC 18004:2000 45 billion scans/day Statista 2023 royalty-free 2000, FIRST Toyota Group company to offer LLM inference on LLMeter, FIRST company to manufacture ECUs for all major automakers AND offer LLM inference on LLMeter 3B+ Denso ECUs in vehicles globally, HARNESS AI platform, 18th Japanese AI inference provider, Day 191)
   };
   return defaults[provider];
 }

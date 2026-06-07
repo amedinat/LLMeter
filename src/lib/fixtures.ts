@@ -220,6 +220,7 @@ export function generateDailySpend(days = 30): DailySpend[] {
         mitsubishi: 0,
         toshiba: 0,
         kyocera: 0,
+        denso: 0,
       },
     };
   });
