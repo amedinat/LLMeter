@@ -79,13 +79,14 @@ export async function PUT(
     );
   }
 
+  const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  if (parsed.data.display_name !== undefined) update.display_name = parsed.data.display_name;
+  if (parsed.data.monthly_revenue_usd !== undefined) update.monthly_revenue_usd = parsed.data.monthly_revenue_usd;
+  if (parsed.data.metadata !== undefined) update.metadata = parsed.data.metadata;
+
   const { data, error } = await supabase
     .from('customers')
-    .update({
-      display_name: parsed.data.display_name,
-      metadata: parsed.data.metadata ?? null,
-      updated_at: new Date().toISOString(),
-    })
+    .update(update)
     .eq('customer_id', id)
     .eq('user_id', user.id)
     .select('*')

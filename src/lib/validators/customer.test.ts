@@ -48,8 +48,23 @@ describe('updateCustomerSchema', () => {
     expect(result.success).toBe(true);
   });
 
-  it('rejects missing display_name', () => {
+  it('accepts missing display_name (optional — allows revenue-only edits)', () => {
     const result = updateCustomerSchema.safeParse({});
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts monthly_revenue_usd as a non-negative number', () => {
+    const result = updateCustomerSchema.safeParse({ monthly_revenue_usd: 99 });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts null monthly_revenue_usd', () => {
+    const result = updateCustomerSchema.safeParse({ monthly_revenue_usd: null });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects negative monthly_revenue_usd', () => {
+    const result = updateCustomerSchema.safeParse({ monthly_revenue_usd: -10 });
     expect(result.success).toBe(false);
   });
 
