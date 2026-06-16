@@ -3,7 +3,7 @@
 export type Plan = 'free' | 'pro' | 'team' | 'enterprise';
 export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek' | 'openrouter' | 'mistral' | 'azure' | 'xai' | 'cohere' | 'groq' | 'together' | 'fireworks' | 'perplexity' | 'cerebras' | 'ai21' | 'deepinfra' | 'novita' | 'hyperbolic' | 'sambanova' | 'lambdalabs' | 'lepton' | 'inferencenet' | 'nvidia' | 'cloudflare' | 'nebius' | 'replicate';
 export type ProviderStatus = 'active' | 'error' | 'disconnected' | 'syncing';
-export type AlertType = 'budget_limit' | 'anomaly' | 'daily_threshold';
+export type AlertType = 'budget_limit' | 'anomaly' | 'daily_threshold' | 'customer_margin';
 export type SuggestionStatus = 'pending' | 'applied' | 'dismissed';
 
 export interface User {

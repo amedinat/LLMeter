@@ -104,7 +104,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       maxAlerts: Infinity,
       maxOptimizationSuggestions: Infinity,
       retentionDays: 365,
-      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly', 'customer_margin'],
     },
     featureList: [
       'Unlimited Providers',
@@ -145,7 +145,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       maxAlerts: Infinity,
       maxOptimizationSuggestions: Infinity,
       retentionDays: Infinity,
-      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly', 'customer_margin'],
     },
     featureList: [
       'Everything in Pro',
@@ -184,7 +184,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       maxAlerts: Infinity,
       maxOptimizationSuggestions: Infinity,
       retentionDays: Infinity,
-      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly', 'customer_margin'],
     },
     featureList: [
       'Everything in Team',

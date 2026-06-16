@@ -112,6 +112,7 @@ export async function POST(request: NextRequest) {
       budget_limit: 'Budget Limit',
       anomaly: 'Anomaly Detection',
       daily_threshold: 'Daily Threshold',
+      customer_margin: 'Customer Margin',
     };
     const name = `${typeLabels[type] ?? type} - $${config.threshold} ${config.period}`;
 
