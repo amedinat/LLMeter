@@ -66,6 +66,10 @@ describe('hasFeature', () => {
       expect(hasFeature('free', 'team-attribution')).toBe(false);
     });
 
+    it('does not have unit-economics', () => {
+      expect(hasFeature('free', 'unit-economics')).toBe(false);
+    });
+
     it('does not have openrouter', () => {
       expect(hasFeature('free', 'openrouter')).toBe(false);
     });
@@ -79,6 +83,7 @@ describe('hasFeature', () => {
       'openrouter',
       'unlimited-history',
       'anomaly-detection',
+      'unit-economics',
     ];
 
     it.each(proFeatures)('has %s', (feature) => {
@@ -100,6 +105,7 @@ describe('hasFeature', () => {
       expect(hasFeature('team', 'anomaly-detection')).toBe(true);
       expect(hasFeature('team', 'openrouter')).toBe(true);
       expect(hasFeature('team', 'unlimited-history')).toBe(true);
+      expect(hasFeature('team', 'unit-economics')).toBe(true);
     });
   });
 
@@ -112,6 +118,7 @@ describe('hasFeature', () => {
       expect(hasFeature('enterprise', 'multi-provider')).toBe(true);
       expect(hasFeature('enterprise', 'anomaly-detection')).toBe(true);
       expect(hasFeature('enterprise', 'openrouter')).toBe(true);
+      expect(hasFeature('enterprise', 'unit-economics')).toBe(true);
     });
   });
 });
