@@ -2,6 +2,8 @@
 
 Official Node.js / Edge / Browser SDK for [LLMeter](https://llmeter.org) — track LLM API costs and usage per customer, with automatic batching and retry logic.
 
+> **When do you need this SDK?** Only for **per-customer / per-feature attribution**. For provider- and model-level cost, just connect a read-only API key in the LLMeter dashboard — no SDK, no code. This SDK (or a direct `POST /api/ingest`) is the optional path that tags each call with a `customerId` so LLMeter can break cost down per customer. It never proxies your traffic.
+
 ## Installation
 
 ```bash
