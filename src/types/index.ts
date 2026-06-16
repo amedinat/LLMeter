@@ -125,6 +125,15 @@ export interface CustomerModelUsage {
   pct: number;
 }
 
+export interface CustomerDimensionUsage {
+  name: string;
+  cost: number;
+  input_tokens: number;
+  output_tokens: number;
+  request_count: number;
+  pct: number;
+}
+
 export interface ProviderConfig {
   type: ProviderType;
   name: string;

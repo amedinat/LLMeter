@@ -239,6 +239,24 @@ describe('POST /api/ingest', () => {
     expect(insertedRecords[0].timestamp).toBe(new Date(ts).toISOString());
   });
 
+  it('captures optional feature and environment dimensions', async () => {
+    const res = await POST(makeRequest([{
+      model: 'gpt-4o',
+      input_tokens: 100,
+      output_tokens: 50,
+      customer_id: 'cust-1',
+      feature: 'chatbot',
+      environment: 'production',
+    }], 'test-key'));
+
+    expect(res.status).toBe(202);
+    const insertedRecords = mockInsert.mock.calls[0][0];
+    expect(insertedRecords[0]).toMatchObject({
+      feature: 'chatbot',
+      environment: 'production',
+    });
+  });
+
   it('assigns provider "unknown" for unrecognized models', async () => {
     const res = await POST(makeRequest([{
       model: 'totally-unknown-model-xyz',
