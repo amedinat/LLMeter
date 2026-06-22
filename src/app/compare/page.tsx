@@ -18,12 +18,14 @@ export const metadata: Metadata = {
     url: 'https://www.llmeter.org/compare',
     siteName: 'LLMeter',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'LLM Cost Tracking Tools Compared — LLMeter vs Alternatives',
     description:
       'How LLMeter compares to Helicone, Langfuse, LangSmith, Datadog and other LLM cost tracking tools.',
+    images: ['/og-image.png'],
   },
 };
 
