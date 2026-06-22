@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone Acquired by Mintlify (March 2026) — What It Means',
+  title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
   description:
-    'Yes — Mintlify acquired Helicone in March 2026 and active development has stopped (security & bug fixes only). What it means for the 16,000+ orgs on Helicone, and the actively-maintained open-source alternatives for LLM cost tracking.',
+    'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative for LLM cost tracking — connect with a read-only API key in 30 seconds. No proxy, no SDK, no code changes.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone Acquired by Mintlify (March 2026): What It Means',
+    title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
     description:
-      'Mintlify acquired Helicone in March 2026; active development has stopped. What it means for users — and the actively-maintained open-source alternatives.',
+      'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative — connect a read-only API key in 30 seconds. No proxy, no SDK.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone Acquired by Mintlify (March 2026): What It Means',
+    title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
     description:
-      'Mintlify acquired Helicone in March 2026; active development has stopped. What it means for users — and the actively-maintained open-source alternatives.',
+      'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative — connect a read-only API key in 30 seconds. No proxy, no SDK.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
