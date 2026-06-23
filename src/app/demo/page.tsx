@@ -18,11 +18,37 @@ export const metadata: Metadata = {
   title: 'Live Demo · LLMeter — See AI Cost Tracking in Action',
   description:
     'See LLMeter in action with a real 30-day Anthropic spend dataset (semi-anonymized). No signup required — the same dashboard paying users get.',
-  alternates: { canonical: '/demo' },
+  metadataBase: new URL('https://www.llmeter.org'),
+  alternates: { canonical: 'https://www.llmeter.org/demo' },
+  openGraph: {
+    title: 'Live Demo · LLMeter — See AI Cost Tracking in Action',
+    description:
+      'Explore LLMeter with a real 30-day Anthropic spend dataset (semi-anonymized). No signup — the same dashboard paying users get.',
+    url: 'https://www.llmeter.org/demo',
+    siteName: 'LLMeter',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Live Demo · LLMeter — See AI Cost Tracking in Action',
+    description:
+      'Explore LLMeter with a real 30-day Anthropic spend dataset. No signup required.',
+    images: ['/og-image.png'],
+  },
 };
 
 export const dynamic = 'force-static';
 export const revalidate = 3600;
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.llmeter.org' },
+    { '@type': 'ListItem', position: 2, name: 'Live Demo', item: 'https://www.llmeter.org/demo' },
+  ],
+};
 
 export default function DemoPage() {
   const summary = getDemoSpendSummary();
@@ -31,6 +57,10 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-muted/40">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">

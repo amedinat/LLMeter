@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
+  title: 'Helicone in Maintenance Mode? Move LLM Cost Monitoring to LLMeter',
   description:
-    'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative for LLM cost tracking — connect with a read-only API key in 30 seconds. No proxy, no SDK, no code changes.',
+    'Helicone joined Mintlify and feature development has stopped. If you mainly used Helicone for LLM cost visibility, LLMeter is open-source cost monitoring with per-customer attribution — connect a read-only API key in 30 seconds. No proxy, no SDK, no code changes.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
+    title: 'Helicone in Maintenance Mode? Move LLM Cost Monitoring to LLMeter',
     description:
-      'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative — connect a read-only API key in 30 seconds. No proxy, no SDK.',
+      'Used Helicone for LLM cost visibility? LLMeter is open-source cost monitoring with per-customer attribution — connect a read-only API key in 30 seconds. No proxy, no SDK.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
+    title: 'Helicone in Maintenance Mode? Move LLM Cost Monitoring to LLMeter',
     description:
-      'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative — connect a read-only API key in 30 seconds. No proxy, no SDK.',
+      'Used Helicone for LLM cost visibility? LLMeter is open-source cost monitoring with per-customer attribution — connect a read-only API key in 30 seconds. No proxy, no SDK.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
@@ -41,6 +41,7 @@ export const metadata: Metadata = {
 };
 
 const COMPARISON = [
+  { feature: 'Product scope', helicone: 'Full proxy: logging, playground, evals', llmeter: 'Cost monitoring only' },
   { feature: 'Setup method', helicone: 'Proxy (change base URL)', llmeter: 'Read-only API key (no code changes)' },
   { feature: 'Time to first dashboard', helicone: '~5 min (SDK/proxy config)', llmeter: '30 seconds' },
   { feature: 'Code changes required', helicone: 'Yes (base URL, headers)', llmeter: 'None' },
@@ -98,7 +99,7 @@ const FAQ_ITEMS = [
   {
     question: 'What if I need features Helicone had that LLMeter doesn\'t?',
     answer:
-      'LLMeter focuses on cost monitoring, budget alerts, and optimization — the core features most teams use Helicone for. If you relied on Helicone\'s prompt logging or evaluation features, those are outside LLMeter\'s scope. For pure cost visibility, LLMeter is a drop-in replacement.',
+      'LLMeter is not a full Helicone replacement — it focuses only on cost monitoring, per-customer cost attribution, and budget alerts. If you relied on Helicone\'s request logging, playground, or evaluations, those are outside LLMeter\'s scope and you\'ll want a dedicated tool for them. But if Helicone was mainly how you watched LLM spend, LLMeter covers that piece without a proxy.',
   },
   {
     question: 'Is LLMeter free?',
@@ -151,8 +152,10 @@ export default function MigrateHelicone() {
               </span>
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-              Helicone was acquired by Mintlify in March 2026. Active development has stopped.
-              LLMeter is the open-source alternative — set up in 30 seconds with a read-only API key. No proxy, no SDK, no code changes.
+              Helicone was acquired by Mintlify in March 2026 and active development has stopped.
+              If you relied on Helicone mainly to watch LLM spend, LLMeter is open-source cost
+              monitoring with per-customer attribution — set up in 30 seconds with a read-only API
+              key. No proxy, no SDK, no code changes.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
               <Button size="lg" className="h-12 px-8 text-base font-semibold bg-primary hover:bg-primary/90 text-white" asChild>

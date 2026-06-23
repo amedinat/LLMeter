@@ -22,13 +22,13 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 import { WaitlistForm } from './waitlist-form';
 
-const PAGE_URL = 'https://llmeter.org/validate/budget-guard';
+const PAGE_URL = 'https://www.llmeter.org/validate/budget-guard';
 
 export const metadata: Metadata = {
   title: 'LLM Budget Guard — Hard Cutoffs Before Your Agents Burn You',
   description:
     'Stop AI agents from spiraling into a $47K bill or getting your provider account banned. Hard token limits with provider-side enforcement — not just alerts. Join the waitlist.',
-  metadataBase: new URL('https://llmeter.org'),
+  metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
     title: 'LLM Budget Guard — Hard Cutoffs Before Your Agents Burn You',
     description:
