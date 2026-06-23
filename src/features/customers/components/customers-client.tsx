@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ArrowLeft, DollarSign, Users, Hash, Calendar, Pencil, Trash2, Loader2 } from 'lucide-react';
+import { ArrowLeft, DollarSign, Users, Hash, Calendar, Pencil, Trash2, Loader2, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { apiFetch } from '@/lib/api-client';
@@ -94,6 +94,10 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
   // Delete confirmation state
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  // Revenue CSV import state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [importing, setImporting] = useState(false);
 
   const totalCost = customers.reduce((s, c) => s + c.total_cost, 0);
   const totalRequests = customers.reduce((s, c) => s + c.request_count, 0);
@@ -250,6 +254,43 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
       toast.error(err instanceof Error ? err.message : 'Failed to delete');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const handleImportRevenue = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    // Reset the input so the same file can be re-selected later.
+    e.target.value = '';
+    if (!file) return;
+
+    setImporting(true);
+    try {
+      const text = await file.text();
+      const res = await apiFetch('/api/customers/import-revenue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/csv' },
+        body: text,
+      });
+
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(j.error || `Import failed (${res.status})`);
+      }
+
+      toast.success(`Updated ${j.updated} customer(s)`);
+      if (Array.isArray(j.errors) && j.errors.length > 0) {
+        toast.error(j.errors[0]);
+      }
+
+      // Refresh the customer list the same way the page refetches after an edit.
+      const { start, end } = range === 'custom'
+        ? { start: customStart, end: customEnd }
+        : getDateRange(range);
+      fetchCustomers(start, end);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to import revenue');
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -424,9 +465,38 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
   // Customer list view
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
-        <p className="text-muted-foreground">Usage and cost attribution by customer</p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
+          <p className="text-muted-foreground">Usage and cost attribution by customer</p>
+        </div>
+        {canSeeUnitEconomics && (
+          <div className="flex flex-col items-start gap-1 sm:items-end">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              className="hidden"
+              onChange={handleImportRevenue}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={importing}
+            >
+              {importing ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Upload className="mr-2 h-4 w-4" />
+              )}
+              Import revenue (CSV)
+            </Button>
+            <p className="text-xs text-muted-foreground" title="CSV: customer_id,monthly_revenue_usd">
+              CSV: customer_id,monthly_revenue_usd
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Date filters */}
