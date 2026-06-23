@@ -108,6 +108,9 @@ export interface CustomerSummary {
   total_output_tokens: number;
   request_count: number;
   last_active: string;
+  monthly_revenue_usd?: number | null;
+  margin_usd?: number | null;
+  ai_cost_pct?: number | null;
 }
 
 export interface CustomerDailySpend {

@@ -145,6 +145,28 @@ export function getDemoSpendSummary(): SpendSummary {
   };
 }
 
+// Per-customer margin rows for the public /demo route. Semi-anonymized,
+// rounded figures with a couple of unprofitable customers (AI cost >= revenue)
+// to make the unit-economics story land. margin = revenue - ai_cost;
+// pct = ai_cost / revenue * 100.
+export interface DemoCustomerMargin {
+  name: string;
+  monthly_revenue_usd: number;
+  ai_cost_usd: number;
+  margin_usd: number;
+  ai_cost_pct: number;
+}
+
+export function getDemoCustomerMargins(): DemoCustomerMargin[] {
+  return [
+    { name: 'Globex', monthly_revenue_usd: 499, ai_cost_usd: 212, margin_usd: 287, ai_cost_pct: 42 },
+    { name: 'Initech', monthly_revenue_usd: 299, ai_cost_usd: 168, margin_usd: 131, ai_cost_pct: 56 },
+    { name: 'Hooli', monthly_revenue_usd: 199, ai_cost_usd: 154, margin_usd: 45, ai_cost_pct: 77 },
+    { name: 'Acme Corp', monthly_revenue_usd: 99, ai_cost_usd: 140, margin_usd: -41, ai_cost_pct: 141 },
+    { name: 'Soylent', monthly_revenue_usd: 49, ai_cost_usd: 88, margin_usd: -39, ai_cost_pct: 180 },
+  ];
+}
+
 // Hand-picked suggestion that reflects the real optimization story:
 // shifting low-stakes turns from Opus to Sonnet saves ~$340/mo.
 export function getDemoOptimizationSuggestions(): OptimizationSuggestion[] {

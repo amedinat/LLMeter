@@ -59,25 +59,37 @@ export async function getCustomersSummary(
   // Fetch display names from customers table
   const customerIds = Array.from(customerMap.keys());
   const displayNames = new Map<string, string | null>();
+  const revenueMap = new Map<string, number | null>();
 
   if (customerIds.length > 0) {
     const { data: customers } = await supabase
       .from('customers')
-      .select('customer_id, display_name')
+      .select('customer_id, display_name, monthly_revenue_usd')
       .eq('user_id', user.id)
       .in('customer_id', customerIds);
 
     (customers || []).forEach(c => {
       displayNames.set(c.customer_id, c.display_name);
+      revenueMap.set(
+        c.customer_id,
+        c.monthly_revenue_usd != null ? Number(c.monthly_revenue_usd) : null
+      );
     });
   }
 
   return Array.from(customerMap.entries())
-    .map(([customer_id, stats]) => ({
-      customer_id,
-      display_name: displayNames.get(customer_id) || null,
-      ...stats,
-    }))
+    .map(([customer_id, stats]) => {
+      const revenue = revenueMap.get(customer_id) ?? null;
+      return {
+        customer_id,
+        display_name: displayNames.get(customer_id) || null,
+        ...stats,
+        monthly_revenue_usd: revenue,
+        margin_usd: revenue == null ? null : revenue - stats.total_cost,
+        ai_cost_pct:
+          revenue != null && revenue > 0 ? (stats.total_cost / revenue) * 100 : null,
+      };
+    })
     .sort((a, b) => b.total_cost - a.total_cost);
 }
 
