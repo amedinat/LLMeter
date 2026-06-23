@@ -25,9 +25,10 @@ import { ArrowLeft, DollarSign, Users, Hash, Calendar, Pencil, Trash2, Loader2 }
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { apiFetch } from '@/lib/api-client';
-import type { CustomerSummary, CustomerDailySpend, CustomerModelUsage } from '@/types';
+import type { CustomerSummary, CustomerDailySpend, CustomerModelUsage, CustomerDimensionUsage } from '@/types';
 import { CustomerTrendChart } from './customer-trend-chart';
 import { CustomerModelTable } from './customer-model-table';
+import { CustomerDimensionTable } from './customer-dimension-table';
 
 interface CustomersClientProps {
   customers: CustomerSummary[];
@@ -75,6 +76,8 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
     summary: CustomerSummary;
     dailySpend: CustomerDailySpend[];
     modelUsage: CustomerModelUsage[];
+    featureUsage?: CustomerDimensionUsage[];
+    environmentUsage?: CustomerDimensionUsage[];
   } | null>(null);
 
   // Edit dialog state
@@ -311,6 +314,14 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
 
         {/* Model breakdown */}
         <CustomerModelTable data={drillDown.modelUsage} />
+
+        {/* Optional dimension breakdowns */}
+        {drillDown.featureUsage && drillDown.featureUsage.length > 0 && (
+          <CustomerDimensionTable title="Usage by Feature" data={drillDown.featureUsage} />
+        )}
+        {drillDown.environmentUsage && drillDown.environmentUsage.length > 0 && (
+          <CustomerDimensionTable title="Usage by Environment" data={drillDown.environmentUsage} />
+        )}
 
         {/* Edit Dialog */}
         <Dialog open={editOpen} onOpenChange={setEditOpen}>

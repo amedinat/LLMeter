@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { format } from 'date-fns';
-import type { CustomerSummary, CustomerDailySpend, CustomerModelUsage } from '@/types';
+import type { CustomerSummary, CustomerDailySpend, CustomerModelUsage, CustomerDimensionUsage } from '@/types';
 
 export async function getCustomersSummary(
   startDate?: string,
@@ -89,6 +89,8 @@ export async function getCustomerDetail(
   summary: CustomerSummary | null;
   dailySpend: CustomerDailySpend[];
   modelUsage: CustomerModelUsage[];
+  featureUsage: CustomerDimensionUsage[];
+  environmentUsage: CustomerDimensionUsage[];
 }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -102,7 +104,7 @@ export async function getCustomerDetail(
 
   const { data, error } = await supabase
     .from('customer_usage_records')
-    .select('customer_id, model, provider, cost_usd, input_tokens, output_tokens, timestamp')
+    .select('customer_id, model, provider, feature, environment, cost_usd, input_tokens, output_tokens, timestamp')
     .eq('user_id', user.id)
     .eq('customer_id', customerId)
     .gte('timestamp', `${effectiveStart}T00:00:00`)
@@ -111,11 +113,11 @@ export async function getCustomerDetail(
 
   if (error) {
     console.error('Error fetching customer detail:', error);
-    return { summary: null, dailySpend: [], modelUsage: [] };
+    return { summary: null, dailySpend: [], modelUsage: [], featureUsage: [], environmentUsage: [] };
   }
 
   if (!data || data.length === 0) {
-    return { summary: null, dailySpend: [], modelUsage: [] };
+    return { summary: null, dailySpend: [], modelUsage: [], featureUsage: [], environmentUsage: [] };
   }
 
   // Fetch display name
@@ -136,6 +138,9 @@ export async function getCustomerDetail(
   const dailyMap = new Map<string, number>();
   // Model aggregation
   const modelMap = new Map<string, { provider: string | null; cost: number; input_tokens: number; output_tokens: number; request_count: number }>();
+  // Feature / environment aggregation (optional dimensions)
+  const featureMap = new Map<string, { cost: number; input_tokens: number; output_tokens: number; request_count: number }>();
+  const environmentMap = new Map<string, { cost: number; input_tokens: number; output_tokens: number; request_count: number }>();
 
   data.forEach(r => {
     const cost = Number(r.cost_usd) || 0;
@@ -155,6 +160,26 @@ export async function getCustomerDetail(
     prev.output_tokens += r.output_tokens || 0;
     prev.request_count += 1;
     modelMap.set(r.model, prev);
+
+    // Feature (optional dimension — skip null/empty)
+    if (typeof r.feature === 'string' && r.feature.length > 0) {
+      const f = featureMap.get(r.feature) || { cost: 0, input_tokens: 0, output_tokens: 0, request_count: 0 };
+      f.cost += cost;
+      f.input_tokens += r.input_tokens || 0;
+      f.output_tokens += r.output_tokens || 0;
+      f.request_count += 1;
+      featureMap.set(r.feature, f);
+    }
+
+    // Environment (optional dimension — skip null/empty)
+    if (typeof r.environment === 'string' && r.environment.length > 0) {
+      const e = environmentMap.get(r.environment) || { cost: 0, input_tokens: 0, output_tokens: 0, request_count: 0 };
+      e.cost += cost;
+      e.input_tokens += r.input_tokens || 0;
+      e.output_tokens += r.output_tokens || 0;
+      e.request_count += 1;
+      environmentMap.set(r.environment, e);
+    }
   });
 
   const summary: CustomerSummary = {
@@ -183,7 +208,29 @@ export async function getCustomerDetail(
     }))
     .sort((a, b) => b.cost - a.cost);
 
-  return { summary, dailySpend, modelUsage };
+  const featureUsage: CustomerDimensionUsage[] = Array.from(featureMap.entries())
+    .map(([name, stats]) => ({
+      name,
+      cost: stats.cost,
+      input_tokens: stats.input_tokens,
+      output_tokens: stats.output_tokens,
+      request_count: stats.request_count,
+      pct: totalCost > 0 ? (stats.cost / totalCost) * 100 : 0,
+    }))
+    .sort((a, b) => b.cost - a.cost);
+
+  const environmentUsage: CustomerDimensionUsage[] = Array.from(environmentMap.entries())
+    .map(([name, stats]) => ({
+      name,
+      cost: stats.cost,
+      input_tokens: stats.input_tokens,
+      output_tokens: stats.output_tokens,
+      request_count: stats.request_count,
+      pct: totalCost > 0 ? (stats.cost / totalCost) * 100 : 0,
+    }))
+    .sort((a, b) => b.cost - a.cost);
+
+  return { summary, dailySpend, modelUsage, featureUsage, environmentUsage };
 }
 
 /**
