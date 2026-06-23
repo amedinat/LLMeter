@@ -114,7 +114,10 @@ export async function POST(request: NextRequest) {
       daily_threshold: 'Daily Threshold',
       customer_margin: 'Customer Margin',
     };
-    const name = `${typeLabels[type] ?? type} - $${config.threshold} ${config.period}`;
+    // customer_margin threshold is a percentage of revenue, not a dollar amount.
+    const thresholdLabel =
+      type === 'customer_margin' ? `${config.threshold}%` : `$${config.threshold}`;
+    const name = `${typeLabels[type] ?? type} - ${thresholdLabel} ${config.period}`;
 
     const { data, error } = await supabase
       .from('alerts')
