@@ -46,7 +46,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 10,
     output_price_per_1m_tokens: 50,
     capability_tier: 'premium',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'anthropic',
@@ -127,7 +127,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 5,
     output_price_per_1m_tokens: 25,
     capability_tier: 'standard',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'anthropic',
@@ -136,7 +136,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 10,
     output_price_per_1m_tokens: 50,
     capability_tier: 'premium',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'anthropic',
@@ -592,10 +592,10 @@ const MODEL_CATALOG: ModelPricing[] = [
     provider: 'openai',
     model_id: 'gpt-oss-120b',
     display_name: 'OpenAI: gpt-oss-120b',
-    input_price_per_1m_tokens: 0.039,
-    output_price_per_1m_tokens: 0.18,
+    input_price_per_1m_tokens: 0.03,
+    output_price_per_1m_tokens: 0.15,
     capability_tier: 'budget',
-    last_verified_at: '2026-05-12T21:53:37.569Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'openai',
@@ -604,7 +604,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.029,
     output_price_per_1m_tokens: 0.14,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'openai',
@@ -712,7 +712,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.2002,
     output_price_per_1m_tokens: 0.8001,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'deepseek',
@@ -757,7 +757,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.8,
     output_price_per_1m_tokens: 0.8,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'deepseek',
@@ -775,7 +775,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.2288,
     output_price_per_1m_tokens: 0.3432,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'deepseek',
@@ -793,7 +793,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.09,
     output_price_per_1m_tokens: 0.18,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'deepseek',
@@ -883,7 +883,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 2,
     output_price_per_1m_tokens: 12,
     capability_tier: 'standard',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'google',
@@ -901,7 +901,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.5,
     output_price_per_1m_tokens: 3,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'google',
@@ -955,7 +955,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 1.5,
     output_price_per_1m_tokens: 9,
     capability_tier: 'standard',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'google',
@@ -973,7 +973,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.05,
     output_price_per_1m_tokens: 0.15,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'google',
@@ -991,7 +991,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.05,
     output_price_per_1m_tokens: 0.1,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'google',
@@ -1018,7 +1018,7 @@ const MODEL_CATALOG: ModelPricing[] = [
     input_price_per_1m_tokens: 0.12,
     output_price_per_1m_tokens: 0.35,
     capability_tier: 'budget',
-    last_verified_at: '2026-06-22T12:13:14.037Z',
+    last_verified_at: '2026-06-29T11:09:11.695Z',
   },
   {
     provider: 'anthropic',
