@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone in Maintenance Mode? Move LLM Cost Monitoring to LLMeter',
+  title: 'Helicone Alternative: LLM Cost Monitoring Without a Proxy | LLMeter',
   description:
-    'Helicone joined Mintlify and feature development has stopped. If you mainly used Helicone for LLM cost visibility, LLMeter is open-source cost monitoring with per-customer attribution — connect a read-only API key in 30 seconds. No proxy, no SDK, no code changes.',
+    'Helicone joined Mintlify and entered maintenance mode. LLMeter: open-source LLM cost monitoring, per-customer attribution, no proxy required. 30-second setup.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone in Maintenance Mode? Move LLM Cost Monitoring to LLMeter',
+    title: 'Helicone Alternative: LLM Cost Monitoring Without a Proxy | LLMeter',
     description:
-      'Used Helicone for LLM cost visibility? LLMeter is open-source cost monitoring with per-customer attribution — connect a read-only API key in 30 seconds. No proxy, no SDK.',
+      'Helicone joined Mintlify and entered maintenance mode. Switch to LLMeter — open-source LLM cost monitoring with per-customer attribution. No proxy, no code changes. Free forever.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone in Maintenance Mode? Move LLM Cost Monitoring to LLMeter',
+    title: 'Helicone Alternative: LLM Cost Monitoring Without a Proxy | LLMeter',
     description:
-      'Used Helicone for LLM cost visibility? LLMeter is open-source cost monitoring with per-customer attribution — connect a read-only API key in 30 seconds. No proxy, no SDK.',
+      'Helicone joined Mintlify and entered maintenance mode. Switch to LLMeter — open-source LLM cost monitoring, no proxy, no code changes. Free forever.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
