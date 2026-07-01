@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone Alternative: LLM Monitoring, No Proxy | LLMeter',
+  title: 'Migrate from Helicone: LLM Cost Monitoring | LLMeter',
   description:
-    'Helicone entered maintenance mode after Mintlify acquisition. Switch to LLMeter: open-source LLM cost monitoring, per-customer attribution, no proxy, no code changes. 30-second setup.',
+    'Helicone is in maintenance mode (Mintlify, 2026). LLMeter: open-source LLM cost monitoring, per-customer attribution, no proxy required. Free forever.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone Alternative: LLM Monitoring, No Proxy | LLMeter',
+    title: 'Migrate from Helicone: LLM Cost Monitoring | LLMeter',
     description:
-      'Helicone entered maintenance mode (Mintlify, 2026). Switch to LLMeter — open-source LLM cost monitoring with per-customer attribution. No proxy, no code changes. Free forever.',
+      'Helicone entered maintenance mode after Mintlify acquisition. Switch to LLMeter — open-source LLM cost monitoring with per-customer attribution. No proxy, no code changes. Free forever.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone Alternative: LLM Monitoring, No Proxy | LLMeter',
+    title: 'Migrate from Helicone: LLM Cost Monitoring | LLMeter',
     description:
-      'Helicone entered maintenance mode. Switch to LLMeter: open-source LLM cost monitoring, no proxy, no code changes. Per-customer attribution. Free forever.',
+      'Helicone is in maintenance mode (Mintlify 2026). Switch to LLMeter — open-source LLM cost monitoring, no proxy. Per-customer attribution. Free.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
