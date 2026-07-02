@@ -378,6 +378,9 @@ export default function MigrateHelicone() {
               name: 'Migrate from Helicone to LLMeter',
               description: 'Migration guide for teams moving from Helicone (acquired by Mintlify, 2026) to LLMeter — free, open-source LLM cost monitoring with per-customer attribution. No proxy or SDK changes required.',
               url: 'https://www.llmeter.org/migrate/helicone',
+              datePublished: '2026-03-01',
+              dateModified: '2026-07-02',
+              keywords: 'helicone alternative, helicone replacement, migrate from helicone, helicone maintenance mode, open-source llm cost monitoring, llmeter',
               mainEntity: {
                 '@type': 'FAQPage',
                 mainEntity: FAQ_ITEMS.map((item) => ({
