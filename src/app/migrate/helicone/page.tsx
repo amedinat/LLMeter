@@ -18,22 +18,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
+  title: 'Helicone Alternative 2026 — Free, Open-Source LLM Cost Tracking',
   description:
-    'Migrating off Helicone (Mintlify, 2026)? LLMeter is the free, open-source alternative — no proxy, no code changes. Connect a read-only API key in 30 seconds.',
+    'Migrating off Helicone (Mintlify, 2026)? LLMeter: free, open-source LLM cost monitoring, no proxy, no SDK. Connect a read-only API key in 30 seconds.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
+    title: 'Helicone Alternative 2026 — Free, Open-Source LLM Cost Tracking',
     description:
-      'Migrating off Helicone after the Mintlify acquisition? LLMeter is the free, open-source alternative — connect a read-only API key in 30 seconds. No proxy, no SDK.',
+      'Helicone entered maintenance mode after Mintlify acquisition. LLMeter: free, open-source LLM cost monitoring with per-customer attribution. No proxy, no SDK — 30-second setup.',
     url: 'https://www.llmeter.org/migrate/helicone',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone Alternative — Free, Open-Source LLM Cost Tracking',
+    title: 'Helicone Alternative 2026 — Free, Open-Source LLM Cost Tracking',
     description:
-      'Migrating off Helicone (Mintlify, 2026)? LLMeter is the free, open-source alternative — no proxy, no code changes. Connect a read-only API key in 30 seconds.',
+      'Migrating off Helicone (Mintlify, 2026)? LLMeter: free, open-source LLM cost monitoring, no proxy, no SDK. Connect a read-only API key in 30 seconds.',
   },
   alternates: {
     canonical: 'https://www.llmeter.org/migrate/helicone',
@@ -376,7 +376,7 @@ export default function MigrateHelicone() {
               '@context': 'https://schema.org',
               '@type': 'WebPage',
               name: 'Migrate from Helicone to LLMeter',
-              description: 'Migration guide for teams moving from Helicone to LLMeter for LLM cost monitoring.',
+              description: 'Migration guide for teams moving from Helicone (acquired by Mintlify, 2026) to LLMeter — free, open-source LLM cost monitoring with per-customer attribution. No proxy or SDK changes required.',
               url: 'https://www.llmeter.org/migrate/helicone',
               mainEntity: {
                 '@type': 'FAQPage',
