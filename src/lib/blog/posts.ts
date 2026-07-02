@@ -12,9 +12,9 @@ export type BlogPost = {
 export const POSTS: BlogPost[] = [
   {
     slug: 'anthropic-cost-tracking',
-    title: 'Anthropic API Cost Tracking by Model & Customer',
+    title: 'How to Track Anthropic Claude API Costs by Model & Customer (2026)',
     description:
-      "Anthropic API cost tracking: get per-model and per-customer Claude breakdowns the console hides. Guide using the Anthropic Usage API + LLMeter SDK.",
+      'Track Anthropic Claude API costs by model and customer — no proxy needed. Covers Usage API polling, SDK per-call attribution, prompt cache cost tracking, and budget alerts.',
     publishedAt: '2026-04-27',
     updatedAt: '2026-07-02',
     author: 'LLMeter Team',
