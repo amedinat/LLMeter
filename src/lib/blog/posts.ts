@@ -14,8 +14,9 @@ export const POSTS: BlogPost[] = [
     slug: 'anthropic-cost-tracking',
     title: 'Anthropic API Cost Tracking by Model & Customer',
     description:
-      "Anthropic's console shows total Claude spend but not which model, feature, or customer drove it. Here's how to get per-model and per-customer cost breakdowns using the Anthropic Usage API and the llmeter SDK.",
+      "Anthropic API cost tracking: get per-model and per-customer Claude breakdowns the console hides. Guide using the Anthropic Usage API + LLMeter SDK.",
     publishedAt: '2026-04-27',
+    updatedAt: '2026-07-02',
     author: 'LLMeter Team',
     keyword: 'anthropic api cost tracking',
     readingMinutes: 8,
