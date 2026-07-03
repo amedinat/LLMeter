@@ -306,8 +306,8 @@ async function getDailySpend(startDate: string, endDate: string) {
 
 const anthropic = new Anthropic();
 const PRICING: Record<string, { input: number; output: number }> = {
-  'claude-3-5-sonnet-20241022': { input: 3.00, output: 15.00 },
-  'claude-3-5-haiku-20241022':  { input: 0.80, output:  4.00 },
+  'claude-sonnet-4-6': { input: 3.00, output: 15.00 },
+  'claude-haiku-4-5':  { input: 0.80, output:  4.00 },
 };
 
 async function trackedMessage(
@@ -351,7 +351,7 @@ const anthropic = wrapAnthropic(new Anthropic(), meter);
 // All calls tracked automatically.
 // Pass llmeter_customer_id to attribute spend to a specific user.
 const res = await anthropic.messages.create({
-  model: 'claude-3-5-sonnet-20241022',
+  model: 'claude-sonnet-4-6',
   max_tokens: 1024,
   messages: [{ role: 'user', content: prompt }],
   llmeter_customer_id: req.user.id,
