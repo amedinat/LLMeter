@@ -46,12 +46,14 @@ export const metadata: Metadata = {
     'claude 4 cost tracking',
     'anthropic claude 4 cost monitoring',
     'claude sonnet 4.6 cost',
-    'claude opus 4.5 cost',
+    'claude opus 4.8 cost',
     'anthropic claude 4 billing',
     'anthropic api spending',
     'claude cost attribution',
+    'claude cost attribution per user',
     'llm cost attribution anthropic',
     'anthropic api no proxy monitoring',
+    'anthropic claude 4 cost per customer',
   ],
 };
 
