@@ -32,6 +32,7 @@ export const metadata: Metadata = {
   },
   keywords: [
     'anthropic api cost tracking',
+    'track anthropic claude costs',
     'anthropic claude 4 cost tracking',
     'how to track anthropic api costs',
     'claude api cost monitoring',
@@ -45,8 +46,9 @@ export const metadata: Metadata = {
     'claude api cost per request',
     'claude 4 cost tracking',
     'anthropic claude 4 cost monitoring',
-    'claude sonnet 4.6 cost',
-    'claude opus 4.8 cost',
+    'claude sonnet 4.6 cost tracking',
+    'claude opus 4.8 cost tracking',
+    'claude haiku 4.5 cost tracking',
     'anthropic claude 4 billing',
     'anthropic api spending',
     'claude cost attribution',
@@ -54,6 +56,7 @@ export const metadata: Metadata = {
     'llm cost attribution anthropic',
     'anthropic api no proxy monitoring',
     'anthropic claude 4 cost per customer',
+    'claude prompt cache cost tracking',
   ],
 };
 
