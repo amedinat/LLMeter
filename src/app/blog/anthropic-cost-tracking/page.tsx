@@ -10,8 +10,9 @@ const post = getPost(POST_SLUG)!;
 const url = `https://www.llmeter.org/blog/${POST_SLUG}`;
 
 export const metadata: Metadata = {
-  title: `${post.title} — LLMeter`,
-  description: post.description,
+  title: 'Track Anthropic Claude API Costs per Customer — LLMeter',
+  description:
+    'Track Anthropic Claude API costs per customer and model — no proxy required. Covers Usage API, attribution, cache discounts, and spend alerts.',
   metadataBase: new URL('https://www.llmeter.org'),
   alternates: { canonical: url },
   openGraph: {
