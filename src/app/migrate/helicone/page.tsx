@@ -18,12 +18,12 @@ import { MobileNav } from '@/components/mobile-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Helicone Alternative 2026 — Free, Open-Source LLM Cost Tracking',
+  title: 'Helicone in Maintenance Mode? Migrate to LLMeter (2026)',
   description:
     'Migrating off Helicone (Mintlify, 2026)? LLMeter: free, open-source LLM cost monitoring, no proxy, no SDK. Connect a read-only API key in 30 seconds.',
   metadataBase: new URL('https://www.llmeter.org'),
   openGraph: {
-    title: 'Helicone Alternative 2026 — Free, Open-Source LLM Cost Tracking',
+    title: 'Helicone in Maintenance Mode? Migrate to LLMeter (2026)',
     description:
       'Helicone entered maintenance mode after Mintlify acquisition. LLMeter: free, open-source LLM cost monitoring with per-customer attribution. No proxy, no SDK — 30-second setup.',
     url: 'https://www.llmeter.org/migrate/helicone',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helicone Alternative 2026 — Free, Open-Source LLM Cost Tracking',
+    title: 'Helicone in Maintenance Mode? Migrate to LLMeter (2026)',
     description:
       'Migrating off Helicone (Mintlify, 2026)? LLMeter: free, open-source LLM cost monitoring, no proxy, no SDK. Connect a read-only API key in 30 seconds.',
   },
@@ -379,8 +379,8 @@ export default function MigrateHelicone() {
               description: 'Migration guide for teams moving from Helicone (acquired by Mintlify, 2026) to LLMeter — free, open-source LLM cost monitoring with per-customer attribution. No proxy or SDK changes required.',
               url: 'https://www.llmeter.org/migrate/helicone',
               datePublished: '2026-03-01',
-              dateModified: '2026-07-02',
-              keywords: 'helicone alternative, helicone replacement, migrate from helicone, helicone maintenance mode, open-source llm cost monitoring, llmeter',
+              dateModified: '2026-07-07',
+              keywords: 'migrate from helicone, helicone maintenance mode, helicone mintlify acquisition, open-source llm cost monitoring, per-customer cost attribution, llmeter',
               mainEntity: {
                 '@type': 'FAQPage',
                 mainEntity: FAQ_ITEMS.map((item) => ({
