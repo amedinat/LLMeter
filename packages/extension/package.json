@@ -1,0 +1,36 @@
+{
+  "name": "@llmeter/extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LLMeter Live Cost — Chrome/Edge (Manifest V3) extension that shows your AI API spend from the Anthropic and OpenAI admin cost APIs.",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://llmeter.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amedinat/LLMeter.git",
+    "directory": "packages/extension"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run icons && tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "icons": "node scripts/gen-icons.mjs",
+    "zip": "npm run build && node scripts/zip.mjs"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.7.1",
+    "@types/chrome": "^0.3.5",
+    "typescript": "^5.7.0",
+    "vite": "^7.3.0",
+    "vitest": "^3.1.0"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.35.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

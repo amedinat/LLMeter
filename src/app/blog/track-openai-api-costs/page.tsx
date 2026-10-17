@@ -142,6 +142,12 @@ export default function PostPage() {
 
           <div className="mt-10 space-y-6 leading-7 text-foreground/90 [&_a]:text-primary [&_a:hover]:underline [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-sm [&_code]:text-primary [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6">
 
+            <aside className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-sm">
+              Prefer to see this live in your browser? Try the free{' '}
+              <Link href="/extension" className="font-medium">LLMeter Live Cost extension</Link>
+              {' '}&rarr; month-to-date spend, run-rate and a budget badge from the toolbar; keys stay on your device.
+            </aside>
+
             <h2 className="mt-12 font-heading text-2xl font-bold tracking-tight md:text-3xl">
               Why the OpenAI dashboard is not enough
             </h2>

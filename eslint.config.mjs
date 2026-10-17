@@ -22,6 +22,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Ignore compiled output in packages:
     "packages/**/dist/**",
+    // The browser extension has its own tsconfig/toolchain (vite + chrome types):
+    "packages/extension/**",
   ]),
 ]);
 

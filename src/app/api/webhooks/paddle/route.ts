@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getPaymentProvider, type ProfileUpdate } from '@/lib/payments';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { pulseTrack } from '@/lib/saas-pulse';
+import {
+  EXT_LTD_PRICE_ENV,
+  isExtensionLtdPurchase,
+  parsePaddleEventBody,
+} from '@/lib/extension-license';
+import { issueExtensionLicense } from '@/lib/extension-license-issue';
 
 export async function POST(req: NextRequest) {
   const provider = getPaymentProvider();
@@ -71,6 +77,23 @@ export async function POST(req: NextRequest) {
           .from('profiles')
           .update(dbUpdate)
           .eq('id', result.userId);
+      }
+    }
+
+    // Browser-extension lifetime deal: a one-off transaction (no subscription)
+    // for NEXT_PUBLIC_PADDLE_EXT_LTD_PRICE_ID. The payments package does not
+    // surface line items, so inspect the (already signature-verified) body.
+    // Throwing here returns 500 so Paddle retries; issuance is idempotent.
+    if (result.eventType === 'transaction.completed') {
+      const rawEvent = parsePaddleEventBody(body);
+      if (isExtensionLtdPurchase(rawEvent, process.env[EXT_LTD_PRICE_ENV])) {
+        const issued = await issueExtensionLicense(rawEvent!);
+        if (issued.issued) {
+          pulseTrack('extension_ltd_purchased', {
+            user_ref: result.customerId ?? rawEvent!.data?.customer_id ?? 'unknown',
+            metadata: { transaction_id: rawEvent!.data?.id, emailed: issued.emailed },
+          });
+        }
       }
     }
 

@@ -1,16 +1,14 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { isStaticFile } from '@/lib/security';
-
-// Routes that don't require authentication
-const PUBLIC_ROUTES = ['/', '/login', '/auth/callback', '/privacy', '/terms', '/refund', '/pricing', '/demo', '/compare', '/migrate', '/models', '/validate', '/api/waitlist', '/blog', '/robots.txt', '/sitemap.xml'];
+import { isPublicRoute } from '@/lib/public-routes';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip auth check for public routes and known static file extensions
   if (
-    PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/')) ||
+    isPublicRoute(pathname) ||
     pathname.startsWith('/_next') ||
     // Routes with their own auth: webhook signature, CRON_SECRET, API key
     pathname.startsWith('/api/webhooks') ||
