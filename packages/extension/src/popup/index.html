@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLMeter Live Cost</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="popup">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-name">LLMeter Live Cost</span>
+      </div>
+      <span id="plan-badge" class="plan-badge" title="Current plan">Free</span>
+    </header>
+
+    <nav id="provider-tabs" class="tabs" role="tablist" aria-label="Provider"></nav>
+
+    <main id="content" class="content" aria-live="polite"></main>
+
+    <footer class="footer">
+      <button id="refresh-btn" class="link-btn" type="button">Refresh</button>
+      <span id="updated-at" class="muted"></span>
+      <button id="options-btn" class="link-btn" type="button">Settings</button>
+    </footer>
+
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>

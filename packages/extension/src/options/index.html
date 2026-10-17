@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLMeter Live Cost — Settings</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="options">
+    <h1>LLMeter Live Cost — Settings</h1>
+    <p class="lead">Everything here is stored locally in your browser. Admin keys are only ever sent to the provider that issued them.</p>
+
+    <section class="section">
+      <h2>Monthly budget</h2>
+      <p>Currency is USD (what both provider APIs report). When the projected month exceeds this budget the toolbar badge turns red (Pro).</p>
+      <form id="budget-form" class="row">
+        <input id="budget-input" class="input" type="number" min="0" step="1" placeholder="e.g. 500" aria-label="Monthly budget in USD" />
+        <button class="btn primary" type="submit">Save</button>
+        <button id="budget-clear" class="btn" type="button">Clear</button>
+      </form>
+      <p id="budget-status"></p>
+    </section>
+
+    <section class="section">
+      <h2>License</h2>
+      <p>
+        <strong>Free</strong>: 1 provider, 30 days of history.
+        <strong>Pro</strong> (lifetime): both providers, 90 days, CSV export, projection &amp; budget alert.
+        <a href="https://www.llmeter.org/extension" target="_blank" rel="noreferrer">Get a Pro license</a>
+      </p>
+      <form id="license-form" class="row">
+        <input id="license-input" class="input" type="text" placeholder="LLM-XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" aria-label="License key" />
+        <button class="btn primary" type="submit">Activate</button>
+        <button id="license-remove" class="btn" type="button">Remove</button>
+      </form>
+      <p id="license-status"></p>
+    </section>
+
+    <section class="section">
+      <h2>Provider keys</h2>
+      <p>Keys are masked; remove one to replace it from the popup.</p>
+      <div id="keys-list"></div>
+    </section>
+
+    <section class="section">
+      <h2>Data</h2>
+      <p>Removes keys, cached costs, budget and license from this browser. Nothing is stored anywhere else.</p>
+      <button id="wipe-btn" class="btn danger" type="button">Delete all extension data</button>
+      <p id="wipe-status"></p>
+    </section>
+
+    <p class="muted">
+      <a href="https://github.com/amedinat/LLMeter/blob/main/packages/extension/PRIVACY.md" target="_blank" rel="noreferrer">Privacy</a>
+      · <a href="https://www.llmeter.org" target="_blank" rel="noreferrer">llmeter.org</a>
+    </p>
+
+    <script type="module" src="./options.ts"></script>
+  </body>
+</html>
