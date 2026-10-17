@@ -17,6 +17,8 @@ function toWireEvent(event: UsageEvent): WireEvent {
     input_tokens: event.inputTokens,
     output_tokens: event.outputTokens,
     customer_id: event.customerId,
+    ...(event.feature ? { feature: event.feature } : {}),
+    ...(event.environment ? { environment: event.environment } : {}),
     ...(event.timestamp ? { timestamp: event.timestamp } : {}),
   };
 }

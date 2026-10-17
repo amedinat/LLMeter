@@ -97,8 +97,19 @@ describe('createAlertSchema', () => {
     expect(result.success).toBe(false);
   });
 
+  it('accepts valid customer_margin alert', () => {
+    const result = createAlertSchema.safeParse({
+      type: 'customer_margin',
+      config: {
+        threshold: 100,
+        period: 'monthly',
+      },
+    });
+    expect(result.success).toBe(true);
+  });
+
   it('accepts all valid alert types', () => {
-    for (const type of ['budget_limit', 'anomaly', 'daily_threshold']) {
+    for (const type of ['budget_limit', 'anomaly', 'daily_threshold', 'customer_margin']) {
       const result = createAlertSchema.safeParse({
         type,
         config: { threshold: 100, period: 'monthly' },

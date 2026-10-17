@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2, Slack, Send } from 'lucide-react';
+import { Plus, Loader2, Bell, AlertTriangle, DollarSign, Trash2, Slack, Send, TrendingDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { alertTypes, alertPeriods } from '@/lib/validators/alert';
 
@@ -16,12 +16,14 @@ const alertTypeLabels: Record<string, string> = {
   budget_limit: 'Budget Limit',
   anomaly: 'Anomaly Detection',
   daily_threshold: 'Daily Threshold',
+  customer_margin: 'Customer Margin',
 };
 
 const alertTypeDescriptions: Record<string, string> = {
   budget_limit: 'Triggers when total spend exceeds your limit',
   anomaly: 'Detects unusual spending spikes automatically',
   daily_threshold: 'Triggers when daily spend exceeds your limit',
+  customer_margin: 'Triggers when a customer\u2019s estimated AI cost reaches a % of their revenue (Pro)',
 };
 
 const alertTypeFormDescriptions: Record<string, string> = {
@@ -31,12 +33,15 @@ const alertTypeFormDescriptions: Record<string, string> = {
     'Triggers when your spending in a single day exceeds the specified dollar amount.',
   anomaly:
     'Triggers when today\u2019s spending is unusually high compared to your last 14 days. Lower sensitivity values (e.g. 1.5) catch smaller changes, higher values (e.g. 3.0) only trigger on major spikes. Default: 2.0.',
+  customer_margin:
+    'Triggers when any customer\u2019s estimated AI cost this month reaches the chosen percentage of that customer\u2019s monthly revenue. 100 = breakeven; above 100 = unprofitable. Requires per-customer revenue (set on the Customers page). Pro feature.',
 };
 
 const alertTypeIcons: Record<string, React.ReactNode> = {
   budget_limit: <DollarSign className="h-4 w-4" />,
   anomaly: <AlertTriangle className="h-4 w-4" />,
   daily_threshold: <DollarSign className="h-4 w-4" />,
+  customer_margin: <TrendingDown className="h-4 w-4" />,
 };
 
 const periodLabels: Record<string, string> = {
@@ -71,6 +76,14 @@ function getThresholdInputProps(formType: string) {
         min: '0.01',
         max: undefined,
       };
+    case 'customer_margin':
+      return {
+        label: 'Margin threshold (% of revenue)',
+        placeholder: '100',
+        step: '1',
+        min: '1',
+        max: undefined,
+      };
     case 'budget_limit':
     default:
       return {
@@ -89,6 +102,8 @@ function formatAlertDisplay(alert: AlertRow) {
       return `Sensitivity: ${alert.config.threshold}`;
     case 'daily_threshold':
       return `$${alert.config.threshold.toFixed(2)} / day`;
+    case 'customer_margin':
+      return `${alert.config.threshold}% of revenue`;
     case 'budget_limit':
     default:
       return `$${alert.config.threshold.toFixed(2)} / ${periodLabels[alert.config.period] || alert.config.period}`;
@@ -134,7 +149,7 @@ export default function AlertsPage() {
   };
 
   const showPeriodSelector = formType === 'budget_limit';
-  const effectivePeriod = formType === 'budget_limit' ? formPeriod : 'daily';
+  const effectivePeriod = formType === 'budget_limit' ? formPeriod : formType === 'customer_margin' ? 'monthly' : 'daily';
   const thresholdProps = getThresholdInputProps(formType);
 
   const onSubmit = async (e: React.FormEvent) => {

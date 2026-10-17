@@ -184,6 +184,34 @@ describe('PaddleProvider', () => {
       });
     });
 
+    it('resolves the plan when it is not the first item (add-on ordered first)', async () => {
+      // Paddle does not guarantee item order: a recurring add-on can precede
+      // the base plan. The handler must scan all items, not just items[0].
+      mockUnmarshal({
+        eventId: 'evt_multi',
+        eventType: EventName.SubscriptionCreated,
+        data: {
+          id: 'sub_multi',
+          customerId: 'ctm_multi',
+          status: 'active',
+          items: [
+            { price: { id: 'pri_addon_unknown' }, trialDates: null },
+            { price: { id: 'pri_pro_123' }, trialDates: null },
+          ],
+          currentBillingPeriod: { endsAt: '2026-05-07T00:00:00Z' },
+          customData: { user_id: 'usr_multi' },
+        },
+      });
+
+      const result = await provider.handleWebhook({
+        body: '{}',
+        headers: { 'paddle-signature': 'valid' },
+      });
+
+      expect(result.profileUpdate?.plan).toBe('pro');
+      expect(result.profileUpdate?.providerSubscriptionId).toBe('sub_multi');
+    });
+
     it('handles subscription.created with trial', async () => {
       mockUnmarshal({
         eventId: 'evt_2',

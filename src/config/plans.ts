@@ -14,7 +14,8 @@ export type Feature =
   | 'team-attribution'
   | 'optimization-single'
   | 'optimization-full'
-  | 'slack-notifications';
+  | 'slack-notifications'
+  | 'unit-economics';
 
 export interface PlanLimits {
   maxProviders: number;
@@ -96,13 +97,14 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'anomaly-detection',
       'optimization-full',
       'slack-notifications',
+      'unit-economics',
     ],
     limits: {
       maxProviders: Infinity,
       maxAlerts: Infinity,
       maxOptimizationSuggestions: Infinity,
       retentionDays: 365,
-      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly', 'customer_margin'],
     },
     featureList: [
       'Unlimited Providers',
@@ -110,6 +112,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'Unlimited Alerts & Anomaly Detection',
       'OpenRouter Integration',
       'Slack Notifications for Alerts',
+      'Per-customer margin & unit economics',
     ],
     highlighted: true,
     cta: 'Start Free Trial',
@@ -135,13 +138,14 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'team-attribution',
       'optimization-full',
       'slack-notifications',
+      'unit-economics',
     ],
     limits: {
       maxProviders: Infinity,
       maxAlerts: Infinity,
       maxOptimizationSuggestions: Infinity,
       retentionDays: Infinity,
-      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly', 'customer_margin'],
     },
     featureList: [
       'Everything in Pro',
@@ -173,13 +177,14 @@ export const PLANS: Record<Plan, PlanConfig> = {
       'team-attribution',
       'optimization-full',
       'slack-notifications',
+      'unit-economics',
     ],
     limits: {
       maxProviders: Infinity,
       maxAlerts: Infinity,
       maxOptimizationSuggestions: Infinity,
       retentionDays: Infinity,
-      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly'],
+      allowedAlertTypes: ['budget_limit', 'daily_threshold', 'anomaly', 'customer_margin'],
     },
     featureList: [
       'Everything in Team',

@@ -253,23 +253,45 @@ export class PaddleProvider implements PaymentProvider {
   // Private webhook handlers
   // -------------------------------------------------------------------------
 
+  /**
+   * Find the subscription/transaction item whose price maps to a known plan.
+   *
+   * Paddle subscriptions can carry multiple items — a base plan plus recurring
+   * add-ons — and Paddle does NOT guarantee the base plan is at index 0 (a
+   * simulated `subscription.created` for a per-seat plan bundled with an
+   * add-on illustrates exactly this). Blindly reading `items[0]` can resolve an
+   * add-on's price (or an unrelated line) instead of the plan, silently
+   * dropping a paying customer's upgrade. Scan every item and return the first
+   * one that maps to a configured plan.
+   */
+  private findPlanItem<T extends { price?: { id?: string | null } | null }>(
+    items: T[] | undefined | null,
+  ): { item: T; plan: string } | null {
+    if (!items) return null;
+    for (const item of items) {
+      const priceId = item?.price?.id;
+      if (!priceId) continue;
+      const plan = this.resolvePlan(priceId);
+      if (plan) return { item, plan };
+    }
+    return null;
+  }
+
   private handleSubscriptionCreated(
     subscription: SubscriptionCreatedNotification,
     output: WebhookOutput,
   ): void {
     const customerId = subscription.customerId;
     const subscriptionId = subscription.id;
-    const priceId = subscription.items?.[0]?.price?.id;
-    if (!customerId || !subscriptionId || !priceId) return;
+    const match = this.findPlanItem(subscription.items);
+    if (!customerId || !subscriptionId || !match) return;
 
-    const plan = this.resolvePlan(priceId);
-    if (!plan) return;
+    const { item, plan } = match;
 
     const isTrial = subscription.status === 'trialing';
     const currentPeriodEnd =
       subscription.currentBillingPeriod?.endsAt ?? null;
-    const trialEnd =
-      subscription.items?.[0]?.trialDates?.endsAt ?? null;
+    const trialEnd = item.trialDates?.endsAt ?? null;
 
     const customData = subscription.customData as Record<string, string> | null;
 
@@ -291,11 +313,10 @@ export class PaddleProvider implements PaymentProvider {
     output: WebhookOutput,
   ): void {
     const customerId = subscription.customerId;
-    const priceId = subscription.items?.[0]?.price?.id;
-    if (!customerId || !priceId) return;
+    const match = this.findPlanItem(subscription.items);
+    if (!customerId || !match) return;
 
-    const plan = this.resolvePlan(priceId);
-    if (!plan) return;
+    const { plan } = match;
 
     const currentPeriodEnd =
       subscription.currentBillingPeriod?.endsAt ?? null;
@@ -340,8 +361,7 @@ export class PaddleProvider implements PaymentProvider {
     const customerId = transaction.customerId;
     if (!customerId || !transaction.subscriptionId) return;
 
-    const priceId = transaction.items?.[0]?.price?.id;
-    const plan = priceId ? this.resolvePlan(priceId) : null;
+    const plan = this.findPlanItem(transaction.items)?.plan ?? null;
 
     output.customerId = customerId;
 
@@ -362,8 +382,7 @@ export class PaddleProvider implements PaymentProvider {
     const customerId = transaction.customerId;
     if (!customerId) return;
 
-    const priceId = transaction.items?.[0]?.price?.id;
-    const planId = priceId ? this.resolvePlan(priceId) : null;
+    const planId = this.findPlanItem(transaction.items)?.plan ?? null;
     const graceDays =
       (planId && this.plans[planId]?.gracePeriodDays) || 7;
 

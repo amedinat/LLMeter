@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const alertTypes = ['budget_limit', 'anomaly', 'daily_threshold'] as const;
+export const alertTypes = ['budget_limit', 'anomaly', 'daily_threshold', 'customer_margin'] as const;
 export const alertPeriods = ['daily', 'monthly'] as const;
 
 export const createAlertSchema = z.object({

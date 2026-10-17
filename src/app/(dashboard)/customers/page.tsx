@@ -1,5 +1,6 @@
 import { getCustomersSummary } from '@/features/customers/server/queries';
 import { CustomersClient } from '@/features/customers/components/customers-client';
+import { getUserPlan, hasFeature } from '@/lib/feature-gate';
 import { format } from 'date-fns';
 
 export default async function CustomersPage() {
@@ -8,6 +9,16 @@ export default async function CustomersPage() {
   const start = format(new Date(now.getTime() - 30 * 86_400_000), 'yyyy-MM-dd');
 
   const customers = await getCustomersSummary(start, end);
+  const plan = await getUserPlan();
+  const canSeeUnitEconomics = hasFeature(plan, 'unit-economics');
 
-  return <CustomersClient customers={customers} initialStart={start} initialEnd={end} />;
+  return (
+    <CustomersClient
+      customers={customers}
+      initialStart={start}
+      initialEnd={end}
+      plan={plan}
+      canSeeUnitEconomics={canSeeUnitEconomics}
+    />
+  );
 }

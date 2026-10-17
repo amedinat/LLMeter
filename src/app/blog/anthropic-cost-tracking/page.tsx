@@ -10,8 +10,9 @@ const post = getPost(POST_SLUG)!;
 const url = `https://www.llmeter.org/blog/${POST_SLUG}`;
 
 export const metadata: Metadata = {
-  title: `${post.title} — LLMeter`,
-  description: post.description,
+  title: 'Track Anthropic Claude API Costs per Customer — LLMeter',
+  description:
+    'Track Anthropic Claude API costs per customer and model — no proxy required. Covers Usage API, attribution, cache discounts, and spend alerts.',
   metadataBase: new URL('https://www.llmeter.org'),
   alternates: { canonical: url },
   openGraph: {
@@ -32,13 +33,31 @@ export const metadata: Metadata = {
   },
   keywords: [
     'anthropic api cost tracking',
+    'track anthropic claude costs',
+    'anthropic claude 4 cost tracking',
+    'how to track anthropic api costs',
     'claude api cost monitoring',
     'anthropic claude billing',
     'track claude spend',
     'anthropic usage api',
+    'anthropic usage api guide',
     'claude cost per model',
-    'claude 3 cost tracking',
+    'claude api cost per customer',
+    'claude api cost per user',
+    'claude api cost per request',
+    'claude 4 cost tracking',
+    'anthropic claude 4 cost monitoring',
+    'claude sonnet 4.6 cost tracking',
+    'claude opus 4.8 cost tracking',
+    'claude haiku 4.5 cost tracking',
+    'anthropic claude 4 billing',
     'anthropic api spending',
+    'claude cost attribution',
+    'claude cost attribution per user',
+    'llm cost attribution anthropic',
+    'anthropic api no proxy monitoring',
+    'anthropic claude 4 cost per customer',
+    'claude prompt cache cost tracking',
   ],
 };
 
@@ -297,8 +316,8 @@ async function getDailySpend(startDate: string, endDate: string) {
 
 const anthropic = new Anthropic();
 const PRICING: Record<string, { input: number; output: number }> = {
-  'claude-3-5-sonnet-20241022': { input: 3.00, output: 15.00 },
-  'claude-3-5-haiku-20241022':  { input: 0.80, output:  4.00 },
+  'claude-sonnet-4-6': { input: 3.00, output: 15.00 },
+  'claude-haiku-4-5':  { input: 0.80, output:  4.00 },
 };
 
 async function trackedMessage(
@@ -342,7 +361,7 @@ const anthropic = wrapAnthropic(new Anthropic(), meter);
 // All calls tracked automatically.
 // Pass llmeter_customer_id to attribute spend to a specific user.
 const res = await anthropic.messages.create({
-  model: 'claude-3-5-sonnet-20241022',
+  model: 'claude-sonnet-4-6',
   max_tokens: 1024,
   messages: [{ role: 'user', content: prompt }],
   llmeter_customer_id: req.user.id,

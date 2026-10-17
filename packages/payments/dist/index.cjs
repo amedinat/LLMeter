@@ -1,9 +1,38 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _nullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return rhsFn(); } } async function _asyncNullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return await rhsFn(); } } function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; } var _class; var _class2;// src/providers/paddle/server.ts
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
+// src/index.ts
+var index_exports = {};
+__export(index_exports, {
+  PaddleProvider: () => PaddleProvider,
+  StripeProvider: () => StripeProvider,
+  buildPlanToPriceMap: () => buildPlanToPriceMap,
+  buildPriceToPlanMap: () => buildPriceToPlanMap,
+  createPaymentProvider: () => createPaymentProvider,
+  findPlanByPriceId: () => findPlanByPriceId,
+  getGracePeriodDays: () => getGracePeriodDays,
+  getPaymentProvider: () => getPaymentProvider
+});
+module.exports = __toCommonJS(index_exports);
 
-
-
-var _paddlenodesdk = require('@paddle/paddle-node-sdk');
+// src/providers/paddle/server.ts
+var import_paddle_node_sdk = require("@paddle/paddle-node-sdk");
 
 // src/utils/plans.ts
 function buildPriceToPlanMap(plans, providerName) {
@@ -27,30 +56,30 @@ function findPlanByPriceId(plans, providerName, priceId) {
   return Object.values(plans).find((p) => p.priceIds[providerName] === priceId);
 }
 function getGracePeriodDays(plans, planId, defaultDays = 7) {
-  return _nullishCoalesce(_optionalChain([plans, 'access', _ => _[planId], 'optionalAccess', _2 => _2.gracePeriodDays]), () => ( defaultDays));
+  return plans[planId]?.gracePeriodDays ?? defaultDays;
 }
 
 // src/providers/paddle/server.ts
-var PaddleProvider = (_class = class {
-  __init() {this.name = "paddle"}
-  __init2() {this.supportsBillingPortal = true}
-  
-  
-  
-  
-  
-  constructor(config, plans) {;_class.prototype.__init.call(this);_class.prototype.__init2.call(this);
+var PaddleProvider = class {
+  name = "paddle";
+  supportsBillingPortal = true;
+  paddle;
+  config;
+  plans;
+  priceToPlan;
+  planToPrice;
+  constructor(config, plans) {
     this.config = config;
     this.plans = plans;
     this.priceToPlan = buildPriceToPlanMap(plans, "paddle");
     this.planToPrice = buildPlanToPriceMap(plans, "paddle");
-    this.paddle = new (0, _paddlenodesdk.Paddle)(config.apiKey, {
-      environment: config.environment === "sandbox" ? _paddlenodesdk.Environment.sandbox : _paddlenodesdk.Environment.production
+    this.paddle = new import_paddle_node_sdk.Paddle(config.apiKey, {
+      environment: config.environment === "sandbox" ? import_paddle_node_sdk.Environment.sandbox : import_paddle_node_sdk.Environment.production
     });
   }
   /** Resolve a Paddle price ID to a plan ID. */
   resolvePlan(priceId) {
-    return _nullishCoalesce(this.priceToPlan[priceId], () => ( null));
+    return this.priceToPlan[priceId] ?? null;
   }
   /**
    * Create a checkout session for Paddle overlay checkout.
@@ -74,7 +103,7 @@ var PaddleProvider = (_class = class {
       clientToken: this.config.clientToken,
       customerEmail: params.email,
       customData,
-      trialDays: _optionalChain([planConfig, 'optionalAccess', _3 => _3.trialDays])
+      trialDays: planConfig?.trialDays
     };
   }
   /**
@@ -86,7 +115,7 @@ var PaddleProvider = (_class = class {
   async createBillingPortalSession(params) {
     const baseUrl = this.config.environment === "sandbox" ? "https://sandbox-api.paddle.com" : "https://api.paddle.com";
     const body = {};
-    if (_optionalChain([params, 'access', _4 => _4.subscriptionIds, 'optionalAccess', _5 => _5.length])) {
+    if (params.subscriptionIds?.length) {
       body.subscription_ids = params.subscriptionIds;
     }
     const res = await fetch(
@@ -129,7 +158,7 @@ var PaddleProvider = (_class = class {
     return {
       success: true,
       plan: params.targetPlan,
-      status: _nullishCoalesce(updated.status, () => ( "active"))
+      status: updated.status ?? "active"
     };
   }
   /**
@@ -150,8 +179,8 @@ var PaddleProvider = (_class = class {
         this.config.webhookSecret,
         signature
       );
-      event = await _asyncNullishCoalesce((result instanceof Promise ? await result : result), async () => ( null));
-    } catch (e) {
+      event = (result instanceof Promise ? await result : result) ?? null;
+    } catch {
       return { received: false, error: "Webhook signature verification failed" };
     }
     if (!event) {
@@ -163,31 +192,31 @@ var PaddleProvider = (_class = class {
       eventType: event.eventType
     };
     switch (event.eventType) {
-      case _paddlenodesdk.EventName.SubscriptionCreated:
+      case import_paddle_node_sdk.EventName.SubscriptionCreated:
         this.handleSubscriptionCreated(
           event.data,
           output
         );
         break;
-      case _paddlenodesdk.EventName.SubscriptionUpdated:
+      case import_paddle_node_sdk.EventName.SubscriptionUpdated:
         this.handleSubscriptionUpdated(
           event.data,
           output
         );
         break;
-      case _paddlenodesdk.EventName.SubscriptionCanceled:
+      case import_paddle_node_sdk.EventName.SubscriptionCanceled:
         this.handleSubscriptionCanceled(
           event.data,
           output
         );
         break;
-      case _paddlenodesdk.EventName.TransactionCompleted:
+      case import_paddle_node_sdk.EventName.TransactionCompleted:
         this.handleTransactionCompleted(
           event.data,
           output
         );
         break;
-      case _paddlenodesdk.EventName.TransactionPaymentFailed:
+      case import_paddle_node_sdk.EventName.TransactionPaymentFailed:
         this.handleTransactionPaymentFailed(
           event.data,
           output
@@ -216,42 +245,61 @@ var PaddleProvider = (_class = class {
   // -------------------------------------------------------------------------
   // Private webhook handlers
   // -------------------------------------------------------------------------
+  /**
+   * Find the subscription/transaction item whose price maps to a known plan.
+   *
+   * Paddle subscriptions can carry multiple items — a base plan plus recurring
+   * add-ons — and Paddle does NOT guarantee the base plan is at index 0 (a
+   * simulated `subscription.created` for a per-seat plan bundled with an
+   * add-on illustrates exactly this). Blindly reading `items[0]` can resolve an
+   * add-on's price (or an unrelated line) instead of the plan, silently
+   * dropping a paying customer's upgrade. Scan every item and return the first
+   * one that maps to a configured plan.
+   */
+  findPlanItem(items) {
+    if (!items) return null;
+    for (const item of items) {
+      const priceId = item?.price?.id;
+      if (!priceId) continue;
+      const plan = this.resolvePlan(priceId);
+      if (plan) return { item, plan };
+    }
+    return null;
+  }
   handleSubscriptionCreated(subscription, output) {
     const customerId = subscription.customerId;
     const subscriptionId = subscription.id;
-    const priceId = _optionalChain([subscription, 'access', _6 => _6.items, 'optionalAccess', _7 => _7[0], 'optionalAccess', _8 => _8.price, 'optionalAccess', _9 => _9.id]);
-    if (!customerId || !subscriptionId || !priceId) return;
-    const plan = this.resolvePlan(priceId);
-    if (!plan) return;
+    const match = this.findPlanItem(subscription.items);
+    if (!customerId || !subscriptionId || !match) return;
+    const { item, plan } = match;
     const isTrial = subscription.status === "trialing";
-    const currentPeriodEnd = _nullishCoalesce(_optionalChain([subscription, 'access', _10 => _10.currentBillingPeriod, 'optionalAccess', _11 => _11.endsAt]), () => ( null));
-    const trialEnd = _nullishCoalesce(_optionalChain([subscription, 'access', _12 => _12.items, 'optionalAccess', _13 => _13[0], 'optionalAccess', _14 => _14.trialDates, 'optionalAccess', _15 => _15.endsAt]), () => ( null));
+    const currentPeriodEnd = subscription.currentBillingPeriod?.endsAt ?? null;
+    const trialEnd = item.trialDates?.endsAt ?? null;
     const customData = subscription.customData;
     output.customerId = customerId;
-    output.userId = _nullishCoalesce(_optionalChain([customData, 'optionalAccess', _16 => _16.user_id]), () => ( _optionalChain([customData, 'optionalAccess', _17 => _17.merchant_id])));
+    output.userId = customData?.user_id ?? customData?.merchant_id;
     output.profileUpdate = {
       plan,
       planStatus: plan,
       providerCustomerId: customerId,
       providerSubscriptionId: subscriptionId,
-      currentPeriodEnd: _nullishCoalesce(currentPeriodEnd, () => ( null)),
-      trialEndsAt: isTrial ? _nullishCoalesce(trialEnd, () => ( null)) : null,
+      currentPeriodEnd: currentPeriodEnd ?? null,
+      trialEndsAt: isTrial ? trialEnd ?? null : null,
       paymentIssue: false
     };
   }
   handleSubscriptionUpdated(subscription, output) {
     const customerId = subscription.customerId;
-    const priceId = _optionalChain([subscription, 'access', _18 => _18.items, 'optionalAccess', _19 => _19[0], 'optionalAccess', _20 => _20.price, 'optionalAccess', _21 => _21.id]);
-    if (!customerId || !priceId) return;
-    const plan = this.resolvePlan(priceId);
-    if (!plan) return;
-    const currentPeriodEnd = _nullishCoalesce(_optionalChain([subscription, 'access', _22 => _22.currentBillingPeriod, 'optionalAccess', _23 => _23.endsAt]), () => ( null));
+    const match = this.findPlanItem(subscription.items);
+    if (!customerId || !match) return;
+    const { plan } = match;
+    const currentPeriodEnd = subscription.currentBillingPeriod?.endsAt ?? null;
     output.customerId = customerId;
     if (subscription.status === "active" || subscription.status === "trialing") {
       output.profileUpdate = {
         plan,
         planStatus: plan,
-        currentPeriodEnd: _nullishCoalesce(currentPeriodEnd, () => ( null)),
+        currentPeriodEnd: currentPeriodEnd ?? null,
         paymentIssue: false
       };
     }
@@ -272,8 +320,7 @@ var PaddleProvider = (_class = class {
   handleTransactionCompleted(transaction, output) {
     const customerId = transaction.customerId;
     if (!customerId || !transaction.subscriptionId) return;
-    const priceId = _optionalChain([transaction, 'access', _24 => _24.items, 'optionalAccess', _25 => _25[0], 'optionalAccess', _26 => _26.price, 'optionalAccess', _27 => _27.id]);
-    const plan = priceId ? this.resolvePlan(priceId) : null;
+    const plan = this.findPlanItem(transaction.items)?.plan ?? null;
     output.customerId = customerId;
     if (plan) {
       output.profileUpdate = {
@@ -287,9 +334,8 @@ var PaddleProvider = (_class = class {
   handleTransactionPaymentFailed(transaction, output) {
     const customerId = transaction.customerId;
     if (!customerId) return;
-    const priceId = _optionalChain([transaction, 'access', _28 => _28.items, 'optionalAccess', _29 => _29[0], 'optionalAccess', _30 => _30.price, 'optionalAccess', _31 => _31.id]);
-    const planId = priceId ? this.resolvePlan(priceId) : null;
-    const graceDays = planId && _optionalChain([this, 'access', _32 => _32.plans, 'access', _33 => _33[planId], 'optionalAccess', _34 => _34.gracePeriodDays]) || 7;
+    const planId = this.findPlanItem(transaction.items)?.plan ?? null;
+    const graceDays = planId && this.plans[planId]?.gracePeriodDays || 7;
     const graceEnd = /* @__PURE__ */ new Date();
     graceEnd.setDate(graceEnd.getDate() + graceDays);
     output.customerId = customerId;
@@ -298,19 +344,19 @@ var PaddleProvider = (_class = class {
       currentPeriodEnd: graceEnd.toISOString()
     };
   }
-}, _class);
+};
 
 // src/providers/stripe/server.ts
-var StripeProvider = (_class2 = class {
-  __init3() {this.name = "stripe"}
-  __init4() {this.supportsBillingPortal = true}
-  
-  constructor(_config, plans) {;_class2.prototype.__init3.call(this);_class2.prototype.__init4.call(this);
+var StripeProvider = class {
+  name = "stripe";
+  supportsBillingPortal = true;
+  priceToPlan;
+  constructor(_config, plans) {
     this.priceToPlan = buildPriceToPlanMap(plans, "stripe");
   }
   /** Resolve a Stripe price ID to a plan ID. */
   resolvePlan(priceId) {
-    return _nullishCoalesce(this.priceToPlan[priceId], () => ( null));
+    return this.priceToPlan[priceId] ?? null;
   }
   /** @throws Not yet implemented. */
   async createCheckoutSession(_params) {
@@ -332,7 +378,7 @@ var StripeProvider = (_class2 = class {
   async getOrCreateCustomer(_params) {
     throw new Error("StripeProvider.getOrCreateCustomer is not yet implemented");
   }
-}, _class2);
+};
 
 // src/factory.ts
 var PROVIDERS = {
@@ -359,14 +405,15 @@ function createPaymentProvider(config) {
   return factory(config);
 }
 var getPaymentProvider = createPaymentProvider;
-
-
-
-
-
-
-
-
-
-exports.PaddleProvider = PaddleProvider; exports.StripeProvider = StripeProvider; exports.buildPlanToPriceMap = buildPlanToPriceMap; exports.buildPriceToPlanMap = buildPriceToPlanMap; exports.createPaymentProvider = createPaymentProvider; exports.findPlanByPriceId = findPlanByPriceId; exports.getGracePeriodDays = getGracePeriodDays; exports.getPaymentProvider = getPaymentProvider;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  PaddleProvider,
+  StripeProvider,
+  buildPlanToPriceMap,
+  buildPriceToPlanMap,
+  createPaymentProvider,
+  findPlanByPriceId,
+  getGracePeriodDays,
+  getPaymentProvider
+});
 //# sourceMappingURL=index.cjs.map

@@ -10,6 +10,10 @@ export interface UsageEvent {
   outputTokens: number;
   /** Your customer or user identifier (for per-customer attribution) */
   customerId: string;
+  /** Optional product feature/area this call belongs to (e.g. "chatbot", "summarizer"). For per-feature attribution. */
+  feature?: string;
+  /** Optional deployment environment (e.g. "production", "staging"). */
+  environment?: string;
   /** ISO-8601 timestamp of when the LLM call occurred. Defaults to now. */
   timestamp?: string;
 }
@@ -20,6 +24,8 @@ export interface WireEvent {
   input_tokens: number;
   output_tokens: number;
   customer_id: string;
+  feature?: string;
+  environment?: string;
   timestamp?: string;
 }
 
