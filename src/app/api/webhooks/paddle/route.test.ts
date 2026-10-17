@@ -31,6 +31,11 @@ vi.mock('@/lib/saas-pulse', () => ({
   pulseTrack: vi.fn(),
 }));
 
+const mockIssueLicense = vi.fn();
+vi.mock('@/lib/extension-license-issue', () => ({
+  issueExtensionLicense: (...args: unknown[]) => mockIssueLicense(...args),
+}));
+
 // --- Helpers ---
 
 function makeRequest(body = '{}'): NextRequest {
@@ -398,5 +403,85 @@ describe('POST /api/webhooks/paddle', () => {
     const res = await POST(makeRequest());
     expect(res.status).toBe(500);
     expect((await res.json()).error).toBe('Processing failed');
+  });
+  // ---- Browser extension lifetime license ----
+
+  describe('extension LTD (transaction.completed for NEXT_PUBLIC_PADDLE_EXT_LTD_PRICE_ID)', () => {
+    const ltdBody = JSON.stringify({
+      event_id: 'evt_ltd',
+      event_type: 'transaction.completed',
+      data: {
+        id: 'txn_ltd_01',
+        customer_id: 'ctm_ltd',
+        subscription_id: null,
+        custom_data: { email: 'buyer@example.com' },
+        items: [{ price: { id: 'pri_ext_ltd' } }],
+      },
+    });
+
+    beforeEach(() => {
+      process.env.NEXT_PUBLIC_PADDLE_EXT_LTD_PRICE_ID = 'pri_ext_ltd';
+      mockIssueLicense.mockReset();
+    });
+
+    it('issues a license when the LTD price is in the transaction', async () => {
+      mockHandleWebhook.mockResolvedValue({
+        received: true,
+        eventId: 'evt_ltd',
+        eventType: 'transaction.completed',
+        customerId: 'ctm_ltd',
+      });
+      mockIssueLicense.mockResolvedValue({ issued: true, emailed: true, last4: 'ABCD' });
+
+      const res = await POST(makeRequest(ltdBody));
+      expect(res.status).toBe(200);
+      expect(mockIssueLicense).toHaveBeenCalledTimes(1);
+      expect(mockIssueLicense.mock.calls[0][0]).toMatchObject({ data: { id: 'txn_ltd_01' } });
+      expect(pulseTrack).toHaveBeenCalledWith('subscription_created', {
+        user_ref: 'ctm_ltd',
+        metadata: { plan: 'extension-ltd', emailed: true },
+      });
+    });
+
+    it('does not issue a license for other prices or event types', async () => {
+      mockHandleWebhook.mockResolvedValue({
+        received: true,
+        eventId: 'evt_x',
+        eventType: 'transaction.completed',
+      });
+      await POST(makeRequest(ltdBody.replace('pri_ext_ltd', 'pri_pro')));
+      expect(mockIssueLicense).not.toHaveBeenCalled();
+
+      mockHandleWebhook.mockResolvedValue({
+        received: true,
+        eventId: 'evt_y',
+        eventType: 'transaction.created',
+      });
+      await POST(makeRequest(ltdBody));
+      expect(mockIssueLicense).not.toHaveBeenCalled();
+    });
+
+    it('is a no-op when the price env var is unset', async () => {
+      delete process.env.NEXT_PUBLIC_PADDLE_EXT_LTD_PRICE_ID;
+      mockHandleWebhook.mockResolvedValue({
+        received: true,
+        eventId: 'evt_z',
+        eventType: 'transaction.completed',
+      });
+      const res = await POST(makeRequest(ltdBody));
+      expect(res.status).toBe(200);
+      expect(mockIssueLicense).not.toHaveBeenCalled();
+    });
+
+    it('returns 500 so Paddle retries when issuance fails', async () => {
+      mockHandleWebhook.mockResolvedValue({
+        received: true,
+        eventId: 'evt_fail',
+        eventType: 'transaction.completed',
+      });
+      mockIssueLicense.mockRejectedValue(new Error('insert failed'));
+      const res = await POST(makeRequest(ltdBody));
+      expect(res.status).toBe(500);
+    });
   });
 });
