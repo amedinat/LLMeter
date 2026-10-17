@@ -437,10 +437,11 @@ describe('POST /api/webhooks/paddle', () => {
       expect(res.status).toBe(200);
       expect(mockIssueLicense).toHaveBeenCalledTimes(1);
       expect(mockIssueLicense.mock.calls[0][0]).toMatchObject({ data: { id: 'txn_ltd_01' } });
-      expect(pulseTrack).toHaveBeenCalledWith('subscription_created', {
+      expect(pulseTrack).toHaveBeenCalledWith('extension_ltd_purchased', {
         user_ref: 'ctm_ltd',
-        metadata: { plan: 'extension-ltd', emailed: true },
+        metadata: { transaction_id: 'txn_ltd_01', emailed: true },
       });
+      expect(pulseTrack).not.toHaveBeenCalledWith('subscription_created', expect.anything());
     });
 
     it('does not issue a license for other prices or event types', async () => {

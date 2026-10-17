@@ -16,7 +16,7 @@ export const PUBLIC_ROUTES = [
   '/models',
   '/validate',
   '/extension',
-  '/api/extension',
+  '/api/extension/license',
   '/api/waitlist',
   '/blog',
   '/robots.txt',

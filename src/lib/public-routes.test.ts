@@ -6,6 +6,9 @@ describe('proxy PUBLIC_ROUTES', () => {
     expect(isPublicRoute('/extension')).toBe(true);
     expect(isPublicRoute('/extension/')).toBe(true);
     expect(isPublicRoute('/api/extension/license/validate')).toBe(true);
+    // Only the license namespace is public, not any future /api/extension/* route.
+    expect(isPublicRoute('/api/extension')).toBe(false);
+    expect(isPublicRoute('/api/extension/admin')).toBe(false);
   });
 
   it('keeps private routes behind auth', () => {

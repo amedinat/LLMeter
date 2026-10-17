@@ -89,9 +89,9 @@ export async function POST(req: NextRequest) {
       if (isExtensionLtdPurchase(rawEvent, process.env[EXT_LTD_PRICE_ENV])) {
         const issued = await issueExtensionLicense(rawEvent!);
         if (issued.issued) {
-          pulseTrack('subscription_created', {
+          pulseTrack('extension_ltd_purchased', {
             user_ref: result.customerId ?? rawEvent!.data?.customer_id ?? 'unknown',
-            metadata: { plan: 'extension-ltd', emailed: issued.emailed },
+            metadata: { transaction_id: rawEvent!.data?.id, emailed: issued.emailed },
           });
         }
       }

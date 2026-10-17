@@ -90,10 +90,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Device binding: allow up to max_devices distinct device ids.
-    const { data: devices } = await supabase
+    const { data: devices, error: devicesError } = await supabase
       .from('extension_license_devices')
       .select('device_id')
       .eq('license_id', license.id);
+
+    if (devicesError) {
+      console.error('[ext-license] device lookup failed:', devicesError.message);
+      return json({ valid: false, error: 'Could not validate right now.' }, 500);
+    }
 
     const known = (devices ?? []).some((d) => d.device_id === deviceId);
     if (!known && (devices?.length ?? 0) >= license.max_devices) {

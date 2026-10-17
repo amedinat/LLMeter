@@ -1,8 +1,14 @@
 import type { DailyCost, ProviderId } from './types';
 import { monthToDateDays, roundUsd } from './metrics';
 
-function csvCell(v: string | number): string {
-  const s = String(v);
+/**
+ * Quote when needed and neutralise spreadsheet formula injection: a cell
+ * starting with = + - @ (or tab/CR) is prefixed with a single quote so Excel /
+ * Sheets treat it as text.
+ */
+export function csvCell(v: string | number): string {
+  let s = String(v);
+  if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
   return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 

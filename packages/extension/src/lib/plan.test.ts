@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { isValidLicenseFormat, normaliseLicenseKey, PLAN_LIMITS } from './plan';
 import { validateLicense, LICENSE_VALIDATE_URL } from './license';
-import { buildMonthCsv, csvFilename } from './csv';
+import { buildMonthCsv, csvCell, csvFilename } from './csv';
 import { enabledProviders } from './refresh';
 import { DEFAULT_STATE, type StoredState } from './types';
 
@@ -74,5 +74,16 @@ describe('CSV export', () => {
     ], now);
     expect(csv).toBe('date,provider,usd\r\n2026-10-01,anthropic,1.01\r\n2026-10-17,anthropic,2.00\r\n');
     expect(csvFilename('openai', now)).toBe('llmeter-openai-2026-10.csv');
+  });
+
+  it('neutralises formula-like cells and quotes specials', () => {
+    expect(csvCell('=SUM(A1)')).toBe("'=SUM(A1)");
+    expect(csvCell('+1')).toBe("'+1");
+    expect(csvCell('-5')).toBe("'-5");
+    expect(csvCell('@cmd')).toBe("'@cmd");
+    expect(csvCell('a,b')).toBe('"a,b"');
+    expect(csvCell('say "hi"')).toBe('"say ""hi""' + '"');
+    expect(csvCell('2026-10-01')).toBe('2026-10-01');
+    expect(csvCell(12.5)).toBe('12.5');
   });
 });
