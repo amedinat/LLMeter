@@ -37,6 +37,18 @@
     </section>
 
     <section class="section">
+      <h2>Anthropic amount units</h2>
+      <p>Anthropic's docs disagree on whether <code>cost_report</code> amounts are cents or dollars. Compare the popup with <a href="https://platform.claude.com/settings/cost" target="_blank" rel="noreferrer">your console</a>: if the extension shows 100× less, switch to dollars.</p>
+      <div class="row">
+        <select id="units-select" class="input" aria-label="Anthropic amount units">
+          <option value="cents">Cents (as documented) — divide by 100</option>
+          <option value="dollars">Dollars — use the amount as-is</option>
+        </select>
+      </div>
+      <p id="units-status"></p>
+    </section>
+
+    <section class="section">
       <h2>Provider keys</h2>
       <p>Keys are masked; remove one to replace it from the popup.</p>
       <div id="keys-list"></div>

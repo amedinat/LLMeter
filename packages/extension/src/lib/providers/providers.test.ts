@@ -36,6 +36,26 @@ describe('Anthropic cost report', () => {
     ]);
   });
 
+  it('parses amounts as dollars when the units setting says so', () => {
+    const days = parseAnthropicCostReport(anthropicFixture as AnthropicCostReport, 'dollars');
+    expect(days).toEqual([
+      { date: '2026-10-01', usd: 2000 },
+      { date: '2026-10-02', usd: 0 },
+      { date: '2026-10-03', usd: 500 },
+    ]);
+  });
+
+  it('fetch honours the units argument', async () => {
+    const page: AnthropicCostReport = {
+      data: [{ starting_at: '2026-10-01T00:00:00Z', ending_at: '2026-10-02T00:00:00Z', results: [{ amount: '250' }] }],
+      has_more: false,
+    };
+    const asCents = await fetchAnthropicDailyCosts('k', START, END, vi.fn<typeof fetch>().mockResolvedValue(jsonResponse(page)), 'cents');
+    const asDollars = await fetchAnthropicDailyCosts('k', START, END, vi.fn<typeof fetch>().mockResolvedValue(jsonResponse(page)), 'dollars');
+    expect(asCents[0]!.usd).toBe(2.5);
+    expect(asDollars[0]!.usd).toBe(250);
+  });
+
   it('builds the documented request', () => {
     const url = new URL(buildAnthropicCostUrl(START, END, 'page_x'));
     expect(url.origin + url.pathname).toBe('https://api.anthropic.com/v1/organizations/cost_report');

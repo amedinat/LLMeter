@@ -189,6 +189,29 @@ function renderSummary(provider: ProviderId): void {
   const s = computeSummary(days, now);
   const over = limits.projection && isOverBudget(s, state.budgetUsd);
 
+  // One-time notice: the unit of Anthropic amounts is not settled in the docs.
+  if (provider === 'anthropic' && !state.anthropicUnitsNoticeDismissed && days.length > 0) {
+    const notice = el('div', { class: 'alert warn', role: 'status' });
+    notice.append(
+      'Compare with your console; if you see 100× less, change the units in ',
+      el('a', { href: '#', text: 'Settings' }),
+      '. ',
+    );
+    notice.querySelector('a')!.addEventListener('click', (e) => {
+      e.preventDefault();
+      void chrome.runtime.openOptionsPage();
+    });
+    const dismiss = el('button', { class: 'link-btn', type: 'button', text: 'Got it' });
+    dismiss.addEventListener('click', async () => {
+      state = await updateState((st) => {
+        st.anthropicUnitsNoticeDismissed = true;
+      });
+      render();
+    });
+    notice.append(dismiss);
+    contentEl.append(notice);
+  }
+
   const grid = el('div', { class: 'cards' });
   grid.append(
     card('Month to date', formatUsd(s.monthToDateUsd), `${s.daysElapsed} of ${s.daysInMonth} days`),

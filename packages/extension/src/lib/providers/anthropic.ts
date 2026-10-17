@@ -11,19 +11,25 @@
  *   response: { data: [{ starting_at, ending_at, results: [{ amount: "123.78912",
  *              currency: "USD", description, cost_type, … }] }], has_more, next_page }
  *
- * The docs state: "All costs in USD, reported as decimal strings in lowest
- * units (cents)". We therefore divide by 100.
- * TODO(verify): confirm the cents unit against a real account — the reference
- * example ("123.78912") is ambiguous. If amounts turn out to be dollars, set
- * ANTHROPIC_AMOUNT_DIVISOR to 1.
+ * The guide states: "All costs in USD, reported as decimal strings in lowest
+ * units (cents)", but the API reference example ("123.78912" with
+ * currency USD) reads like dollars. The unit is therefore a user setting
+ * (`AnthropicAmountUnits`, default `cents` per the written docs) and the popup
+ * asks the user to compare with their console the first time data arrives.
+ * TODO(verify): confirm against a real admin key and drop the setting.
  */
-import type { DailyCost } from '../types';
+import type { AnthropicAmountUnits, DailyCost } from '../types';
 import { describeHttpError, ProviderError } from '../errors';
 import { toUtcDate } from '../metrics';
 
 export const ANTHROPIC_BASE = 'https://api.anthropic.com';
 export const ANTHROPIC_VERSION = '2023-06-01';
-export const ANTHROPIC_AMOUNT_DIVISOR = 100;
+
+/** Divisor that turns an `amount` string into USD for each unit setting. */
+export const ANTHROPIC_AMOUNT_DIVISORS: Record<AnthropicAmountUnits, number> = {
+  cents: 100,
+  dollars: 1,
+};
 const PAGE_LIMIT = 31;
 const MAX_PAGES = 12;
 
@@ -57,14 +63,18 @@ export function isAnthropicCostReport(v: unknown): v is AnthropicCostReport {
 }
 
 /** Pure: collapse a cost report page into per-day USD totals. */
-export function parseAnthropicCostReport(report: AnthropicCostReport): DailyCost[] {
+export function parseAnthropicCostReport(
+  report: AnthropicCostReport,
+  units: AnthropicAmountUnits = 'cents',
+): DailyCost[] {
+  const divisor = ANTHROPIC_AMOUNT_DIVISORS[units];
   const out: DailyCost[] = [];
   for (const bucket of report.data) {
     const date = bucket.starting_at.slice(0, 10);
     let total = 0;
     for (const r of bucket.results ?? []) {
       const n = Number.parseFloat(r.amount);
-      if (Number.isFinite(n)) total += n / ANTHROPIC_AMOUNT_DIVISOR;
+      if (Number.isFinite(n)) total += n / divisor;
     }
     out.push({ date, usd: total });
   }
@@ -95,6 +105,7 @@ export async function fetchAnthropicDailyCosts(
   startingAt: Date,
   endingAt: Date,
   fetchImpl: typeof fetch = fetch,
+  units: AnthropicAmountUnits = 'cents',
 ): Promise<DailyCost[]> {
   const days: DailyCost[] = [];
   let page: string | undefined;
@@ -124,7 +135,7 @@ export async function fetchAnthropicDailyCosts(
       throw new ProviderError('invalid_response', 'Unexpected response from the Anthropic cost report API.');
     }
 
-    days.push(...parseAnthropicCostReport(json));
+    days.push(...parseAnthropicCostReport(json, units));
     if (!json.has_more || !json.next_page) break;
     page = json.next_page;
   }

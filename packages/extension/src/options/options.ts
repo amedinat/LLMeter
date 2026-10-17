@@ -20,6 +20,8 @@ const licenseInput = $<HTMLInputElement>('#license-input');
 const licenseRemove = $<HTMLButtonElement>('#license-remove');
 const licenseStatus = $('#license-status');
 
+const unitsSelect = $<HTMLSelectElement>('#units-select');
+const unitsStatus = $('#units-status');
 const keysList = $('#keys-list');
 const wipeBtn = $<HTMLButtonElement>('#wipe-btn');
 const wipeStatus = $('#wipe-status');
@@ -49,6 +51,12 @@ function render(): void {
   } else {
     licenseStatus.textContent = 'Free plan.';
   }
+
+  unitsSelect.value = state.anthropicUnits;
+  unitsStatus.textContent =
+    state.anthropicUnits === 'cents'
+      ? 'Amounts are divided by 100. Takes effect on the next refresh.'
+      : 'Amounts are used as dollars. Takes effect on the next refresh.';
 
   keysList.replaceChildren();
   const configured = PROVIDER_IDS.filter((p) => !!state.keys[p]);
@@ -128,6 +136,19 @@ licenseRemove.addEventListener('click', async () => {
   });
   render();
   pingBadge();
+});
+
+unitsSelect.addEventListener('change', async () => {
+  const units = unitsSelect.value === 'dollars' ? 'dollars' : 'cents';
+  state = await updateState((s) => {
+    s.anthropicUnits = units;
+    s.anthropicUnitsNoticeDismissed = true;
+    // Cached Anthropic data was parsed with the old unit; drop it so the next
+    // refresh (triggered below) re-fetches with the new one.
+    delete s.cache.anthropic;
+  });
+  render();
+  chrome.runtime.sendMessage({ type: 'refresh' }, () => void chrome.runtime.lastError);
 });
 
 wipeBtn.addEventListener('click', async () => {

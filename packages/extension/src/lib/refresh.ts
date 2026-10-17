@@ -70,7 +70,9 @@ export async function refreshAll(now: Date = new Date()): Promise<StoredState> {
     const key = state.keys[provider];
     if (!key) continue;
     try {
-      const series = await fetchProviderCosts(provider, key, limits.historyDays, now);
+      const series = await fetchProviderCosts(provider, key, limits.historyDays, now, fetch, {
+        anthropicUnits: state.anthropicUnits,
+      });
       state.cache[provider] = series;
       delete state.errors[provider];
     } catch (err) {

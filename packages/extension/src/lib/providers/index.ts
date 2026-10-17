@@ -1,4 +1,4 @@
-import type { CostSeries, DailyCost, ProviderId } from '../types';
+import type { AnthropicAmountUnits, CostSeries, DailyCost, ProviderId } from '../types';
 import { normaliseDays, startOfUtcMonth, utcDaysAgo } from '../metrics';
 import { fetchAnthropicDailyCosts, looksLikeAnthropicAdminKey } from './anthropic';
 import { fetchOpenAIDailyCosts, looksLikeOpenAIAdminKey } from './openai';
@@ -47,12 +47,13 @@ export async function fetchProviderCosts(
   historyDays: number,
   now: Date = new Date(),
   fetchImpl: typeof fetch = fetch,
+  options: { anthropicUnits?: AnthropicAmountUnits } = {},
 ): Promise<CostSeries> {
   const { start, end } = requestWindow(now, historyDays);
   let days: DailyCost[];
   switch (provider) {
     case 'anthropic':
-      days = await fetchAnthropicDailyCosts(adminKey, start, end, fetchImpl);
+      days = await fetchAnthropicDailyCosts(adminKey, start, end, fetchImpl, options.anthropicUnits ?? 'cents');
       break;
     case 'openai':
       days = await fetchOpenAIDailyCosts(adminKey, start, end, fetchImpl);

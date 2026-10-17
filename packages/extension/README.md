@@ -77,7 +77,7 @@ Environment variables (web app):
 
 ## Provider API notes
 
-- Anthropic cost report: `GET /v1/organizations/cost_report?starting_at&ending_at&bucket_width=1d&limit=31`, headers `x-api-key`, `anthropic-version: 2023-06-01`. Amounts are decimal strings; docs say "lowest units (cents)", so the parser divides by 100 (`ANTHROPIC_AMOUNT_DIVISOR`). **Verify with a real key before launch.**
+- Anthropic cost report: `GET /v1/organizations/cost_report?starting_at&ending_at&bucket_width=1d&limit=31`, headers `x-api-key`, `anthropic-version: 2023-06-01`. Amounts are decimal strings; the guide says "lowest units (cents)" but the reference example looks like dollars, so the unit is a setting (**Settings → Anthropic amount units**, default cents) and the popup shows a one-time "compare with your console" notice. **Verify with a real key before launch** and then hard-code the right unit.
 - OpenAI costs: `GET /v1/organization/costs?start_time&end_time&bucket_width=1d&limit=180`, `Authorization: Bearer <admin key>`. `amount.value` is in dollars.
 
 ## Release

@@ -39,6 +39,14 @@ export interface SpendSummary {
 
 export type Plan = 'free' | 'pro';
 
+/**
+ * How to read Anthropic `amount` strings. The usage-cost guide says
+ * "decimal strings in lowest units (cents)" while the API reference example
+ * shows "123.78912" next to `currency: "USD"`; until confirmed against a real
+ * account the user can switch. Default follows the written docs.
+ */
+export type AnthropicAmountUnits = 'cents' | 'dollars';
+
 export interface LicenseState {
   key: string | null;
   plan: Plan;
@@ -63,6 +71,10 @@ export interface StoredState {
   license: LicenseState;
   /** Stable random id for license device binding. */
   deviceId: string;
+  /** Unit of Anthropic cost_report amounts (see AnthropicAmountUnits). */
+  anthropicUnits: AnthropicAmountUnits;
+  /** Set once the user dismisses the "compare with your console" notice. */
+  anthropicUnitsNoticeDismissed: boolean;
 }
 
 export const DEFAULT_STATE: StoredState = {
@@ -73,4 +85,6 @@ export const DEFAULT_STATE: StoredState = {
   errors: {},
   license: { key: null, plan: 'free', validatedAt: null, error: null },
   deviceId: '',
+  anthropicUnits: 'cents',
+  anthropicUnitsNoticeDismissed: false,
 };
