@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout develop
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: main
           fetch-depth: 0
 
       - name: Setup pnpm
@@ -51,7 +51,7 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          base: develop
+          base: main
           branch: chore/refresh-pricing-${{ github.run_id }}
           commit-message: "chore(pricing): refresh model catalog from OpenRouter"
           title: "chore(pricing): refresh model catalog from OpenRouter"
