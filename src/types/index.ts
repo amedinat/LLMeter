@@ -3,7 +3,7 @@
 export type Plan = 'free' | 'pro' | 'team' | 'enterprise';
 export type ProviderType = 'openai' | 'anthropic' | 'google' | 'deepseek' | 'openrouter' | 'mistral' | 'azure' | 'xai' | 'cohere' | 'groq' | 'together' | 'fireworks' | 'perplexity' | 'cerebras' | 'ai21' | 'deepinfra' | 'novita' | 'hyperbolic' | 'sambanova' | 'lambdalabs' | 'lepton' | 'inferencenet' | 'nvidia' | 'cloudflare' | 'nebius' | 'replicate';
 export type ProviderStatus = 'active' | 'error' | 'disconnected' | 'syncing';
-export type AlertType = 'budget_limit' | 'anomaly' | 'daily_threshold';
+export type AlertType = 'budget_limit' | 'anomaly' | 'daily_threshold' | 'customer_margin';
 export type SuggestionStatus = 'pending' | 'applied' | 'dismissed';
 
 export interface User {
@@ -108,6 +108,9 @@ export interface CustomerSummary {
   total_output_tokens: number;
   request_count: number;
   last_active: string;
+  monthly_revenue_usd?: number | null;
+  margin_usd?: number | null;
+  ai_cost_pct?: number | null;
 }
 
 export interface CustomerDailySpend {
@@ -118,6 +121,15 @@ export interface CustomerDailySpend {
 export interface CustomerModelUsage {
   model: string;
   provider: string | null;
+  cost: number;
+  input_tokens: number;
+  output_tokens: number;
+  request_count: number;
+  pct: number;
+}
+
+export interface CustomerDimensionUsage {
+  name: string;
   cost: number;
   input_tokens: number;
   output_tokens: number;

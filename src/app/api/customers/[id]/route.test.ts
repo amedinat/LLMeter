@@ -90,6 +90,8 @@ beforeEach(async () => {
     summary: { customer_id: 'cust-1', display_name: 'Acme', total_cost: 10, total_input_tokens: 1000, total_output_tokens: 500, request_count: 5, last_active: '2026-04-01T00:00:00Z' },
     dailySpend: [{ date: '2026-04-01', total: 10 }],
     modelUsage: [{ model: 'gpt-4o', provider: 'openai', cost: 10, input_tokens: 1000, output_tokens: 500, request_count: 5, pct: 100 }],
+    featureUsage: [],
+    environmentUsage: [],
   });
   mockSingleResult.mockResolvedValue({
     data: { customer_id: 'cust-1', display_name: 'Updated', metadata: null },

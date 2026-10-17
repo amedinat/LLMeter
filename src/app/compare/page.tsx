@@ -67,6 +67,26 @@ const COMPETITORS = [
     line: 'Eval-focused platform where cost tracking is a secondary concern.',
     href: '/migrate/braintrust',
   },
+  {
+    name: 'Bifrost',
+    line: 'Per-customer budgets — but as a gateway in your request path. LLMeter does per-customer without a proxy.',
+    href: '/migrate/bifrost',
+  },
+  {
+    name: 'LiteLLM',
+    line: 'Open-source proxy you self-host (proxy + Postgres + Redis). LLMeter needs no proxy and adds margin.',
+    href: '/migrate/litellm',
+  },
+  {
+    name: 'AI Vyuh',
+    line: 'Closed, cloud-only, $50+/mo. LLMeter is open-source, self-hostable, $19, with per-customer margin.',
+    href: '/migrate/ai-vyuh',
+  },
+  {
+    name: 'AI Cost Board',
+    line: 'Proxy with per-project cost. LLMeter is no-proxy, per-customer, open-source.',
+    href: '/migrate/ai-cost-board',
+  },
 ];
 
 const WHY = [

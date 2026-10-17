@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -21,18 +22,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ArrowLeft, DollarSign, Users, Hash, Calendar, Pencil, Trash2, Loader2 } from 'lucide-react';
+import { ArrowLeft, DollarSign, Users, Hash, Calendar, Pencil, Trash2, Loader2, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { apiFetch } from '@/lib/api-client';
-import type { CustomerSummary, CustomerDailySpend, CustomerModelUsage } from '@/types';
+import type { CustomerSummary, CustomerDailySpend, CustomerModelUsage, CustomerDimensionUsage } from '@/types';
 import { CustomerTrendChart } from './customer-trend-chart';
 import { CustomerModelTable } from './customer-model-table';
+import { CustomerDimensionTable } from './customer-dimension-table';
 
 interface CustomersClientProps {
   customers: CustomerSummary[];
   initialStart: string;
   initialEnd: string;
+  plan?: import('@/types').Plan;
+  canSeeUnitEconomics?: boolean;
 }
 
 type DateRange = '7d' | '30d' | '90d' | 'custom';
@@ -64,7 +68,7 @@ function getDateRange(range: DateRange): { start: string; end: string } {
   return { start, end };
 }
 
-export function CustomersClient({ customers: initialCustomers, initialStart, initialEnd }: CustomersClientProps) {
+export function CustomersClient({ customers: initialCustomers, initialStart, initialEnd, canSeeUnitEconomics = false }: CustomersClientProps) {
   const [customers, setCustomers] = useState(initialCustomers);
   const [range, setRange] = useState<DateRange>('30d');
   const [customStart, setCustomStart] = useState(initialStart);
@@ -75,11 +79,14 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
     summary: CustomerSummary;
     dailySpend: CustomerDailySpend[];
     modelUsage: CustomerModelUsage[];
+    featureUsage?: CustomerDimensionUsage[];
+    environmentUsage?: CustomerDimensionUsage[];
   } | null>(null);
 
   // Edit dialog state
   const [editOpen, setEditOpen] = useState(false);
   const [editName, setEditName] = useState('');
+  const [editRevenue, setEditRevenue] = useState('');
   const [editMetadata, setEditMetadata] = useState('');
   const [metadataError, setMetadataError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -87,6 +94,10 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
   // Delete confirmation state
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  // Revenue CSV import state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [importing, setImporting] = useState(false);
 
   const totalCost = customers.reduce((s, c) => s + c.total_cost, 0);
   const totalRequests = customers.reduce((s, c) => s + c.request_count, 0);
@@ -176,6 +187,8 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
 
   const openEdit = (customerId: string, displayName: string | null) => {
     setEditName(displayName ?? customerId);
+    const c = customers.find((cust) => cust.customer_id === customerId);
+    setEditRevenue(c?.monthly_revenue_usd != null ? String(c.monthly_revenue_usd) : '');
     setEditMetadata('{}');
     setMetadataError('');
     setEditOpen(true);
@@ -192,6 +205,12 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
         body: JSON.stringify({
           display_name: editName,
           metadata: JSON.parse(editMetadata),
+          ...(canSeeUnitEconomics
+            ? {
+                monthly_revenue_usd:
+                  editRevenue.trim() === '' ? null : Number(editRevenue),
+              }
+            : {}),
         }),
       });
 
@@ -235,6 +254,43 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
       toast.error(err instanceof Error ? err.message : 'Failed to delete');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const handleImportRevenue = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    // Reset the input so the same file can be re-selected later.
+    e.target.value = '';
+    if (!file) return;
+
+    setImporting(true);
+    try {
+      const text = await file.text();
+      const res = await apiFetch('/api/customers/import-revenue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/csv' },
+        body: text,
+      });
+
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(j.error || `Import failed (${res.status})`);
+      }
+
+      toast.success(`Updated ${j.updated} customer(s)`);
+      if (Array.isArray(j.errors) && j.errors.length > 0) {
+        toast.error(j.errors[0]);
+      }
+
+      // Refresh the customer list the same way the page refetches after an edit.
+      const { start, end } = range === 'custom'
+        ? { start: customStart, end: customEnd }
+        : getDateRange(range);
+      fetchCustomers(start, end);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to import revenue');
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -312,6 +368,14 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
         {/* Model breakdown */}
         <CustomerModelTable data={drillDown.modelUsage} />
 
+        {/* Optional dimension breakdowns */}
+        {drillDown.featureUsage && drillDown.featureUsage.length > 0 && (
+          <CustomerDimensionTable title="Usage by Feature" data={drillDown.featureUsage} />
+        )}
+        {drillDown.environmentUsage && drillDown.environmentUsage.length > 0 && (
+          <CustomerDimensionTable title="Usage by Environment" data={drillDown.environmentUsage} />
+        )}
+
         {/* Edit Dialog */}
         <Dialog open={editOpen} onOpenChange={setEditOpen}>
           <DialogContent className="sm:max-w-md">
@@ -331,6 +395,20 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
                   placeholder="Customer name"
                 />
               </div>
+              {canSeeUnitEconomics && (
+                <div className="space-y-2">
+                  <Label htmlFor="monthlyRevenue">Monthly revenue (USD)</Label>
+                  <Input
+                    id="monthlyRevenue"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={editRevenue}
+                    onChange={(e) => setEditRevenue(e.target.value)}
+                    placeholder="e.g. 99.00"
+                  />
+                </div>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="metadata">Metadata (JSON)</Label>
                 <textarea
@@ -387,9 +465,38 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
   // Customer list view
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
-        <p className="text-muted-foreground">Usage and cost attribution by customer</p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
+          <p className="text-muted-foreground">Usage and cost attribution by customer</p>
+        </div>
+        {canSeeUnitEconomics && (
+          <div className="flex flex-col items-start gap-1 sm:items-end">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              className="hidden"
+              onChange={handleImportRevenue}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={importing}
+            >
+              {importing ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Upload className="mr-2 h-4 w-4" />
+              )}
+              Import revenue (CSV)
+            </Button>
+            <p className="text-xs text-muted-foreground" title="CSV: customer_id,monthly_revenue_usd">
+              CSV: customer_id,monthly_revenue_usd
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Date filters */}
@@ -423,6 +530,13 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
       </div>
 
       {/* Customer table */}
+      {!canSeeUnitEconomics && (
+        <p className="text-sm text-muted-foreground">
+          <a href="/pricing" className="underline hover:text-foreground">
+            Upgrade to Pro to see per-customer margin &amp; unit economics →
+          </a>
+        </p>
+      )}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Customer Usage</CardTitle>
@@ -436,6 +550,12 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
                 <TableHead className="text-right">Input Tokens</TableHead>
                 <TableHead className="text-right">Output Tokens</TableHead>
                 <TableHead className="text-right">Cost</TableHead>
+                {canSeeUnitEconomics && (
+                  <>
+                    <TableHead className="text-right">Revenue</TableHead>
+                    <TableHead className="text-right">Margin</TableHead>
+                  </>
+                )}
                 <TableHead className="text-right">% Total</TableHead>
               </TableRow>
             </TableHeader>
@@ -450,8 +570,11 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
                   >
                     <TableCell>
                       <div>
-                        <div className="font-medium">
+                        <div className="flex items-center gap-2 font-medium">
                           {c.display_name || c.customer_id}
+                          {canSeeUnitEconomics && c.ai_cost_pct != null && c.ai_cost_pct >= 100 && (
+                            <Badge variant="destructive">Unprofitable</Badge>
+                          )}
                         </div>
                         {c.display_name && (
                           <div className="text-xs text-muted-foreground font-mono">
@@ -472,6 +595,21 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
                     <TableCell className="text-right font-mono text-sm font-medium">
                       ${c.total_cost.toFixed(4)}
                     </TableCell>
+                    {canSeeUnitEconomics && (
+                      <>
+                        <TableCell className="text-right font-mono text-sm">
+                          {c.monthly_revenue_usd != null ? `$${c.monthly_revenue_usd.toFixed(2)}` : '—'}
+                        </TableCell>
+                        <TableCell
+                          className={cn(
+                            'text-right font-mono text-sm font-medium',
+                            c.margin_usd != null && c.margin_usd < 0 && 'text-destructive'
+                          )}
+                        >
+                          {c.margin_usd != null ? `$${c.margin_usd.toFixed(2)}` : '—'}
+                        </TableCell>
+                      </>
+                    )}
                     <TableCell className="text-right text-sm">
                       <div className="flex items-center justify-end gap-2">
                         <div className="h-1.5 w-16 rounded-full bg-muted overflow-hidden">
@@ -490,7 +628,7 @@ export function CustomersClient({ customers: initialCustomers, initialStart, ini
               })}
               {customers.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={canSeeUnitEconomics ? 8 : 6} className="text-center text-muted-foreground py-8">
                     {loading ? 'Loading...' : 'No customer usage data yet. Use the ingestion API to send usage records.'}
                   </TableCell>
                 </TableRow>

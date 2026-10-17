@@ -11,6 +11,8 @@ const usageEventSchema = z.object({
   input_tokens: z.number().int().min(0),
   output_tokens: z.number().int().min(0),
   customer_id: z.string().min(1),
+  feature: z.string().min(1).max(120).optional(),
+  environment: z.string().min(1).max(120).optional(),
   timestamp: z.string().datetime().optional(),
 });
 
@@ -102,6 +104,8 @@ export async function POST(req: NextRequest) {
       customer_id: event.customer_id,
       model: event.model,
       provider,
+      feature: event.feature ?? null,
+      environment: event.environment ?? null,
       input_tokens: event.input_tokens,
       output_tokens: event.output_tokens,
       cost_usd: cost,

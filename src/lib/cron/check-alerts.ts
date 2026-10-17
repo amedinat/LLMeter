@@ -1,7 +1,16 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendAlertEmail } from '@/lib/email/send-alert';
+import { sendMarginAlertEmail } from '@/lib/email/send-margin-alert';
 import { sendSlackAlert } from '@/lib/slack/send-alert';
 import { pulseTrack } from '@/lib/saas-pulse';
+
+interface MarginOffender {
+  display_name: string;
+  customer_id: string;
+  revenue: number;
+  cost: number;
+  pct: number;
+}
 
 function daysAgo(n: number): Date {
   const d = new Date();
@@ -79,6 +88,37 @@ async function triggerAlert(
   }
 }
 
+async function triggerMarginAlert(
+  supabase: SupabaseAdmin,
+  alert: { id: string; user_id: string; config: unknown },
+  offenders: MarginOffender[],
+  threshold: number,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  dashboardUrl?: string
+) {
+  const message = `${offenders.length} customer(s) at/over ${threshold}% AI-cost-to-revenue (worst: ${offenders[0].display_name} ${offenders[0].pct.toFixed(0)}%)`;
+
+  await supabase.from('alert_events').insert({
+    alert_id: alert.id,
+    user_id: alert.user_id,
+    message,
+    data: { offenders, threshold, alertType: 'customer_margin' },
+  });
+
+  await supabase
+    .from('alerts')
+    .update({ last_triggered_at: new Date().toISOString() })
+    .eq('id', alert.id);
+
+  pulseTrack('alert_triggered', {
+    user_ref: alert.user_id,
+    metadata: { alertType: 'customer_margin', threshold, offenders: offenders.length },
+  });
+
+  // Slack is deferred for margin alerts in v1 (its payload shape is spend-specific).
+  await sendMarginAlertEmail({ userId: alert.user_id, threshold, offenders });
+}
+
 /**
  * Check all enabled alerts and trigger those that exceed thresholds.
  */
@@ -122,6 +162,43 @@ export async function runCheckAlerts(): Promise<{
 
       const now = new Date();
       const today = now.toISOString().slice(0, 10);
+
+      // --- Customer margin (estimated AI cost vs revenue) ---
+      if (alert.type === 'customer_margin') {
+        const threshold = config.threshold > 0 ? config.threshold : 100; // percent of revenue
+        const monthStart = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}-01`;
+        // customers with revenue set
+        const { data: custs, error: cErr } = await supabase
+          .from('customers')
+          .select('customer_id, display_name, monthly_revenue_usd')
+          .eq('user_id', alert.user_id)
+          .not('monthly_revenue_usd', 'is', null);
+        if (cErr) { console.warn(`[check-alerts] margin alert ${alert.id} customers query failed:`, cErr.message); continue; }
+        if (!custs || custs.length === 0) continue;
+        // estimated AI cost this month per customer
+        const { data: usage, error: uErr } = await supabase
+          .from('customer_usage_records')
+          .select('customer_id, cost_usd')
+          .eq('user_id', alert.user_id)
+          .gte('timestamp', `${monthStart}T00:00:00`);
+        if (uErr) { console.warn(`[check-alerts] margin alert ${alert.id} usage query failed:`, uErr.message); continue; }
+        const costByCustomer: Record<string, number> = {};
+        for (const u of usage ?? []) costByCustomer[u.customer_id] = (costByCustomer[u.customer_id] ?? 0) + (Number(u.cost_usd) || 0);
+        const offenders: MarginOffender[] = custs
+          .map((c: { customer_id: string; display_name: string | null; monthly_revenue_usd: number | null }) => {
+            const revenue = Number(c.monthly_revenue_usd) || 0;
+            const cost = costByCustomer[c.customer_id] ?? 0;
+            const pct = revenue > 0 ? (cost / revenue) * 100 : null;
+            return { customer_id: c.customer_id, display_name: c.display_name || c.customer_id, revenue, cost, pct: pct ?? 0, _pct: pct };
+          })
+          .filter((o: { _pct: number | null }) => o._pct != null && o._pct >= threshold)
+          .sort((a: { pct: number }, b: { pct: number }) => b.pct - a.pct)
+          .map(({ _pct, ...o }: { _pct: number | null } & MarginOffender) => o);
+        if (offenders.length === 0) continue;
+        await triggerMarginAlert(supabase, alert, offenders, threshold, dashboardUrl);
+        triggered++;
+        continue;
+      }
 
       // --- Anomaly detection (z-score) ---
       if (alert.type === 'anomaly') {

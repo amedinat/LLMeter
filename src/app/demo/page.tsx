@@ -5,13 +5,23 @@ import { SpendLineChart } from '@/features/dashboard/components/spend-line-chart
 import { UsageTable } from '@/features/dashboard/components/usage-table';
 import { OptimizationCard } from '@/features/optimization/components/optimization-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Info } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import {
   getDemoDailySpend,
   getDemoSpendSummary,
   getDemoOptimizationSuggestions,
+  getDemoCustomerMargins,
 } from '@/features/dashboard/demo/fixture';
 
 export const metadata: Metadata = {
@@ -54,6 +64,7 @@ export default function DemoPage() {
   const summary = getDemoSpendSummary();
   const dailyData = getDemoDailySpend();
   const suggestions = getDemoOptimizationSuggestions();
+  const customerMargins = getDemoCustomerMargins();
 
   return (
     <div className="min-h-screen bg-muted/40">
@@ -118,6 +129,55 @@ export default function DemoPage() {
             </Card>
           </div>
         </div>
+
+        <Card className="mt-8">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-semibold">Per-customer margin</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              See which customers cost more than they pay — without a proxy.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Customer</TableHead>
+                  <TableHead className="text-right">Revenue</TableHead>
+                  <TableHead className="text-right">AI cost</TableHead>
+                  <TableHead className="text-right">Margin</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {customerMargins.map((c) => (
+                  <TableRow key={c.name}>
+                    <TableCell>
+                      <div className="flex items-center gap-2 font-medium">
+                        {c.name}
+                        {c.ai_cost_pct >= 100 && (
+                          <Badge variant="destructive">Unprofitable</Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right font-mono text-sm">
+                      ${c.monthly_revenue_usd.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-right font-mono text-sm">
+                      ${c.ai_cost_usd.toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      className={cn(
+                        'text-right font-mono text-sm font-medium',
+                        c.margin_usd < 0 && 'text-destructive'
+                      )}
+                    >
+                      ${c.margin_usd.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

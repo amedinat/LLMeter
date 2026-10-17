@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { verifyCsrfHeader, csrfForbiddenResponse } from '@/lib/security';
 import { sendAlertEmail } from '@/lib/email/send-alert';
+import { sendMarginAlertEmail } from '@/lib/email/send-margin-alert';
 
 const ALERT_TEST_LIMIT = { limit: 10, windowMs: 60 * 60 * 1000 };
 
@@ -60,6 +61,29 @@ export async function POST(
 
   const cfg = (alert.config ?? {}) as AlertConfig;
   const threshold = typeof cfg.threshold === 'number' && cfg.threshold > 0 ? cfg.threshold : 10;
+
+  if (alert.type === 'customer_margin') {
+    const marginThreshold = cfg.threshold && cfg.threshold > 0 ? cfg.threshold : 100;
+    const marginResult = await sendMarginAlertEmail({
+      userId: user.id,
+      threshold: marginThreshold,
+      isTest: true,
+      offenders: [
+        { display_name: 'Acme Inc', customer_id: 'cus_acme', revenue: 99, cost: 138.5, pct: 139.9 },
+        { display_name: 'Globex', customer_id: 'cus_globex', revenue: 200, cost: 210, pct: 105 },
+      ],
+    });
+
+    if (!marginResult.ok) {
+      return NextResponse.json(
+        { error: marginResult.reason ?? 'Email send failed', code: 'email_send_failed' },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, message: 'Test email sent' });
+  }
+
   const alertType: 'monthly' | 'daily' =
     alert.type === 'budget_limit' && cfg.period === 'monthly' ? 'monthly' : 'daily';
 

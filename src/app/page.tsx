@@ -43,11 +43,15 @@ const FAQ_ITEMS = [
   },
   {
     question: 'How long does setup take?',
-    answer: 'Under 30 seconds. Paste a read-only API key, and your dashboard populates instantly — no SDK, no code changes, no deployment.',
+    answer: 'Under 30 seconds for provider and model-level costs: paste a read-only API key and your dashboard populates instantly — no SDK, no code changes, no deployment. Per-customer cost attribution is optional and adds about 5 minutes (our open-source llmeter SDK or a single POST to /api/ingest with a customer_id).',
   },
   {
     question: 'How is LLMeter different from proxy-based tools?',
     answer: 'Tools like Helicone and Portkey require you to route all API calls through their proxy. LLMeter reads usage data directly from provider billing APIs — your requests go straight to OpenAI/Anthropic with zero latency impact, and we never see your prompts.',
+  },
+  {
+    question: 'Do I need to install an SDK?',
+    answer: 'Not for provider and model-level cost tracking — a read-only API key is all you need. An SDK is only for the optional per-customer attribution path: drop in the open-source llmeter SDK or POST usage to /api/ingest with a customer_id. Either way, LLMeter never routes your traffic or sees your prompts.',
   },
 ];
 
@@ -253,7 +257,7 @@ export default function HomePage() {
               Three steps. Zero code changes.
             </h2>
             <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-              No SDK to install. No endpoints to instrument. Just paste a key and go.
+              No SDK to install for provider and model-level costs — just paste a key and go. Per-customer attribution is an optional 5-minute add-on (our SDK or the ingest API).
             </p>
           </div>
           <div className="mx-auto mt-12 grid gap-8 md:grid-cols-3 max-w-[64rem]">

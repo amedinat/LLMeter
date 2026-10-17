@@ -236,6 +236,18 @@ declare class PaddleProvider implements PaymentProvider {
      * creates a new customer via the Paddle API.
      */
     getOrCreateCustomer(params: CustomerParams): Promise<string>;
+    /**
+     * Find the subscription/transaction item whose price maps to a known plan.
+     *
+     * Paddle subscriptions can carry multiple items — a base plan plus recurring
+     * add-ons — and Paddle does NOT guarantee the base plan is at index 0 (a
+     * simulated `subscription.created` for a per-seat plan bundled with an
+     * add-on illustrates exactly this). Blindly reading `items[0]` can resolve an
+     * add-on's price (or an unrelated line) instead of the plan, silently
+     * dropping a paying customer's upgrade. Scan every item and return the first
+     * one that maps to a configured plan.
+     */
+    private findPlanItem;
     private handleSubscriptionCreated;
     private handleSubscriptionUpdated;
     private handleSubscriptionCanceled;
