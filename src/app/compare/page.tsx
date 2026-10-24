@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'LLM Cost Tracking Tools Compared (2026) | LLMeter',
   description:
-    'Compare LLMeter with Helicone, Langfuse, LangSmith and Datadog. Open-source, no-proxy LLM cost monitoring with per-customer attribution. Try the live demo, no signup.',
+    'Compare LLMeter with Helicone, Langfuse, LangSmith and Datadog. Open-source, no-proxy LLM cost monitoring with per-customer attribution. Live demo, no signup.',
   metadataBase: new URL('https://www.llmeter.org'),
   alternates: { canonical: 'https://www.llmeter.org/compare' },
   openGraph: {
