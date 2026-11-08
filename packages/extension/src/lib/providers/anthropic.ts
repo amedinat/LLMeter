@@ -11,12 +11,10 @@
  *   response: { data: [{ starting_at, ending_at, results: [{ amount: "123.78912",
  *              currency: "USD", description, cost_type, … }] }], has_more, next_page }
  *
- * The guide states: "All costs in USD, reported as decimal strings in lowest
- * units (cents)", but the API reference example ("123.78912" with
- * currency USD) reads like dollars. The unit is therefore a user setting
- * (`AnthropicAmountUnits`, default `cents` per the written docs) and the popup
- * asks the user to compare with their console the first time data arrives.
- * TODO(verify): confirm against a real admin key and drop the setting.
+ * Units: `amount` is "in lowest currency units (e.g. cents) as a decimal
+ * string. For example, "123.45" in "USD" represents $1.23" (API reference,
+ * results[].amount; the usage-cost guide says the same). The extension always
+ * parses as cents; the `units` parameter remains only for tests.
  */
 import type { AnthropicAmountUnits, DailyCost } from '../types';
 import { describeHttpError, ProviderError } from '../errors';

@@ -71,7 +71,8 @@ export async function refreshAll(now: Date = new Date()): Promise<StoredState> {
     if (!key) continue;
     try {
       const series = await fetchProviderCosts(provider, key, limits.historyDays, now, fetch, {
-        anthropicUnits: state.anthropicUnits,
+        // Documented unit (cents); the old per-user setting is ignored.
+        anthropicUnits: 'cents',
       });
       state.cache[provider] = series;
       delete state.errors[provider];
